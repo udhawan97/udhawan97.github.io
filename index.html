@@ -5,11 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Umang Dhawan</title>
 <meta name="description" content="Umang Dhawan — technology consultant. AI, cloud, and customer service transformation for Fortune 100 companies.">
+<script>
+  // Set theme before paint to avoid flash: saved choice > system preference
+  (function () {
+    var saved = localStorage.getItem('theme');
+    var dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    if (dark) document.documentElement.dataset.theme = 'dark';
+  })();
+</script>
 <style>
   /* ==========================================================
      UMANG DHAWAN — personal site
-     Design language: light, editorial, big type, restrained
-     motion. Palette + type scale below. See EDITING_GUIDE.md.
+     Light/dark themes via CSS variables. See EDITING_GUIDE.md.
      ========================================================== */
   :root {
     --bg: #f5f5f7;
@@ -19,8 +26,31 @@
     --line: #d9d9de;
     --blue: #0066d6;
     --blue-bright: #2997ff;
+    --glass: rgba(255,255,255,.72);
+    --glass-2: rgba(255,255,255,.6);
+    --glass-border: rgba(0,0,0,.06);
+    --hover: rgba(0,0,0,.05);
+    --shadow: rgba(0,0,0,.08);
+    --panel: #1d1d1f;          /* GitHub panel stays dark in both themes */
     --radius: 22px;
     --ease: cubic-bezier(.22, .8, .26, .99);
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --bg: #000000;
+    --bg-2: #161617;
+    --ink: #f5f5f7;
+    --ink-2: #a1a1a6;
+    --line: #2d2d30;
+    --blue: #2997ff;
+    --blue-bright: #6fc3ff;
+    --glass: rgba(22,22,23,.72);
+    --glass-2: rgba(22,22,23,.6);
+    --glass-border: rgba(255,255,255,.1);
+    --hover: rgba(255,255,255,.08);
+    --shadow: rgba(0,0,0,.5);
+    --panel: #161617;
+    color-scheme: dark;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -29,6 +59,7 @@
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    transition: background .45s ease, color .45s ease;
   }
   ::selection { background: var(--blue); color: #fff; }
   a { color: inherit; text-decoration: none; }
@@ -45,20 +76,28 @@
   nav {
     position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
     display: flex; align-items: center; gap: 2px;
-    background: rgba(255,255,255,.72);
+    background: var(--glass);
     -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
-    border: 1px solid rgba(0,0,0,.06);
+    border: 1px solid var(--glass-border);
     border-radius: 99px; padding: 6px; z-index: 900;
-    box-shadow: 0 8px 30px rgba(0,0,0,.07);
+    box-shadow: 0 8px 30px var(--shadow);
+    transition: background .45s ease, border-color .45s ease;
   }
   nav a {
     font-size: 13px; font-weight: 500; color: var(--ink-2);
     padding: 8px 15px; border-radius: 99px; transition: all .3s var(--ease);
     white-space: nowrap;
   }
-  nav a:hover { color: var(--ink); background: rgba(0,0,0,.05); }
-  nav a.cta { background: var(--ink); color: #fff; }
-  nav a.cta:hover { background: var(--blue); }
+  nav a:hover { color: var(--ink); background: var(--hover); }
+  nav a.cta { background: var(--ink); color: var(--bg); }
+  nav a.cta:hover { background: var(--blue); color: #fff; }
+  #themeBtn {
+    width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer;
+    background: transparent; color: var(--ink-2); font-size: 16px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .3s var(--ease), color .3s var(--ease), transform .4s var(--ease);
+  }
+  #themeBtn:hover { background: var(--hover); color: var(--ink); transform: rotate(20deg); }
   @media (max-width: 640px) { nav a:nth-child(3), nav a:nth-child(4) { display: none; } }
 
   /* ---------- shared layout ---------- */
@@ -88,9 +127,7 @@
     min-height: 100svh; display: flex; flex-direction: column; justify-content: center;
     position: relative; padding: 120px 0 60px;
   }
-  .hero-glow {
-    position: absolute; inset: 0; z-index: -1; overflow: hidden;
-  }
+  .hero-glow { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
   .hero-glow::before {
     content: ""; position: absolute; width: 70vw; height: 70vw; max-width: 900px; max-height: 900px;
     right: -18vw; top: -22vw; border-radius: 50%;
@@ -100,13 +137,13 @@
   .hero-glow::after {
     content: ""; position: absolute; width: 46vw; height: 46vw; max-width: 620px; max-height: 620px;
     left: -14vw; bottom: -16vw; border-radius: 50%;
-    background: radial-gradient(circle at 60% 40%, rgba(29,29,31,.08), transparent 65%);
+    background: radial-gradient(circle at 60% 40%, rgba(120,140,170,.12), transparent 65%);
   }
   .hello {
     display: inline-flex; align-items: center; gap: 10px;
     font-size: 14px; font-weight: 500; color: var(--ink-2);
     border: 1px solid var(--line); border-radius: 99px; padding: 8px 16px;
-    background: rgba(255,255,255,.6); width: fit-content; margin-bottom: 34px;
+    background: var(--glass-2); width: fit-content; margin-bottom: 34px;
   }
   .hello .dot { width: 8px; height: 8px; border-radius: 50%; background: #30c452;
     box-shadow: 0 0 0 0 rgba(48,196,82,.5); animation: pulse 2.2s infinite; }
@@ -129,12 +166,12 @@
   .btn {
     display: inline-flex; align-items: center; gap: 9px;
     padding: 14px 26px; border-radius: 99px; font-size: 15px; font-weight: 500;
-    transition: transform .35s var(--ease), background .35s var(--ease), box-shadow .35s var(--ease);
+    transition: transform .35s var(--ease), background .35s var(--ease), box-shadow .35s var(--ease), color .35s var(--ease);
     will-change: transform;
   }
-  .btn.dark { background: var(--ink); color: #fff; }
-  .btn.dark:hover { background: var(--blue); box-shadow: 0 14px 34px rgba(0,102,214,.28); }
-  .btn.ghost { border: 1px solid var(--line); background: rgba(255,255,255,.65); }
+  .btn.dark { background: var(--ink); color: var(--bg); }
+  .btn.dark:hover { background: var(--blue); color: #fff; box-shadow: 0 14px 34px rgba(0,102,214,.28); }
+  .btn.ghost { border: 1px solid var(--line); background: var(--glass-2); }
   .btn.ghost:hover { border-color: var(--ink); }
   .btn svg { transition: transform .35s var(--ease); }
   .btn:hover svg { transform: translateX(4px); }
@@ -149,7 +186,7 @@
   .marquee {
     border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
     overflow: hidden; padding: 20px 0; background: var(--bg-2);
-    margin-top: 90px;
+    margin-top: 90px; transition: background .45s ease;
   }
   .marquee-track { display: flex; gap: 56px; width: max-content; animation: slide 36s linear infinite; }
   .marquee:hover .marquee-track { animation-play-state: paused; }
@@ -165,9 +202,9 @@
   @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
   .stat {
     background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 30px 26px; transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+    padding: 30px 26px; transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .45s ease;
   }
-  .stat:hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,.08); }
+  .stat:hover { transform: translateY(-6px); box-shadow: 0 18px 44px var(--shadow); }
   .stat .n { font-size: clamp(34px, 4.4vw, 50px); font-weight: 700; letter-spacing: -.03em; }
   .stat .n em { font-style: normal; color: var(--blue); }
   .stat .l { font-size: 13.5px; color: var(--ink-2); margin-top: 6px; line-height: 1.45; }
@@ -185,11 +222,12 @@
   .portrait .ph {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
     font-size: 88px; font-weight: 700; color: #fff;
-    background: linear-gradient(150deg, var(--blue), #123b66);
+    background: linear-gradient(150deg, #0066d6, #123b66);
   }
   .portrait figcaption {
     position: absolute; left: 14px; bottom: 14px; font-size: 12px; font-weight: 500;
-    background: rgba(255,255,255,.85); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    background: var(--glass); color: var(--ink);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
     padding: 7px 13px; border-radius: 99px;
   }
   .about-copy p { font-size: 18px; line-height: 1.65; color: var(--ink-2); margin-bottom: 22px; }
@@ -226,18 +264,18 @@
   .xp-card {
     background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
     padding: 30px 28px; display: flex; flex-direction: column;
-    transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+    transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .45s ease;
   }
-  .xp-card:hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,.08); }
+  .xp-card:hover { transform: translateY(-6px); box-shadow: 0 18px 44px var(--shadow); }
   .xp-card .when { font-size: 12.5px; font-weight: 600; color: var(--blue); letter-spacing: .06em; text-transform: uppercase; }
   .xp-card h3 { font-size: 19px; font-weight: 650; letter-spacing: -.015em; margin: 10px 0 2px; }
   .xp-card .org { font-size: 14.5px; color: var(--ink-2); margin-bottom: 14px; }
   .xp-card p { font-size: 14.5px; line-height: 1.6; color: var(--ink-2); }
 
-  /* ---------- github ---------- */
+  /* ---------- github (dark panel in both themes) ---------- */
   .gh {
-    background: var(--ink); color: #f5f5f7; border-radius: 30px; padding: 52px;
-    position: relative; overflow: hidden;
+    background: var(--panel); color: #f5f5f7; border-radius: 30px; padding: 52px;
+    position: relative; overflow: hidden; border: 1px solid var(--line);
   }
   .gh::before {
     content: ""; position: absolute; width: 480px; height: 480px; border-radius: 50%;
@@ -246,7 +284,7 @@
   }
   .gh h2 { font-size: clamp(26px, 3.6vw, 38px); font-weight: 700; letter-spacing: -.02em; margin-bottom: 10px; }
   .gh p { color: #a1a1a6; font-size: 15.5px; line-height: 1.65; max-width: 560px; margin-bottom: 30px; position: relative; }
-  .gh p a { color: var(--blue-bright); }
+  .gh p a { color: #2997ff; }
   .gh p a:hover { text-decoration: underline; }
   .gh-graph { background: #fff; border-radius: 16px; padding: 18px; position: relative; }
   .gh-graph img { width: 100%; height: auto; }
@@ -284,7 +322,8 @@
   <a href="#about">About</a>
   <a href="#work">Work</a>
   <a href="#experience">Experience</a>
-  <a class="cta" href="Umang_Dhawan_Resume_AI_Consultant.pdf" download>Resume ↓</a>
+  <a class="cta" href="Umang_Dhawan_Resume.pdf" download>Resume ↓</a>
+  <button id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
 </nav>
 
 <!-- ================= HERO ================= -->
@@ -435,13 +474,25 @@
       <a href="mailto:umangdhawan97@gmail.com">umangdhawan97@gmail.com</a>
       <a href="https://www.linkedin.com/in/umangdhawan97" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/udhawan97" target="_blank" rel="noopener">GitHub</a>
-      <a href="Umang_Dhawan_Resume_AI_Consultant.pdf" download>Resume (PDF)</a>
+      <a href="Umang_Dhawan_Resume.pdf" download>Resume (PDF)</a>
     </div>
     <div class="fine">© 2026 Umang Dhawan · Designed & hand-coded, no templates.</div>
   </div>
 </footer>
 
 <script>
+  // Theme toggle — persists choice in localStorage
+  const themeBtn = document.getElementById('themeBtn');
+  const setIcon = () => themeBtn.textContent = document.documentElement.dataset.theme === 'dark' ? '☀︎' : '◐';
+  setIcon();
+  themeBtn.addEventListener('click', () => {
+    const dark = document.documentElement.dataset.theme === 'dark';
+    if (dark) delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = 'dark';
+    localStorage.setItem('theme', dark ? 'light' : 'dark');
+    setIcon();
+  });
+
   // Scroll progress bar
   const bar = document.getElementById('progress');
   addEventListener('scroll', () => {
