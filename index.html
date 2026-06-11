@@ -91,6 +91,46 @@
   nav a:hover { color: var(--ink); background: var(--hover); }
   nav a.cta { background: var(--ink); color: var(--bg); }
   nav a.cta:hover { background: var(--blue); color: #fff; }
+
+  /* nav resume dropdown */
+  .nav-dropdown { position: relative; }
+  .nav-dropdown button {
+    font-size: 13px; font-weight: 500;
+    background: var(--ink); color: var(--bg);
+    padding: 8px 15px; border-radius: 99px; border: none;
+    cursor: pointer; display: flex; align-items: center; gap: 5px;
+    transition: background .3s var(--ease), color .3s var(--ease);
+    white-space: nowrap;
+  }
+  .nav-dropdown button:hover,
+  .nav-dropdown.open button { background: var(--blue); color: #fff; }
+  .nav-chevron { font-size: 10px; transition: transform .25s var(--ease); }
+  .nav-dropdown.open .nav-chevron { transform: rotate(180deg); }
+  .resume-dropdown {
+    position: absolute; top: calc(100% + 10px); right: 0;
+    background: var(--glass);
+    -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px; padding: 6px; min-width: 168px;
+    box-shadow: 0 12px 36px var(--shadow);
+    opacity: 0; pointer-events: none;
+    transform: translateY(-8px) scale(.96);
+    transition: opacity .22s var(--ease), transform .22s var(--ease);
+    z-index: 901;
+  }
+  .nav-dropdown:hover .resume-dropdown,
+  .nav-dropdown.open .resume-dropdown {
+    opacity: 1; pointer-events: auto; transform: translateY(0) scale(1);
+  }
+  .resume-dropdown a {
+    display: flex; align-items: center; gap: 9px;
+    padding: 10px 13px; border-radius: 10px;
+    font-size: 13px; font-weight: 500; color: var(--ink-2);
+    transition: background .18s, color .18s; white-space: nowrap;
+  }
+  .resume-dropdown a:hover { background: var(--hover); color: var(--ink); }
+  .resume-dropdown a svg { flex-shrink: 0; opacity: .6; }
+
   @media (max-width: 640px) { nav a:nth-child(3), nav a:nth-child(4) { display: none; } }
 
   /* ---------- floating action buttons ---------- */
@@ -448,7 +488,21 @@
   <a href="#about">About</a>
   <a href="#work">Work</a>
   <a href="#experience">Experience</a>
-  <a class="cta" href="Umang_Dhawan_Resume_Formal.pdf" download>Resume ↓</a>
+  <div class="nav-dropdown" id="resumeDropdown">
+    <button aria-haspopup="true" aria-expanded="false" id="resumeBtn">
+      Resume <span class="nav-chevron">▾</span>
+    </button>
+    <div class="resume-dropdown" role="menu">
+      <a href="Umang_Dhawan_Resume_Formal.pdf" download role="menuitem">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Formal
+      </a>
+      <a href="Umang_Dhawan_Resume_Modern.pdf" download role="menuitem">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Modern
+      </a>
+    </div>
+  </div>
 </nav>
 
 <div id="theme-hint" role="button" aria-label="Toggle dark mode">
@@ -797,6 +851,20 @@
       requestAnimationFrame(drawPts);
     })();
   }
+
+  // Resume dropdown — click toggle (touch support) + close on outside click
+  const resumeDropdown = document.getElementById('resumeDropdown');
+  const resumeBtn      = document.getElementById('resumeBtn');
+  resumeBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = resumeDropdown.classList.toggle('open');
+    resumeBtn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', () => {
+    resumeDropdown.classList.remove('open');
+    resumeBtn.setAttribute('aria-expanded', 'false');
+  });
+  resumeDropdown.querySelector('.resume-dropdown').addEventListener('click', e => e.stopPropagation());
 </script>
 </body>
 </html>
