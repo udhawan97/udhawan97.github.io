@@ -96,32 +96,49 @@
   /* ---------- floating action buttons ---------- */
   .fab-cluster {
     position: fixed; bottom: 26px; right: 26px; z-index: 900;
-    display: flex; flex-direction: column; gap: 10px; align-items: center;
+    display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
   }
   .fab {
-    width: 46px; height: 46px; border-radius: 50%;
+    height: 42px; border-radius: 99px;
+    padding: 0 16px; gap: 8px;
     border: 1px solid var(--glass-border);
     background: var(--glass);
     -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
-    color: var(--ink-2); font-size: 17px; line-height: 1;
+    color: var(--ink-2); font-size: 16px; line-height: 1;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer; box-shadow: 0 6px 22px var(--shadow);
     transition: background .3s var(--ease), color .3s var(--ease),
                 transform .4s var(--ease), box-shadow .4s var(--ease),
                 opacity .4s var(--ease), border-color .3s ease;
   }
-  .fab:hover { background: var(--ink); color: var(--bg); transform: scale(1.1); box-shadow: 0 12px 32px var(--shadow); }
-  .fab#themeBtn:hover { transform: scale(1.1) rotate(22deg); }
+  .fab .fab-label { font-size: 13px; font-weight: 500; white-space: nowrap; }
+  .fab:hover { background: var(--ink); color: var(--bg); transform: scale(1.05); box-shadow: 0 12px 32px var(--shadow); }
+  .fab#themeBtn:hover { transform: scale(1.05) rotate(22deg); }
   #topBtn { opacity: 0; pointer-events: none; transform: translateY(12px) scale(.9); }
   #topBtn.visible { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
   @media (max-width: 640px) { .fab-cluster { bottom: 18px; right: 18px; } }
 
+  /* ---------- theme hint (under nav) ---------- */
+  #theme-hint {
+    position: fixed; top: 72px; left: 50%; transform: translateX(-50%);
+    font-size: 12px; font-weight: 500; color: var(--ink-2);
+    background: var(--glass-2);
+    -webkit-backdrop-filter: saturate(180%) blur(16px); backdrop-filter: saturate(180%) blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 99px; padding: 5px 13px;
+    cursor: pointer; z-index: 899; white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 4px 14px var(--shadow);
+    transition: background .3s var(--ease), color .3s var(--ease),
+                border-color .3s ease, opacity .45s ease;
+  }
+  #theme-hint:hover { color: var(--ink); background: var(--hover); }
+
   /* ---------- shared layout ---------- */
   .wrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
-  section { padding: 130px 0 90px; }
-  /* extra breathing room: after the stats graphic → About, and after Case Studies → Experience */
-  #about { padding-top: 200px; }
-  #experience { padding-top: 200px; }
+  section { padding: 90px 0 65px; }
+  #about { padding-top: 150px; }
+  #experience { padding-top: 150px; }
   .kicker {
     font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
     color: var(--blue); margin-bottom: 28px;
@@ -202,6 +219,7 @@
   .btn.ghost:hover { border-color: var(--ink); }
   .btn svg { transition: transform .35s var(--ease); }
   .btn:hover svg { transform: translateX(4px); }
+  .resume-dl .btn:hover svg { transform: translateY(3px); }
   .scroll-hint {
     position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
     font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-2);
@@ -318,7 +336,7 @@
   @media (max-width: 640px) { .gh { padding: 34px 24px; } }
 
   /* ---------- contact ---------- */
-  footer { padding: 130px 0 50px; text-align: center; }
+  footer { padding: 90px 0 50px; text-align: center; }
   footer .kicker { justify-content: center; display: flex; }
   footer h2.big {
     font-size: clamp(44px, 8.4vw, 100px); font-weight: 700; letter-spacing: -.035em; line-height: 1;
@@ -331,7 +349,9 @@
     transition: transform .5s var(--ease);
   }
   footer h2.big a:hover::after { transform: scaleX(1); }
-  footer .links { display: flex; gap: 26px; justify-content: center; flex-wrap: wrap; margin: 36px 0 70px; }
+  .resume-dl { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin: 36px 0 20px; }
+  .resume-dl .btn { font-size: 14px; }
+  footer .links { display: flex; gap: 26px; justify-content: center; flex-wrap: wrap; margin: 0 0 70px; }
   footer .links a {
     font-size: 15px; font-weight: 500; color: var(--ink-2);
     border-bottom: 1px solid transparent; transition: all .3s;
@@ -428,15 +448,23 @@
   <a href="#about">About</a>
   <a href="#work">Work</a>
   <a href="#experience">Experience</a>
-  <a class="cta" href="Umang_Dhawan_Resume.pdf" download>Resume ↓</a>
+  <a class="cta" href="Umang_Dhawan_Resume_Formal.pdf" download>Resume ↓</a>
 </nav>
+
+<div id="theme-hint" role="button" aria-label="Toggle dark mode">
+  <span id="hint-icon">◐</span><span id="hint-label">Dark mode</span>
+</div>
 
 <!-- Floating action buttons: dark mode + back to top -->
 <div class="fab-cluster">
   <button class="fab" id="topBtn" aria-label="Back to top" title="Back to top">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    <span class="fab-label">Back to top</span>
   </button>
-  <button class="fab" id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+  <button class="fab" id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">
+    <span class="fab-icon">◐</span>
+    <span class="fab-label">Dark mode</span>
+  </button>
 </div>
 
 <!-- ================= HERO ================= -->
@@ -567,7 +595,8 @@
 </section>
 
 <!-- ================= GITHUB ================= -->
-<section class="wrap">
+<section class="wrap" id="github" style="padding-top: 150px;">
+  <div class="kicker r">GitHub</div>
   <div class="gh r">
     <h2>Always building something.</h2>
     <p>Most of my day-to-day commits live in private client repositories — public experiments in AI and automation land at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a> as they're ready.</p>
@@ -583,11 +612,20 @@
   <div class="wrap">
     <div class="kicker r">Contact</div>
     <h2 class="big r d1">Let's <a href="mailto:umangdhawan97@gmail.com">talk</a>.</h2>
+    <div class="resume-dl r d1">
+      <a class="btn dark" href="Umang_Dhawan_Resume_Formal.pdf" download>
+        Formal Resume
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v13M5 14l7 7 7-7"/><path d="M3 21h18"/></svg>
+      </a>
+      <a class="btn ghost" href="Umang_Dhawan_Resume_Modern.pdf" download>
+        Modern Resume
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v13M5 14l7 7 7-7"/><path d="M3 21h18"/></svg>
+      </a>
+    </div>
     <div class="links r d2">
       <a href="mailto:umangdhawan97@gmail.com">umangdhawan97@gmail.com</a>
       <a href="https://www.linkedin.com/in/umangdhawan97" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/udhawan97" target="_blank" rel="noopener">GitHub</a>
-      <a href="Umang_Dhawan_Resume.pdf" download>Resume (PDF)</a>
     </div>
     <div class="fine">© 2026 Umang Dhawan · AI-assisted, hand-coded using open-source templates. All content and code © 2026 Umang Dhawan.</div>
   </div>
@@ -595,16 +633,25 @@
 
 <script>
   // Theme toggle — persists choice in localStorage
-  const themeBtn = document.getElementById('themeBtn');
-  const setIcon = () => themeBtn.textContent = document.documentElement.dataset.theme === 'dark' ? '☀︎' : '◐';
+  const themeBtn  = document.getElementById('themeBtn');
+  const themeHint = document.getElementById('theme-hint');
+  const setIcon = () => {
+    const dark = document.documentElement.dataset.theme === 'dark';
+    themeBtn.querySelector('.fab-icon').textContent = dark ? '☀︎' : '◐';
+    themeBtn.querySelector('.fab-label').textContent = dark ? 'Light mode' : 'Dark mode';
+    document.getElementById('hint-icon').textContent  = dark ? '☀︎' : '◐';
+    document.getElementById('hint-label').textContent = dark ? 'Light mode' : 'Dark mode';
+  };
   setIcon();
-  themeBtn.addEventListener('click', () => {
+  const toggleTheme = () => {
     const dark = document.documentElement.dataset.theme === 'dark';
     if (dark) delete document.documentElement.dataset.theme;
     else document.documentElement.dataset.theme = 'dark';
     localStorage.setItem('theme', dark ? 'light' : 'dark');
     setIcon();
-  });
+  };
+  themeBtn.addEventListener('click', toggleTheme);
+  themeHint.addEventListener('click', toggleTheme);
 
   // Scroll progress bar + back-to-top visibility
   const bar    = document.getElementById('progress');
