@@ -177,17 +177,21 @@
   #about { padding-top: 150px; }
   #experience { padding-top: 150px; }
   .kicker {
-    font-size: 11.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
-    color: var(--blue); margin-bottom: 22px;
-    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
   }
   .kicker::before {
-    content: ""; flex-shrink: 0; width: 18px; height: 2px;
-    background: var(--blue); border-radius: 1px;
+    content: ""; flex-shrink: 0; width: 22px; height: 2px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-bright));
+    border-radius: 1px;
   }
+  /* kicker slide-in from left */
+  .kicker.r { opacity: 0; transform: translateX(-14px); filter: none; }
+  .kicker.r.in { opacity: 1; transform: none; }
   h2.display {
-    font-size: clamp(46px, 8vw, 96px); font-weight: 700;
-    letter-spacing: -.032em; line-height: 1.0; margin-bottom: 48px;
+    font-size: clamp(36px, 5.6vw, 64px); font-weight: 700;
+    letter-spacing: -.028em; line-height: 1.04; margin-bottom: 48px;
   }
   /* word-by-word entrance (spans injected by JS) */
   h2.display.r { opacity: 1; transform: none; filter: none; }
