@@ -107,16 +107,20 @@
   .nav-chevron { font-size: 10px; transition: transform .25s var(--ease); }
   .nav-dropdown.open .nav-chevron { transform: rotate(180deg); }
   .resume-dropdown {
-    position: absolute; top: calc(100% + 10px); right: 0;
+    position: absolute; top: 100%; right: 0;
+    padding-top: 10px;
+    background: transparent;
+    opacity: 0; pointer-events: none;
+    transition: opacity .22s var(--ease), transform .22s var(--ease);
+    transform: translateY(-8px) scale(.96);
+    z-index: 901;
+  }
+  .resume-dropdown-inner {
     background: var(--glass);
     -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: 16px; padding: 6px; min-width: 168px;
     box-shadow: 0 12px 36px var(--shadow);
-    opacity: 0; pointer-events: none;
-    transform: translateY(-8px) scale(.96);
-    transition: opacity .22s var(--ease), transform .22s var(--ease);
-    z-index: 901;
   }
   .nav-dropdown:hover .resume-dropdown,
   .nav-dropdown.open .resume-dropdown {
@@ -558,14 +562,16 @@
       Resume <span class="nav-chevron">▾</span>
     </button>
     <div class="resume-dropdown" role="menu">
-      <a href="Umang_Dhawan_Resume_Formal.pdf" download role="menuitem">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Formal
-      </a>
-      <a href="Umang_Dhawan_Resume_Modern.pdf" download role="menuitem">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        Modern
-      </a>
+      <div class="resume-dropdown-inner">
+        <a href="Umang_Dhawan_Resume_Formal.pdf" download role="menuitem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Formal
+        </a>
+        <a href="Umang_Dhawan_Resume_Modern.pdf" download role="menuitem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Modern
+        </a>
+      </div>
     </div>
   </div>
 </nav>
