@@ -91,25 +91,41 @@
   nav a:hover { color: var(--ink); background: var(--hover); }
   nav a.cta { background: var(--ink); color: var(--bg); }
   nav a.cta:hover { background: var(--blue); color: #fff; }
-  #themeBtn {
-    width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer;
-    background: transparent; color: var(--ink-2); font-size: 16px; line-height: 1;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .3s var(--ease), color .3s var(--ease), transform .4s var(--ease);
-  }
-  #themeBtn:hover { background: var(--hover); color: var(--ink); transform: rotate(20deg); }
   @media (max-width: 640px) { nav a:nth-child(3), nav a:nth-child(4) { display: none; } }
+
+  /* ---------- floating action buttons ---------- */
+  .fab-cluster {
+    position: fixed; bottom: 26px; right: 26px; z-index: 900;
+    display: flex; flex-direction: column; gap: 10px; align-items: center;
+  }
+  .fab {
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: var(--glass);
+    -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+    color: var(--ink-2); font-size: 17px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 6px 22px var(--shadow);
+    transition: background .3s var(--ease), color .3s var(--ease),
+                transform .4s var(--ease), box-shadow .4s var(--ease),
+                opacity .4s var(--ease), border-color .3s ease;
+  }
+  .fab:hover { background: var(--ink); color: var(--bg); transform: scale(1.1); box-shadow: 0 12px 32px var(--shadow); }
+  .fab#themeBtn:hover { transform: scale(1.1) rotate(22deg); }
+  #topBtn { opacity: 0; pointer-events: none; transform: translateY(12px) scale(.9); }
+  #topBtn.visible { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+  @media (max-width: 640px) { .fab-cluster { bottom: 18px; right: 18px; } }
 
   /* ---------- shared layout ---------- */
   .wrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
-  section { padding: 110px 0 80px; }
+  section { padding: 130px 0 90px; }
   .kicker {
     font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
-    color: var(--blue); margin-bottom: 18px;
+    color: var(--blue); margin-bottom: 28px;
   }
   h2.display {
     font-size: clamp(34px, 5.4vw, 60px); font-weight: 700;
-    letter-spacing: -.025em; line-height: 1.04; margin-bottom: 28px;
+    letter-spacing: -.025em; line-height: 1.04; margin-bottom: 52px;
   }
 
   /* ---------- reveal motion ---------- */
@@ -410,8 +426,15 @@
   <a href="#work">Work</a>
   <a href="#experience">Experience</a>
   <a class="cta" href="Umang_Dhawan_Resume.pdf" download>Resume ↓</a>
-  <button id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
 </nav>
+
+<!-- Floating action buttons: dark mode + back to top -->
+<div class="fab-cluster">
+  <button class="fab" id="topBtn" aria-label="Back to top" title="Back to top">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+  <button class="fab" id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+</div>
 
 <!-- ================= HERO ================= -->
 <header class="hero wrap" id="top">
@@ -580,12 +603,15 @@
     setIcon();
   });
 
-  // Scroll progress bar
-  const bar = document.getElementById('progress');
+  // Scroll progress bar + back-to-top visibility
+  const bar    = document.getElementById('progress');
+  const topBtn = document.getElementById('topBtn');
   addEventListener('scroll', () => {
     const h = document.documentElement;
     bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+    topBtn.classList.toggle('visible', h.scrollTop > innerHeight * 0.6);
   }, { passive: true });
+  topBtn.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
 
   // Duplicate marquee content for seamless loop
   const mq = document.getElementById('mq');
