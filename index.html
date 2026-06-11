@@ -177,17 +177,20 @@
   #about { padding-top: 150px; }
   #experience { padding-top: 150px; }
   .kicker {
-    font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
-    color: var(--blue); margin-bottom: 24px;
+    font-size: 15px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 26px;
     display: flex; align-items: center; gap: 12px;
   }
   .kicker::before {
-    content: ""; flex-shrink: 0; width: 22px; height: 2px;
+    content: ""; flex-shrink: 0; width: 26px; height: 2.5px;
     background: linear-gradient(90deg, var(--blue), var(--blue-bright));
-    border-radius: 1px;
+    border-radius: 2px;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .55s var(--ease) .3s;
   }
+  .kicker.in::before { transform: scaleX(1); }
   /* kicker slide-in from left */
-  .kicker.r { opacity: 0; transform: translateX(-14px); filter: none; }
+  .kicker.r { opacity: 0; transform: translateX(-16px); filter: none; }
   .kicker.r.in { opacity: 1; transform: none; }
   h2.display {
     font-size: clamp(36px, 5.6vw, 64px); font-weight: 700;
@@ -557,8 +560,8 @@
 <header class="hero wrap" id="top">
   <div class="hero-glow"></div>
   <div class="hello r"><span class="dot"></span> Umang Dhawan — Chicago, IL</div>
-  <h1 class="r d1">Technology that ships.<br><span class="grad">Strategy that sticks.</span></h1>
-  <p class="sub r d2">I'm a <b>Senior Consultant at EY Studio+</b> helping Fortune 100 companies put AI and cloud to work — past the pilots, into production, with outcomes that hold up for the engineers building them and the executives funding them.</p>
+  <h1 class="r d1">Building technology that ships,<br><span class="grad">and strategy that keeps moving.</span></h1>
+  <p class="sub r d2">I'm focused on <b>AI, product thinking,</b> and practical solutions that move from idea to impact.</p>
   <div class="hero-actions r d3">
     <a class="btn dark" href="#work">See the work
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
