@@ -1,6 +1,6 @@
 # 👋 Hey, I'm Umang
 
-**AI & Technology Consultant @ EY Studio+ · Chicago** 🌆
+**Senior Consultant @ EY Studio+ · Chicago** 🌆
 
 This repo powers my corner of the internet → **[udhawan97.github.io](https://udhawan97.github.io)**
 
@@ -54,8 +54,8 @@ class Umang:
 ```
 ├── index.html                      ← the whole site (hand-coded, zero frameworks 💪)
 ├── assets/headshot.jpg             ← my face
-├── Umang_Dhawan_Resume.pdf         ← the serious one (ATS-friendly)
+├── Umang_Dhawan_Resume_Formal.pdf  ← the serious one (ATS-friendly)
 └── Umang_Dhawan_Resume_Modern.pdf  ← the pretty one (charts! donuts! 📊🍩)
 ```
 
-*Designed & hand-coded. No templates were harmed in the making of this site.*
+*Designed & hand-coded with AI assistance. No templates were harmed in the making of this site.*
