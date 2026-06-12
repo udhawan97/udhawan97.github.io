@@ -305,7 +305,17 @@
     position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
     font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-2);
     animation: bob 2.6s ease-in-out infinite;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    white-space: nowrap;
   }
+  .scroll-hint .scroll-arrow {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    opacity: .55; transition: opacity .3s;
+  }
+  .scroll-hint:hover .scroll-arrow { opacity: 1; }
+  .scroll-hint .scroll-arrow svg { width: 13px; height: 13px; color: var(--ink-2); }
   @keyframes bob { 50% { transform: translate(-50%, 7px); } }
 
   /* ---------- marquee ---------- */
@@ -684,7 +694,14 @@
     </a>
     <a class="btn ghost" href="mailto:umangdhawan97@gmail.com">Get in touch</a>
   </div>
-  <div class="scroll-hint">Scroll</div>
+  <div class="scroll-hint">
+    Scroll
+    <span class="scroll-arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </span>
+  </div>
 </header>
 
 <!-- ================= MARQUEE ================= -->
