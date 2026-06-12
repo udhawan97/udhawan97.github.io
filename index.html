@@ -837,12 +837,11 @@
   (function() {
     const marqueeEl = document.querySelector('.marquee');
     if (!marqueeEl || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    (function revolveLoop() {
+    const chips = Array.from(mq.querySelectorAll('span'));
+    setInterval(() => {
       const mCenter = marqueeEl.getBoundingClientRect().left + marqueeEl.offsetWidth / 2;
-      const chips   = mq.querySelectorAll('span');
       let active = null, best = Infinity;
       chips.forEach(c => {
-        c.classList.remove('chip-active');
         const r = c.getBoundingClientRect();
         const d = Math.abs(r.left + r.width / 2 - mCenter);
         if (d < best) { best = d; active = c; }
