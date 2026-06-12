@@ -135,7 +135,11 @@
   .resume-dropdown a:hover { background: var(--hover); color: var(--ink); }
   .resume-dropdown a svg { flex-shrink: 0; opacity: .6; }
 
-  @media (max-width: 640px) { nav a:nth-child(3), nav a:nth-child(4) { display: none; } }
+  @media (max-width: 640px) {
+    nav a:nth-child(4) { display: none; } /* hide Experience only; Work stays visible */
+    nav a { padding: 7px 11px; }
+    .nav-dropdown button { padding: 7px 11px; }
+  }
 
   /* ---------- back to top (centered bottom) ---------- */
   #topBtn {
@@ -671,7 +675,7 @@
   <div class="hero-glow"></div>
   <div class="hello r"><span class="dot"></span> Umang Dhawan — Chicago, IL</div>
   <h1 class="r d1">Building technology that ships,<br><span class="grad">and strategy that keeps moving</span></h1>
-  <p class="sub r d2">I'm focused on <b>AI, product thinking,</b> and practical solutions that move from idea to impact.</p>
+  <p class="sub r d2">I'm focused on <b>AI, product thinking, and practical solutions</b> that move from idea to impact.</p>
   <div class="hero-actions r d3">
     <a class="btn dark" href="#work">See the work
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -900,15 +904,39 @@
     }, 600);
   })();
 
-  // Word-by-word reveal for h1 hero heading
+  // Word-by-word reveal for h1 hero heading.
+  // Uses DOM traversal so .grad is treated as one unit — preserves background-clip:text
+  // (the regex approach wraps words inside .grad in filter:blur children which breaks it).
   (function() {
     const h = document.querySelector('h1');
     if (!h) return;
-    h.innerHTML = h.innerHTML.replace(/(<br\s*\/?>|<[^>]+>)|([^\s<]+)/gi, (m, tag, word) => {
-      return tag ? tag : `<span class="word">${word}</span>`;
+    const pieces = [];
+    h.childNodes.forEach(node => {
+      if (node.nodeType === 3) {
+        node.textContent.split(/\s+/).filter(Boolean).forEach(w => {
+          const s = document.createElement('span');
+          s.className = 'word';
+          s.textContent = w;
+          pieces.push({ el: s, isWord: true });
+        });
+      } else if (node.nodeName === 'BR') {
+        pieces.push({ el: node.cloneNode(), isWord: false });
+      } else {
+        // Non-text elements (.grad, etc.) become one word unit so their CSS is intact
+        const s = document.createElement('span');
+        s.className = 'word';
+        s.appendChild(node.cloneNode(true));
+        pieces.push({ el: s, isWord: true });
+      }
     });
-    h.querySelectorAll('.word').forEach((w, i) => {
-      w.style.transitionDelay = `${.12 + i * .08}s`;
+    h.innerHTML = '';
+    let idx = 0;
+    pieces.forEach((p, i) => {
+      if (p.isWord) { p.el.style.transitionDelay = `${.12 + idx++ * .08}s`; }
+      h.appendChild(p.el);
+      if (p.isWord && pieces[i + 1] && pieces[i + 1].isWord) {
+        h.appendChild(document.createTextNode(' '));
+      }
     });
   })();
 

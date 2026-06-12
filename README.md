@@ -20,7 +20,7 @@ class Umang:
         self.fuel = "curiosity (and probably too much chai)"
 
     def superpower(self):
-        return "translating 'the build is broken' into language executives act on"
+        return "Having the ability to adapt to new platforms and translating 'the build is broken' into language executives act on"
 ```
 
 ## 📊 Numbers I'm proud of
