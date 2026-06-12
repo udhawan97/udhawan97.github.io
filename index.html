@@ -314,10 +314,35 @@
   .marquee-track { display: flex; gap: 56px; width: max-content; animation: slide 72s linear infinite; }
   .marquee:hover .marquee-track { animation-play-state: paused; }
   .marquee-track span {
-    font-size: 15px; font-weight: 500; color: var(--ink-2); white-space: nowrap;
-    display: flex; align-items: center; gap: 56px;
+    font-size: 14px; font-weight: 500; color: var(--ink-2); white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 56px;
+    padding: 5px 17px; border-radius: 99px;
+    border: 1px solid transparent;
+    transition: color .5s var(--ease), border-color .5s var(--ease),
+                background .5s var(--ease), box-shadow .5s var(--ease),
+                transform .5s var(--ease);
+    will-change: transform;
   }
   .marquee-track span::after { content: "·"; color: var(--blue); font-size: 22px; }
+  .marquee-track span.chip-active {
+    color: var(--blue-bright);
+    border-color: rgba(41,151,255,.45);
+    background: rgba(0,102,214,.07);
+    box-shadow: 0 0 18px rgba(41,151,255,.22), 0 0 5px rgba(41,151,255,.1);
+    transform: scale(1.09) translateY(-1px);
+  }
+  [data-theme="dark"] .marquee-track span.chip-active {
+    background: rgba(41,151,255,.11);
+    box-shadow: 0 0 22px rgba(41,151,255,.3), 0 0 7px rgba(41,151,255,.15);
+  }
+  .marquee {
+    position: relative;
+  }
+  .marquee::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+    background: radial-gradient(ellipse 16% 100% at 50% 50%,
+      rgba(41,151,255,.09) 0%, transparent 70%);
+  }
   @keyframes slide { to { transform: translateX(-50%); } }
 
   /* ---------- stats ---------- */
@@ -808,6 +833,35 @@
   // Duplicate marquee content for seamless loop
   const mq = document.getElementById('mq');
   mq.innerHTML += mq.innerHTML;
+
+  // Scroll-driven skill revolve — highlight chip nearest center; speed up on scroll
+  (function() {
+    const marqueeEl = document.querySelector('.marquee');
+    if (!marqueeEl || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const baseDur = 72;
+    let vel = 0, prevY = scrollY;
+    addEventListener('scroll', () => {
+      vel = Math.abs(scrollY - prevY) * 1.6;
+      prevY = scrollY;
+    }, { passive: true });
+    (function revolveLoop() {
+      const mLeft   = marqueeEl.getBoundingClientRect().left;
+      const mCenter = mLeft + marqueeEl.offsetWidth / 2;
+      const chips   = mq.querySelectorAll('span');
+      let active = null, best = Infinity;
+      chips.forEach(c => {
+        c.classList.remove('chip-active');
+        const r = c.getBoundingClientRect();
+        const d = Math.abs(r.left + r.width / 2 - mCenter);
+        if (d < best) { best = d; active = c; }
+      });
+      if (active) active.classList.add('chip-active');
+      vel *= 0.88;
+      const dur = Math.max(22, baseDur - vel);
+      mq.style.animationDuration = dur + 's';
+      requestAnimationFrame(revolveLoop);
+    })();
+  })();
 
   // Word-by-word reveal for h1 hero heading
   (function() {
