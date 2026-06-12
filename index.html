@@ -856,8 +856,11 @@
       });
       if (active) active.classList.add('chip-active');
       vel *= 0.85;
-      const dur = Math.max(6, baseDur - vel);
-      mq.style.animationDuration = dur + 's';
+      if (vel > 1) {
+        mq.style.animationDuration = Math.max(6, baseDur - vel) + 's';
+      } else {
+        mq.style.animationDuration = '';
+      }
       requestAnimationFrame(revolveLoop);
     })();
   })();
