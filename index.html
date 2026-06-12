@@ -838,6 +838,7 @@
     const marqueeEl = document.querySelector('.marquee');
     if (!marqueeEl || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const chips = Array.from(mq.querySelectorAll('span'));
+    let lastActive = null;
     setInterval(() => {
       const mCenter = marqueeEl.getBoundingClientRect().left + marqueeEl.offsetWidth / 2;
       let active = null, best = Infinity;
@@ -846,15 +847,10 @@
         const d = Math.abs(r.left + r.width / 2 - mCenter);
         if (d < best) { best = d; active = c; }
       });
+      if (lastActive && lastActive !== active) lastActive.classList.remove('chip-active');
       if (active) active.classList.add('chip-active');
-      vel *= 0.85;
-      if (vel > 1) {
-        mq.style.animationDuration = Math.max(6, baseDur - vel) + 's';
-      } else {
-        mq.style.animationDuration = '';
-      }
-      requestAnimationFrame(revolveLoop);
-    })();
+      lastActive = active;
+    }, 600);
   })();
 
   // Word-by-word reveal for h1 hero heading
