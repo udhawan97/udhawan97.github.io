@@ -311,8 +311,7 @@
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
     mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
   }
-  .marquee-track { display: flex; gap: 56px; width: max-content; animation: slide 72s linear infinite; }
-  .marquee:hover .marquee-track { animation-play-state: paused; }
+  .marquee-track { display: flex; gap: 56px; width: max-content; animation: slide 28s linear infinite; }
   .marquee-track span {
     font-size: 14px; font-weight: 500; color: var(--ink-2); white-space: nowrap;
     display: inline-flex; align-items: center; gap: 56px;
@@ -838,10 +837,10 @@
   (function() {
     const marqueeEl = document.querySelector('.marquee');
     if (!marqueeEl || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const baseDur = 72;
+    const baseDur = 28;
     let vel = 0, prevY = scrollY;
     addEventListener('scroll', () => {
-      vel = Math.abs(scrollY - prevY) * 1.6;
+      vel = Math.abs(scrollY - prevY) * 3.5;
       prevY = scrollY;
     }, { passive: true });
     (function revolveLoop() {
@@ -856,8 +855,8 @@
         if (d < best) { best = d; active = c; }
       });
       if (active) active.classList.add('chip-active');
-      vel *= 0.88;
-      const dur = Math.max(22, baseDur - vel);
+      vel *= 0.85;
+      const dur = Math.max(6, baseDur - vel);
       mq.style.animationDuration = dur + 's';
       requestAnimationFrame(revolveLoop);
     })();
