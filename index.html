@@ -833,19 +833,12 @@
   const mq = document.getElementById('mq');
   mq.innerHTML += mq.innerHTML;
 
-  // Scroll-driven skill revolve — highlight chip nearest center; speed up on scroll
+  // Skill spotlight — highlight chip nearest horizontal center of marquee
   (function() {
     const marqueeEl = document.querySelector('.marquee');
     if (!marqueeEl || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const baseDur = 28;
-    let vel = 0, prevY = scrollY;
-    addEventListener('scroll', () => {
-      vel = Math.abs(scrollY - prevY) * 3.5;
-      prevY = scrollY;
-    }, { passive: true });
     (function revolveLoop() {
-      const mLeft   = marqueeEl.getBoundingClientRect().left;
-      const mCenter = mLeft + marqueeEl.offsetWidth / 2;
+      const mCenter = marqueeEl.getBoundingClientRect().left + marqueeEl.offsetWidth / 2;
       const chips   = mq.querySelectorAll('span');
       let active = null, best = Infinity;
       chips.forEach(c => {
