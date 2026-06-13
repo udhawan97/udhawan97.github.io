@@ -196,14 +196,14 @@
     font-size: clamp(36px, 5.6vw, 64px); font-weight: 700;
     letter-spacing: -.028em; line-height: 1.04; margin-bottom: 48px;
   }
-  /* word-by-word entrance (spans injected by JS) */
-  h1.r, h2.display.r { opacity: 1; transform: none; filter: none; }
+  /* h2 word-by-word entrance (spans injected by JS) */
   h2.display .word {
     display: inline-block;
-    opacity: 0; transform: translateY(24px); filter: blur(8px);
-    transition: opacity .85s var(--ease), transform .85s var(--ease), filter .85s var(--ease);
+    opacity: 0; transform: translateY(20px);
+    will-change: transform, opacity;
+    transition: opacity .55s cubic-bezier(.25,.1,.25,1), transform .55s cubic-bezier(.25,.1,.25,1);
   }
-  h2.display.in .word { opacity: 1; transform: none; filter: none; }
+  h2.display.visible .word { opacity: 1; transform: none; }
   /* section decorative orbs */
   #about, #work, #experience { position: relative; }
   #about::before {
@@ -228,22 +228,48 @@
     filter: blur(72px);
   }
 
-  /* ---------- reveal motion ---------- */
-  .r { opacity: 0; transform: translateY(34px); filter: blur(6px);
-       transition: opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease); }
-  .r.in { opacity: 1; transform: none; filter: none; }
-  .r.d1 { transition-delay: .08s } .r.d2 { transition-delay: .16s } .r.d3 { transition-delay: .24s }
-  @media (prefers-reduced-motion: reduce) {
-    .r { opacity: 1; transform: none; filter: none; transition: none; }
-    #progress, .marquee-track, h1 .grad, .hero-glow::before { animation: none !important; }
-  }
+  /* ---------- entrance keyframes ---------- */
+  @keyframes fadeUp    { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:none } }
+  @keyframes _fadeIn   { from { opacity:0 } to { opacity:1 } }
+  @keyframes slideLeft { from { opacity:0; transform:translateX(-30px) } to { opacity:1; transform:none } }
+  @keyframes scaleIn   { from { opacity:0; transform:scale(.95) translateY(12px) } to { opacity:1; transform:none } }
+  @keyframes portraitIn{ from { opacity:0; transform:scale(1.03) rotate(-1.6deg) } to { opacity:1; transform:rotate(-1.6deg) } }
 
-  /* ---------- hero: fast entrance (content is already above the fold) ---------- */
-  header.hero .r               { transition-duration: .38s; }
-  header.hero .r.d1            { transition-delay: .04s; }
-  header.hero .r.d2            { transition-delay: .08s; }
-  header.hero .r.d3            { transition-delay: .13s; }
-  header.hero h1 .word         { transition-duration: .38s; }
+  /* hero: fires on page load, no class toggle needed */
+  header.hero .hello        { animation: fadeUp  600ms cubic-bezier(.25,.1,.25,1) both; }
+  header.hero h1            { animation: fadeUp  800ms cubic-bezier(.25,.1,.25,1) 150ms both; }
+  header.hero .sub          { animation: fadeUp  600ms cubic-bezier(.25,.1,.25,1) 250ms both; }
+  header.hero .hero-actions { animation: fadeUp  500ms cubic-bezier(.25,.1,.25,1) 350ms both; }
+  .marquee                  { animation: _fadeIn 600ms cubic-bezier(.25,.1,.25,1) 550ms both; }
+
+  /* scroll-triggered: hidden until .visible is added by IntersectionObserver */
+  .r { opacity:0; transform:translateY(20px); will-change:transform,opacity; }
+  .kicker.r    { transform:translateX(-30px); }
+  .stat.r      { transform:scale(.95) translateY(12px); }
+  .portrait.r  { transform:scale(1.03) rotate(-1.6deg); }
+  h2.display.r { opacity:1; transform:none; will-change:auto; } /* h2 itself visible; words animate */
+
+  /* reveal animations */
+  .r.visible               { animation: fadeUp    500ms cubic-bezier(.25,.1,.25,1) both; }
+  .kicker.r.visible        { animation: slideLeft 500ms cubic-bezier(.25,.1,.25,1) both; }
+  .stat.r.visible          { animation: scaleIn   600ms cubic-bezier(.25,.1,.25,1) both; }
+  .portrait.r.visible      { animation: portraitIn 700ms cubic-bezier(.25,.1,.25,1) both; }
+  h2.display.r.visible     { animation: none; } /* words handle their own entrance */
+
+  /* stagger delays (stats 100ms, about/work/xp generic 100/200/300ms) */
+  .r.d1.visible            { animation-delay: 100ms; }
+  .r.d2.visible            { animation-delay: 200ms; }
+  .r.d3.visible            { animation-delay: 300ms; }
+  /* xp-card stagger: 120ms apart */
+  .xp-card.r.d1.visible   { animation-delay: 120ms; }
+  .xp-card.r.d2.visible   { animation-delay: 240ms; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .r, h2.display .word { opacity:1; transform:none; will-change:auto; animation:none; transition:none; }
+    header.hero .hello, header.hero h1, header.hero .sub,
+    header.hero .hero-actions, .marquee { animation:none; opacity:1; transform:none; }
+    #progress, .marquee-track, h1 .grad, h2.display .grad, .hero-glow::before { animation:none !important; }
+  }
 
   /* ---------- hero ---------- */
   header.hero {
@@ -280,13 +306,6 @@
     font-size: clamp(34px, 6.4vw, 82px); font-weight: 700;
     letter-spacing: -.035em; line-height: .98;
   }
-  /* word-by-word entrance for h1 */
-  h1 .word {
-    display: inline-block;
-    opacity: 0; transform: translateY(28px); filter: blur(10px);
-    transition: opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease);
-  }
-  h1.in .word { opacity: 1; transform: none; filter: none; }
   h1 .grad, h2.display .grad {
     background: linear-gradient(92deg, var(--blue) 0%, var(--blue-bright) 35%, #94d5ff 55%, var(--blue) 100%);
     background-size: 240% auto;
@@ -559,8 +578,7 @@
   .stat:hover .n em { text-shadow: 0 0 20px rgba(0,102,214,.45); }
 
   /* ---------- portrait glow ---------- */
-  .portrait { transition: transform .5s var(--ease), box-shadow .5s var(--ease); }
-  .portrait:hover { transform: rotate(0deg) scale(1.015); box-shadow: 0 0 52px rgba(0,102,214,.28); }
+  .portrait:hover { transform: rotate(0deg) scale(1.015); box-shadow: 0 0 52px rgba(0,102,214,.28); transition: transform .5s var(--ease), box-shadow .5s var(--ease); }
 
   /* ---------- pullquote animated border ---------- */
   .about-copy .pullquote {
@@ -738,10 +756,10 @@
 <!-- ================= HERO ================= -->
 <header class="hero wrap" id="top">
   <div class="hero-glow"></div>
-  <div class="hello r"><span class="dot"></span> Umang Dhawan — Chicago, IL</div>
-  <h1 class="r d1">Building technology that ships,<br><span class="grad">and strategy that keeps moving</span></h1>
-  <p class="sub r d2">I'm focused on <b>AI, product thinking, and practical solutions</b> that move from idea to impact.</p>
-  <div class="hero-actions r d3">
+  <div class="hello"><span class="dot"></span> Umang Dhawan — Chicago, IL</div>
+  <h1>Building technology that ships,<br><span class="grad">and strategy that keeps moving</span></h1>
+  <p class="sub">I'm focused on <b>AI, product thinking, and practical solutions</b> that move from idea to impact.</p>
+  <div class="hero-actions">
     <a class="btn dark" href="#work">See the work
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
@@ -979,64 +997,25 @@
     }, 600);
   })();
 
-  // Word-by-word reveal for h1 hero heading.
-  // Uses DOM traversal so .grad is treated as one unit — preserves background-clip:text
-  // (the regex approach wraps words inside .grad in filter:blur children which breaks it).
-  (function() {
-    const h = document.querySelector('h1');
-    if (!h) return;
-    const pieces = [];
-    h.childNodes.forEach(node => {
-      if (node.nodeType === 3) {
-        node.textContent.split(/\s+/).filter(Boolean).forEach(w => {
-          const s = document.createElement('span');
-          s.className = 'word';
-          s.textContent = w;
-          pieces.push({ el: s, isWord: true });
-        });
-      } else if (node.nodeName === 'BR') {
-        pieces.push({ el: node.cloneNode(), isWord: false });
-      } else if (node.nodeName === 'SPAN' && node.classList.contains('grad')) {
-        // .grad phrases: split into individual word spans each carrying the grad class,
-        // so the phrase can wrap on narrow viewports while each word keeps its gradient.
-        node.textContent.split(/\s+/).filter(Boolean).forEach(w => {
-          const s = document.createElement('span');
-          s.className = 'word grad';
-          s.textContent = w;
-          pieces.push({ el: s, isWord: true });
-        });
-      } else {
-        const s = document.createElement('span');
-        s.className = 'word';
-        s.appendChild(node.cloneNode(true));
-        pieces.push({ el: s, isWord: true });
-      }
-    });
-    h.innerHTML = '';
-    let idx = 0;
-    pieces.forEach((p, i) => {
-      if (p.isWord) { p.el.style.transitionDelay = `${.02 + idx++ * .015}s`; }
-      h.appendChild(p.el);
-      if (p.isWord && pieces[i + 1] && pieces[i + 1].isWord) {
-        h.appendChild(document.createTextNode(' '));
-      }
-    });
-  })();
-
-  // Word-by-word reveal for section display headings
+  // Word-by-word reveal for section h2 headings
   document.querySelectorAll('h2.display').forEach(h => {
     h.innerHTML = h.innerHTML.replace(/(<br\s*\/?>|<[^>]+>)|([^\s<]+)/gi, (m, tag, word) => {
       return tag ? tag : `<span class="word">${word}</span>`;
     });
     h.querySelectorAll('.word').forEach((w, i) => {
-      w.style.transitionDelay = `${.04 + i * .065}s`;
+      w.style.transitionDelay = `${.04 + i * .06}s`;
     });
   });
 
-  // Reveal on scroll — also triggers count-up for any [data-count] inside the revealed element
+  // Pre-set stagger animation-delay for work rows (150ms apart) and xp-cards handled by CSS d-classes
+  document.querySelectorAll('.work-row.r').forEach((el, i) => {
+    el.style.animationDelay = `${i * 150}ms`;
+  });
+
+  // Reveal on scroll (threshold 0.2) — adds .visible, also triggers count-up for [data-count]
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
-    e.target.classList.add('in');
+    e.target.classList.add('visible');
     e.target.querySelectorAll('[data-count]').forEach(el => {
       const end = +el.dataset.count, dur = 1400;
       const t0 = performance.now();
@@ -1047,7 +1026,7 @@
       })(t0);
     });
     io.unobserve(e.target);
-  }), { threshold: 0.15 });
+  }), { threshold: 0.2 });
   document.querySelectorAll('.r').forEach(el => io.observe(el));
 
   // ── Enhanced interactions ──────────────────────────────────────────────────
