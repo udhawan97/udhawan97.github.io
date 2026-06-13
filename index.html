@@ -888,6 +888,7 @@
     100% { box-shadow: 0 0 0 0   rgba(0,102,214,.0);  border-color: var(--line); }
   }
   .impact-map.hint-ready .ws-node:not(.selected) {
+    opacity: 1; transform: none; /* prevent .r { opacity:0 } from showing when fadeUp fill-mode is displaced */
     animation: wsRing 1.8s ease-in-out 3;
   }
   /* subtle col-header hint text */
