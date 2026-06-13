@@ -231,7 +231,9 @@
   }
 
   /* ---------- approach / process strip ---------- */
-  #approach { position: relative; padding-bottom: 88px; }
+  #stats-section { padding-top: 32px; padding-bottom: 32px; }
+  #approach { position: relative; padding-top: 48px; padding-bottom: 88px; }
+  #approach h2.display { margin-bottom: 32px; }
   #approach::before {
     content: ""; position: absolute; z-index: -1; pointer-events: none;
     width: 680px; height: 680px; border-radius: 50%;
@@ -1108,7 +1110,7 @@
 </section>
 
 <!-- ================= STATS ================= -->
-<section class="wrap">
+<section class="wrap" id="stats-section">
   <div class="stats">
     <div class="stat r">
       <div class="stat-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
