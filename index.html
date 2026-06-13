@@ -191,7 +191,7 @@
     letter-spacing: -.028em; line-height: 1.04; margin-bottom: 48px;
   }
   /* word-by-word entrance (spans injected by JS) */
-  h2.display.r { opacity: 1; transform: none; filter: none; }
+  h1.r, h2.display.r { opacity: 1; transform: none; filter: none; }
   h2.display .word {
     display: inline-block;
     opacity: 0; transform: translateY(24px); filter: blur(8px);
@@ -231,6 +231,13 @@
     .r { opacity: 1; transform: none; filter: none; transition: none; }
     #progress, .marquee-track, h1 .grad, .hero-glow::before { animation: none !important; }
   }
+
+  /* ---------- hero: fast entrance (content is already above the fold) ---------- */
+  header.hero .r               { transition-duration: .38s; }
+  header.hero .r.d1            { transition-delay: .04s; }
+  header.hero .r.d2            { transition-delay: .08s; }
+  header.hero .r.d3            { transition-delay: .13s; }
+  header.hero h1 .word         { transition-duration: .38s; }
 
   /* ---------- hero ---------- */
   header.hero {
@@ -1003,7 +1010,7 @@
     h.innerHTML = '';
     let idx = 0;
     pieces.forEach((p, i) => {
-      if (p.isWord) { p.el.style.transitionDelay = `${.12 + idx++ * .08}s`; }
+      if (p.isWord) { p.el.style.transitionDelay = `${.02 + idx++ * .015}s`; }
       h.appendChild(p.el);
       if (p.isWord && pieces[i + 1] && pieces[i + 1].isWord) {
         h.appendChild(document.createTextNode(' '));
