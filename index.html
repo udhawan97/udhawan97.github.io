@@ -521,6 +521,58 @@
   footer .links a:hover { color: var(--blue); border-bottom-color: var(--blue); }
   footer .fine { font-size: 12.5px; color: #86868b; }
 
+  /* ---------- resume fresh notification ---------- */
+  @keyframes freshSlide {
+    0%   { opacity: 0; transform: translateY(-28px) scale(.93); }
+    58%  { opacity: 1; transform: translateY(5px) scale(1.015); }
+    78%  { transform: translateY(-2px) scale(.997); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes freshOut {
+    0%   { opacity: 1; transform: none; }
+    100% { opacity: 0; transform: translateY(-18px) scale(.94); }
+  }
+  @keyframes navResumePop {
+    0%   { transform: scale(1);    box-shadow: 0 0 0 0   rgba(41,151,255,.55); }
+    40%  { transform: scale(1.07); box-shadow: 0 0 0 8px rgba(41,151,255,.0); }
+    70%  { transform: scale(.97); }
+    100% { transform: scale(1);    box-shadow: 0 0 0 0   rgba(41,151,255,.0); }
+  }
+  #resume-fresh {
+    position: fixed; top: 68px; right: 20px; z-index: 9996;
+    opacity: 0; transform: translateY(-28px) scale(.93);
+    pointer-events: none;
+    background: var(--glass);
+    -webkit-backdrop-filter: saturate(190%) blur(26px); backdrop-filter: saturate(190%) blur(26px);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px; padding: 14px 18px 14px 14px;
+    display: flex; align-items: flex-start; gap: 12px;
+    box-shadow: 0 14px 44px rgba(0,0,0,.13), 0 1px 0 rgba(255,255,255,.55) inset;
+    width: 272px;
+  }
+  #resume-fresh.show {
+    animation: freshSlide 540ms cubic-bezier(.2,.65,.3,1.1) both;
+    pointer-events: auto;
+  }
+  #resume-fresh.hide {
+    animation: freshOut 360ms cubic-bezier(.4,0,1,1) both;
+  }
+  #resume-fresh .fresh-icon {
+    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+    background: linear-gradient(145deg, #0055b3, #2997ff);
+    display: flex; align-items: center; justify-content: center; color: #fff;
+  }
+  #resume-fresh .fresh-icon svg { width: 16px; height: 16px; }
+  #resume-fresh .fresh-body { display: flex; flex-direction: column; gap: 3px; padding-top: 1px; }
+  #resume-fresh .fresh-title { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; line-height: 1.25; }
+  #resume-fresh .fresh-sub   { font-size: 11.5px; color: var(--ink-2); line-height: 1.4; }
+  .nav-dropdown button.resume-highlight {
+    animation: navResumePop 680ms cubic-bezier(.2,.65,.3,1.1) both;
+  }
+  @media (max-width: 640px) {
+    #resume-fresh { top: auto; bottom: 80px; right: 16px; left: 16px; width: auto; }
+  }
+
   /* ---------- download toast ---------- */
   #dl-toast {
     position: fixed; bottom: 88px; left: 50%; z-index: 9995;
@@ -782,7 +834,7 @@
   /* ── divider between graph and case studies ── */
   .case-divider {
     display: flex; align-items: center; gap: 18px;
-    margin: 60px 0 0;
+    margin: 60px 0 36px;
     font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
     color: var(--ink-2);
   }
@@ -904,6 +956,17 @@
     <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
   </button>
 </nav>
+
+<!-- Resume Fresh notification -->
+<div id="resume-fresh" role="status" aria-live="polite">
+  <div class="fresh-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+  </div>
+  <div class="fresh-body">
+    <span class="fresh-title">Resume? Served Fresh.</span>
+    <span class="fresh-sub">Both formats are ready below ↓</span>
+  </div>
+</div>
 
 <!-- Download toast -->
 <div id="dl-toast" role="status" aria-live="polite">
@@ -1634,14 +1697,35 @@
     updateNavActive();
   })();
 
-  // Resume-dl pop animation when footer comes into view
+  // Resume-dl pop + "Resume? Served Fresh." when footer comes into view
   (function() {
     const resumeDl = document.querySelector('.resume-dl');
     if (!resumeDl) return;
+    const freshEl = document.getElementById('resume-fresh');
+    const navBtn  = document.getElementById('resumeBtn');
+    let fired = false;
     const rIo = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (!e.isIntersecting) return;
+        if (!e.isIntersecting || fired) return;
+        fired = true;
+        // Pop footer buttons
         resumeDl.querySelectorAll('.btn').forEach(btn => btn.classList.add('pop'));
+        // Pulse nav resume button
+        if (navBtn) {
+          navBtn.classList.remove('resume-highlight');
+          void navBtn.offsetWidth;
+          navBtn.classList.add('resume-highlight');
+          setTimeout(() => navBtn.classList.remove('resume-highlight'), 800);
+        }
+        // Show notification
+        if (freshEl) {
+          freshEl.classList.remove('hide');
+          freshEl.classList.add('show');
+          setTimeout(() => {
+            freshEl.classList.remove('show');
+            freshEl.classList.add('hide');
+          }, 4200);
+        }
         rIo.unobserve(e.target);
       });
     }, { threshold: 0.6 });
