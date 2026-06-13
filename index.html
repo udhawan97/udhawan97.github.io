@@ -648,6 +648,31 @@
     #resume-fresh { top: auto; bottom: 80px; right: 16px; left: 16px; width: auto; }
   }
 
+  /* ---------- resume spotlight overlay ---------- */
+  #resume-overlay {
+    position: fixed; inset: 0; z-index: 50;
+    background: rgba(0,0,0,0);
+    pointer-events: none;
+    transition: background .55s ease;
+  }
+  #resume-overlay.show {
+    background: rgba(0,0,0,.68);
+    pointer-events: auto;
+    cursor: pointer;
+  }
+  /* Nav is z-index 900 — naturally above the overlay at 50 */
+  /* Spotlight glow on nav resume button */
+  body.resume-spotlight #resumeDropdown button {
+    box-shadow: 0 0 0 2px var(--blue-bright), 0 0 22px rgba(41,151,255,.5);
+  }
+  /* Lift footer resume buttons above overlay */
+  body.resume-spotlight .resume-dl {
+    position: relative; z-index: 200;
+  }
+  body.resume-spotlight .resume-dl .btn {
+    box-shadow: 0 0 0 2px var(--blue-bright), 0 0 22px rgba(41,151,255,.4);
+  }
+
   /* ---------- download toast ---------- */
   #dl-toast {
     position: fixed; bottom: 88px; left: 50%; z-index: 9995;
@@ -837,23 +862,39 @@
   .ws-node {
     background: var(--bg-2); border: 1px solid var(--line); cursor: pointer;
   }
-  /* subtle tap-to-expand indicator */
+  /* tap indicator arrow */
   .ws-node::after {
     content: "↗"; position: absolute; top: 8px; right: 10px;
     font-size: 10px; color: var(--ink-2); opacity: .4; pointer-events: none;
-    transition: opacity .2s, color .2s;
+    transition: opacity .2s, color .2s, transform .2s;
   }
-  .ws-node:hover::after    { opacity: .85; color: var(--blue); }
+  .ws-node:hover::after    { opacity: .85; color: var(--blue); transform: translate(1px,-1px); }
   .ws-node.selected::after { opacity: 1;   color: var(--blue-bright); }
   .ws-node:hover {
     border-color: var(--blue);
     box-shadow: 0 0 0 1px var(--blue), 0 4px 14px var(--shadow);
+    transform: translateY(-1px);
   }
   .ws-node.selected {
     border-color: var(--blue-bright); background: rgba(0,102,214,.06);
     box-shadow: 0 0 0 1.5px var(--blue-bright);
   }
   [data-theme="dark"] .ws-node.selected { background: rgba(41,151,255,.1); }
+
+  /* hint pulse: runs 3× after map enters view, then stops */
+  @keyframes wsRing {
+    0%   { box-shadow: 0 0 0 0   rgba(0,102,214,.0);  border-color: var(--line); }
+    45%  { box-shadow: 0 0 0 5px rgba(0,102,214,.18); border-color: rgba(0,102,214,.5); }
+    100% { box-shadow: 0 0 0 0   rgba(0,102,214,.0);  border-color: var(--line); }
+  }
+  .impact-map.hint-ready .ws-node:not(.selected) {
+    animation: wsRing 1.8s ease-in-out 3;
+  }
+  /* subtle col-header hint text */
+  .col-hint {
+    display: block; font-size: 9px; font-weight: 500; letter-spacing: .04em;
+    text-transform: none; color: var(--ink-2); opacity: .5; margin-top: 5px;
+  }
 
   /* ── outcome nodes ──────────────────── */
   .outcome-node { background: var(--bg-2); border: 1px solid var(--line); }
@@ -937,6 +978,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .impact-path, .impact-node, .impact-detail { transition: none !important; }
+    .impact-map.hint-ready .ws-node { animation: none !important; }
     .process-connector-fill { transition: none; }
     .step-icon-wrap { transition: none; }
   }
@@ -1009,8 +1051,8 @@
 <nav>
   <a href="#top" style="font-weight:700; color:var(--ink)">UD</a>
   <a href="#about">About</a>
-  <a href="#work">Work</a>
   <a href="#experience">Experience</a>
+  <a href="#work">Work</a>
   <div class="nav-dropdown" id="resumeDropdown">
     <button aria-haspopup="true" aria-expanded="false" id="resumeBtn">
       Resume <span class="nav-chevron">▾</span>
@@ -1034,6 +1076,9 @@
   </button>
 </nav>
 
+<!-- Resume spotlight overlay -->
+<div id="resume-overlay" aria-hidden="true"></div>
+
 <!-- Resume Fresh notification -->
 <div id="resume-fresh" role="status" aria-live="polite">
   <div class="fresh-icon">
@@ -1041,7 +1086,7 @@
   </div>
   <div class="fresh-body">
     <span class="fresh-title">Resume? Served Fresh.</span>
-    <span class="fresh-sub">Both formats are ready below ↓</span>
+    <span class="fresh-sub">Available in the nav ↑ and below ↓</span>
   </div>
 </div>
 
@@ -1205,6 +1250,35 @@
   </div>
 </section>
 
+<!-- ================= EXPERIENCE ================= -->
+<section class="wrap" id="experience">
+  <div class="kicker r">Experience</div>
+  <h2 class="display r d1">Where I've <span class="grad">been.</span></h2>
+  <div class="xp">
+    <div class="xp-card r">
+      <div class="xp-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="when">Jun 2025 — Present</div>
+      <h3>Senior Consultant</h3>
+      <div class="org">EY Studio+ · Customer Service Transformation</div>
+      <p>Release safety, observability, and contact center AI strategy across consumer, retail, and health. The person engineers trust with sign-off and executives trust with the "so what."</p>
+    </div>
+    <div class="xp-card r d1">
+      <div class="xp-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <div class="when">Jul 2022 — Jun 2025</div>
+      <h3>Consultant</h3>
+      <div class="org">EY · Digital & Emerging Technologies</div>
+      <p>Lead QE, Performance Engineer, and Business Analyst across three concurrent engagements. Rookie of the Year nominee among 100+ peers; three Bravo Awards.</p>
+    </div>
+    <div class="xp-card r d2">
+      <div class="xp-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div class="when">Jan — Dec 2021</div>
+      <h3>IT Leadership Intern</h3>
+      <div class="org">SAP America · IE Business Solutions</div>
+      <p>Global portfolio delivery with the Chief Product Owner across Germany, the US, and India. Design thinking workshops with 50+ stakeholders; UX research that shaped SAP FlexConnect.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ================= WORK ================= -->
 <section class="wrap" id="work">
   <div class="kicker r">Selected Work</div>
@@ -1228,7 +1302,7 @@
         </div>
 
         <div class="impact-col">
-          <div class="col-header">Workstreams</div>
+          <div class="col-header">Workstreams<span class="col-hint">tap to expand ↗</span></div>
           <div class="impact-node ws-node r" data-id="ws1" data-type="workstream" data-role="senior" data-outcome="out1">
             <span class="node-label">Release Safety &amp; Observability</span>
           </div>
@@ -1320,35 +1394,6 @@
       <p class="desc">20+ JMeter test scripts and load benchmarks built with teams across the US and India for a major e-commerce launch, tracked in Azure DevOps, AppDynamics, and Grafana.</p>
     </div>
     <div class="meta"><span class="outcome">API reliability <em>+15%</em></span>JMeter · Performance · Azure DevOps</div>
-  </div>
-</section>
-
-<!-- ================= EXPERIENCE ================= -->
-<section class="wrap" id="experience">
-  <div class="kicker r">Experience</div>
-  <h2 class="display r d1">Where I've <span class="grad">been.</span></h2>
-  <div class="xp">
-    <div class="xp-card r">
-      <div class="xp-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-      <div class="when">Jun 2025 — Present</div>
-      <h3>Senior Consultant</h3>
-      <div class="org">EY Studio+ · Customer Service Transformation</div>
-      <p>Release safety, observability, and contact center AI strategy across consumer, retail, and health. The person engineers trust with sign-off and executives trust with the "so what."</p>
-    </div>
-    <div class="xp-card r d1">
-      <div class="xp-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-      <div class="when">Jul 2022 — Jun 2025</div>
-      <h3>Consultant</h3>
-      <div class="org">EY · Digital & Emerging Technologies</div>
-      <p>Lead QE, Performance Engineer, and Business Analyst across three concurrent engagements. Rookie of the Year nominee among 100+ peers; three Bravo Awards.</p>
-    </div>
-    <div class="xp-card r d2">
-      <div class="xp-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-      <div class="when">Jan — Dec 2021</div>
-      <h3>IT Leadership Intern</h3>
-      <div class="org">SAP America · IE Business Solutions</div>
-      <p>Global portfolio delivery with the Chief Product Owner across Germany, the US, and India. Design thinking workshops with 50+ stakeholders; UX research that shaped SAP FlexConnect.</p>
-    </div>
   </div>
 </section>
 
@@ -1781,7 +1826,7 @@
       if (node.dataset.type === 'workstream') {
         node.setAttribute('role', 'button');
         node.setAttribute('tabindex', '0');
-        node.addEventListener('click', () => openDetail(node.dataset.id));
+        node.addEventListener('click', () => { mapEl.classList.remove('hint-ready'); openDetail(node.dataset.id); });
         node.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetail(node.dataset.id); }
         });
@@ -1808,6 +1853,20 @@
         setTimeout(() => {
           drawPaths();
           animatePaths();
+          if (!noMotion) {
+            // After paths finish drawing (~1.1s), pulse ws-nodes 3× as a clickability hint
+            const wsNodes = mapEl.querySelectorAll('.ws-node');
+            setTimeout(() => {
+              wsNodes.forEach((n, i) => { n.style.animationDelay = `${i * 180}ms`; });
+              mapEl.classList.add('hint-ready');
+              // Clean up after 3 iterations + stagger + buffer
+              const cleanup = (wsNodes.length - 1) * 180 + 1800 * 3 + 400;
+              setTimeout(() => {
+                mapEl.classList.remove('hint-ready');
+                wsNodes.forEach(n => { n.style.animationDelay = ''; });
+              }, cleanup);
+            }, 1100);
+          }
         }, delay);
         pathIo.unobserve(e.target);
       });
@@ -1824,7 +1883,7 @@
 
   // Nav active-section highlight on scroll
   (function() {
-    const navSections = ['about', 'work', 'experience']
+    const navSections = ['about', 'experience', 'work']
       .map(id => document.getElementById(id)).filter(Boolean);
     const navAnchors = {};
     navSections.forEach(s => {
@@ -1863,39 +1922,65 @@
     pIo.observe(strip);
   })();
 
-  // Resume-dl pop + "Resume? Served Fresh." when footer comes into view
+  // Resume-dl pop + spotlight overlay + "Resume? Served Fresh." when footer comes into view
   (function() {
-    const resumeDl = document.querySelector('.resume-dl');
+    const resumeDl  = document.querySelector('.resume-dl');
     if (!resumeDl) return;
-    const freshEl = document.getElementById('resume-fresh');
-    const navBtn  = document.getElementById('resumeBtn');
+    const freshEl   = document.getElementById('resume-fresh');
+    const overlayEl = document.getElementById('resume-overlay');
+    const navBtn    = document.getElementById('resumeBtn');
     let fired = false;
+    let spotlightTimer;
+
+    function dismissSpotlight() {
+      clearTimeout(spotlightTimer);
+      document.body.classList.remove('resume-spotlight');
+      if (overlayEl) overlayEl.classList.remove('show');
+      if (freshEl) { freshEl.classList.remove('show'); freshEl.classList.add('hide'); }
+      if (navBtn) navBtn.classList.remove('resume-highlight');
+      if (overlayEl) overlayEl.removeEventListener('click', dismissSpotlight);
+    }
+
     const rIo = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (!e.isIntersecting || fired) return;
         fired = true;
+
         // Pop footer buttons
         resumeDl.querySelectorAll('.btn').forEach(btn => btn.classList.add('pop'));
+
+        // Spotlight: darken page, highlight resume elements
+        document.body.classList.add('resume-spotlight');
+        if (overlayEl) {
+          overlayEl.classList.add('show');
+          overlayEl.addEventListener('click', dismissSpotlight);
+        }
+
         // Pulse nav resume button
         if (navBtn) {
           navBtn.classList.remove('resume-highlight');
           void navBtn.offsetWidth;
           navBtn.classList.add('resume-highlight');
-          setTimeout(() => navBtn.classList.remove('resume-highlight'), 800);
         }
+
         // Show notification
         if (freshEl) {
           freshEl.classList.remove('hide');
           freshEl.classList.add('show');
-          setTimeout(() => {
-            freshEl.classList.remove('show');
-            freshEl.classList.add('hide');
-          }, 4200);
         }
+
+        // Auto-dismiss spotlight after 5s if no interaction
+        spotlightTimer = setTimeout(dismissSpotlight, 5000);
+
         rIo.unobserve(e.target);
       });
     }, { threshold: 0.6 });
     rIo.observe(resumeDl);
+
+    // Clicking a resume download also dismisses spotlight
+    document.querySelectorAll('.resume-dl a[download], .resume-dropdown a[download]').forEach(a => {
+      a.addEventListener('click', dismissSpotlight);
+    });
   })();
 
   // Download toast
