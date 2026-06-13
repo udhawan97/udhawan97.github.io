@@ -230,6 +230,77 @@
     filter: blur(72px);
   }
 
+  /* ---------- approach / process strip ---------- */
+  #approach { position: relative; }
+  #approach::before {
+    content: ""; position: absolute; z-index: -1; pointer-events: none;
+    width: 680px; height: 680px; border-radius: 50%;
+    top: -100px; right: -200px;
+    background: radial-gradient(circle at 38% 42%, rgba(100,210,255,.17), rgba(41,151,255,.05) 50%, transparent 70%);
+    filter: blur(72px);
+  }
+  .process-strip {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 40px;
+  }
+  .process-connector {
+    position: absolute; top: 36px;
+    left: 12.5%; right: 12.5%;
+    height: 1.5px; background: var(--line);
+    border-radius: 2px; z-index: 0; overflow: hidden;
+  }
+  .process-connector-fill {
+    height: 100%; width: 0;
+    background: linear-gradient(90deg, var(--blue), var(--blue-bright));
+    border-radius: 2px;
+    transition: width 1.3s cubic-bezier(.22,.8,.26,.99) .3s;
+  }
+  .process-strip.animate-in .process-connector-fill { width: 100%; }
+  .process-step {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 0 18px 8px; position: relative; z-index: 2;
+  }
+  .step-icon-wrap {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: rgba(0,102,214,.07); border: 1.5px solid rgba(0,102,214,.18);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--blue); margin-bottom: 20px; flex-shrink: 0;
+    transition: background .25s var(--ease), border-color .25s var(--ease),
+                transform .3s var(--ease), box-shadow .3s var(--ease);
+  }
+  .process-step:hover .step-icon-wrap {
+    background: rgba(0,102,214,.13); border-color: rgba(0,102,214,.38);
+    transform: translateY(-4px) scale(1.06);
+    box-shadow: 0 10px 28px rgba(0,102,214,.2);
+  }
+  .step-icon-wrap svg { width: 28px; height: 28px; }
+  .step-content { display: flex; flex-direction: column; align-items: center; }
+  .step-num {
+    font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--blue); opacity: .5; margin-bottom: 5px;
+  }
+  .step-label { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -.015em; }
+  .step-desc { font-size: 13px; color: var(--ink-2); line-height: 1.5; margin-top: 8px; max-width: 200px; }
+  @media (max-width: 767px) {
+    .process-strip { grid-template-columns: 1fr; margin-top: 32px; }
+    .process-connector { display: none; }
+    .process-step {
+      flex-direction: row; align-items: flex-start;
+      text-align: left; padding: 0 0 36px; gap: 18px; position: relative;
+    }
+    .process-step:not(:last-child)::after {
+      content: ""; position: absolute;
+      left: 25px; top: 52px; bottom: 0; width: 1.5px;
+      background: var(--line);
+    }
+    .step-icon-wrap { width: 52px; height: 52px; margin-bottom: 0; }
+    .step-icon-wrap svg { width: 22px; height: 22px; }
+    .step-content { align-items: flex-start; }
+    .step-label { font-size: 15px; }
+  }
+
   /* ---------- entrance keyframes ---------- */
   @keyframes fadeUp    { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:none } }
   @keyframes _fadeIn   { from { opacity:0 } to { opacity:1 } }
@@ -862,6 +933,8 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .impact-path, .impact-node, .impact-detail { transition: none !important; }
+    .process-connector-fill { transition: none; }
+    .step-icon-wrap { transition: none; }
   }
 
   .xp-icon {
@@ -1055,6 +1128,76 @@
       <div class="pullquote r d2">Less interested in AI hype than in how large organizations actually move past pilots and put it to work.</div>
       <p class="r d2">I came up through Informatics and a Master's in Information Systems at Indiana's Kelley School, with earlier time at <b>SAP</b> working alongside teams in Germany, the US, and India. Certified across <b>AWS, Azure, SAFe, and DeepLearning.AI's generative AI</b> coursework.</p>
     </div>
+  </div>
+</section>
+
+<!-- ================= APPROACH ================= -->
+<section class="wrap" id="approach">
+  <div class="kicker r">Approach</div>
+  <h2 class="display r d1">How I <span class="grad">think.</span></h2>
+
+  <div class="process-strip" id="processStrip">
+    <div class="process-connector" aria-hidden="true">
+      <div class="process-connector-fill"></div>
+    </div>
+
+    <div class="process-step r">
+      <div class="step-icon-wrap" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="10.5" cy="10.5" r="6.5"/>
+          <line x1="15.5" y1="15.5" x2="21" y2="21"/>
+        </svg>
+      </div>
+      <div class="step-content">
+        <span class="step-num">01</span>
+        <span class="step-label">Diagnose</span>
+        <p class="step-desc">Map the real problem before touching a solution.</p>
+      </div>
+    </div>
+
+    <div class="process-step r">
+      <div class="step-icon-wrap" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+        </svg>
+      </div>
+      <div class="step-content">
+        <span class="step-num">02</span>
+        <span class="step-label">Architect</span>
+        <p class="step-desc">Design the system, the process, and the rollback plan.</p>
+      </div>
+    </div>
+
+    <div class="process-step r">
+      <div class="step-icon-wrap" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </div>
+      <div class="step-content">
+        <span class="step-num">03</span>
+        <span class="step-label">Ship</span>
+        <p class="step-desc">Build it, test it, get it live with cross-team sign-off.</p>
+      </div>
+    </div>
+
+    <div class="process-step r">
+      <div class="step-icon-wrap" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>
+      </div>
+      <div class="step-content">
+        <span class="step-num">04</span>
+        <span class="step-label">Measure</span>
+        <p class="step-desc">Instrument everything. Let the data decide what's next.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1695,6 +1838,25 @@
     }
     addEventListener('scroll', updateNavActive, { passive: true });
     updateNavActive();
+  })();
+
+  // Process strip: stagger steps + draw connector on scroll
+  (function() {
+    const strip = document.getElementById('processStrip');
+    if (!strip) return;
+    const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    strip.querySelectorAll('.process-step').forEach((el, i) => {
+      el.style.animationDelay = `${i * 150}ms`;
+    });
+    if (noMotion) { strip.classList.add('animate-in'); return; }
+    const pIo = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        setTimeout(() => strip.classList.add('animate-in'), 200);
+        pIo.unobserve(e.target);
+      });
+    }, { threshold: 0.2 });
+    pIo.observe(strip);
   })();
 
   // Resume-dl pop + "Resume? Served Fresh." when footer comes into view
