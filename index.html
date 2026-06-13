@@ -58,6 +58,7 @@
     color-scheme: dark;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  button, input, select, textarea { font-family: inherit; font-size: inherit; }
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg); color: var(--ink);
@@ -601,20 +602,16 @@
     body.on-link #cur-ring { width: 52px; height: 52px; opacity: .75; }
   }
 
-  /* ---------- theme hint (under nav) ---------- */
-  #theme-hint {
-    position: fixed; top: 72px; left: 50%; transform: translateX(-50%);
-    font-size: 12px; font-weight: 500; color: var(--ink-2);
-    background: var(--glass-2);
-    -webkit-backdrop-filter: saturate(180%) blur(16px); backdrop-filter: saturate(180%) blur(16px);
-    border: 1px solid var(--glass-border);
-    border-radius: 99px; padding: 5px 13px;
-    cursor: pointer; z-index: 899; white-space: nowrap;
-    display: flex; align-items: center; gap: 6px;
-    box-shadow: 0 4px 14px var(--shadow);
-    transition: background .3s var(--ease), color .3s var(--ease), border-color .3s ease;
+  /* ---------- theme toggle (in nav) ---------- */
+  #theme-toggle {
+    width: 34px; height: 34px; border-radius: 99px; border: none;
+    background: transparent; color: var(--ink-2);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; flex-shrink: 0;
+    transition: background .3s var(--ease), color .3s var(--ease);
   }
-  #theme-hint:hover { color: var(--ink); background: var(--hover); }
+  #theme-toggle:hover { background: var(--hover); color: var(--ink); }
+  #theme-toggle svg { width: 16px; height: 16px; pointer-events: none; }
 
   /* ---------- icon components ---------- */
   .stat-icon {
