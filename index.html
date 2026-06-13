@@ -1012,24 +1012,22 @@
     });
   });
 
-  // Reveal on scroll
+  // Reveal on scroll — also triggers count-up for any [data-count] inside the revealed element
   const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in');
+    e.target.querySelectorAll('[data-count]').forEach(el => {
+      const end = +el.dataset.count, dur = 1400;
+      const t0 = performance.now();
+      (function tick(t) {
+        const p = Math.min((t - t0) / dur, 1);
+        el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+    io.unobserve(e.target);
   }), { threshold: 0.15 });
   document.querySelectorAll('.r').forEach(el => io.observe(el));
-
-  // Count-up stats
-  const cio = new IntersectionObserver(es => es.forEach(e => {
-    if (!e.isIntersecting) return;
-    const el = e.target, end = +el.dataset.count, t0 = performance.now(), dur = 1400;
-    (function tick(t) {
-      const p = Math.min((t - t0) / dur, 1);
-      el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(tick);
-    })(t0);
-    cio.unobserve(el);
-  }), { threshold: 0.6 });
-  document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
 
   // ── Enhanced interactions ──────────────────────────────────────────────────
   const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
