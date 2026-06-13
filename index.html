@@ -917,10 +917,27 @@
   /* ── SVG paths ──────────────────────── */
   .impact-path {
     fill: none; stroke: var(--blue); stroke-width: 1.5; opacity: .2;
-    transition: opacity .2s, stroke .2s;
+    transition: opacity .3s, stroke .3s;
   }
-  .impact-path.active { opacity: .9;  stroke: var(--blue-bright); }
+  .impact-path.active { opacity: .85; stroke: var(--blue-bright); }
   .impact-path.dimmed { opacity: .04; }
+  /* idle breath — stagger set per-path via JS animationDelay */
+  @keyframes pathBreath {
+    0%, 100% { opacity: .18; }
+    50%       { opacity: .38; }
+  }
+  .impact-path:not(.active):not(.dimmed) {
+    animation: pathBreath 3.4s ease-in-out infinite;
+  }
+  /* ── flow dots ───────────────────────── */
+  .flow-dot {
+    fill: var(--blue-bright);
+    opacity: 0;
+    transition: opacity .5s;
+  }
+  .impact-map.paths-ready .flow-dot          { opacity: .45; }
+  .flow-dot.dot-active                       { opacity: .92 !important; }
+  .flow-dot.dot-dimmed                       { opacity: 0   !important; }
 
   /* ── click-to-expand detail card ────── */
   .impact-detail { overflow: hidden; max-height: 0; opacity: 0;
@@ -978,7 +995,9 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .impact-path, .impact-node, .impact-detail { transition: none !important; }
+    .impact-path:not(.active):not(.dimmed) { animation: none !important; }
     .impact-map.hint-ready .ws-node { animation: none !important; }
+    .flow-dot { display: none; }
     .process-connector-fill { transition: none; }
     .step-icon-wrap { transition: none; }
   }
@@ -1733,14 +1752,35 @@
       return { nodes, conns };
     }
 
+    function mkDot(d, dur, begin, from, to) {
+      const ns   = 'http://www.w3.org/2000/svg';
+      const dot  = document.createElementNS(ns, 'circle');
+      dot.setAttribute('r', '2.8');
+      dot.setAttribute('class', 'flow-dot');
+      dot.dataset.from = from;
+      dot.dataset.to   = to;
+      const anim = document.createElementNS(ns, 'animateMotion');
+      anim.setAttribute('dur',         `${dur}s`);
+      anim.setAttribute('repeatCount', 'indefinite');
+      anim.setAttribute('begin',       `${begin}s`);
+      anim.setAttribute('keyPoints',   '0;1;0');
+      anim.setAttribute('keyTimes',    '0;0.5;1');
+      anim.setAttribute('calcMode',    'spline');
+      anim.setAttribute('keySplines',  '0.4,0,0.6,1;0.4,0,0.6,1');
+      anim.setAttribute('path',        d);
+      dot.appendChild(anim);
+      return dot;
+    }
+
     function drawPaths() {
       svgEl.innerHTML = '';
       pathEls = [];
+      mapEl.classList.remove('paths-ready');
       if (isMobile()) return;
       const cRect = mapEl.getBoundingClientRect();
       svgEl.setAttribute('width',  mapEl.offsetWidth);
       svgEl.setAttribute('height', mapEl.offsetHeight);
-      connections.forEach(conn => {
+      connections.forEach((conn, ci) => {
         const fEl = nodeEl(conn.from);
         const tEl = nodeEl(conn.to);
         if (!fEl || !tEl) return;
@@ -1751,8 +1791,9 @@
         const x2 = tr.left   - cRect.left;
         const y2 = (tr.top + tr.bottom) / 2 - cRect.top;
         const dx = (x2 - x1) * .42;
+        const d  = `M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}`;
         const p  = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        p.setAttribute('d', `M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}`);
+        p.setAttribute('d', d);
         p.setAttribute('class', 'impact-path');
         p.dataset.from = conn.from;
         p.dataset.to   = conn.to;
@@ -1760,9 +1801,17 @@
           const len = p.getTotalLength();
           p.style.strokeDasharray  = len;
           p.style.strokeDashoffset = len;
+          // stagger idle breath so paths pulse at different phases
+          p.style.animationDelay = `${(ci * 0.34) % 3.4}s`;
         }
         svgEl.appendChild(p);
         pathEls.push(p);
+
+        if (!noMotion) {
+          const dur = 2.2 + (ci % 4) * 0.35; // 2.2 – 3.25s, varied per path
+          svgEl.appendChild(mkDot(d, dur, 0,       conn.from, conn.to));
+          svgEl.appendChild(mkDot(d, dur, dur / 2, conn.from, conn.to));
+        }
       });
     }
 
@@ -1777,6 +1826,11 @@
           p.style.strokeDashoffset = '0';
         }, i * 55);
       });
+      if (!noMotion) {
+        // reveal flow dots after all paths finish drawing
+        const showAt = pathEls.length * 55 + 700;
+        setTimeout(() => mapEl.classList.add('paths-ready'), showAt);
+      }
     }
 
     function applyHover(id) {
@@ -1791,11 +1845,17 @@
         p.classList.toggle('active',  linked);
         p.classList.toggle('dimmed', !linked);
       });
+      svgEl.querySelectorAll('.flow-dot').forEach(d => {
+        const linked = conns.some(c => c.from === d.dataset.from && c.to === d.dataset.to);
+        d.classList.toggle('dot-active',  linked);
+        d.classList.toggle('dot-dimmed', !linked);
+      });
     }
 
     function clearHover() {
       mapEl.querySelectorAll('.impact-node').forEach(el => el.classList.remove('active', 'dimmed'));
       pathEls.forEach(p => p.classList.remove('active', 'dimmed'));
+      svgEl.querySelectorAll('.flow-dot').forEach(d => d.classList.remove('dot-active', 'dot-dimmed'));
     }
 
     function openDetail(wsId) {
