@@ -235,7 +235,7 @@
   /* ---------- hero ---------- */
   header.hero {
     min-height: 100svh; display: flex; flex-direction: column; justify-content: center;
-    position: relative; padding: 120px 0 60px;
+    position: relative; padding-top: 120px; padding-bottom: 60px;
   }
   .hero-glow { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
   .hero-glow::before {
@@ -373,6 +373,7 @@
 
   /* ---------- about ---------- */
   .about-grid { display: grid; grid-template-columns: 380px 1fr; gap: 64px; align-items: start; }
+  .about-copy { min-width: 0; overflow-wrap: break-word; }
   @media (max-width: 880px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
   .portrait {
     position: relative; border-radius: 28px; overflow: hidden;
@@ -983,8 +984,16 @@
         });
       } else if (node.nodeName === 'BR') {
         pieces.push({ el: node.cloneNode(), isWord: false });
+      } else if (node.nodeName === 'SPAN' && node.classList.contains('grad')) {
+        // .grad phrases: split into individual word spans each carrying the grad class,
+        // so the phrase can wrap on narrow viewports while each word keeps its gradient.
+        node.textContent.split(/\s+/).filter(Boolean).forEach(w => {
+          const s = document.createElement('span');
+          s.className = 'word grad';
+          s.textContent = w;
+          pieces.push({ el: s, isWord: true });
+        });
       } else {
-        // Non-text elements (.grad, etc.) become one word unit so their CSS is intact
         const s = document.createElement('span');
         s.className = 'word';
         s.appendChild(node.cloneNode(true));
