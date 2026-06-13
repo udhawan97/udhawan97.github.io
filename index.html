@@ -643,6 +643,102 @@
   .stat-icon svg { width: 21px; height: 21px; }
   .work-row h3 { display: flex; align-items: center; gap: 10px; }
   .row-icon { width: 17px; height: 17px; color: var(--blue); flex-shrink: 0; opacity: .75; }
+
+  /* ---------- impact map ---------- */
+  .impact-wrap { margin-top: 48px; }
+  .impact-map  { position: relative; padding-bottom: 8px; }
+  .impact-svg  {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; overflow: visible; z-index: 0;
+  }
+  .impact-cols {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr 1fr;
+    position: relative; z-index: 1;
+  }
+  .impact-col {
+    display: flex; flex-direction: column;
+    align-items: stretch; gap: 10px; padding: 0 22px;
+  }
+  .impact-col:first-child { padding-left: 0; }
+  .impact-col:last-child  { padding-right: 0; }
+  .col-header {
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: .11em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 8px; text-align: center;
+  }
+  .impact-node {
+    background: var(--bg-2); border: 1px solid var(--line);
+    border-radius: 12px; padding: 13px 15px;
+    font-size: 13px; font-weight: 500; color: var(--ink);
+    text-align: center; position: relative;
+    transition: border-color .22s, box-shadow .22s, opacity .22s, background .22s;
+  }
+  .ws-node { cursor: pointer; }
+  .ws-node:hover  {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 1px var(--blue), 0 4px 14px var(--shadow);
+  }
+  .impact-node.active {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 1px var(--blue), 0 4px 14px var(--shadow);
+  }
+  .ws-node.selected {
+    border-color: var(--blue-bright);
+    background: rgba(0,102,214,.07);
+    box-shadow: 0 0 0 1.5px var(--blue-bright);
+  }
+  [data-theme="dark"] .ws-node.selected { background: rgba(41,151,255,.1); }
+  .impact-node.dimmed { opacity: .24; }
+  .node-label { display: block; line-height: 1.35; }
+  .node-sub   { display: block; font-size: 11px; color: var(--ink-2); margin-top: 4px; font-weight: 400; }
+  .impact-node.active .node-sub, .ws-node.selected .node-sub { color: var(--blue-bright); }
+
+  .impact-path {
+    fill: none; stroke: var(--blue); stroke-width: 1.5; opacity: .22;
+    transition: opacity .22s, stroke .22s;
+  }
+  .impact-path.active { opacity: .9;  stroke: var(--blue-bright); }
+  .impact-path.dimmed { opacity: .04; }
+
+  .impact-detail {
+    overflow: hidden; max-height: 0; opacity: 0;
+    transition: max-height .42s cubic-bezier(.25,.1,.25,1), opacity .3s;
+  }
+  .impact-detail.open { max-height: 500px; opacity: 1; }
+  .impact-detail-inner {
+    background: var(--bg-2); border: 1px solid var(--blue);
+    border-radius: var(--radius); padding: 26px 30px; margin-top: 20px;
+  }
+  .impact-detail-outcome {
+    font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--blue-bright); margin-bottom: 9px;
+  }
+  .impact-detail-title { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+  .impact-detail-desc  { font-size: 14px; line-height: 1.7; color: var(--ink-2); margin-bottom: 16px; }
+  .impact-detail-tags  { display: flex; flex-wrap: wrap; gap: 7px; }
+  .impact-tag {
+    font-size: 11px; font-weight: 500; padding: 4px 11px; border-radius: 99px;
+    background: rgba(0,102,214,.08); color: var(--blue);
+    border: 1px solid rgba(0,102,214,.18);
+  }
+  [data-theme="dark"] .impact-tag {
+    background: rgba(41,151,255,.12); color: var(--blue-bright);
+    border-color: rgba(41,151,255,.2);
+  }
+
+  @media (max-width: 768px) {
+    .impact-cols { grid-template-columns: 1fr; gap: 24px; }
+    .impact-col  { padding: 0; }
+    .impact-svg  { display: none; }
+    .col-header  { text-align: left; }
+    .impact-node { text-align: left; padding: 11px 14px; }
+    .impact-detail-inner { padding: 18px 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .impact-path, .impact-node, .impact-detail { transition: none !important; }
+  }
+
   .xp-icon {
     width: 44px; height: 44px; border-radius: 14px;
     background: linear-gradient(135deg, var(--blue), var(--blue-bright));
@@ -831,49 +927,69 @@
   <div class="kicker r">Selected Work</div>
   <h2 class="display r d1">Case <span class="grad">studies.</span></h2>
 
-  <div class="work-row r">
-    <div class="idx">01</div>
-    <div>
-      <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Release safety &amp; observability at scale</h3>
-      <p class="desc">Embedded with a Fortune 100 retailer's cloud engineering team to harden releases — rollback standards, pre-deployment risk patterns, and an observability framework built from structured logs, dashboards, and diagnostic metrics.</p>
-    </div>
-    <div class="meta"><span class="outcome">Incidents <em>−20%</em> · MTTR <em>−15%</em></span>Cloud · CI/CD · Grafana · AppDynamics</div>
-  </div>
+  <div class="impact-wrap">
+    <div class="impact-map" id="impactMap">
+      <svg class="impact-svg" id="impactSvg" aria-hidden="true"></svg>
+      <div class="impact-cols">
 
-  <div class="work-row r">
-    <div class="idx">02</div>
-    <div>
-      <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Contact center AI strategy</h3>
-      <p class="desc">AI and technology points of view for Fortune 500 healthcare clients — capability assessments, tech stack benchmarks, and persona-based journeys, anchored in live validation of real customer service experiences.</p>
-    </div>
-    <div class="meta"><span class="outcome">Shaped <em>pursuit strategy</em></span>Generative AI · CX Strategy · Research</div>
-  </div>
+        <div class="impact-col">
+          <div class="col-header">Roles</div>
+          <div class="impact-node role-node r" data-id="senior" data-type="role">
+            <span class="node-label">Senior Consultant</span>
+            <span class="node-sub">EY Studio+</span>
+          </div>
+          <div class="impact-node role-node r" data-id="consultant" data-type="role">
+            <span class="node-label">Consultant</span>
+            <span class="node-sub">EY Digital</span>
+          </div>
+        </div>
 
-  <div class="work-row r">
-    <div class="idx">03</div>
-    <div>
-      <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Retail platform launch, 100+ locations</h3>
-      <p class="desc">Led quality engineering for an in-store production platform rollout: automated regression with Kotlin and Appium, cross-team triage, weekly release sign-offs.</p>
-    </div>
-    <div class="meta"><span class="outcome">Routing efficiency <em>+30%</em></span>Kotlin · Appium · Agile · JIRA</div>
-  </div>
+        <div class="impact-col">
+          <div class="col-header">Workstreams</div>
+          <div class="impact-node ws-node r" data-id="ws1" data-type="workstream" data-role="senior" data-outcome="out1">
+            <span class="node-label">Release Safety &amp; Observability</span>
+          </div>
+          <div class="impact-node ws-node r" data-id="ws2" data-type="workstream" data-role="senior" data-outcome="out2">
+            <span class="node-label">Contact Center AI Strategy</span>
+          </div>
+          <div class="impact-node ws-node r" data-id="ws3" data-type="workstream" data-role="consultant" data-outcome="out3">
+            <span class="node-label">Retail Platform Launch</span>
+          </div>
+          <div class="impact-node ws-node r" data-id="ws4" data-type="workstream" data-role="consultant" data-outcome="out4">
+            <span class="node-label">Federal Cloud Compliance</span>
+          </div>
+          <div class="impact-node ws-node r" data-id="ws5" data-type="workstream" data-role="consultant" data-outcome="out5">
+            <span class="node-label">API Performance Engineering</span>
+          </div>
+        </div>
 
-  <div class="work-row r">
-    <div class="idx">04</div>
-    <div>
-      <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Federal cloud, zero audit findings</h3>
-      <p class="desc">Coordinated agile delivery on a Microsoft GCC High implementation, ensuring FedRAMP and NIST 800-53 controls were executed and verified end to end.</p>
-    </div>
-    <div class="meta"><span class="outcome"><em>0</em> audit findings</span>Azure · FedRAMP · NIST 800-53</div>
-  </div>
+        <div class="impact-col">
+          <div class="col-header">Outcomes</div>
+          <div class="impact-node outcome-node r" data-id="out1" data-type="outcome">
+            <span class="node-label">Incidents <em>−20%</em></span>
+            <span class="node-sub">MTTR −15%</span>
+          </div>
+          <div class="impact-node outcome-node r" data-id="out2" data-type="outcome">
+            <span class="node-label">Pursuit <em>Strategy</em></span>
+            <span class="node-sub">shaped</span>
+          </div>
+          <div class="impact-node outcome-node r" data-id="out3" data-type="outcome">
+            <span class="node-label">Routing <em>+30%</em></span>
+            <span class="node-sub">efficiency</span>
+          </div>
+          <div class="impact-node outcome-node r" data-id="out4" data-type="outcome">
+            <span class="node-label"><em>0</em> Findings</span>
+            <span class="node-sub">FedRAMP audit</span>
+          </div>
+          <div class="impact-node outcome-node r" data-id="out5" data-type="outcome">
+            <span class="node-label">API <em>+15%</em></span>
+            <span class="node-sub">reliability</span>
+          </div>
+        </div>
 
-  <div class="work-row r">
-    <div class="idx">05</div>
-    <div>
-      <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Shipping API performance engineering</h3>
-      <p class="desc">20+ JMeter test scripts and load benchmarks built with teams across the US and India for a major e-commerce launch, tracked in Azure DevOps, AppDynamics, and Grafana.</p>
+      </div>
     </div>
-    <div class="meta"><span class="outcome">API reliability <em>+15%</em></span>JMeter · Performance · Azure DevOps</div>
+    <div class="impact-detail" id="impactDetail"></div>
   </div>
 </section>
 
@@ -1156,6 +1272,217 @@
   resumeDropdown.querySelector('.resume-dropdown-inner').addEventListener('click', e => {
     if (!e.target.closest('a')) e.stopPropagation();
   });
+
+  // ===== IMPACT MAP =====
+  (function() {
+    const mapEl    = document.getElementById('impactMap');
+    const svgEl    = document.getElementById('impactSvg');
+    const detailEl = document.getElementById('impactDetail');
+    if (!mapEl) return;
+
+    const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = () => window.innerWidth < 768;
+
+    const connections = [
+      { from:'senior',     to:'ws1'  },
+      { from:'senior',     to:'ws2'  },
+      { from:'consultant', to:'ws3'  },
+      { from:'consultant', to:'ws4'  },
+      { from:'consultant', to:'ws5'  },
+      { from:'ws1',  to:'out1' },
+      { from:'ws2',  to:'out2' },
+      { from:'ws3',  to:'out3' },
+      { from:'ws4',  to:'out4' },
+      { from:'ws5',  to:'out5' },
+    ];
+
+    const wsData = {
+      ws1: {
+        title:   'Release Safety & Observability at Scale',
+        desc:    'Embedded with a Fortune 100 retailer’s cloud engineering team to harden releases — rollback standards, pre-deployment risk patterns, and an observability framework built from structured logs, dashboards, and diagnostic metrics.',
+        tags:    ['Cloud', 'CI/CD', 'Grafana', 'AppDynamics'],
+        outcome: 'Incidents −20% · MTTR −15%',
+      },
+      ws2: {
+        title:   'Contact Center AI Strategy',
+        desc:    'AI and technology points of view for Fortune 500 healthcare clients — capability assessments, tech stack benchmarks, and persona-based journeys, anchored in live validation of real customer service experiences.',
+        tags:    ['Generative AI', 'CX Strategy', 'Research'],
+        outcome: 'Shaped pursuit strategy',
+      },
+      ws3: {
+        title:   'Retail Platform Launch, 100+ Locations',
+        desc:    'Led quality engineering for an in-store production platform rollout: automated regression with Kotlin and Appium, cross-team triage, weekly release sign-offs.',
+        tags:    ['Kotlin', 'Appium', 'Agile', 'JIRA'],
+        outcome: 'Routing efficiency +30%',
+      },
+      ws4: {
+        title:   'Federal Cloud, Zero Audit Findings',
+        desc:    'Coordinated agile delivery on a Microsoft GCC High implementation, ensuring FedRAMP and NIST 800-53 controls were executed and verified end to end.',
+        tags:    ['Azure', 'FedRAMP', 'NIST 800-53'],
+        outcome: '0 audit findings',
+      },
+      ws5: {
+        title:   'Shipping API Performance Engineering',
+        desc:    '20+ JMeter test scripts and load benchmarks built with teams across the US and India for a major e-commerce launch, tracked in Azure DevOps, AppDynamics, and Grafana.',
+        tags:    ['JMeter', 'Performance', 'Azure DevOps'],
+        outcome: 'API reliability +15%',
+      },
+    };
+
+    let activeWs = null;
+    let pathEls  = [];
+
+    function nodeEl(id) { return mapEl.querySelector(`[data-id="${id}"]`); }
+
+    function getLinked(id) {
+      const nodes = new Set([id]);
+      const conns = [];
+      const type  = nodeEl(id) && nodeEl(id).dataset.type;
+      connections.forEach(c => {
+        if (c.from === id) { nodes.add(c.to);   conns.push(c); }
+        if (c.to   === id) { nodes.add(c.from);  conns.push(c); }
+      });
+      // Expand one hop for role/outcome so full chain highlights
+      if (type === 'role') {
+        [...nodes].filter(n => n !== id).forEach(wsId => {
+          connections.forEach(c => { if (c.from === wsId) { nodes.add(c.to); conns.push(c); } });
+        });
+      } else if (type === 'outcome') {
+        [...nodes].filter(n => n !== id).forEach(wsId => {
+          connections.forEach(c => { if (c.to === wsId) { nodes.add(c.from); conns.push(c); } });
+        });
+      }
+      return { nodes, conns };
+    }
+
+    function drawPaths() {
+      svgEl.innerHTML = '';
+      pathEls = [];
+      if (isMobile()) return;
+      const cRect = mapEl.getBoundingClientRect();
+      svgEl.setAttribute('width',  mapEl.offsetWidth);
+      svgEl.setAttribute('height', mapEl.offsetHeight);
+      connections.forEach(conn => {
+        const fEl = nodeEl(conn.from);
+        const tEl = nodeEl(conn.to);
+        if (!fEl || !tEl) return;
+        const fr = fEl.getBoundingClientRect();
+        const tr = tEl.getBoundingClientRect();
+        const x1 = fr.right  - cRect.left;
+        const y1 = (fr.top + fr.bottom) / 2 - cRect.top;
+        const x2 = tr.left   - cRect.left;
+        const y2 = (tr.top + tr.bottom) / 2 - cRect.top;
+        const dx = (x2 - x1) * .42;
+        const p  = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        p.setAttribute('d', `M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}`);
+        p.setAttribute('class', 'impact-path');
+        p.dataset.from = conn.from;
+        p.dataset.to   = conn.to;
+        if (!noMotion) {
+          const len = p.getTotalLength();
+          p.style.strokeDasharray  = len;
+          p.style.strokeDashoffset = len;
+        }
+        svgEl.appendChild(p);
+        pathEls.push(p);
+      });
+    }
+
+    let pathsAnimated = false;
+    function animatePaths() {
+      if (pathsAnimated) return;
+      pathsAnimated = true;
+      pathEls.forEach((p, i) => {
+        if (noMotion) { p.style.strokeDashoffset = '0'; return; }
+        setTimeout(() => {
+          p.style.transition       = 'stroke-dashoffset .65s cubic-bezier(.25,.1,.25,1)';
+          p.style.strokeDashoffset = '0';
+        }, i * 55);
+      });
+    }
+
+    function applyHover(id) {
+      const { nodes, conns } = getLinked(id);
+      mapEl.querySelectorAll('.impact-node').forEach(el => {
+        const linked = nodes.has(el.dataset.id);
+        el.classList.toggle('active',  linked);
+        el.classList.toggle('dimmed', !linked);
+      });
+      pathEls.forEach(p => {
+        const linked = conns.some(c => c.from === p.dataset.from && c.to === p.dataset.to);
+        p.classList.toggle('active',  linked);
+        p.classList.toggle('dimmed', !linked);
+      });
+    }
+
+    function clearHover() {
+      mapEl.querySelectorAll('.impact-node').forEach(el => el.classList.remove('active', 'dimmed'));
+      pathEls.forEach(p => p.classList.remove('active', 'dimmed'));
+    }
+
+    function openDetail(wsId) {
+      const data = wsData[wsId];
+      if (!data) return;
+      if (activeWs === wsId) {
+        activeWs = null;
+        detailEl.classList.remove('open');
+        mapEl.querySelectorAll('.ws-node').forEach(n => n.classList.remove('selected'));
+        return;
+      }
+      activeWs = wsId;
+      mapEl.querySelectorAll('.ws-node').forEach(n => n.classList.toggle('selected', n.dataset.id === wsId));
+      const tagsHtml = data.tags.map(t => `<span class="impact-tag">${t}</span>`).join('');
+      detailEl.innerHTML = `<div class="impact-detail-inner">
+        <div class="impact-detail-outcome">${data.outcome}</div>
+        <h4 class="impact-detail-title">${data.title}</h4>
+        <p class="impact-detail-desc">${data.desc}</p>
+        <div class="impact-detail-tags">${tagsHtml}</div>
+      </div>`;
+      detailEl.classList.add('open');
+    }
+
+    // Event listeners on nodes
+    mapEl.querySelectorAll('.impact-node').forEach(node => {
+      node.addEventListener('mouseenter', () => applyHover(node.dataset.id));
+      node.addEventListener('mouseleave', clearHover);
+      if (node.dataset.type === 'workstream') {
+        node.setAttribute('role', 'button');
+        node.setAttribute('tabindex', '0');
+        node.addEventListener('click', () => openDetail(node.dataset.id));
+        node.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetail(node.dataset.id); }
+        });
+      }
+    });
+
+    // Stagger node entrance animations, column by column (left → right wave)
+    let nodeDelay = 0;
+    mapEl.querySelectorAll('.impact-col').forEach(col => {
+      col.querySelectorAll('.impact-node.r').forEach(el => {
+        el.style.animationDelay = `${nodeDelay}ms`;
+        nodeDelay += 50;
+      });
+      nodeDelay += 80;
+    });
+
+    // IO: animate SVG paths when map scrolls into view
+    const pathIo = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        animatePaths();
+        pathIo.unobserve(e.target);
+      });
+    }, { threshold: 0.15 });
+    pathIo.observe(mapEl);
+
+    // Initial draw and resize handler
+    drawPaths();
+    let rTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(rTimer);
+      rTimer = setTimeout(drawPaths, 150);
+    });
+  })();
 
   // Download toast
   const dlToast = document.getElementById('dl-toast');
