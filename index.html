@@ -689,7 +689,7 @@
     box-shadow: 0 0 0 1.5px var(--blue-bright);
   }
   [data-theme="dark"] .ws-node.selected { background: rgba(41,151,255,.1); }
-  .impact-node.dimmed { opacity: .24; }
+  .impact-node.dimmed { opacity: .24 !important; }
   .node-label { display: block; line-height: 1.35; }
   .node-sub   { display: block; font-size: 11px; color: var(--ink-2); margin-top: 4px; font-weight: 400; }
   .impact-node.active .node-sub, .ws-node.selected .node-sub { color: var(--blue-bright); }
@@ -1513,18 +1513,23 @@
       nodeDelay += 80;
     });
 
-    // IO: animate SVG paths when map scrolls into view
+    // IO: draw + animate SVG paths after node entrance animations settle
     const pathIo = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (!e.isIntersecting) return;
-        animatePaths();
+        // Nodes animate for up to ~820ms (delay + 500ms fadeUp); wait for them to
+        // reach their final positions before measuring for path endpoints.
+        const delay = noMotion ? 0 : 900;
+        setTimeout(() => {
+          drawPaths();
+          animatePaths();
+        }, delay);
         pathIo.unobserve(e.target);
       });
     }, { threshold: 0.15 });
     pathIo.observe(mapEl);
 
-    // Initial draw and resize handler
-    drawPaths();
+    // Resize handler redraws paths with current positions
     let rTimer;
     window.addEventListener('resize', () => {
       clearTimeout(rTimer);
