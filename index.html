@@ -1168,48 +1168,97 @@
 
   /* ---------- mobile layout fixes ---------- */
   @media (max-width: 640px) {
-    /* Prevent nav pill from ever exceeding viewport width */
-    nav { max-width: calc(100vw - 24px); }
-
-    /* Tighter section spacing on small screens */
-    section { padding: 44px 0 36px; }
-    #about { padding-top: 72px; }
-    #work { padding-top: 64px; }
-    #experience { padding-top: 72px; }
-    #github { padding-top: 72px !important; }
-    header.hero { padding-top: 78px; }
-
-    /* Tighter side gutters on small phones */
+    /* Side gutters — comfortable on all phones */
     .wrap { padding: 0 20px; }
 
-    /* Portrait: cap height so it doesn't eat the whole viewport */
-    .portrait { max-height: 360px; transform: none; }
+    /* Nav: prevent overflow, tighten link padding */
+    nav { max-width: calc(100vw - 24px); }
+    nav a { padding: 7px 10px; font-size: 13.5px; }
+    .nav-dropdown button { padding: 7px 10px; font-size: 13.5px; }
 
-    /* Stat cards: reduce padding so the label text isn't crushed */
-    .stat { padding: 22px 18px; }
+    /* Hero: more top padding so content clears nav, better breathing */
+    header.hero { padding-top: 88px; padding-bottom: 52px; }
 
-    /* About-copy: 18px is slightly large on narrow screens */
-    .about-copy p { font-size: 16.5px; }
+    /* h1: bump line-height so lines don't collide at larger clamp sizes */
+    h1 { line-height: 1.08; }
 
-    /* Work rows: tighter vertical breathing room on mobile */
-    .work-row { padding: 26px 0; }
+    /* Hero sub: comfortable font size and line height on narrow screens */
+    .hero p.sub {
+      font-size: 16px; line-height: 1.65;
+      margin-top: 22px;
+    }
 
-    /* h1: line-height .98 causes lines to nearly touch at small font sizes */
-    h1 { line-height: 1.1; }
+    /* Logo bar: more vertical space from the sub paragraph */
+    .hero-logos { margin-top: 28px; gap: 18px; }
 
-    /* Section headings: same issue */
-    h2.display { line-height: 1.12; }
+    /* CTA buttons: full-width stacked on very narrow screens */
+    .hero-actions { margin-top: 32px; gap: 12px; }
 
-    /* Footer hero heading: clamp needs to start smaller on very narrow screens */
+    /* Section spacing */
+    section { padding: 48px 0 40px; }
+    #about { padding-top: 72px; }
+    #work  { padding-top: 64px; }
+    #experience { padding-top: 72px; }
+    #github { padding-top: 64px !important; }
+    #stats-section { padding-top: 36px; padding-bottom: 20px; }
+
+    /* Section h2 */
+    h2.display { line-height: 1.1; margin-bottom: 32px; }
+
+    /* About: portrait stacks above text, doesn't stretch edge-to-edge */
+    .portrait { max-height: 340px; transform: none; border-radius: 20px; }
+    .about-grid { gap: 32px; }
+    .about-copy p { font-size: 16px; line-height: 1.7; }
+    .about-copy .pullquote { font-size: 17px; line-height: 1.5; }
+    .edu-strip { gap: 7px; margin-top: 22px; }
+
+    /* Stats: 2 columns with comfortable padding */
+    .stat { padding: 20px 16px; }
+    .stat .n { font-size: 38px; }
+
+    /* Skills/tags marquee: allow natural scroll, enough height */
+    .marquee-track { gap: 10px; }
+    .marquee-track span { font-size: 13px; padding: 7px 14px; }
+
+    /* Work rows */
+    .work-row { padding: 24px 0; gap: 12px; }
+    .work-row .desc { font-size: 14px; line-height: 1.65; }
+    .work-row .meta { font-size: 12.5px; }
+    .idx { font-size: 13px; min-width: 28px; }
+
+    /* Experience cards */
+    .xp-card { padding: 24px 20px; }
+    .xp-card h3 { font-size: 17px; }
+    .xp-card p { font-size: 14px; line-height: 1.65; }
+
+    /* GitHub section */
+    .gh { padding: 32px 20px; }
+
+    /* Footer */
     footer h2.big { font-size: clamp(36px, 9vw, 100px); }
+    .links { gap: 16px; }
+
+    /* Prevent any horizontal overflow */
+    body { overflow-x: hidden; }
   }
 
-  /* Very small phones: single-column stats */
-  @media (max-width: 440px) {
+  /* Very small phones (≤ 480px) */
+  @media (max-width: 480px) {
+    .wrap { padding: 0 16px; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .hero-actions .btn { font-size: 14px; padding: 13px 20px; }
+    .hero-logos { gap: 14px; }
+    .logo-img-ey  { height: 22px; }
+    .logo-img-sap { height: 20px; }
+    .logo-img-studio { height: 28px; width: 28px; }
+  }
+
+  /* Single-column stats on very narrow */
+  @media (max-width: 380px) {
     .stats { grid-template-columns: 1fr; }
   }
 
-  /* Disable work-row hover padding shift on touch devices — causes layout jumps */
+  /* Disable work-row hover padding shift on touch — causes layout jumps */
   @media (hover: none) {
     .work-row:hover { background: transparent; padding-left: 10px; }
   }
