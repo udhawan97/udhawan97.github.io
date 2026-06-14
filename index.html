@@ -729,6 +729,18 @@
   .gh-graph { background: #fff; border-radius: 16px; padding: 18px; position: relative; }
   .gh-graph img { width: 100%; height: auto; }
 
+  /* ── Footer availability badge ── */
+  .footer-avail {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500; color: var(--ink-2);
+    margin-bottom: 28px;
+  }
+  .footer-avail-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #94a3b8; flex-shrink: 0;
+  }
+  @media (prefers-reduced-motion: reduce) { .footer-avail-dot { animation: none !important; } }
+
   /* ── 15. Footer / Contact ── */
   footer { padding: 90px 0 50px; text-align: center; }
   footer .kicker { justify-content: center; }
@@ -1791,6 +1803,10 @@
   <div class="wrap">
     <div class="kicker r">Contact</div>
     <h2 class="big r d1">Let's <a href="mailto:umangdhawan97@gmail.com">talk</a>.</h2>
+    <div class="footer-avail r d1" id="footer-avail" aria-live="polite">
+      <span class="footer-avail-dot" id="footer-avail-dot"></span>
+      <span class="footer-avail-text" id="footer-avail-text"></span>
+    </div>
     <div class="resume-dl r d1">
       <a class="btn dark" href="Umang_Dhawan_Resume_Formal.pdf" download>
         Formal Resume
@@ -2444,7 +2460,8 @@
     });
   });
 
-  // ── 17. Contact FAB — email (work hours) or LinkedIn (evening) ──
+  // ── 17. Contact FAB + footer availability badge ──────────────
+  // Both driven by the same chicagoHour() — one update() call keeps them in sync.
   (function () {
     const fab      = document.getElementById('contact-fab');
     const dotEl    = document.getElementById('fab-dot');
@@ -2452,6 +2469,10 @@
     const iconEl   = fab ? fab.querySelector('svg') : null;
     if (!fab) return;
     const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Footer badge elements
+    const footerDot  = document.getElementById('footer-avail-dot');
+    const footerText = document.getElementById('footer-avail-text');
 
     const EMAIL    = 'mailto:umangdhawan97@gmail.com';
     const LINKEDIN = 'https://www.linkedin.com/in/umangdhawan97';
@@ -2474,33 +2495,37 @@
       const isWorkHours = wkdy && hour >= 8 && hour < 18;
       const isEvening   = wkdy && hour >= 18 && hour < 22;
 
+      // Determine status values
+      let color, pulse, fabHref, fabTarget, fabLabel, fabIcon, statusText;
       if (isWorkHours) {
-        // Green pulse — email during the day
-        fab.href = EMAIL;
-        fab.setAttribute('aria-label', 'Email Umang');
-        labelEl.textContent = 'Say hello';
-        iconEl.innerHTML = emailSVG;
-        dotEl.style.background = '#22c55e';
-        dotEl.style.animation  = noMotion ? 'none' : 'dotPulseGreen 2.2s infinite';
+        color = '#22c55e'; pulse = true;
+        fabHref = EMAIL; fabTarget = null; fabLabel = 'Say hello'; fabIcon = emailSVG;
+        statusText = 'Available now — Chicago time';
       } else if (isEvening) {
-        // Yellow — LinkedIn in the evening
-        fab.href = LINKEDIN;
-        fab.setAttribute('target', '_blank');
-        fab.setAttribute('rel', 'noopener');
-        fab.setAttribute('aria-label', 'Connect on LinkedIn');
-        labelEl.textContent = 'Connect';
-        iconEl.innerHTML = liSVG;
-        dotEl.style.background = '#eab308';
-        dotEl.style.animation  = 'none';
+        color = '#eab308'; pulse = false;
+        fabHref = LINKEDIN; fabTarget = '_blank'; fabLabel = 'Connect'; fabIcon = liSVG;
+        statusText = 'Winding down — email works';
       } else {
-        // Grey — email, offline hours
-        fab.href = EMAIL;
-        fab.removeAttribute('target');
-        fab.setAttribute('aria-label', 'Email Umang');
-        labelEl.textContent = 'Say hello';
-        iconEl.innerHTML = emailSVG;
-        dotEl.style.background = '#94a3b8';
-        dotEl.style.animation  = 'none';
+        color = '#94a3b8'; pulse = false;
+        fabHref = EMAIL; fabTarget = null; fabLabel = 'Say hello'; fabIcon = emailSVG;
+        statusText = 'Offline — I reply fast';
+      }
+
+      // FAB
+      fab.href = fabHref;
+      if (fabTarget) { fab.setAttribute('target', '_blank'); fab.setAttribute('rel', 'noopener'); }
+      else { fab.removeAttribute('target'); fab.removeAttribute('rel'); }
+      fab.setAttribute('aria-label', isEvening ? 'Connect on LinkedIn' : 'Email Umang');
+      labelEl.textContent = fabLabel;
+      iconEl.innerHTML    = fabIcon;
+      dotEl.style.background = color;
+      dotEl.style.animation  = (pulse && !noMotion) ? 'dotPulseGreen 2.2s infinite' : 'none';
+
+      // Footer availability badge
+      if (footerDot && footerText) {
+        footerDot.style.background = color;
+        footerDot.style.animation  = (pulse && !noMotion) ? 'dotPulseGreen 2.2s infinite' : 'none';
+        footerText.textContent = statusText;
       }
     }
 
