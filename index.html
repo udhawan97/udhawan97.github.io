@@ -333,12 +333,6 @@
   /* Step 2 — nav materialises at 300ms */
   nav { animation: _fadeIn 400ms cubic-bezier(.16,1,.3,1) 300ms both; }
 
-  /* Step 3 — hello badge wipes in from left at 500ms */
-  header.hero .hello { animation: helloWipe 500ms cubic-bezier(.16,1,.3,1) 500ms both; }
-  @keyframes helloWipe {
-    from { clip-path: inset(0 100% 0 0); }
-    to   { clip-path: inset(0 0% 0 0); }
-  }
 
   /* Step 4 — h1 fades up as a whole at 650ms */
   header.hero h1 { animation: heroFadeUp 650ms cubic-bezier(.16,1,.3,1) 650ms both; }
@@ -391,7 +385,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .r, h2.display .word { opacity:1; transform:none; clip-path:none; will-change:auto; animation:none; transition:none; }
-    nav, header.hero h1, header.hero .hello, header.hero .sub,
+    nav, header.hero h1, header.hero .sub,
     header.hero .hero-actions, header.hero .scroll-hint, .marquee,
     #intro-line { display: none; }
     #progress, .marquee-track, h1 .grad, h2.display .grad, .hero-glow::before { animation:none !important; }
@@ -435,20 +429,37 @@
   }
   .xp-card:hover::before, .stat:hover::before { opacity: .04; }
   .xp-card > *, .stat > * { position: relative; z-index: 1; }
-  .hello {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-size: 14px; font-weight: 500; color: var(--ink-2);
-    border: 1px solid var(--line); border-radius: 99px; padding: 8px 16px;
-    background: var(--glass-2); width: fit-content; margin-bottom: 34px;
+  /* ---------- contact FAB ---------- */
+  #contact-fab {
+    position: fixed; bottom: 28px; right: 28px; z-index: 900;
+    display: flex; align-items: center; gap: 10px;
+    background: var(--ink); color: var(--bg);
+    border: none; border-radius: 99px;
+    padding: 13px 20px 13px 16px;
+    font-size: 14px; font-weight: 600; font-family: inherit;
+    cursor: pointer; text-decoration: none;
+    box-shadow: 0 4px 24px rgba(0,0,0,.18), 0 1px 4px rgba(0,0,0,.12);
+    transition: transform 200ms var(--ease), box-shadow 200ms var(--ease), opacity 200ms;
+    opacity: 0; pointer-events: none;
+    white-space: nowrap;
   }
-  .hello .dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; flex-shrink: 0; }
+  #contact-fab.fab-visible { opacity: 1; pointer-events: auto; }
+  #contact-fab:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 32px rgba(0,0,0,.22); }
+  #contact-fab:active { transform: scale(.97); }
+
+  /* availability pulse dot inside FAB */
+  #fab-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; flex-shrink: 0;
+  }
   @keyframes dotPulseGreen {
     0%   { box-shadow: 0 0 0 0   rgba(34,197,94,.55); }
     70%  { box-shadow: 0 0 0 9px rgba(34,197,94,0);   }
     100% { box-shadow: 0 0 0 0   rgba(34,197,94,0);   }
   }
-  .avail-status { font-size: 12px; color: var(--ink-2); opacity: .65; margin-left: 4px; }
-  @media (prefers-reduced-motion: reduce) { .hello .dot { animation: none !important; } }
+  @media (prefers-reduced-motion: reduce) { #fab-dot { animation: none !important; } }
+  @media (max-width: 640px) {
+    #contact-fab { bottom: 20px; right: 16px; padding: 12px 16px 12px 13px; font-size: 13px; }
+  }
   h1 {
     font-size: clamp(34px, 6.4vw, 82px); font-weight: 700;
     letter-spacing: -.035em; line-height: .98;
@@ -1361,7 +1372,6 @@
 <!-- ================= HERO ================= -->
 <header class="hero wrap" id="top">
   <div class="hero-glow"></div>
-  <div class="hello"><span class="dot" id="avail-dot"></span> Umang Dhawan — Chicago, IL<span class="avail-status" id="avail-text"></span></div>
   <h1>Building technology that ships,<br><span class="grad">and strategy that keeps moving.</span></h1>
   <p class="sub"><b>Senior Consultant at EY Studio+</b> — I started in enterprise product at SAP, spent four years at EY shipping cloud platforms and federal systems that couldn't afford to fail, and now work where reliability meets what's next. My passion is closing the gap between ambitious technology decisions and the moment they actually work in production.</p>
   <div class="hero-logos" aria-label="Companies I've worked with">
@@ -2373,38 +2383,81 @@
     });
   });
 
-  // Availability indicator — updates every 60s
+  // Contact FAB — email during work hours, LinkedIn in the evening
   (function () {
-    const dotEl  = document.getElementById('avail-dot');
-    const textEl = document.getElementById('avail-text');
-    if (!dotEl || !textEl) return;
+    const fab      = document.getElementById('contact-fab');
+    const dotEl    = document.getElementById('fab-dot');
+    const labelEl  = document.getElementById('fab-label');
+    const iconEl   = fab ? fab.querySelector('svg') : null;
+    if (!fab) return;
     const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function chicagoStatus() {
+    const EMAIL    = 'mailto:umangdhawan97@gmail.com';
+    const LINKEDIN = 'https://www.linkedin.com/in/umangdhawan97';
+
+    // LinkedIn SVG path
+    const liSVG = '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>';
+    const emailSVG = '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>';
+
+    function chicagoHour() {
       const parts = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'America/Chicago',
-        weekday: 'short',
-        hour: 'numeric',
-        hour12: false
+        timeZone: 'America/Chicago', weekday: 'short', hour: 'numeric', hour12: false
       }).formatToParts(new Date());
       const day  = parts.find(p => p.type === 'weekday').value;
       const hour = +parts.find(p => p.type === 'hour').value;
-      const wkdy = day !== 'Sat' && day !== 'Sun';
-      if (wkdy && hour >= 8  && hour < 18) return { color: '#22c55e', pulse: true,  text: '· Available now' };
-      if (wkdy && hour >= 18 && hour < 21) return { color: '#eab308', pulse: false, text: '· Winding down — email works' };
-      return { color: '#94a3b8', pulse: false, text: '· Offline — email me, I\'ll reply fast' };
+      return { day, hour, wkdy: day !== 'Sat' && day !== 'Sun' };
     }
 
     function update() {
-      const { color, pulse, text } = chicagoStatus();
-      dotEl.style.background = color;
-      dotEl.style.animation  = (pulse && !noMotion) ? 'dotPulseGreen 2.2s infinite' : 'none';
-      dotEl.style.boxShadow  = (pulse && !noMotion) ? '' : 'none';
-      textEl.textContent = text;
+      const { hour, wkdy } = chicagoHour();
+      const isWorkHours = wkdy && hour >= 8 && hour < 18;
+      const isEvening   = wkdy && hour >= 18 && hour < 22;
+
+      if (isWorkHours) {
+        // Green pulse — email during the day
+        fab.href = EMAIL;
+        fab.setAttribute('aria-label', 'Email Umang');
+        labelEl.textContent = 'Say hello';
+        iconEl.innerHTML = emailSVG;
+        dotEl.style.background = '#22c55e';
+        dotEl.style.animation  = noMotion ? 'none' : 'dotPulseGreen 2.2s infinite';
+      } else if (isEvening) {
+        // Yellow — LinkedIn in the evening
+        fab.href = LINKEDIN;
+        fab.setAttribute('target', '_blank');
+        fab.setAttribute('rel', 'noopener');
+        fab.setAttribute('aria-label', 'Connect on LinkedIn');
+        labelEl.textContent = 'Connect';
+        iconEl.innerHTML = liSVG;
+        dotEl.style.background = '#eab308';
+        dotEl.style.animation  = 'none';
+      } else {
+        // Grey — email, offline hours
+        fab.href = EMAIL;
+        fab.removeAttribute('target');
+        fab.setAttribute('aria-label', 'Email Umang');
+        labelEl.textContent = 'Say hello';
+        iconEl.innerHTML = emailSVG;
+        dotEl.style.background = '#94a3b8';
+        dotEl.style.animation  = 'none';
+      }
     }
 
     update();
     setInterval(update, 60000);
+
+    // Reveal FAB after hero entrance (1.8s) — don't compete with page load
+    setTimeout(() => fab.classList.add('fab-visible'), 1800);
+
+    // Hide FAB when user is in the footer (they can already see the contact links)
+    const footer = document.querySelector('footer');
+    if (footer) {
+      const obs = new IntersectionObserver(entries => {
+        fab.style.opacity = entries[0].isIntersecting ? '0' : '';
+        fab.style.pointerEvents = entries[0].isIntersecting ? 'none' : '';
+      }, { threshold: 0.2 });
+      obs.observe(footer);
+    }
   })();
 
   // Page entrance: fade-out intro line after sequence completes, free GPU will-change
@@ -2430,5 +2483,12 @@
     });
   })();
 </script>
+
+<!-- ================= CONTACT FAB ================= -->
+<a id="contact-fab" href="mailto:umangdhawan97@gmail.com" aria-label="Contact Umang">
+  <span id="fab-dot"></span>
+  <span id="fab-label">Say hello</span>
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+</a>
 </body>
 </html>
