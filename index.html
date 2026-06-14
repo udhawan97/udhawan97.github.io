@@ -396,6 +396,7 @@
     #intro-line { display: none; }
     #progress, .marquee-track, h1 .grad, h2.display .grad, .hero-glow::before { animation:none !important; }
     .stat.r.visible .stat-icon { animation: none; }
+    .hero-bg-img, .hero-network-overlay img { animation: none !important; }
   }
 
   /* ---------- hero ---------- */
@@ -404,6 +405,53 @@
     position: relative; padding-top: 96px; padding-bottom: 60px;
   }
   .hero-glow { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
+
+  /* Hero background image (hero-ai-wave.webp) */
+  .hero-bg-img {
+    position: absolute; inset: 0; z-index: 0;
+    background: url('assets/images/hero-ai-wave.webp') center center / cover no-repeat;
+    animation: heroBgDrift 22s ease-in-out infinite alternate;
+  }
+  @keyframes heroBgDrift {
+    from { transform: scale(1)   translate(0, 0); }
+    to   { transform: scale(1.05) translate(-12px, 8px); }
+  }
+  /* Gradient overlay so text stays readable */
+  .hero-bg-img::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(10,14,26,.82) 0%,
+      rgba(10,14,26,.60) 40%,
+      rgba(10,14,26,.30) 70%,
+      rgba(10,14,26,.55) 100%
+    );
+  }
+  /* Network overlay (SVG) floats gently on top */
+  .hero-network-overlay {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden;
+  }
+  .hero-network-overlay img {
+    width: 100%; height: 100%; object-fit: cover; opacity: .22;
+    animation: netFloat 18s ease-in-out infinite alternate;
+  }
+  @keyframes netFloat {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(16px, -10px) scale(1.03); }
+  }
+  /* Keep all hero text above the image layers */
+  header.hero > *:not(.hero-glow) { position: relative; z-index: 2; }
+
+  /* When hero-ai-wave.webp is present, switch text to light-on-dark */
+  .hero-bg-img-active .hello,
+  .hero-bg-img-active h1,
+  .hero-bg-img-active .sub,
+  .hero-bg-img-active .hero-logos .logo-label { color: rgba(255,255,255,.9); }
+  .hero-bg-img-active .hello { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.14); }
+  .hero-bg-img-active .avail-status { color: rgba(255,255,255,.65); }
+  .hero-bg-img-active .sub { color: rgba(255,255,255,.75); }
+  .hero-bg-img-active h1 .grad { -webkit-text-fill-color: transparent; }
+
   .hero-glow::before {
     content: ""; position: absolute; width: 70vw; height: 70vw; max-width: 900px; max-height: 900px;
     right: -18vw; top: -22vw; border-radius: 50%;
@@ -420,6 +468,19 @@
     left: -14vw; bottom: -16vw; border-radius: 50%;
     background: radial-gradient(circle at 60% 40%, rgba(120,140,170,.12), transparent 65%);
   }
+
+  /* Cloud dashboard card texture */
+  .xp-card, .stat {
+    --card-texture: url('assets/images/cloud-dashboard-texture.webp');
+  }
+  .xp-card::before, .stat::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: var(--card-texture) center / cover no-repeat;
+    opacity: 0; transition: opacity .45s var(--ease);
+    mix-blend-mode: luminosity; z-index: 0;
+  }
+  .xp-card:hover::before, .stat:hover::before { opacity: .04; }
+  .xp-card > *, .stat > * { position: relative; z-index: 1; }
   .hello {
     display: inline-flex; align-items: center; gap: 10px;
     font-size: 14px; font-weight: 500; color: var(--ink-2);
@@ -612,24 +673,26 @@
     opacity: 0; transform: translateY(5px);
     animation: heroFadeUp 400ms cubic-bezier(.16,1,.3,1) both;
   }
-  .hero-logos .logo-item:nth-child(2) { animation-delay: 1450ms; }
-  .hero-logos .logo-item:nth-child(3) { animation-delay: 1550ms; }
-  .hero-logos .logo-item:nth-child(4) { animation-delay: 1650ms; }
+  .hero-logos .logo-item:nth-child(2) { animation-delay: 1420ms; }
+  .hero-logos .logo-item:nth-child(3) { animation-delay: 1510ms; }
+  .hero-logos .logo-item:nth-child(4) { animation-delay: 1600ms; }
+  .hero-logos .logo-item:nth-child(5) { animation-delay: 1690ms; }
 
-  /* SVG logo sizing */
-  .logo-svg-ey    { height: 28px; width: auto; }
-  .logo-svg-eyst  { height: 22px; width: auto; }
-  .logo-svg-sap   { height: 26px; width: auto; }
+  /* Logo image sizing */
+  .logo-img-studio { height: 32px; width: 32px; border-radius: 8px; }
+  .logo-img-ey     { height: 28px; width: auto; }
+  .logo-img-sap    { height: 26px; width: auto; }
 
   /* hero: muted tint; experience: slightly more visible */
-  .hero-logos .logo-item svg   { opacity: .45; filter: grayscale(1); transition: opacity .3s ease, filter .3s ease; }
-  .hero-logos .logo-item:hover svg { opacity: .7; filter: grayscale(0); }
-  .xp-logos .logo-item svg { opacity: .55; filter: grayscale(1); transition: opacity .3s ease, filter .3s ease; }
-  .xp-logos .logo-item:hover svg { opacity: .9; filter: grayscale(0); }
-  [data-theme="dark"] .hero-logos .logo-item svg { opacity: .3; filter: grayscale(1) invert(1); }
-  [data-theme="dark"] .hero-logos .logo-item:hover svg { opacity: .6; filter: grayscale(0) invert(1); }
-  [data-theme="dark"] .xp-logos .logo-item svg { opacity: .35; filter: grayscale(1) invert(1); }
-  [data-theme="dark"] .xp-logos .logo-item:hover svg { opacity: .7; filter: grayscale(0) invert(1); }
+  .hero-logos .logo-item .logo-img   { opacity: .45; filter: grayscale(1); transition: opacity .3s ease, filter .3s ease; }
+  .hero-logos .logo-item:hover .logo-img { opacity: .8; filter: grayscale(0); }
+  .xp-logos .logo-item .logo-img { opacity: .55; filter: grayscale(1); transition: opacity .3s ease, filter .3s ease; }
+  .xp-logos .logo-item:hover .logo-img { opacity: .9; filter: grayscale(0); }
+  /* On dark bg (hero image active), lighten logos */
+  .hero-bg-img-active .hero-logos .logo-item .logo-img { filter: grayscale(1) brightness(5); opacity: .4; }
+  .hero-bg-img-active .hero-logos .logo-item:hover .logo-img { filter: grayscale(0) brightness(2); opacity: .85; }
+  [data-theme="dark"] .xp-logos .logo-item .logo-img { opacity: .35; filter: grayscale(1) invert(1); }
+  [data-theme="dark"] .xp-logos .logo-item:hover .logo-img { opacity: .7; filter: grayscale(0) invert(1); }
 
   .xp-logos { margin-bottom: 40px; }
 
@@ -639,8 +702,9 @@
 
   /* experience section logo bar stagger */
   .xp-logos.logo-bar.r.visible .logo-item:nth-child(1) { transition-delay: 80ms; }
-  .xp-logos.logo-bar.r.visible .logo-item:nth-child(2) { transition-delay: 180ms; }
-  .xp-logos.logo-bar.r.visible .logo-item:nth-child(3) { transition-delay: 280ms; }
+  .xp-logos.logo-bar.r.visible .logo-item:nth-child(2) { transition-delay: 160ms; }
+  .xp-logos.logo-bar.r.visible .logo-item:nth-child(3) { transition-delay: 240ms; }
+  .xp-logos.logo-bar.r.visible .logo-item:nth-child(4) { transition-delay: 320ms; }
 
   /* vertical divider between logos */
   .logo-divider {
@@ -1146,11 +1210,17 @@
   }
 
   .xp-icon {
-    width: 44px; height: 44px; border-radius: 14px;
-    background: linear-gradient(135deg, var(--blue), var(--blue-bright));
+    width: 44px; height: 44px; border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    color: #fff; margin-bottom: 18px; flex-shrink: 0;
+    margin-bottom: 18px; flex-shrink: 0; overflow: hidden;
+    background: var(--bg-2); border: 1px solid var(--line);
   }
+  .xp-icon img {
+    width: 100%; height: 100%; object-fit: contain; padding: 6px;
+    border-radius: inherit;
+  }
+  /* Studio+ logo has its own dark bg — bleed to edge */
+  .xp-icon img.logo-has-bg { padding: 0; border-radius: inherit; }
   .xp-icon svg { width: 21px; height: 21px; }
   .gh h2 { display: flex; align-items: center; gap: 14px; }
   .gh-logo { width: 28px; height: 28px; flex-shrink: 0; opacity: .85; }
@@ -1302,26 +1372,27 @@
 
 <!-- ================= HERO ================= -->
 <header class="hero wrap" id="top">
-  <div class="hero-glow"></div>
+  <div class="hero-glow">
+    <div class="hero-bg-img" aria-hidden="true"></div>
+    <div class="hero-network-overlay" aria-hidden="true">
+      <img src="assets/images/network-overlay.svg" alt="" loading="eager" decoding="async">
+    </div>
+  </div>
   <div class="hello"><span class="dot" id="avail-dot"></span> Umang Dhawan — Chicago, IL<span class="avail-status" id="avail-text"></span></div>
   <h1>Building technology that ships,<br><span class="grad">and strategy that keeps moving.</span></h1>
   <p class="sub"><b>Senior Consultant at EY Studio+</b> — I own quality engineering across four cloud products for a Fortune 100 restaurant chain, and shape AI strategy for Fortune 500 healthcare clients.</p>
   <div class="hero-logos" aria-label="Companies I've worked with">
     <span class="logo-label">Worked at</span>
-    <!-- EY Studio+ -->
     <div class="logo-item" aria-label="EY Studio+">
-      <svg class="logo-svg-eyst" viewBox="0 0 160 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="EY Studio+">
-        <text x="0" y="38" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="40" fill="#2E2E38" letter-spacing="-1">EY</text>
-        <text x="58" y="38" font-family="Arial,Helvetica,sans-serif" font-weight="400" font-size="22" fill="#2E2E38"> Studio+</text>
-      </svg>
+      <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-img logo-img-studio">
     </div>
     <div class="logo-divider" aria-hidden="true"></div>
-    <!-- SAP -->
+    <div class="logo-item" aria-label="EY">
+      <img src="assets/logos/ey.png" alt="EY" class="logo-img logo-img-ey">
+    </div>
+    <div class="logo-divider" aria-hidden="true"></div>
     <div class="logo-item" aria-label="SAP">
-      <svg class="logo-svg-sap" viewBox="0 0 96 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SAP">
-        <rect width="96" height="40" rx="4" fill="#1C75BC"/>
-        <text x="50%" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="22" fill="#fff" text-anchor="middle" letter-spacing="1">SAP</text>
-      </svg>
+      <img src="assets/logos/sap.png" alt="SAP" class="logo-img logo-img-sap">
     </div>
   </div>
   <div class="hero-actions">
@@ -1507,43 +1578,41 @@
 
   <div class="logo-bar xp-logos r d2" aria-label="Companies">
     <div class="logo-item" aria-label="EY Studio+">
-      <svg class="logo-svg-eyst" viewBox="0 0 160 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="EY Studio+">
-        <text x="0" y="38" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="40" fill="#2E2E38" letter-spacing="-1">EY</text>
-        <text x="58" y="38" font-family="Arial,Helvetica,sans-serif" font-weight="400" font-size="22" fill="#2E2E38"> Studio+</text>
-      </svg>
+      <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-img logo-img-studio">
     </div>
     <div class="logo-divider" aria-hidden="true"></div>
     <div class="logo-item" aria-label="EY">
-      <svg class="logo-svg-ey" viewBox="0 0 64 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="EY">
-        <text x="0" y="38" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="40" fill="#2E2E38" letter-spacing="-1">EY</text>
-      </svg>
+      <img src="assets/logos/ey.png" alt="EY" class="logo-img logo-img-ey">
     </div>
     <div class="logo-divider" aria-hidden="true"></div>
     <div class="logo-item" aria-label="SAP">
-      <svg class="logo-svg-sap" viewBox="0 0 96 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SAP">
-        <rect width="96" height="40" rx="4" fill="#1C75BC"/>
-        <text x="50%" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="22" fill="#fff" text-anchor="middle" letter-spacing="1">SAP</text>
-      </svg>
+      <img src="assets/logos/sap.png" alt="SAP" class="logo-img logo-img-sap">
     </div>
   </div>
 
   <div class="xp">
     <div class="xp-card r">
-      <div class="xp-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="xp-icon">
+        <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-has-bg">
+      </div>
       <div class="when">Jun 2025 — Present</div>
       <h3>Senior Consultant</h3>
       <div class="org">EY Studio+ · Customer Service Transformation</div>
       <p>Release safety, observability, and contact center AI strategy across consumer, retail, and health. The person engineers trust with sign-off and executives trust with the "so what."</p>
     </div>
     <div class="xp-card r d1">
-      <div class="xp-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <div class="xp-icon">
+        <img src="assets/logos/ey.png" alt="EY" class="logo-img">
+      </div>
       <div class="when">Jul 2022 — Jun 2025</div>
       <h3>Consultant</h3>
       <div class="org">EY · Digital & Emerging Technologies</div>
       <p>Lead QE, Performance Engineer, and Business Analyst across three concurrent engagements. Rookie of the Year nominee among 100+ peers; three Bravo Awards.</p>
     </div>
     <div class="xp-card r d2">
-      <div class="xp-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div class="xp-icon">
+        <img src="assets/logos/sap.png" alt="SAP" class="logo-img">
+      </div>
       <div class="when">Jan — Dec 2021</div>
       <h3>IT Leadership Intern</h3>
       <div class="org">SAP America · IE Business Solutions</div>
@@ -2350,6 +2419,15 @@
         setTimeout(function () { if (introLine.parentNode) introLine.remove(); }, 380);
       }, 2050);
     }
+
+    // Hero background image: apply dark-on-image class when bg loads
+    (function () {
+      var heroEl = document.querySelector('header.hero');
+      var probe = new Image();
+      probe.onload = function () { if (heroEl) heroEl.classList.add('hero-bg-img-active'); };
+      probe.onerror = function () {}; // graceful fallback: no class = normal light/dark theme
+      probe.src = 'assets/images/hero-ai-wave.webp';
+    })();
 
     // CTA buttons: remove animation fill lock so hover transitions work normally
     document.querySelectorAll('.hero-actions .btn').forEach(function (el) {
