@@ -19,10 +19,37 @@
   })();
 </script>
 <style>
-  /* ==========================================================
-     UMANG DHAWAN — personal site
-     Light/dark themes via CSS variables. Designed with help from Claude and hand-coded by me, open source templates. All content and code © 2026 Umang Dhawan.
-     ========================================================== */
+  /*
+   * ══════════════════════════════════════════════════════════════
+   *  UMANG DHAWAN — udhawan97.github.io
+   *  Single-file portfolio: all CSS, HTML, and JS inline.
+   *
+   *  Structure
+   *  ─────────
+   *  1.  CSS Custom Properties (design tokens)
+   *  2.  Reset & Base
+   *  3.  Nav (floating pill)
+   *  4.  Layout utilities (.wrap, section, kicker)
+   *  5.  Page entrance animations
+   *  6.  Hero section
+   *  7.  Marquee / skills strip
+   *  8.  Stats grid
+   *  9.  About section
+   *  10. Work (editorial rows + impact map)
+   *  11. Approach (process steps)
+   *  12. Experience cards
+   *  13. GitHub panel
+   *  14. Footer / Contact
+   *  15. UI Components (toast, resume notification, FAB, cursor)
+   *  16. Mobile responsive overrides
+   *
+   *  Themes: light (default) / dark via [data-theme="dark"] on <html>.
+   *  Animations suppressed via prefers-reduced-motion throughout.
+   *  © 2026 Umang Dhawan
+   * ══════════════════════════════════════════════════════════════
+   */
+
+  /* ── 1. Design tokens ── */
   :root {
     --bg: #f5f5f7;
     --bg-2: #ffffff;
@@ -71,14 +98,16 @@
   a { color: inherit; text-decoration: none; }
   img { max-width: 100%; display: block; }
 
-  /* ---------- scroll progress ---------- */
+  /* ── 2. Reset & Base (above) ── */
+
+  /* ── 3. Scroll progress bar ── */
   #progress {
     position: fixed; top: 0; left: 0; height: 2px; width: 0;
     background: linear-gradient(90deg, var(--blue), var(--blue-bright));
     z-index: 1000;
   }
 
-  /* ---------- floating pill nav ---------- */
+  /* ── 4. Nav — floating pill, resume dropdown ── */
   nav {
     position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
     display: flex; align-items: center; gap: 2px;
@@ -143,12 +172,12 @@
   .resume-dropdown a svg { flex-shrink: 0; opacity: .6; }
 
   @media (max-width: 640px) {
-    nav a:nth-child(4) { display: none; } /* hide Experience only; Work stays visible */
+    nav a:nth-child(3) { display: none; } /* hide Experience link; Work stays visible */
     nav a { padding: 7px 11px; }
     .nav-dropdown button { padding: 7px 11px; }
   }
 
-  /* ---------- back to top (centered bottom) ---------- */
+  /* ── Back-to-top button ── */
   #topBtn {
     position: fixed; bottom: 28px; left: 50%;
     transform: translateX(-50%) translateY(16px) scale(.92);
@@ -171,7 +200,7 @@
   @media (max-width: 640px) { #topBtn { bottom: 18px; } }
 
 
-  /* ---------- shared layout ---------- */
+  /* ── 5. Layout utilities — .wrap, sections, kicker, section orbs ── */
   .wrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
   section { padding: 60px 0 48px; }
   #about { padding-top: 88px; }
@@ -232,7 +261,7 @@
 
   #stats-section { padding-top: 48px; padding-bottom: 32px; }
 
-  /* ---------- approach / process strip ---------- */
+  /* ── 12. Approach / process strip ── */
   #approach { position: relative; padding-top: 48px; padding-bottom: 88px; }
   #approach h2.display { margin-bottom: 32px; }
   #approach::before {
@@ -306,14 +335,14 @@
     .step-label { font-size: 15px; }
   }
 
-  /* ---------- entrance keyframes ---------- */
+  /* ── 6. Scroll-triggered entrance system ── */
   @keyframes fadeUp    { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:none } }
   @keyframes _fadeIn   { from { opacity:0 } to { opacity:1 } }
   @keyframes slideLeft { from { opacity:0; transform:translateX(-30px) } to { opacity:1; transform:none } }
   @keyframes scaleIn   { from { opacity:0; transform:scale(.95) translateY(12px) } to { opacity:1; transform:none } }
   @keyframes portraitIn{ from { opacity:0; transform:scale(1.03) } to { opacity:1; transform:none } }
 
-  /* ---------- premium page entrance (Apple expo-out curve) ---------- */
+  /* ── Page entrance sequence (Apple expo-out easing throughout) ── */
   /* Step 1 — thin line draws from centre, 100ms */
   #intro-line {
     position: fixed; top: 64px; left: 0; right: 0; height: 1px;
@@ -392,7 +421,7 @@
     .stat.r.visible .stat-icon { animation: none; }
   }
 
-  /* ---------- hero ---------- */
+  /* ── 7. Hero section ── */
   header.hero {
     min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-start;
     position: relative; padding-top: 96px; padding-bottom: 60px;
@@ -509,7 +538,7 @@
   .scroll-hint .scroll-arrow svg { width: 13px; height: 13px; color: var(--ink-2); }
   @keyframes bob { 50% { transform: translate(-50%, 7px); } }
 
-  /* ---------- marquee ---------- */
+  /* ── 8. Marquee / skills strip ── */
   .marquee {
     border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
     overflow: hidden; padding: 20px 0; background: var(--bg-2);
@@ -550,7 +579,7 @@
   }
   @keyframes slide { to { transform: translateX(-50%); } }
 
-  /* ---------- stats ---------- */
+  /* ── 9. Stats grid ── */
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
   @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
   .stat {
@@ -562,7 +591,7 @@
   .stat .n em { font-style: normal; color: var(--blue); }
   .stat .l { font-size: 13.5px; color: var(--ink-2); margin-top: 6px; line-height: 1.45; }
 
-  /* ---------- about ---------- */
+  /* ── 10. About section ── */
   .about-grid { display: grid; grid-template-columns: 380px 1fr; gap: 64px; align-items: start; }
   .about-copy { min-width: 0; overflow-wrap: break-word; }
   @media (max-width: 880px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
@@ -592,7 +621,7 @@
     padding-left: 22px; margin: 34px 0;
   }
 
-  /* ---------- work (editorial rows) ---------- */
+  /* ── 11. Work — editorial case study rows ── */
   .work-row {
     display: grid; grid-template-columns: 64px 1fr 340px; gap: 28px; align-items: baseline;
     padding: 38px 10px; border-top: 1px solid var(--line);
@@ -612,7 +641,7 @@
     .work-row .idx { display: none; }
   }
 
-  /* ---------- company logo bars ---------- */
+  /* ── Company logo bars (hero + experience cards) ── */
   .logo-bar {
     display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
   }
@@ -668,7 +697,7 @@
     .hero-logos .logo-item, .logo-bar .logo-item, .logo-bar .logo-divider { animation: none !important; opacity: 1 !important; transform: none !important; transition: none !important; }
   }
 
-  /* ---------- experience ---------- */
+  /* ── 13. Experience cards ── */
   .xp { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
   @media (max-width: 880px) { .xp { grid-template-columns: 1fr; } }
   .xp-card {
@@ -682,7 +711,7 @@
   .xp-card .org { font-size: 14.5px; color: var(--ink-2); margin-bottom: 14px; }
   .xp-card p { font-size: 14.5px; line-height: 1.6; color: var(--ink-2); }
 
-  /* ---------- github (dark panel in both themes) ---------- */
+  /* ── 14. GitHub panel (dark in both light/dark themes) ── */
   #github { padding-top: 88px; }
   .gh {
     background: var(--panel); color: #f5f5f7; border-radius: 30px; padding: 52px;
@@ -699,9 +728,8 @@
   .gh p a:hover { text-decoration: underline; }
   .gh-graph { background: #fff; border-radius: 16px; padding: 18px; position: relative; }
   .gh-graph img { width: 100%; height: auto; }
-  @media (max-width: 640px) { .gh { padding: 34px 24px; } }
 
-  /* ---------- contact ---------- */
+  /* ── 15. Footer / Contact ── */
   footer { padding: 90px 0 50px; text-align: center; }
   footer .kicker { justify-content: center; }
   footer .kicker::before { display: none; }
@@ -734,7 +762,7 @@
   footer .links a:hover { color: var(--blue); border-bottom-color: var(--blue); }
   footer .fine { font-size: 12.5px; color: #86868b; }
 
-  /* ---------- resume fresh notification ---------- */
+  /* ── 16. UI Components — resume notification, toasts, overlays ── */
   @keyframes freshSlide {
     0%   { opacity: 0; transform: translateY(-28px) scale(.93); }
     58%  { opacity: 1; transform: translateY(5px) scale(1.015); }
@@ -786,7 +814,7 @@
     #resume-fresh { top: auto; bottom: 80px; right: 16px; left: 16px; width: auto; }
   }
 
-  /* ---------- resume spotlight overlay ---------- */
+  /* Resume spotlight overlay — dims page, lifts nav + footer resume buttons */
   #resume-overlay {
     position: fixed; inset: 0; z-index: 50;
     background: rgba(0,0,0,0);
@@ -811,7 +839,7 @@
     box-shadow: 0 0 0 2px var(--blue-bright), 0 0 22px rgba(41,151,255,.4);
   }
 
-  /* ---------- download toast ---------- */
+  /* Download toast (fires after resume PDF click) */
   #dl-toast {
     position: fixed; bottom: 88px; left: 50%; z-index: 9995;
     transform: translateX(-50%) translateY(16px) scale(.95);
@@ -842,7 +870,9 @@
     #dl-toast { bottom: 72px; max-width: calc(100vw - 32px); white-space: normal; }
   }
 
-  /* ---------- noise grain ---------- */
+  /* ── 17. Polish details — grain, dot-grid, shimmer, cursor, animations ── */
+
+  /* Subtle SVG noise grain layer over everything — adds texture, reduces flatness */
   body::before {
     content: "";
     position: fixed; inset: 0; z-index: 9990; pointer-events: none;
@@ -851,7 +881,7 @@
     opacity: .03;
   }
 
-  /* ---------- hero dot-grid ---------- */
+  /* Hero dot-grid background pattern — fades at edges with mask */
   header.hero::before {
     content: "";
     position: absolute; inset: 0; z-index: -1; pointer-events: none;
@@ -866,7 +896,7 @@
   }
   [data-theme="dark"] header.hero::before { opacity: .14; }
 
-  /* ---------- card shimmer + tilt setup ---------- */
+  /* Card shimmer gradient — slides on hover (JS tilt enhances further) */
   .stat, .xp-card { position: relative; overflow: hidden; }
   .stat::after, .xp-card::after {
     content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
@@ -877,10 +907,10 @@
   .stat:hover::after, .xp-card:hover::after { background-position: -100% -100%; }
   .stat:hover .n em { text-shadow: 0 0 20px rgba(0,102,214,.45); }
 
-  /* ---------- portrait glow ---------- */
+  /* Portrait hover: subtle scale + glow ring */
   .portrait:hover { transform: scale(1.015); box-shadow: 0 0 52px rgba(0,102,214,.28); }
 
-  /* ---------- pullquote animated border ---------- */
+  /* Pullquote: animated gradient left border */
   .about-copy .pullquote {
     border-left: 3px solid transparent;
     background-clip: padding-box;
@@ -894,14 +924,14 @@
   }
   @keyframes borderFlow { to { background-position: 0 200%; } }
 
-  /* ---------- github spotlight ---------- */
+  /* GitHub panel cursor spotlight (position set by JS mousemove) */
   .gh::after {
     content: ""; position: absolute; inset: 0; border-radius: 30px; pointer-events: none;
     background: radial-gradient(480px circle at var(--mx, -999px) var(--my, -999px),
       rgba(41,151,255,.16), transparent 55%);
   }
 
-  /* ---------- custom cursor ---------- */
+  /* Custom cursor — dot + lagging ring, only on hover-capable devices */
   @media (hover: hover) and (pointer: fine) {
     * { cursor: none !important; }
     #cur, #cur-ring {
@@ -920,7 +950,7 @@
     body.on-link #cur-ring { width: 52px; height: 52px; opacity: .75; }
   }
 
-  /* ---------- theme toggle (in nav) ---------- */
+  /* Theme toggle button (moon/sun icon swap handled by JS) */
   #theme-toggle {
     width: 34px; height: 34px; border-radius: 99px; border: none;
     background: transparent; color: var(--ink-2);
@@ -931,7 +961,7 @@
   #theme-toggle:hover { background: var(--hover); color: var(--ink); }
   #theme-toggle svg { width: 16px; height: 16px; pointer-events: none; }
 
-  /* ---------- icon components ---------- */
+  /* Stat card icons — pop-in animation triggered when card becomes visible */
   .stat-icon {
     width: 42px; height: 42px; border-radius: 13px;
     background: rgba(0,102,214,.09); color: var(--blue);
@@ -962,7 +992,7 @@
   .work-row h3 { display: flex; align-items: center; gap: 10px; }
   .row-icon { width: 17px; height: 17px; color: var(--blue); flex-shrink: 0; opacity: .75; }
 
-  /* ---------- impact map ---------- */
+  /* ── Impact map — interactive roles → workstreams → outcomes diagram ── */
   .impact-wrap { margin-top: 48px; }
   .impact-map {
     position: relative; padding: 28px;
@@ -1177,90 +1207,89 @@
   footer .links a { display: inline-flex; align-items: center; gap: 7px; }
   footer .links a svg { width: 15px; height: 15px; opacity: .6; flex-shrink: 0; }
 
-  /* ---------- mobile layout fixes ---------- */
+  /* ── 18. Mobile responsive overrides ── */
   @media (max-width: 640px) {
-    /* Side gutters — comfortable on all phones */
+    /* Gutters */
     .wrap { padding: 0 20px; }
 
-    /* Nav: prevent overflow, tighten link padding */
+    /* Nav */
     nav { max-width: calc(100vw - 24px); }
     nav a { padding: 7px 10px; font-size: 13.5px; }
     .nav-dropdown button { padding: 7px 10px; font-size: 13.5px; }
 
-    /* Hero: more top padding so content clears nav, better breathing */
+    /* Hero */
     header.hero { padding-top: 88px; padding-bottom: 52px; }
-
-    /* h1: bump line-height so lines don't collide at larger clamp sizes */
     h1 { line-height: 1.08; }
-
-    /* Hero sub: comfortable font size and line height on narrow screens */
-    .hero p.sub {
-      font-size: 16px; line-height: 1.65;
-      margin-top: 22px;
-    }
-
-    /* Logo bar: more vertical space from the sub paragraph */
-    .hero-logos { margin-top: 28px; gap: 18px; }
-
-    /* CTA buttons: full-width stacked on very narrow screens */
+    .hero p.sub { font-size: 16px; line-height: 1.65; margin-top: 22px; }
+    .hero-logos  { margin-top: 28px; gap: 18px; }
     .hero-actions { margin-top: 32px; gap: 12px; }
 
-    /* Section spacing */
-    section { padding: 48px 0 40px; }
-    #about { padding-top: 72px; }
-    #work  { padding-top: 64px; }
+    /* Section rhythm */
+    section    { padding: 48px 0 40px; }
+    #about     { padding-top: 72px; }
+    #work      { padding-top: 64px; }
     #experience { padding-top: 72px; }
-    #github { padding-top: 64px !important; }
+    #github    { padding-top: 64px !important; }
+    #approach  { padding-top: 48px; padding-bottom: 48px; }
     #stats-section { padding-top: 36px; padding-bottom: 20px; }
 
-    /* Section h2 */
+    /* Headings */
     h2.display { line-height: 1.1; margin-bottom: 32px; }
+    .kicker    { margin-bottom: 18px; }
 
-    /* About: portrait stacks above text, doesn't stretch edge-to-edge */
-    .portrait { max-height: 340px; transform: none; border-radius: 20px; }
-    .about-grid { gap: 32px; }
+    /* About */
+    .about-grid  { gap: 32px; }
+    .portrait    { max-height: 300px; transform: none; border-radius: 20px; }
     .about-copy p { font-size: 16px; line-height: 1.7; }
-    .about-copy .pullquote { font-size: 17px; line-height: 1.5; }
+    .about-copy .pullquote {
+      font-size: 17px; line-height: 1.5;
+      padding-left: 16px; margin: 24px 0;
+    }
     .edu-strip { gap: 7px; margin-top: 22px; }
 
-    /* Stats: 2 columns with comfortable padding */
-    .stat { padding: 20px 16px; }
-    .stat .n { font-size: 38px; }
+    /* Stats */
+    .stat   { padding: 20px 16px; }
+    .stat .n { font-size: 36px; }
 
-    /* Skills/tags marquee: allow natural scroll, enough height */
+    /* Approach steps: unset desktop max-width that clips text in column layout */
+    .step-desc { max-width: none; }
+
+    /* Marquee */
     .marquee-track { gap: 10px; }
     .marquee-track span { font-size: 13px; padding: 7px 14px; }
+    .marquee { margin-top: 52px; }
 
     /* Work rows */
-    .work-row { padding: 24px 0; gap: 12px; }
+    .work-row { padding: 22px 0; gap: 10px; }
+    .work-row h3 { font-size: 17px; }
     .work-row .desc { font-size: 14px; line-height: 1.65; }
     .work-row .meta { font-size: 12.5px; }
-    .idx { font-size: 13px; min-width: 28px; }
+    .work-row .meta .outcome { font-size: 15px; }
+    .case-divider { margin: 32px 0 24px; }
+    .impact-detail-inner { padding: 16px 18px; }
 
     /* Experience cards */
-    .xp-card { padding: 24px 20px; }
+    .xp-card    { padding: 22px 18px; }
     .xp-card h3 { font-size: 17px; }
-    .xp-card p { font-size: 14px; line-height: 1.65; }
+    .xp-card p  { font-size: 14px; line-height: 1.65; }
 
-    /* GitHub section */
-    .gh { padding: 32px 20px; }
+    /* GitHub */
+    .gh { padding: 28px 20px; }
 
     /* Footer */
-    footer h2.big { font-size: clamp(36px, 9vw, 100px); }
-    .links { gap: 16px; }
-
-    /* Prevent any horizontal overflow */
-    body { overflow-x: hidden; }
+    footer { padding: 56px 0 40px; }
+    footer h2.big { font-size: clamp(36px, 9vw, 100px); margin-bottom: 20px; }
+    .resume-dl { gap: 10px; margin: 24px 0 16px; }
+    .links { gap: 14px; flex-direction: column; align-items: center; }
   }
 
-  /* Very small phones (≤ 480px) */
+  /* Narrow phones ≤ 480px */
   @media (max-width: 480px) {
     .wrap { padding: 0 16px; }
-    .stats { grid-template-columns: 1fr 1fr; }
     .hero-actions .btn { font-size: 14px; padding: 13px 20px; }
-    .hero-logos { gap: 14px; }
-    .logo-img-ey  { height: 22px; }
-    .logo-img-sap { height: 20px; }
+    .hero-logos  { gap: 14px; }
+    .logo-img-ey     { height: 22px; }
+    .logo-img-sap    { height: 20px; }
     .logo-img-studio { height: 28px; width: 28px; }
   }
 
@@ -1269,12 +1298,15 @@
     .stats { grid-template-columns: 1fr; }
   }
 
-  /* Disable work-row hover padding shift on touch — causes layout jumps */
+  /* Disable all hover effects on touch — prevents sticky hover states and layout jumps */
   @media (hover: none) {
-    .work-row:hover { background: transparent; padding-left: 10px; }
+    .work-row:hover { background: transparent; }
+    .work-row:hover { padding-left: 0; }
+    .xp-card:hover, .stat:hover { transform: none; box-shadow: none; }
+    .portrait:hover { transform: none; box-shadow: none; }
   }
 
-  /* ---------- education / awards strip ---------- */
+  /* ── Education & awards pill strip ── */
   .edu-strip {
     display: flex; flex-wrap: wrap; gap: 8px;
     margin-top: 28px;
@@ -1779,7 +1811,35 @@
 </footer>
 
 <script>
-  // Theme toggle
+  /*
+   * ══════════════════════════════════════════════════════════════
+   *  JavaScript — all inline, no dependencies
+   *
+   *  Sections
+   *  ────────
+   *  1.  Theme toggle (light/dark, persisted to localStorage)
+   *  2.  Scroll progress bar + back-to-top button
+   *  3.  Marquee — duplicate content for seamless loop
+   *  4.  Marquee skill spotlight (highlights chip nearest center)
+   *  5.  Section heading word-by-word reveal
+   *  6.  Work-row stagger delays
+   *  7.  IntersectionObserver — scroll-triggered entrance + count-up
+   *  8.  Custom cursor (dot + lagging ring, pointer devices only)
+   *  9.  Magnetic buttons
+   *  10. 3-D card tilt (stat + xp-card)
+   *  11. GitHub panel cursor spotlight
+   *  12. Nav active-link highlight on scroll
+   *  13. Nav resume dropdown (keyboard + click)
+   *  14. Approach process-strip animation
+   *  15. Resume spotlight flow
+   *  16. Resume download toast
+   *  17. Contact FAB (time-of-day: email vs LinkedIn)
+   *  18. Page entrance cleanup (intro-line fade, will-change free)
+   *  19. Impact map (SVG paths, flow dots, workstream expand panel)
+   * ══════════════════════════════════════════════════════════════
+   */
+
+  // ── 1. Theme toggle ──────────────────────────────────────────
   const iconMoon = document.getElementById('icon-moon');
   const iconSun  = document.getElementById('icon-sun');
   const setIcon = () => {
@@ -1797,7 +1857,7 @@
   };
   document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 
-  // Scroll progress bar + back-to-top visibility
+  // ── 2. Scroll progress bar + back-to-top visibility ─────────
   const bar    = document.getElementById('progress');
   const topBtn = document.getElementById('topBtn');
   addEventListener('scroll', () => {
@@ -1808,11 +1868,11 @@
   }, { passive: true });
   topBtn.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
 
-  // Duplicate marquee content for seamless loop
+  // ── 3. Marquee — duplicate content for seamless loop ─────────
   const mq = document.getElementById('mq');
   mq.innerHTML += mq.innerHTML;
 
-  // Skill spotlight — highlight chip nearest horizontal center of marquee
+  // ── 4. Marquee skill spotlight ────────────────────────────────
   (function() {
     const marqueeEl = document.querySelector('.marquee');
     if (!marqueeEl || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -1832,7 +1892,7 @@
     }, 600);
   })();
 
-  // Word-by-word reveal for section h2 headings
+  // ── 5. Section h2 word-by-word reveal ────────────────────────
   document.querySelectorAll('h2.display').forEach(h => {
     h.innerHTML = h.innerHTML.replace(/(<br\s*\/?>|<[^>]+>)|([^\s<]+)/gi, (m, tag, word) => {
       return tag ? tag : `<span class="word">${word}</span>`;
@@ -1845,12 +1905,13 @@
     });
   });
 
-  // Pre-set stagger animation-delay for work rows (150ms apart) and xp-cards handled by CSS d-classes
+  // ── 6. Work row stagger (150 ms per row; xp-cards use CSS .d1/.d2) ──
   document.querySelectorAll('.work-row.r').forEach((el, i) => {
     el.style.animationDelay = `${i * 150}ms`;
   });
 
-  // Reveal on scroll (threshold 0.2) — adds .visible, also triggers count-up for [data-count]
+  // ── 7. Scroll reveal + count-up ──────────────────────────────
+  // IntersectionObserver: adds .visible at 20% in-view; also runs eased count-up on [data-count]
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     e.target.classList.add('visible');
@@ -1867,11 +1928,11 @@
   }), { threshold: 0.2 });
   document.querySelectorAll('.r').forEach(el => io.observe(el));
 
-  // ── Enhanced interactions ──────────────────────────────────────────────────
+  // ── 8–11. Enhanced interactions ───────────────────────────────
   const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hasHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  // Custom cursor
+  // ── 8. Custom cursor ──
   if (hasHover) {
     const dot  = Object.assign(document.createElement('div'), { id: 'cur' });
     const ring = Object.assign(document.createElement('div'), { id: 'cur-ring' });
@@ -1889,7 +1950,7 @@
     })();
   }
 
-  // Magnetic buttons
+  // ── 9. Magnetic buttons ──
   if (!noMotion && hasHover) {
     document.querySelectorAll('.btn').forEach(btn => {
       btn.addEventListener('mousemove', e => {
@@ -1902,7 +1963,7 @@
     });
   }
 
-  // 3-D card tilt
+  // ── 10. 3-D card tilt ──
   if (!noMotion && hasHover) {
     document.querySelectorAll('.stat, .xp-card').forEach(card => {
       card.addEventListener('mousemove', e => {
@@ -1921,7 +1982,7 @@
     });
   }
 
-  // GitHub panel cursor spotlight
+  // ── 11. GitHub panel cursor spotlight ──
   if (hasHover) {
     const gh = document.querySelector('.gh');
     if (gh) {
@@ -1979,7 +2040,7 @@
     })();
   }
 
-  // Resume dropdown — click toggle (touch support) + close on outside click
+  // ── 13. Nav resume dropdown (click/keyboard, closes on outside click) ──
   const resumeDropdown = document.getElementById('resumeDropdown');
   const resumeBtn      = document.getElementById('resumeBtn');
   resumeBtn.addEventListener('click', e => {
@@ -1995,7 +2056,7 @@
     if (!e.target.closest('a')) e.stopPropagation();
   });
 
-  // ===== IMPACT MAP =====
+  // ── 19. Impact map — SVG path drawing, flow dots, workstream expand ──
   (function() {
     const mapEl    = document.getElementById('impactMap');
     const svgEl    = document.getElementById('impactSvg');
@@ -2270,7 +2331,7 @@
     });
   })();
 
-  // Nav active-section highlight on scroll
+  // ── 12. Nav active-section highlight on scroll ───────────────
   (function() {
     const navSections = ['about', 'experience', 'work']
       .map(id => document.getElementById(id)).filter(Boolean);
@@ -2292,7 +2353,7 @@
     updateNavActive();
   })();
 
-  // Process strip: stagger steps + draw connector on scroll
+  // ── 14. Approach process strip — stagger steps + connector fill ──
   (function() {
     const strip = document.getElementById('processStrip');
     if (!strip) return;
@@ -2311,7 +2372,7 @@
     pIo.observe(strip);
   })();
 
-  // Resume-dl pop + spotlight overlay + "Resume? Served Fresh." when footer comes into view
+  // ── 15. Resume spotlight — footer entry triggers notification + pop animation ──
   (function() {
     const resumeDl  = document.querySelector('.resume-dl');
     if (!resumeDl) return;
@@ -2372,7 +2433,7 @@
     });
   })();
 
-  // Download toast
+  // ── 16. Download toast (fires after clicking any resume PDF link) ──
   const dlToast = document.getElementById('dl-toast');
   let dlToastTimer;
   document.querySelectorAll('a[download]').forEach(link => {
@@ -2383,7 +2444,7 @@
     });
   });
 
-  // Contact FAB — email during work hours, LinkedIn in the evening
+  // ── 17. Contact FAB — email (work hours) or LinkedIn (evening) ──
   (function () {
     const fab      = document.getElementById('contact-fab');
     const dotEl    = document.getElementById('fab-dot');
@@ -2460,7 +2521,7 @@
     }
   })();
 
-  // Page entrance: fade-out intro line after sequence completes, free GPU will-change
+  // ── 18. Page entrance cleanup — fade intro line, free will-change after animations ──
   (function () {
     const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
