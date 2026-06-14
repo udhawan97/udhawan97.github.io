@@ -366,22 +366,6 @@
   .marquee { animation: _fadeIn 500ms cubic-bezier(.16,1,.3,1) 1600ms both; }
 
   /* hero metrics cluster */
-  .hero-metrics { display: flex; gap: 40px; margin-top: 56px; flex-wrap: wrap; }
-  .hero-metric  { display: flex; flex-direction: column; }
-  .metric-num {
-    font-size: clamp(32px, 4vw, 52px); font-weight: 700;
-    color: var(--ink); letter-spacing: -.03em; font-variant-numeric: tabular-nums;
-    line-height: 1;
-  }
-  .metric-label { font-size: 13px; color: var(--ink-2); margin-top: 6px; font-weight: 500; max-width: 140px; line-height: 1.35; }
-  .hero-metrics .hero-metric:nth-child(1) { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1500ms both; }
-  .hero-metrics .hero-metric:nth-child(2) { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1600ms both; }
-  .hero-metrics .hero-metric:nth-child(3) { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1700ms both; }
-  .hero-metrics .hero-metric:nth-child(4) { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1800ms both; }
-  @media (max-width: 640px) {
-    .hero-metrics { gap: 24px 32px; }
-    .metric-num { font-size: 28px; }
-  }
 
   /* scroll-triggered: hidden until .visible is added by IntersectionObserver */
   .r { opacity:0; transform:translateY(20px); will-change:transform,opacity; }
@@ -409,7 +393,6 @@
     .r, h2.display .word { opacity:1; transform:none; clip-path:none; will-change:auto; animation:none; transition:none; }
     nav, header.hero h1, header.hero .hello, header.hero .sub,
     header.hero .hero-actions, header.hero .scroll-hint, .marquee,
-    .hero-metrics .hero-metric { animation:none; opacity:1; transform:none; clip-path:none; }
     #intro-line { display: none; }
     #progress, .marquee-track, h1 .grad, h2.display .grad, .hero-glow::before { animation:none !important; }
     .stat.r.visible .stat-icon { animation: none; }
@@ -1260,24 +1243,6 @@
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
     <a class="btn ghost" href="mailto:umangdhawan97@gmail.com">Get in touch</a>
-  </div>
-  <div class="hero-metrics" aria-label="Key metrics">
-    <div class="hero-metric">
-      <span class="metric-num">20%</span>
-      <span class="metric-label">fewer deployment incidents</span>
-    </div>
-    <div class="hero-metric">
-      <span class="metric-num">15%</span>
-      <span class="metric-label">faster mean time to resolution</span>
-    </div>
-    <div class="hero-metric">
-      <span class="metric-num">100+</span>
-      <span class="metric-label">locations shipped chainwide</span>
-    </div>
-    <div class="hero-metric">
-      <span class="metric-num">4</span>
-      <span class="metric-label">cloud products supported on-call</span>
-    </div>
   </div>
   <div class="scroll-hint">
     Scroll
