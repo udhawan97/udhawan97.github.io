@@ -2520,7 +2520,7 @@
       const isWorkHours = !isWeekend && hour >= 9 && hour < 17;
 
       if (isWeekend) {
-        return { color: '#eab308', pulse: false, statusText: 'Weekend mode · email or LinkedIn works best', fabHref: LINKEDIN, fabTarget: '_blank', fabLabel: 'Connect', fabIcon: liSVG };
+        return { color: '#eab308', pulse: false, statusText: 'Weekend mode', fabHref: LINKEDIN, fabTarget: '_blank', fabLabel: 'Connect', fabIcon: liSVG };
       } else if (isWorkHours) {
         return { color: '#22c55e', pulse: true,  statusText: 'Attending client work · I\'ll get back shortly', fabHref: EMAIL, fabTarget: null, fabLabel: 'Say hello', fabIcon: emailSVG };
       } else {
