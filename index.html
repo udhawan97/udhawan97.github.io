@@ -373,20 +373,21 @@
   .marquee { animation: _fadeIn 500ms cubic-bezier(.16,1,.3,1) 1600ms both; }
 
   /* hero metrics cluster */
-  .hero-metrics { display: flex; gap: 48px; margin-top: 56px; }
+  .hero-metrics { display: flex; gap: 40px; margin-top: 56px; flex-wrap: wrap; }
   .hero-metric  { display: flex; flex-direction: column; }
-  .hero-metric .m-num {
-    font-size: clamp(36px, 4.5vw, 56px); font-weight: 700;
+  .metric-num {
+    font-size: clamp(32px, 4vw, 52px); font-weight: 700;
     color: var(--ink); letter-spacing: -.03em; font-variant-numeric: tabular-nums;
     line-height: 1;
   }
-  .hero-metric .m-label { font-size: 13px; color: var(--ink-2); margin-top: 4px; font-weight: 500; }
+  .metric-label { font-size: 13px; color: var(--ink-2); margin-top: 6px; font-weight: 500; max-width: 140px; line-height: 1.35; }
   .hero-metrics .hero-metric:nth-child(1) { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1500ms both; }
-  .hero-metrics .hero-metric:nth-child(2) { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1650ms both; }
-  .hero-metrics .hero-metric:nth-child(3) { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1800ms both; }
+  .hero-metrics .hero-metric:nth-child(2) { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1600ms both; }
+  .hero-metrics .hero-metric:nth-child(3) { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1700ms both; }
+  .hero-metrics .hero-metric:nth-child(4) { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1800ms both; }
   @media (max-width: 640px) {
-    .hero-metrics { gap: 32px; }
-    .hero-metric .m-num { font-size: 32px; }
+    .hero-metrics { gap: 24px 32px; }
+    .metric-num { font-size: 28px; }
   }
 
   /* scroll-triggered: hidden until .visible is added by IntersectionObserver */
@@ -1240,8 +1241,8 @@
 <header class="hero wrap" id="top">
   <div class="hero-glow"></div>
   <div class="hello"><span class="dot" id="avail-dot"></span> Umang Dhawan — Chicago, IL<span class="avail-status" id="avail-text"></span></div>
-  <h1><span class="h1-w" style="--i:0">Zero </span><span class="h1-w" style="--i:1">audit </span><span class="h1-w" style="--i:2">findings </span><span class="h1-w" style="--i:3">on </span><span class="h1-w" style="--i:4">a </span><span class="h1-w" style="--i:5">federal </span><span class="h1-w" style="--i:6">cloud.</span><br><span class="h1-w" style="--i:7">100+ </span><span class="h1-w" style="--i:8">retail </span><span class="h1-w" style="--i:9">locations </span><span class="h1-w" style="--i:10">shipped </span><span class="h1-w" style="--i:11">end </span><span class="h1-w" style="--i:12">to </span><span class="h1-w" style="--i:13">end.</span><br><span class="grad h1-w" style="--i:14">That's </span><span class="grad h1-w" style="--i:15">the </span><span class="grad h1-w" style="--i:16">kind </span><span class="grad h1-w" style="--i:17">of </span><span class="grad h1-w" style="--i:18">boring </span><span class="grad h1-w" style="--i:19">I </span><span class="grad h1-w" style="--i:20">build.</span></h1>
-  <p class="sub"><b>Senior Consultant, EY Studio+</b> — I work at the intersection of cloud reliability, compliance, and AI strategy for consumer, retail, and government programs.</p>
+  <h1><span class="h1-w" style="--i:0">Four </span><span class="h1-w" style="--i:1">years </span><span class="h1-w" style="--i:2">of </span><span class="h1-w" style="--i:3">making </span><span class="h1-w" style="--i:4">sure </span><span class="h1-w" style="--i:5">Fortune </span><span class="h1-w" style="--i:6">100 </span><span class="h1-w" style="--i:7">programs </span><span class="h1-w" style="--i:8">actually </span><span class="h1-w" style="--i:9">go </span><span class="h1-w" style="--i:10">live.</span><br><span class="grad h1-w" style="--i:11">Cloud </span><span class="grad h1-w" style="--i:12">reliability. </span><span class="grad h1-w" style="--i:13">Federal </span><span class="grad h1-w" style="--i:14">compliance. </span><span class="grad h1-w" style="--i:15">AI </span><span class="grad h1-w" style="--i:16">strategy.</span></h1>
+  <p class="sub"><b>Senior Consultant at EY Studio+</b> — I own quality engineering across four cloud products for a Fortune 100 restaurant chain, and shape AI strategy for Fortune 500 healthcare clients.</p>
   <div class="hero-actions">
     <a class="btn dark" href="#work">See the work
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -1250,16 +1251,20 @@
   </div>
   <div class="hero-metrics" aria-label="Key metrics">
     <div class="hero-metric">
-      <span class="m-num">100+</span>
-      <span class="m-label">locations shipped</span>
+      <span class="metric-num">20%</span>
+      <span class="metric-label">fewer deployment incidents</span>
     </div>
     <div class="hero-metric">
-      <span class="m-num">0</span>
-      <span class="m-label">audit findings</span>
+      <span class="metric-num">15%</span>
+      <span class="metric-label">faster mean time to resolution</span>
     </div>
     <div class="hero-metric">
-      <span class="m-num">−20%</span>
-      <span class="m-label">production incidents</span>
+      <span class="metric-num">100+</span>
+      <span class="metric-label">locations shipped chainwide</span>
+    </div>
+    <div class="hero-metric">
+      <span class="metric-num">4</span>
+      <span class="metric-label">cloud products supported on-call</span>
     </div>
   </div>
   <div class="scroll-hint">
