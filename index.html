@@ -230,6 +230,8 @@
     filter: blur(72px);
   }
 
+  #stats-section { padding-top: 48px; padding-bottom: 32px; }
+
   /* ---------- approach / process strip ---------- */
   #approach { position: relative; padding-top: 48px; padding-bottom: 88px; }
   #approach h2.display { margin-bottom: 32px; }
@@ -338,16 +340,8 @@
     to   { clip-path: inset(0 0% 0 0); }
   }
 
-  /* Step 4 — h1 words rise into place, 700ms base + 80ms stagger per word */
-  .h1-w {
-    display: inline-block;
-    animation: h1WordRise 600ms cubic-bezier(.16,1,.3,1) calc(700ms + var(--i, 0) * 80ms) both;
-    will-change: transform, opacity;
-  }
-  @keyframes h1WordRise {
-    from { opacity: 0; transform: translateY(28px); }
-    to   { opacity: 1; transform: none; }
-  }
+  /* Step 4 — h1 fades up as a whole at 650ms */
+  header.hero h1 { animation: heroFadeUp 650ms cubic-bezier(.16,1,.3,1) 650ms both; }
 
   /* Step 5 — subtitle fades up at 1100ms */
   header.hero .sub { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1100ms both; }
@@ -412,12 +406,13 @@
   .xp-card.r.d2.visible   { animation-delay: 240ms; }
 
   @media (prefers-reduced-motion: reduce) {
-    .r, h2.display .word, .h1-w { opacity:1; transform:none; clip-path:none; will-change:auto; animation:none; transition:none; }
-    nav, header.hero .hello, header.hero .sub,
+    .r, h2.display .word { opacity:1; transform:none; clip-path:none; will-change:auto; animation:none; transition:none; }
+    nav, header.hero h1, header.hero .hello, header.hero .sub,
     header.hero .hero-actions, header.hero .scroll-hint, .marquee,
     .hero-metrics .hero-metric { animation:none; opacity:1; transform:none; clip-path:none; }
     #intro-line { display: none; }
     #progress, .marquee-track, h1 .grad, h2.display .grad, .hero-glow::before { animation:none !important; }
+    .stat.r.visible .stat-icon { animation: none; }
   }
 
   /* ---------- hero ---------- */
@@ -877,10 +872,28 @@
     background: rgba(0,102,214,.09); color: var(--blue);
     display: flex; align-items: center; justify-content: center;
     margin-bottom: 20px; flex-shrink: 0;
-    transition: background .45s ease;
+    transition: background .3s var(--ease), transform .3s var(--ease), box-shadow .3s var(--ease);
   }
   [data-theme="dark"] .stat-icon { background: rgba(41,151,255,.15); }
-  .stat-icon svg { width: 21px; height: 21px; }
+  .stat-icon svg { width: 21px; height: 21px; transition: transform .35s var(--ease); }
+  /* Icon pops in after the card itself scales in */
+  .stat.r.visible .stat-icon { animation: iconPop 520ms cubic-bezier(.16,1,.3,1) 280ms; }
+  @keyframes iconPop {
+    0%   { transform: scale(.55); opacity: .3; }
+    60%  { transform: scale(1.18); opacity: 1; }
+    100% { transform: scale(1);    opacity: 1; }
+  }
+  /* Hover: lift + glow ring + icon rotates */
+  .stat:hover .stat-icon {
+    background: rgba(0,102,214,.16);
+    box-shadow: 0 0 0 6px rgba(0,102,214,.07), 0 8px 20px rgba(0,102,214,.14);
+    transform: translateY(-2px) scale(1.06);
+  }
+  [data-theme="dark"] .stat:hover .stat-icon {
+    background: rgba(41,151,255,.22);
+    box-shadow: 0 0 0 6px rgba(41,151,255,.1), 0 8px 20px rgba(41,151,255,.18);
+  }
+  .stat:hover .stat-icon svg { transform: scale(1.1) rotate(-8deg); }
   .work-row h3 { display: flex; align-items: center; gap: 10px; }
   .row-icon { width: 17px; height: 17px; color: var(--blue); flex-shrink: 0; opacity: .75; }
 
@@ -1240,7 +1253,7 @@
 <header class="hero wrap" id="top">
   <div class="hero-glow"></div>
   <div class="hello"><span class="dot" id="avail-dot"></span> Umang Dhawan — Chicago, IL<span class="avail-status" id="avail-text"></span></div>
-  <h1><span class="h1-w" style="--i:0">Four </span><span class="h1-w" style="--i:1">years </span><span class="h1-w" style="--i:2">of </span><span class="h1-w" style="--i:3">making </span><span class="h1-w" style="--i:4">sure </span><span class="h1-w" style="--i:5">Fortune </span><span class="h1-w" style="--i:6">100 </span><span class="h1-w" style="--i:7">programs </span><span class="h1-w" style="--i:8">actually </span><span class="h1-w" style="--i:9">go </span><span class="h1-w" style="--i:10">live.</span><br><span class="grad h1-w" style="--i:11">Cloud </span><span class="grad h1-w" style="--i:12">reliability. </span><span class="grad h1-w" style="--i:13">Federal </span><span class="grad h1-w" style="--i:14">compliance. </span><span class="grad h1-w" style="--i:15">AI </span><span class="grad h1-w" style="--i:16">strategy.</span></h1>
+  <h1>Four years of making sure Fortune 100 programs actually go live.<br><span class="grad">Cloud reliability. Federal compliance. AI strategy.</span></h1>
   <p class="sub"><b>Senior Consultant at EY Studio+</b> — I own quality engineering across four cloud products for a Fortune 100 restaurant chain, and shape AI strategy for Fortune 500 healthcare clients.</p>
   <div class="hero-actions">
     <a class="btn dark" href="#work">See the work
@@ -1321,6 +1334,50 @@
   </div>
 </section>
 
+
+<!-- ================= STATS ================= -->
+<section class="wrap" id="stats-section">
+  <div class="stats">
+    <div class="stat r">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <div class="n"><em data-count="20">0</em>%</div>
+      <div class="l">reduction in production deployment failures across a Fortune 100 cloud platform</div>
+    </div>
+    <div class="stat r d1">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <div class="n"><em data-count="15">0</em>%</div>
+      <div class="l">improvement in mean time to resolution via a ground-up observability platform</div>
+    </div>
+    <div class="stat r d2">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <div class="n"><em data-count="100">0</em>+</div>
+      <div class="l">retail locations successfully shipped on a platform I quality-engineered end to end</div>
+    </div>
+    <div class="stat r d3">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <div class="n"><em data-count="0">0</em></div>
+      <div class="l">compliance findings on a FedRAMP-authorized federal cloud implementation</div>
+    </div>
+  </div>
+</section>
 
 <!-- ================= APPROACH ================= -->
 <section class="wrap" id="approach">
@@ -2219,13 +2276,6 @@
         setTimeout(function () { if (introLine.parentNode) introLine.remove(); }, 380);
       }, 2050);
     }
-
-    // h1 words: remove will-change after animation ends
-    document.querySelectorAll('.h1-w').forEach(function (el) {
-      el.addEventListener('animationend', function () {
-        el.style.willChange = 'auto';
-      }, { once: true });
-    });
 
     // CTA buttons: remove animation fill lock so hover transitions work normally
     document.querySelectorAll('.hero-actions .btn').forEach(function (el) {
