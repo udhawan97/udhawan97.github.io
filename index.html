@@ -448,7 +448,7 @@
     border: 1px solid var(--line); border-radius: 99px; padding: 8px 16px;
     background: var(--glass-2); width: fit-content; margin-bottom: 34px;
   }
-  .hello .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex-shrink: 0; animation: dotPulseGreen 2.2s infinite; }
+  .hello .dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; flex-shrink: 0; }
   @keyframes dotPulseGreen {
     0%   { box-shadow: 0 0 0 0   rgba(34,197,94,.55); }
     70%  { box-shadow: 0 0 0 9px rgba(34,197,94,0);   }
@@ -2180,14 +2180,31 @@
     if (!dotEl || !textEl) return;
     const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    function chicagoStatus() {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Chicago',
+        weekday: 'short',
+        hour: 'numeric',
+        hour12: false
+      }).formatToParts(new Date());
+      const day  = parts.find(p => p.type === 'weekday').value;
+      const hour = +parts.find(p => p.type === 'hour').value;
+      const wkdy = day !== 'Sat' && day !== 'Sun';
+      if (wkdy && hour >= 8  && hour < 18) return { color: '#22c55e', pulse: true,  text: '· Available now' };
+      if (wkdy && hour >= 18 && hour < 21) return { color: '#eab308', pulse: false, text: '· Winding down — email works' };
+      return { color: '#94a3b8', pulse: false, text: '· Offline — email me, I\'ll reply fast' };
+    }
+
     function update() {
-      dotEl.style.background = '#22c55e';
-      dotEl.style.animation  = noMotion ? 'none' : 'dotPulseGreen 2.2s infinite';
-      dotEl.style.boxShadow  = '';
-      textEl.textContent = '· Open to opportunities';
+      const { color, pulse, text } = chicagoStatus();
+      dotEl.style.background = color;
+      dotEl.style.animation  = (pulse && !noMotion) ? 'dotPulseGreen 2.2s infinite' : 'none';
+      dotEl.style.boxShadow  = (pulse && !noMotion) ? '' : 'none';
+      textEl.textContent = text;
     }
 
     update();
+    setInterval(update, 60000);
   })();
 
   // Page entrance: fade-out intro line after sequence completes, free GPU will-change
