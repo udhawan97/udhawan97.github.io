@@ -945,23 +945,29 @@
   #theme-tip {
     position: fixed; z-index: 9997;
     opacity: 0; pointer-events: none;
-    background: var(--glass);
-    -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
-    border: 1px solid var(--glass-border);
-    border-radius: 14px; padding: 10px 15px;
+    background: var(--bg-2);
+    border: 1.5px solid var(--line);
+    border-radius: 14px; padding: 11px 17px;
     display: flex; align-items: center; gap: 9px;
-    box-shadow: 0 10px 32px var(--shadow);
-    font-size: 13px; font-weight: 500; color: var(--ink-2);
+    box-shadow: 0 8px 28px rgba(0,0,0,.22), 0 2px 6px rgba(0,0,0,.1);
+    font-size: 13px; font-weight: 500; color: var(--ink);
     white-space: nowrap;
   }
-  /* Small upward arrow pointing at the toggle */
+  /* Small upward arrow — outer border triangle */
   #theme-tip::before {
-    content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+    content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid var(--line);
+  }
+  /* Inner fill triangle to match background */
+  #theme-tip::after {
+    content: ''; position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-bottom: 5px solid var(--glass-border);
+    border-bottom: 5px solid var(--bg-2);
   }
-  #theme-tip .tip-icon { flex-shrink: 0; color: var(--ink-2); opacity: .7; }
+  #theme-tip .tip-icon { flex-shrink: 0; color: var(--blue); opacity: .85; }
   #theme-tip.tip-show { animation: freshSlide 440ms cubic-bezier(.2,.65,.3,1.1) forwards; pointer-events: auto; }
   #theme-tip.tip-hide { animation: freshOut  300ms cubic-bezier(.4,0,1,1)       forwards; }
 
@@ -1585,7 +1591,7 @@
     Chicago, IL &nbsp;·&nbsp; Building AI-ready systems
   </div>
   <h1>Building technology that ships,<br><span class="grad">and strategy that keeps moving.</span></h1>
-  <p class="sub"><b>Senior Consultant at EY Studio+.</b> I started in enterprise product at SAP, spent four years at EY shipping cloud platforms and federal systems, and now work where technology strategy meets what engineering actually has to deliver. Along the way: a retail platform live across 100+ locations, a federal cloud cleared without a single audit finding, and a few clients who now think differently about AI. I'm drawn to the space where the decision room meets the production environment.</p>
+  <p class="sub"><b>Senior Consultant at EY Studio+.</b> Five years across SAP, EY, and Studio+ have taken me through enterprise product, quality engineering, federal cloud delivery, performance testing, and AI strategy — not because I was handed a path, but because I kept raising my hand for the harder problem. The results reflect the range: a retail platform across <b>100+ locations</b>, a federal cloud cleared with <b>zero audit findings</b>, Fortune 500 healthcare executives rethinking their AI roadmap. I learn new platforms fast, deliver with rigor, and I'm genuinely more interested in the problem I haven't solved yet than the one I already have.</p>
   <div class="hero-logos" aria-label="Companies I've worked with">
     <div class="logo-item" aria-label="EY Studio+">
       <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-img logo-img-studio">
@@ -2280,33 +2286,48 @@
     const nodes = Array.from({ length: TOTAL }, (_, i) => {
       const angle = (i * 137.508) % 360 * Math.PI / 180;
       const reach = 0.14 + (i / TOTAL) * 0.70;
+      // speed ~0.38px/frame — visible but calm; each node drifts at its own phase
+      const speed = 0.28 + (i % 5) * 0.05;
       return {
-        x:  W / 2 + Math.cos(angle) * W * reach * 0.47,
-        y:  H / 2 + Math.sin(angle) * H * reach * 0.40,
-        vx: Math.sin(i * 2.31 + 1.1) * 0.095,
-        vy: Math.cos(i * 1.73 + 0.5) * 0.085,
-        r:  1.4 + (i % 3) * 0.60,
+        x:     W / 2 + Math.cos(angle) * W * reach * 0.47,
+        y:     H / 2 + Math.sin(angle) * H * reach * 0.40,
+        vx:    Math.sin(i * 2.31 + 1.1) * speed,
+        vy:    Math.cos(i * 1.73 + 0.5) * speed,
+        r:     1.6 + (i % 3) * 0.65,
+        phase: i * 0.71,            // unique offset for size pulse
         label: i < LABELS.length ? LABELS[i] : null,
       };
     });
 
     let raf = null;
+    let tick = 0;
 
     const draw = () => {
+      tick++;
       ctx.clearRect(0, 0, W, H);
       const dark   = document.documentElement.dataset.theme === 'dark';
       const mobile = W < 768;
       const count  = mobile ? 8 : TOTAL;
-      const maxD   = mobile ? 150 : 235;
+      const maxD   = mobile ? 160 : 250;
       const view   = nodes.slice(0, count);
-      const pad    = 32;
+      const pad    = 36;
 
-      // ── Move nodes (soft edge bounce) ──
-      view.forEach(n => {
+      // ── Move nodes — straight drift with gentle sinusoidal steering ──
+      view.forEach((n, idx) => {
+        // Subtle angular nudge: direction slowly rotates over ~8-12 s
+        const wobble = Math.sin(tick * 0.004 + n.phase) * 0.006;
+        const cos = Math.cos(wobble), sin = Math.sin(wobble);
+        const newVx = n.vx * cos - n.vy * sin;
+        const newVy = n.vx * sin + n.vy * cos;
+        n.vx = newVx; n.vy = newVy;
+
         n.x += n.vx;
         n.y += n.vy;
-        if (n.x < pad || n.x > W - pad) { n.vx = -n.vx; n.x = Math.max(pad, Math.min(W - pad, n.x)); }
-        if (n.y < pad || n.y > H - pad) { n.vy = -n.vy; n.y = Math.max(pad, Math.min(H - pad, n.y)); }
+        // Soft edge bounce — keep inside with gentle reflection
+        if (n.x < pad)       { n.vx =  Math.abs(n.vx); n.x = pad; }
+        if (n.x > W - pad)   { n.vx = -Math.abs(n.vx); n.x = W - pad; }
+        if (n.y < pad)       { n.vy =  Math.abs(n.vy); n.y = pad; }
+        if (n.y > H - pad)   { n.vy = -Math.abs(n.vy); n.y = H - pad; }
       });
 
       // ── Draw curved edges ──
@@ -2335,19 +2356,23 @@
 
       // ── Draw nodes, halos, labels ──
       view.forEach((n, idx) => {
+        // Per-node size pulse: ±18% over ~4-6 s, independent phase per node
+        const pulse = 1 + Math.sin(tick * 0.018 + n.phase) * 0.18;
+        const r = n.r * pulse;
+
         // Soft outer halo on hub nodes (every 3rd)
         if (idx % 3 === 0) {
           ctx.beginPath();
-          ctx.arc(n.x, n.y, n.r * 4.5, 0, Math.PI * 2);
-          ctx.strokeStyle = dark ? 'rgba(41,151,255,0.07)' : 'rgba(0,102,214,0.05)';
-          ctx.lineWidth   = 0.8;
+          ctx.arc(n.x, n.y, r * 4.8, 0, Math.PI * 2);
+          ctx.strokeStyle = dark ? 'rgba(41,151,255,0.08)' : 'rgba(0,102,214,0.06)';
+          ctx.lineWidth   = 0.9;
           ctx.stroke();
           ctx.lineWidth   = 0.75;
         }
         // Node dot
         ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fillStyle = dark ? 'rgba(100,210,255,0.55)' : 'rgba(0,102,214,0.38)';
+        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = dark ? 'rgba(100,210,255,0.62)' : 'rgba(0,102,214,0.45)';
         ctx.fill();
         // Ambient label (desktop only, barely visible)
         if (n.label && !mobile) {
