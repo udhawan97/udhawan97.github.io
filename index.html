@@ -18,7 +18,7 @@
   // Set theme before paint to avoid flash: saved choice > system preference
   (function () {
     var saved = localStorage.getItem('theme');
-    var dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    var dark = saved ? saved === 'dark' : true;
     if (dark) document.documentElement.dataset.theme = 'dark';
   })();
 </script>
@@ -912,6 +912,30 @@
     #dl-toast { bottom: 72px; max-width: calc(100vw - 32px); white-space: normal; }
   }
 
+  /* ── Theme tip — appears on first scroll, points at the toggle ── */
+  #theme-tip {
+    position: fixed; z-index: 9997;
+    opacity: 0; pointer-events: none;
+    background: var(--glass);
+    -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px; padding: 10px 15px;
+    display: flex; align-items: center; gap: 9px;
+    box-shadow: 0 10px 32px var(--shadow);
+    font-size: 13px; font-weight: 500; color: var(--ink-2);
+    white-space: nowrap;
+  }
+  /* Small upward arrow pointing at the toggle */
+  #theme-tip::before {
+    content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid var(--glass-border);
+  }
+  #theme-tip .tip-icon { flex-shrink: 0; color: var(--ink-2); opacity: .7; }
+  #theme-tip.tip-show { animation: freshSlide 440ms cubic-bezier(.2,.65,.3,1.1) forwards; pointer-events: auto; }
+  #theme-tip.tip-hide { animation: freshOut  300ms cubic-bezier(.4,0,1,1)       forwards; }
+
   /* ── 17. Polish details — grain, dot-grid, shimmer, cursor, animations ── */
 
   /* Subtle SVG noise grain layer over everything — adds texture, reduces flatness */
@@ -1487,6 +1511,12 @@
   </button>
 </nav>
 
+<!-- Theme mode tip (first-scroll hint) -->
+<div id="theme-tip" role="status" aria-live="polite">
+  <svg class="tip-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  Press this icon to switch between light &amp; dark
+</div>
+
 <!-- Resume spotlight overlay -->
 <div id="resume-overlay" aria-hidden="true"></div>
 
@@ -2000,6 +2030,57 @@
     setIcon();
   };
   document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
+  // ── 1b. Theme tip — one-time hint on first scroll ────────────
+  (function () {
+    if (localStorage.getItem('theme-tip-shown')) return;
+    const tip = document.getElementById('theme-tip');
+    if (!tip) return;
+    let state = 'idle'; // idle → pending → showing → done
+    let tipTimer;
+
+    function hideTip() {
+      if (state !== 'showing') return;
+      state = 'done';
+      clearTimeout(tipTimer);
+      tip.classList.remove('tip-show');
+      tip.classList.add('tip-hide');
+    }
+
+    function showTip() {
+      if (state !== 'pending') return;
+      state = 'showing';
+      localStorage.setItem('theme-tip-shown', '1');
+
+      // Position centred below the toggle button (after nav expansion settles)
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const tr  = toggle.getBoundingClientRect();
+        const tw  = tip.offsetWidth || 260;
+        const left = Math.max(8, Math.min(
+          tr.left + tr.width / 2 - tw / 2,
+          window.innerWidth - tw - 8
+        ));
+        tip.style.left = left + 'px';
+        tip.style.top  = (tr.bottom + 10) + 'px';
+      }
+
+      tip.classList.add('tip-show');
+      tipTimer = setTimeout(hideTip, 4500);
+    }
+
+    addEventListener('scroll', function onScroll() {
+      if (state === 'idle') {
+        state = 'pending';
+        // Delay so nav expansion animation finishes before we measure the toggle position
+        setTimeout(showTip, 650);
+      } else if (state === 'showing') {
+        hideTip();
+      }
+    }, { passive: true });
+
+    tip.addEventListener('click', hideTip);
+  })();
 
   // ── 2. Scroll progress bar + back-to-top visibility ─────────
   const bar    = document.getElementById('progress');
