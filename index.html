@@ -120,7 +120,17 @@
     border: 1px solid var(--glass-border);
     border-radius: 99px; padding: 6px; z-index: 900;
     box-shadow: 0 8px 30px var(--shadow);
-    transition: background .45s ease, border-color .45s ease;
+    transition: background .45s ease, border-color .45s ease, box-shadow .35s ease;
+  }
+  /* Middle nav links — collapses when nav is shrunk */
+  .nav-links {
+    display: flex; align-items: center; gap: 2px;
+    overflow: hidden; min-width: 0;
+    max-width: 320px;
+    transition: max-width .5s var(--ease), opacity .35s var(--ease);
+  }
+  nav.nav-shrunk .nav-links {
+    max-width: 0; opacity: 0; pointer-events: none;
   }
   nav a {
     font-size: 13px; font-weight: 500; color: var(--ink-2);
@@ -176,7 +186,7 @@
   .resume-dropdown a svg { flex-shrink: 0; opacity: .6; }
 
   @media (max-width: 640px) {
-    nav a:nth-child(3) { display: none; } /* hide Experience link; Work stays visible */
+    .nav-links a:nth-child(2) { display: none; } /* hide Experience link; Work stays visible */
     nav a { padding: 7px 11px; }
     .nav-dropdown button { padding: 7px 11px; }
   }
@@ -1449,9 +1459,11 @@
 
 <nav>
   <a href="#top" style="font-weight:700; color:var(--ink)">UD</a>
-  <a href="#about">About</a>
-  <a href="#experience">Experience</a>
-  <a href="#work">Work</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#work">Work</a>
+  </div>
   <div class="nav-dropdown" id="resumeDropdown">
     <button aria-haspopup="true" aria-expanded="false" id="resumeBtn">
       Resume <span class="nav-chevron">▾</span>
@@ -2187,6 +2199,45 @@
   resumeDropdown.querySelector('.resume-dropdown-inner').addEventListener('click', e => {
     if (!e.target.closest('a')) e.stopPropagation();
   });
+
+  // ── 13b. Nav shrink/expand — collapses to UD + Resume + Toggle when idle ──
+  (function () {
+    const navEl = document.querySelector('nav');
+    if (!navEl) return;
+    let scrolling = false;
+    let idleTimer = null;
+
+    function expand() { navEl.classList.remove('nav-shrunk'); }
+    function shrink() { navEl.classList.add('nav-shrunk'); }
+
+    function onScrollStop() {
+      scrolling = false;
+      if (!navEl.matches(':hover')) shrink();
+    }
+
+    // Shrink after entrance animation settles (~2.5 s)
+    setTimeout(shrink, 2500);
+
+    // Expand while scrolling; start shrink timer when scroll stops
+    addEventListener('scroll', () => {
+      expand();
+      if (!scrolling) scrolling = true;
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(onScrollStop, 1100);
+    }, { passive: true });
+
+    // Hover: expand immediately, shrink on leave (unless still scrolling)
+    navEl.addEventListener('mouseenter', expand);
+    navEl.addEventListener('mouseleave', () => {
+      if (!scrolling) shrink();
+    });
+
+    // Focus inside nav (keyboard nav): keep expanded
+    navEl.addEventListener('focusin',  expand);
+    navEl.addEventListener('focusout', e => {
+      if (!navEl.contains(e.relatedTarget) && !scrolling) shrink();
+    });
+  })();
 
   // ── 19. Impact map — SVG path drawing, flow dots, workstream expand ──
   (function() {
