@@ -535,6 +535,35 @@
   .btn svg { transition: transform .35s var(--ease); }
   .btn:hover svg { transform: translateX(4px); }
   .resume-dl .btn:hover svg { transform: translateY(3px); }
+  /* ── Hero status chip ── */
+  .hero-status {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 7px 16px 7px 12px; margin-bottom: 28px;
+    background: var(--glass);
+    -webkit-backdrop-filter: saturate(180%) blur(16px); backdrop-filter: saturate(180%) blur(16px);
+    border: 1px solid var(--glass-border); border-radius: 99px;
+    font-size: 13px; font-weight: 500; color: var(--ink-2); letter-spacing: .01em;
+    box-shadow: 0 4px 18px var(--shadow);
+    width: fit-content;
+  }
+  .hero-status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--blue); flex-shrink: 0;
+    animation: statusPulse 2.6s ease-in-out infinite;
+  }
+  @keyframes statusPulse {
+    0%, 100% { box-shadow: 0 0 0 0   rgba(41,151,255,.55); }
+    55%       { box-shadow: 0 0 0 5px rgba(41,151,255,0);   }
+  }
+  [data-theme="dark"] .hero-status-dot { animation: statusPulseDark 2.6s ease-in-out infinite; }
+  @keyframes statusPulseDark {
+    0%, 100% { box-shadow: 0 0 0 0   rgba(100,210,255,.6); }
+    55%       { box-shadow: 0 0 0 5px rgba(100,210,255,0);  }
+  }
+  header.hero .hero-status { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 450ms both; }
+  @media (prefers-reduced-motion: reduce) { .hero-status-dot { animation: none !important; } }
+  @media (max-width: 640px) { .hero-status { font-size: 12px; padding: 6px 13px 6px 10px; margin-bottom: 20px; } }
+
   .scroll-hint {
     position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
     font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-2);
@@ -1551,8 +1580,12 @@
 <!-- ================= HERO ================= -->
 <header class="hero wrap" id="top">
   <div class="hero-glow"></div>
+  <div class="hero-status" aria-label="Location and focus">
+    <span class="hero-status-dot" aria-hidden="true"></span>
+    Chicago, IL &nbsp;·&nbsp; Building AI-ready systems
+  </div>
   <h1>Building technology that ships,<br><span class="grad">and strategy that keeps moving.</span></h1>
-  <p class="sub"><b>Senior Consultant at EY Studio+</b> — I started in enterprise product at SAP, spent four years at EY shipping cloud platforms and federal systems that couldn't afford to fail, and now work where reliability meets what's next. My passion is closing the gap between ambitious technology decisions and the moment they actually work in production.</p>
+  <p class="sub"><b>Senior Consultant at EY Studio+.</b> I started in enterprise product at SAP, spent four years at EY shipping cloud platforms and federal systems, and now work where technology strategy meets what engineering actually has to deliver. Along the way: a retail platform live across 100+ locations, a federal cloud cleared without a single audit finding, and a few clients who now think differently about AI. I'm drawn to the space where the decision room meets the production environment.</p>
   <div class="hero-logos" aria-label="Companies I've worked with">
     <div class="logo-item" aria-label="EY Studio+">
       <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-img logo-img-studio">
@@ -2223,47 +2256,116 @@
     }
   }
 
-  // Floating particles in hero
-  if (!noMotion) {
-    const hero   = document.querySelector('header.hero');
-    const cvs    = document.createElement('canvas');
+  // ── Hero signal-mesh animation ──
+  (function () {
+    if (noMotion) return;
+    const hero = document.querySelector('header.hero');
+    if (!hero) return;
+
+    const cvs = document.createElement('canvas');
     cvs.setAttribute('aria-hidden', 'true');
-    cvs.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.45';
+    cvs.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:0;';
     hero.insertBefore(cvs, hero.querySelector('.hero-glow').nextSibling);
-    const ctx2 = cvs.getContext('2d');
-    let cW, cH, pts = [];
-    const initCanvas = () => {
-      cW = cvs.width  = hero.offsetWidth;
-      cH = cvs.height = hero.offsetHeight;
+    const ctx = cvs.getContext('2d');
+
+    let W, H, rzTimer;
+    const resize = () => { W = cvs.width = hero.offsetWidth; H = cvs.height = hero.offsetHeight; };
+    resize();
+    addEventListener('resize', () => { clearTimeout(rzTimer); rzTimer = setTimeout(resize, 150); });
+
+    const LABELS = ['AI', 'Cloud', 'QE', 'Azure', 'SAFe', 'Python', 'MTTR', 'NIST'];
+    const TOTAL  = 14;
+
+    // Deterministic node layout via golden-angle spiral
+    const nodes = Array.from({ length: TOTAL }, (_, i) => {
+      const angle = (i * 137.508) % 360 * Math.PI / 180;
+      const reach = 0.14 + (i / TOTAL) * 0.70;
+      return {
+        x:  W / 2 + Math.cos(angle) * W * reach * 0.47,
+        y:  H / 2 + Math.sin(angle) * H * reach * 0.40,
+        vx: Math.sin(i * 2.31 + 1.1) * 0.095,
+        vy: Math.cos(i * 1.73 + 0.5) * 0.085,
+        r:  1.4 + (i % 3) * 0.60,
+        label: i < LABELS.length ? LABELS[i] : null,
+      };
+    });
+
+    let raf = null;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      const dark   = document.documentElement.dataset.theme === 'dark';
+      const mobile = W < 768;
+      const count  = mobile ? 8 : TOTAL;
+      const maxD   = mobile ? 150 : 235;
+      const view   = nodes.slice(0, count);
+      const pad    = 32;
+
+      // ── Move nodes (soft edge bounce) ──
+      view.forEach(n => {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < pad || n.x > W - pad) { n.vx = -n.vx; n.x = Math.max(pad, Math.min(W - pad, n.x)); }
+        if (n.y < pad || n.y > H - pad) { n.vy = -n.vy; n.y = Math.max(pad, Math.min(H - pad, n.y)); }
+      });
+
+      // ── Draw curved edges ──
+      ctx.lineWidth = 0.75;
+      for (let i = 0; i < view.length; i++) {
+        for (let j = i + 1; j < view.length; j++) {
+          const dx = view[j].x - view[i].x;
+          const dy = view[j].y - view[i].y;
+          const d  = Math.sqrt(dx * dx + dy * dy);
+          if (d >= maxD) continue;
+          const t = 1 - d / maxD;
+          ctx.beginPath();
+          ctx.moveTo(view[i].x, view[i].y);
+          // Subtle perpendicular bow — gives the "signal mesh" feel
+          ctx.quadraticCurveTo(
+            (view[i].x + view[j].x) / 2 + dy * 0.08,
+            (view[i].y + view[j].y) / 2 - dx * 0.08,
+            view[j].x, view[j].y
+          );
+          ctx.strokeStyle = dark
+            ? 'rgba(41,151,255,' + (t * 0.20).toFixed(3) + ')'
+            : 'rgba(0,102,214,'  + (t * 0.11).toFixed(3) + ')';
+          ctx.stroke();
+        }
+      }
+
+      // ── Draw nodes, halos, labels ──
+      view.forEach((n, idx) => {
+        // Soft outer halo on hub nodes (every 3rd)
+        if (idx % 3 === 0) {
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r * 4.5, 0, Math.PI * 2);
+          ctx.strokeStyle = dark ? 'rgba(41,151,255,0.07)' : 'rgba(0,102,214,0.05)';
+          ctx.lineWidth   = 0.8;
+          ctx.stroke();
+          ctx.lineWidth   = 0.75;
+        }
+        // Node dot
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = dark ? 'rgba(100,210,255,0.55)' : 'rgba(0,102,214,0.38)';
+        ctx.fill();
+        // Ambient label (desktop only, barely visible)
+        if (n.label && !mobile) {
+          ctx.font      = '8.5px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif';
+          ctx.fillStyle = dark ? 'rgba(180,225,255,0.22)' : 'rgba(0,80,190,0.15)';
+          ctx.fillText(n.label, n.x + n.r + 5, n.y + 3.5);
+        }
+      });
+
+      raf = requestAnimationFrame(draw);
     };
-    initCanvas();
-    addEventListener('resize', initCanvas);
-    // Seed particles with pseudo-random-like spread
-    for (let i = 0; i < 48; i++) {
-      const a = (i * 137.508) % 360 * Math.PI / 180; // golden-angle spread
-      const d = (i / 48) * Math.hypot(800, 500);
-      pts.push({
-        x: 800 + Math.cos(a) * d * .7,
-        y: 350 + Math.sin(a) * d * .5,
-        r: .4 + (i % 4) * .35,
-        vx: (i % 7 - 3) * .06,
-        vy: (i % 5 - 2) * .06,
-        o: .15 + (i % 5) * .07
-      });
-    }
-    (function drawPts() {
-      ctx2.clearRect(0, 0, cW, cH);
-      const dark = document.documentElement.dataset.theme === 'dark';
-      ctx2.fillStyle = dark ? '#2997ff' : '#0066d6';
-      pts.forEach(p => {
-        p.x = (p.x + p.vx + cW) % cW;
-        p.y = (p.y + p.vy + cH) % cH;
-        ctx2.globalAlpha = p.o;
-        ctx2.beginPath(); ctx2.arc(p.x, p.y, p.r, 0, 6.283); ctx2.fill();
-      });
-      requestAnimationFrame(drawPts);
-    })();
-  }
+
+    // Pause animation when hero scrolls off-screen (battery saver)
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { if (!raf) raf = requestAnimationFrame(draw); }
+      else                  { cancelAnimationFrame(raf); raf = null; }
+    }, { threshold: 0 }).observe(hero);
+  })();
 
   // ── 13. Nav resume dropdown (click/keyboard, closes on outside click) ──
   const resumeDropdown = document.getElementById('resumeDropdown');
