@@ -1201,6 +1201,78 @@
   }
   .work-row.r.visible { animation: fadeRight 520ms cubic-bezier(.25,.1,.25,1) both; }
 
+  /* ── Map hover scrim — dims page, lifts map to spotlight ── */
+  #map-scrim {
+    position: fixed; inset: 0; z-index: 30;
+    background: rgba(0,0,0,0); pointer-events: none;
+    transition: background .5s ease;
+  }
+  #map-scrim.active { background: rgba(0,0,0,.40); }
+  /* Lift impact-wrap above scrim on hover */
+  .impact-wrap.map-spotlit { position: relative; z-index: 31; }
+
+  /* ── Map floating hint ── */
+  .map-hint {
+    display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
+    margin: 24px auto 4px; padding: 11px 22px;
+    width: fit-content; max-width: 100%;
+    background: var(--glass);
+    -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+    border: 1px solid var(--glass-border); border-radius: 99px;
+    font-size: 13px; font-weight: 500; color: var(--ink-2);
+    box-shadow: 0 8px 26px var(--shadow);
+    opacity: 0; pointer-events: none;
+    transition: opacity .5s ease;
+    text-align: center;
+  }
+  .map-hint.hint-visible {
+    opacity: 1; pointer-events: auto;
+    animation: bob 2.6s ease-in-out 1.2s infinite;
+  }
+  .map-hint.hint-gone { opacity: 0 !important; pointer-events: none; transition: opacity .3s ease; }
+  .hint-sep { opacity: .3; }
+  .hint-btn {
+    background: none; border: none; cursor: pointer; padding: 0;
+    color: var(--blue); font-weight: 600; font-size: 13px; font-family: inherit;
+    transition: color .2s;
+  }
+  .hint-btn:hover { color: var(--blue-bright); text-decoration: underline; }
+
+  /* ── Case studies collapsible toggle ── */
+  .case-studies-toggle {
+    display: flex; align-items: center; gap: 18px; width: 100%;
+    margin: 60px 0 0; padding: 12px 0;
+    font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-2); cursor: pointer;
+    background: none; border: none; font-family: inherit;
+    transition: color .25s;
+  }
+  .case-studies-toggle::before { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .cs-chevron {
+    width: 16px; height: 16px; flex-shrink: 0; color: var(--ink-2); opacity: .5;
+    transition: transform .3s var(--ease), color .25s, opacity .25s;
+  }
+  .case-studies-toggle[aria-expanded="true"] { color: var(--blue); }
+  .case-studies-toggle[aria-expanded="true"] .cs-chevron { transform: rotate(180deg); color: var(--blue); opacity: 1; }
+  .case-studies-toggle:hover { color: var(--ink); }
+  .case-studies-toggle:hover .cs-chevron { opacity: .8; }
+
+  .case-studies-body {
+    overflow: hidden;
+    max-height: 0; opacity: 0;
+    transition: max-height .7s cubic-bezier(.25,.1,.25,1), opacity .4s ease;
+  }
+  .case-studies-body.open { max-height: 6000px; opacity: 1; }
+
+  @media (max-width: 640px) {
+    .case-studies-toggle { margin: 32px 0 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .map-hint.hint-visible { animation: none; }
+    .case-studies-body { transition: none; }
+    #map-scrim { transition: none; }
+  }
+
   @media (max-width: 768px) {
     .impact-map    { padding: 18px; border-radius: 16px; }
     .impact-cols   { grid-template-columns: 1fr; gap: 20px; }
@@ -1373,6 +1445,7 @@
 
 <div id="progress"></div>
 <div id="intro-line" aria-hidden="true"></div>
+<div id="map-scrim" aria-hidden="true"></div>
 
 <nav>
   <a href="#top" style="font-weight:700; color:var(--ink)">UD</a>
@@ -1746,62 +1819,75 @@
       </div>
     </div>
     <div class="impact-detail" id="impactDetail"></div>
+
+    <!-- Floating hint — lives inside impact-wrap so it lifts above the scrim -->
+    <div class="map-hint" id="mapHint">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>
+      Click in the map
+      <span class="hint-sep">·</span>
+      or <button class="hint-btn" id="hintExpandBtn">expand the list below</button> to view my experience
+    </div>
   </div>
 
-  <div class="case-divider r">Detailed Case Studies</div>
+  <button class="case-studies-toggle r" id="caseStudiesToggle" aria-expanded="false" aria-controls="caseStudiesBody">
+    Detailed Case Studies
+    <svg class="cs-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
 
-  <div class="work-row r">
-    <div class="idx">01</div>
-    <div>
-      <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Release safety &amp; observability at scale</h3>
-      <p class="desc">Embedded with a Fortune 100 retailer's cloud engineering team to harden releases — rollback standards, pre-deployment risk patterns, and an observability framework built from structured logs, dashboards, and diagnostic metrics.</p>
+  <div class="case-studies-body" id="caseStudiesBody">
+    <div class="work-row r">
+      <div class="idx">01</div>
+      <div>
+        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Release safety &amp; observability at scale</h3>
+        <p class="desc">Embedded with a Fortune 100 retailer's cloud engineering team to harden releases — rollback standards, pre-deployment risk patterns, and an observability framework built from structured logs, dashboards, and diagnostic metrics.</p>
+      </div>
+      <div class="meta"><span class="outcome">Incidents <em>−20%</em> · MTTR <em>−15%</em></span>Cloud · CI/CD · Grafana · AppDynamics</div>
     </div>
-    <div class="meta"><span class="outcome">Incidents <em>−20%</em> · MTTR <em>−15%</em></span>Cloud · CI/CD · Grafana · AppDynamics</div>
-  </div>
 
-  <div class="work-row r">
-    <div class="idx">02</div>
-    <div>
-      <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Contact center AI strategy</h3>
-      <p class="desc">AI and technology points of view for Fortune 500 healthcare clients — capability assessments, tech stack benchmarks, and persona-based journeys, anchored in live validation of real customer service experiences.</p>
+    <div class="work-row r">
+      <div class="idx">02</div>
+      <div>
+        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Contact center AI strategy</h3>
+        <p class="desc">AI and technology points of view for Fortune 500 healthcare clients — capability assessments, tech stack benchmarks, and persona-based journeys, anchored in live validation of real customer service experiences.</p>
+      </div>
+      <div class="meta"><span class="outcome">Shaped <em>pursuit strategy</em></span>Generative AI · CX Strategy · Research</div>
     </div>
-    <div class="meta"><span class="outcome">Shaped <em>pursuit strategy</em></span>Generative AI · CX Strategy · Research</div>
-  </div>
 
-  <div class="work-row r">
-    <div class="idx">03</div>
-    <div>
-      <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Retail platform launch, 100+ locations</h3>
-      <p class="desc">Led quality engineering for an in-store production platform rollout: automated regression with Kotlin and Appium, cross-team triage, weekly release sign-offs.</p>
+    <div class="work-row r">
+      <div class="idx">03</div>
+      <div>
+        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Retail platform launch, 100+ locations</h3>
+        <p class="desc">Led quality engineering for an in-store production platform rollout: automated regression with Kotlin and Appium, cross-team triage, weekly release sign-offs.</p>
+      </div>
+      <div class="meta"><span class="outcome">Routing efficiency <em>+30%</em></span>Kotlin · Appium · Agile · JIRA</div>
     </div>
-    <div class="meta"><span class="outcome">Routing efficiency <em>+30%</em></span>Kotlin · Appium · Agile · JIRA</div>
-  </div>
 
-  <div class="work-row r">
-    <div class="idx">04</div>
-    <div>
-      <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Federal cloud, zero audit findings</h3>
-      <p class="desc">Coordinated agile delivery on a Microsoft GCC High implementation, ensuring FedRAMP and NIST 800-53 controls were executed and verified end to end.</p>
+    <div class="work-row r">
+      <div class="idx">04</div>
+      <div>
+        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Federal cloud, zero audit findings</h3>
+        <p class="desc">Coordinated agile delivery on a Microsoft GCC High implementation, ensuring FedRAMP and NIST 800-53 controls were executed and verified end to end.</p>
+      </div>
+      <div class="meta"><span class="outcome"><em>0</em> audit findings</span>Azure · FedRAMP · NIST 800-53</div>
     </div>
-    <div class="meta"><span class="outcome"><em>0</em> audit findings</span>Azure · FedRAMP · NIST 800-53</div>
-  </div>
 
-  <div class="work-row r">
-    <div class="idx">05</div>
-    <div>
-      <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Shipping API performance engineering</h3>
-      <p class="desc">20+ JMeter test scripts and load benchmarks built with teams across the US and India for a major e-commerce launch, tracked in Azure DevOps, AppDynamics, and Grafana.</p>
+    <div class="work-row r">
+      <div class="idx">05</div>
+      <div>
+        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Shipping API performance engineering</h3>
+        <p class="desc">20+ JMeter test scripts and load benchmarks built with teams across the US and India for a major e-commerce launch, tracked in Azure DevOps, AppDynamics, and Grafana.</p>
+      </div>
+      <div class="meta"><span class="outcome">API reliability <em>+15%</em></span>JMeter · Performance · Azure DevOps</div>
     </div>
-    <div class="meta"><span class="outcome">API reliability <em>+15%</em></span>JMeter · Performance · Azure DevOps</div>
-  </div>
 
-  <div class="work-row r">
-    <div class="idx">06</div>
-    <div>
-      <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Global product delivery &amp; SAFe agile — SAP</h3>
-      <p class="desc">Coordinated SAFe delivery with the Chief Product Owner across Germany, the US, and India — managing ARTs, tracking OKRs, and keeping increments on schedule. Facilitated design thinking workshops for 50+ professionals across three continents; UX research shaped SAP FlexConnect.</p>
+    <div class="work-row r">
+      <div class="idx">06</div>
+      <div>
+        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Global product delivery &amp; SAFe agile — SAP</h3>
+        <p class="desc">Coordinated SAFe delivery with the Chief Product Owner across Germany, the US, and India — managing ARTs, tracking OKRs, and keeping increments on schedule. Facilitated design thinking workshops for 50+ professionals across three continents; UX research shaped SAP FlexConnect.</p>
+      </div>
+      <div class="meta"><span class="outcome"><em>50+</em> professionals upskilled across 3 continents</span>SAP · SAFe · ARTs · OKRs · Product Management · UX Research</div>
     </div>
-    <div class="meta"><span class="outcome"><em>50+</em> professionals upskilled across 3 continents</span>SAP · SAFe · ARTs · OKRs · Product Management · UX Research</div>
   </div>
 </section>
 
@@ -2563,6 +2649,74 @@
         fab.style.pointerEvents = entries[0].isIntersecting ? 'none' : '';
       }, { threshold: 0.2 });
       obs.observe(footer);
+    }
+  })();
+
+  // ── 20. Map hover scrim + floating hint + case studies collapsible ──
+  (function() {
+    const hasHover   = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const noMotion   = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const impactWrap = document.querySelector('.impact-wrap');
+    const mapScrim   = document.getElementById('map-scrim');
+    const mapHint    = document.getElementById('mapHint');
+    const hintBtn    = document.getElementById('hintExpandBtn');
+    const caseToggle = document.getElementById('caseStudiesToggle');
+    const caseBody   = document.getElementById('caseStudiesBody');
+
+    // Scrim: dims page on hover of impact-wrap (pointer devices only)
+    if (impactWrap && mapScrim && hasHover && !noMotion) {
+      impactWrap.addEventListener('mouseenter', () => {
+        mapScrim.classList.add('active');
+        impactWrap.classList.add('map-spotlit');
+      });
+      impactWrap.addEventListener('mouseleave', () => {
+        mapScrim.classList.remove('active');
+        impactWrap.classList.remove('map-spotlit');
+      });
+    }
+
+    // Hint: appears 1.5s after impact-wrap enters view
+    if (impactWrap && mapHint) {
+      let hintShown = false;
+      const hintIo = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting && !hintShown) {
+            hintShown = true;
+            setTimeout(() => mapHint.classList.add('hint-visible'), noMotion ? 0 : 1500);
+          }
+        });
+      }, { threshold: 0.5 });
+      hintIo.observe(impactWrap);
+    }
+
+    function dismissHint() {
+      if (mapHint && !mapHint.classList.contains('hint-gone')) {
+        mapHint.classList.remove('hint-visible');
+        mapHint.classList.add('hint-gone');
+      }
+    }
+
+    // Dismiss hint on any map interaction
+    const mapEl = document.getElementById('impactMap');
+    if (mapEl) mapEl.addEventListener('click', dismissHint, { once: true });
+
+    // Hint "expand the list below" button → open case studies + scroll
+    if (hintBtn && caseToggle && caseBody) {
+      hintBtn.addEventListener('click', () => {
+        caseBody.classList.add('open');
+        caseToggle.setAttribute('aria-expanded', 'true');
+        dismissHint();
+        setTimeout(() => caseToggle.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
+      });
+    }
+
+    // Case studies toggle button
+    if (caseToggle && caseBody) {
+      caseToggle.addEventListener('click', () => {
+        const open = caseBody.classList.toggle('open');
+        caseToggle.setAttribute('aria-expanded', String(open));
+        if (open) dismissHint();
+      });
     }
   })();
 
