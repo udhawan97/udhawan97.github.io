@@ -2864,7 +2864,7 @@
   });
 
   // ── 17. Contact FAB + footer availability badge ──────────────
-  // Both driven by the same chicagoHour() — one update() call keeps them in sync.
+  // Both driven by the same chicagoStatus() — one update() call keeps them in sync.
   (function () {
     const fab      = document.getElementById('contact-fab');
     const dotEl    = document.getElementById('fab-dot');
@@ -2884,12 +2884,21 @@
     const liSVG = '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>';
     const emailSVG = '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>';
 
-    // Use visitor's local time (not Chicago) for status rules
-    function localStatus() {
-      const now  = new Date();
-      const day  = now.getDay();   // 0 = Sun, 6 = Sat
-      const hour = now.getHours(); // 0–23
-      const isWeekend  = day === 0 || day === 6;
+    // Compute the day + hour in Chicago, not the visitor's timezone, so the
+    // status reflects MY local time wherever the visitor happens to be.
+    // 'America/Chicago' handles the CST/CDT daylight-saving switch automatically.
+    function chicagoStatus() {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Chicago',
+        weekday: 'short',   // e.g. "Mon"
+        hour: 'numeric',
+        hour12: false,      // 0–23
+      }).formatToParts(new Date());
+      const weekday = parts.find(p => p.type === 'weekday').value;
+      let hour = parseInt(parts.find(p => p.type === 'hour').value, 10);
+      if (hour === 24) hour = 0; // some engines report midnight as "24"
+
+      const isWeekend  = weekday === 'Sat' || weekday === 'Sun';
       const isWorkHours = !isWeekend && hour >= 9 && hour < 17;
 
       if (isWeekend) {
@@ -2902,7 +2911,7 @@
     }
 
     function update() {
-      const { color, pulse, statusText, fabHref, fabTarget, fabLabel, fabIcon } = localStatus();
+      const { color, pulse, statusText, fabHref, fabTarget, fabLabel, fabIcon } = chicagoStatus();
 
       // FAB
       fab.href = fabHref;
