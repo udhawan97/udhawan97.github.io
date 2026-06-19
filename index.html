@@ -2746,7 +2746,16 @@
     let rTimer;
     window.addEventListener('resize', () => {
       clearTimeout(rTimer);
-      rTimer = setTimeout(drawPaths, 150);
+      rTimer = setTimeout(() => {
+        drawPaths();
+        // drawPaths re-creates each path hidden (strokeDashoffset = len). The draw-in
+        // reveal only runs once (pathsAnimated guard), so once the map has already been
+        // revealed we must show the freshly-drawn paths immediately — otherwise a resize
+        // leaves the connectors permanently invisible.
+        if (pathsAnimated && !noMotion) {
+          pathEls.forEach(p => { p.style.strokeDashoffset = '0'; });
+        }
+      }, 150);
     });
   })();
 
