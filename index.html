@@ -1058,7 +1058,9 @@
 
   /* Custom cursor — dot + lagging ring, only on hover-capable devices */
   @media (hover: hover) and (pointer: fine) {
-    * { cursor: none !important; }
+    /* Hide the native cursor only once JS has created the replacement dot
+       (body.cursor-ready). Otherwise a JS failure leaves an invisible cursor. */
+    body.cursor-ready * { cursor: none !important; }
     #cur, #cur-ring {
       position: fixed; border-radius: 50%; pointer-events: none;
       transform: translate(-50%, -50%); will-change: left, top;
@@ -1658,7 +1660,7 @@
   <div class="about-grid">
     <figure class="portrait r d1">
       <!-- Drop your photo at assets/headshot.jpg — placeholder shows until then -->
-      <img src="assets/headshot.jpg" alt="Umang Dhawan" onerror="this.outerHTML='<div class=&quot;ph&quot;>UD</div>'">
+      <img src="assets/headshot.jpg" alt="Umang Dhawan" loading="lazy" decoding="async" onerror="this.outerHTML='<div class=&quot;ph&quot;>UD</div>'">
       <figcaption>EY Studio+ · Chicago</figcaption>
     </figure>
     <div class="about-copy">
@@ -1818,7 +1820,7 @@
   <div class="xp">
     <div class="xp-card r">
       <div class="xp-icon">
-        <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-has-bg">
+        <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-has-bg" loading="lazy" decoding="async">
       </div>
       <div class="when">Jun 2025 — Present</div>
       <h3>Senior Consultant</h3>
@@ -1827,7 +1829,7 @@
     </div>
     <div class="xp-card r d1">
       <div class="xp-icon">
-        <img src="assets/logos/ey.png" alt="EY" class="logo-img">
+        <img src="assets/logos/ey.png" alt="EY" class="logo-img" loading="lazy" decoding="async">
       </div>
       <div class="when">Jul 2022 — Jun 2025</div>
       <h3>Consultant</h3>
@@ -1836,7 +1838,7 @@
     </div>
     <div class="xp-card r d2">
       <div class="xp-icon">
-        <img src="assets/logos/sap.png" alt="SAP" class="logo-img">
+        <img src="assets/logos/sap.png" alt="SAP" class="logo-img" loading="lazy" decoding="async">
       </div>
       <div class="when">Jan — Dec 2021</div>
       <h3>IT Leadership Intern</h3>
@@ -2005,6 +2007,7 @@
     <p>Most of my day-to-day commits live in private client repositories — public experiments in AI and automation land at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a> as they're ready.</p>
     <div class="gh-graph">
       <img src="https://ghchart.rshah.org/0066d6/udhawan97" alt="GitHub contribution graph"
+           loading="lazy" decoding="async"
            onerror="this.replaceWith(Object.assign(document.createElement('p'),{textContent:'Graph unavailable — see github.com/udhawan97',style:'color:#515154;font-size:14px'}))">
     </div>
   </div>
@@ -2229,6 +2232,9 @@
     const dot  = Object.assign(document.createElement('div'), { id: 'cur' });
     const ring = Object.assign(document.createElement('div'), { id: 'cur-ring' });
     document.body.prepend(ring, dot);
+    // Only now hide the native cursor — if this code never runs, the system
+    // cursor stays visible rather than disappearing with no replacement.
+    document.body.classList.add('cursor-ready');
     let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
     addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
@@ -2431,6 +2437,14 @@
   document.addEventListener('click', () => {
     resumeDropdown.classList.remove('open');
     resumeBtn.setAttribute('aria-expanded', 'false');
+  });
+  // Escape closes the menu and returns focus to the trigger (WAI-ARIA menu-button)
+  resumeDropdown.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && resumeDropdown.classList.contains('open')) {
+      resumeDropdown.classList.remove('open');
+      resumeBtn.setAttribute('aria-expanded', 'false');
+      resumeBtn.focus();
+    }
   });
   resumeDropdown.querySelector('.resume-dropdown-inner').addEventListener('click', e => {
     if (!e.target.closest('a')) e.stopPropagation();
