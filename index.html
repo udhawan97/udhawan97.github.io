@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,11 +26,10 @@
 <!-- Colours the mobile browser chrome; kept in sync with the active theme by JS (see setIcon) -->
 <meta name="theme-color" id="theme-color-meta" content="#000000">
 <script>
-  // Set theme before paint to avoid flash: saved choice > system preference
+  // Set theme before paint: dark by default, unless the visitor chose light.
   (function () {
     var saved = localStorage.getItem('theme');
-    var dark = saved ? saved === 'dark' : true;
-    if (dark) document.documentElement.dataset.theme = 'dark';
+    document.documentElement.dataset.theme = saved === 'light' ? 'light' : 'dark';
   })();
 </script>
 <style>
@@ -58,7 +57,7 @@
    *  15. UI Components (toast, resume notification, FAB, cursor)
    *  16. Mobile responsive overrides
    *
-   *  Themes: light (default) / dark via [data-theme="dark"] on <html>.
+   *  Themes: dark (default) / light via [data-theme="light"] on <html>.
    *  Animations suppressed via prefers-reduced-motion throughout.
    *  © 2026 Umang Dhawan
    * ══════════════════════════════════════════════════════════════
@@ -2094,8 +2093,7 @@
   setIcon();
   const toggleTheme = () => {
     const dark = document.documentElement.dataset.theme === 'dark';
-    if (dark) delete document.documentElement.dataset.theme;
-    else document.documentElement.dataset.theme = 'dark';
+    document.documentElement.dataset.theme = dark ? 'light' : 'dark';
     localStorage.setItem('theme', dark ? 'light' : 'dark');
     setIcon();
   };
