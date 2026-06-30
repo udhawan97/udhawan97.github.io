@@ -40,7 +40,7 @@ class Umang:
 ## 🌱 Right now I'm...
 
 - Going deep on **AI and cloud** — less hype, more "how do large orgs actually use this"
-- Collecting DeepLearning.AI certificates like infinity stones 💎
+- Collecting certificates like infinity stones 💎
 - Building small experiments that will (eventually 😅) land in public repos here
 
 ## 📫 Say hi
