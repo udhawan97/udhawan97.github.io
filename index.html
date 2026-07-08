@@ -893,7 +893,7 @@
 
   /* ── Orifold visual — floating, fanning PDF stack with a self-drawing signature ── */
   .pdf-stack { position: relative; width: 96px; height: 118px; animation: pdfFloat 5.5s ease-in-out infinite; }
-  @keyframes pdfFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  @keyframes pdfFloat { 0%, 100% { transform: translateY(0) rotate(-1.2deg); } 50% { transform: translateY(-7px) rotate(1.2deg); } }
   .pdf-page {
     position: absolute; inset: 0; border-radius: 9px;
     background: linear-gradient(158deg, #fbfbfd, #e7ecf3);
@@ -957,11 +957,84 @@
     100% { opacity: 0; transform: scale(2.6); }
   }
 
+  /* Ambient light sweep across every visual */
+  .ghp-visual::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 4;
+    background: linear-gradient(115deg, transparent 34%, rgba(255,255,255,.05) 48%, rgba(255,255,255,.11) 50%, rgba(255,255,255,.05) 52%, transparent 66%);
+    transform: translateX(-130%);
+    animation: ghpShimmer 6.5s ease-in-out infinite;
+  }
+  @keyframes ghpShimmer { 0%, 62% { transform: translateX(-130%); } 84%, 100% { transform: translateX(130%); } }
+
+  /* Diagonal sheen swept across the whole card on hover */
+  .ghp-card::before {
+    content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0;
+    background: linear-gradient(118deg, transparent 42%, rgba(41,151,255,.14) 50%, transparent 58%);
+    transform: translateX(-100%);
+  }
+  .ghp-card:hover::before { opacity: 1; animation: ghpSheen 850ms var(--ease); }
+  @keyframes ghpSheen { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+  /* Tags stagger in when the card reveals */
+  .ghp-card .ghp-tag { opacity: 0; transform: translateY(7px); }
+  .ghp-card.visible .ghp-tag { animation: ghpTagIn .5s var(--ease) both; }
+  .ghp-card.visible .ghp-tag:nth-child(1) { animation-delay: .18s; }
+  .ghp-card.visible .ghp-tag:nth-child(2) { animation-delay: .26s; }
+  .ghp-card.visible .ghp-tag:nth-child(3) { animation-delay: .34s; }
+  .ghp-card.visible .ghp-tag:nth-child(4) { animation-delay: .42s; }
+  @keyframes ghpTagIn { to { opacity: 1; transform: none; } }
+
+  /* Orifold — ambient sparkles + "signed" checkmark */
+  .spark {
+    position: absolute; width: 4px; height: 4px; border-radius: 50%; z-index: 2;
+    background: #2997ff; box-shadow: 0 0 7px #2997ff; opacity: 0;
+  }
+  .spark.s1 { left: 20%; top: 24%; animation: sparkle 4.2s ease-in-out infinite; }
+  .spark.s2 { left: 78%; top: 32%; animation: sparkle 4.2s ease-in-out .9s infinite; }
+  .spark.s3 { left: 68%; top: 74%; animation: sparkle 4.2s ease-in-out 1.9s infinite; }
+  @keyframes sparkle { 0%, 100% { opacity: 0; transform: scale(.3); } 50% { opacity: .9; transform: scale(1); } }
+  .pdf-check {
+    position: absolute; right: 6px; bottom: 8px; width: 22px; height: 22px; border-radius: 50%;
+    background: #30d158; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(48,209,88,.55);
+    opacity: 0; transform: scale(0); animation: pdfCheck 5s ease-in-out infinite;
+  }
+  .pdf-check svg { width: 12px; height: 12px; fill: none; stroke: #fff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+  @keyframes pdfCheck {
+    0%, 38% { opacity: 0; transform: scale(0); }
+    46% { opacity: 1; transform: scale(1.25); }
+    54%, 74% { opacity: 1; transform: scale(1); }
+    84%, 100% { opacity: 0; transform: scale(.4); }
+  }
+
+  /* FolioSenseAI — analysis scan line + gain badge */
+  .fin-scan {
+    position: absolute; top: 0; bottom: 0; width: 2px; left: -2%; z-index: 2;
+    background: linear-gradient(180deg, transparent, rgba(41,151,255,.65), transparent);
+    box-shadow: 0 0 12px rgba(41,151,255,.75); opacity: 0;
+    animation: finScan 5s ease-in-out infinite;
+  }
+  @keyframes finScan { 0% { left: -2%; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { left: 102%; opacity: 0; } }
+  .fin-badge {
+    position: absolute; top: 12px; left: 12px; z-index: 3;
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 700; color: #30d158;
+    background: rgba(48,209,88,.12); border: 1px solid rgba(48,209,88,.32);
+    padding: 3px 9px 3px 7px; border-radius: 99px;
+    opacity: 0; animation: finBadge 5s ease-in-out infinite;
+  }
+  .fin-badge svg { width: 8px; height: 8px; fill: #30d158; }
+  @keyframes finBadge { 0%, 42% { opacity: 0; transform: translateY(-5px); } 52%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-5px); } }
+
   @media (prefers-reduced-motion: reduce) {
-    .pdf-stack, .pdf-sign path, .fin-line, .fin-area, .fin-dot, .fin-ring { animation: none !important; }
+    .pdf-stack, .pdf-sign path, .fin-line, .fin-area, .fin-dot, .fin-ring,
+    .ghp-visual::after, .ghp-card::before, .spark, .pdf-check, .fin-scan, .fin-badge,
+    .ghp-card .ghp-tag { animation: none !important; }
     .pdf-sign path { stroke-dashoffset: 0; }
     .fin-line { stroke-dashoffset: 0; }
-    .fin-area, .fin-dot { opacity: 1; }
+    .fin-area, .fin-dot, .fin-badge, .ghp-card .ghp-tag { opacity: 1; }
+    .ghp-card .ghp-tag { transform: none; }
+    .pdf-check { opacity: 1; transform: scale(1); }
   }
   @media (max-width: 640px) {
     .gh-projects { margin-top: 32px; }
@@ -2199,6 +2272,7 @@
         <!-- Orifold -->
         <article class="ghp-card r d1">
           <div class="ghp-visual" aria-hidden="true">
+            <i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i>
             <div class="pdf-stack">
               <span class="pdf-page p3"></span>
               <span class="pdf-page p2"></span>
@@ -2208,6 +2282,7 @@
                 <span class="pdf-line l2"></span>
                 <span class="pdf-line l3"></span>
                 <svg class="pdf-sign" viewBox="0 0 66 26"><path d="M2 18 C 8 4, 13 4, 17 15 S 27 24, 31 12 S 41 2, 47 13 Q 54 22, 64 6"/></svg>
+                <span class="pdf-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
               </span>
             </div>
           </div>
@@ -2224,10 +2299,14 @@
               <span class="ghp-tag">e-Signature</span>
             </div>
             <div class="ghp-links">
-              <a class="ghp-link primary" href="https://github.com/udhawan97/Orifold" target="_blank" rel="noopener" aria-label="View Orifold source on GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-                View source
+              <a class="ghp-link primary" href="https://udhawan97.github.io/Orifold/" target="_blank" rel="noopener" aria-label="Visit the Orifold website">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Visit site
                 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a class="ghp-link secondary" href="https://github.com/udhawan97/Orifold" target="_blank" rel="noopener" aria-label="View Orifold source on GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                Source
               </a>
             </div>
           </div>
@@ -2255,6 +2334,8 @@
               <path class="fin-area" d="M0 120 L26 106 L52 112 L80 86 L108 94 L136 60 L164 70 L192 44 L222 36 L240 30 L240 150 L0 150 Z"/>
               <path class="fin-line" d="M0 120 L26 106 L52 112 L80 86 L108 94 L136 60 L164 70 L192 44 L222 36"/>
             </svg>
+            <span class="fin-scan"></span>
+            <span class="fin-badge"><svg viewBox="0 0 12 12"><path d="M6 1l5 9H1z"/></svg>+12.4%</span>
             <span class="fin-ring"></span>
             <span class="fin-dot"></span>
           </div>
@@ -2271,14 +2352,14 @@
               <span class="ghp-tag">Market data</span>
             </div>
             <div class="ghp-links">
-              <a class="ghp-link primary" href="https://github.com/udhawan97/FolioSenseAI" target="_blank" rel="noopener" aria-label="View FolioSenseAI source on GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-                View source
+              <a class="ghp-link primary" href="https://udhawan97.github.io/FolioSenseAI/" target="_blank" rel="noopener" aria-label="Visit the FolioSenseAI website">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Visit site
                 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </a>
-              <a class="ghp-link secondary" href="https://udhawan97.github.io/FolioSenseAI/" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>
-                Live demo
+              <a class="ghp-link secondary" href="https://github.com/udhawan97/FolioSenseAI" target="_blank" rel="noopener" aria-label="View FolioSenseAI source on GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                Source
               </a>
             </div>
           </div>
