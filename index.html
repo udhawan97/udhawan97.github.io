@@ -116,10 +116,13 @@
 
   /* ── 3. Scroll progress bar ── */
   #progress {
-    position: fixed; top: 0; left: 0; height: 2px; width: 0;
+    position: fixed; top: 0; left: 0; height: 2px; width: 100%;
+    transform: scaleX(0); transform-origin: 0 50%;
     background: linear-gradient(90deg, var(--blue), var(--blue-bright));
-    z-index: 1000;
+    z-index: 1000; will-change: transform;
   }
+  /* Pause decorative keyframe animations while their section is off-screen (perf/battery) */
+  .anim-paused, .anim-paused * { animation-play-state: paused !important; }
 
   /* ── 4. Nav — floating pill, resume dropdown ── */
   nav {
@@ -415,7 +418,7 @@
   /* hero metrics cluster */
 
   /* scroll-triggered: hidden until .visible is added by IntersectionObserver */
-  .r { opacity:0; transform:translateY(20px); will-change:transform,opacity; }
+  .r { opacity:0; transform:translateY(20px); }
   .kicker.r    { transform:translateX(-30px); }
   .stat.r      { transform:scale(.95) translateY(12px); }
   .portrait.r  { transform:scale(1.03); }
@@ -621,7 +624,6 @@
     transition: color .5s var(--ease), border-color .5s var(--ease),
                 background .5s var(--ease), box-shadow .5s var(--ease),
                 transform .5s var(--ease);
-    will-change: transform;
   }
   .marquee-track span::after { content: "·"; color: var(--blue); font-size: 22px; }
   .marquee-track span.chip-active {
@@ -855,6 +857,20 @@
     gap: 12px; margin-bottom: 9px;
   }
   .ghp-title-row h4 { font-size: 20px; font-weight: 700; letter-spacing: -.02em; color: #f5f5f7; }
+  /* App icon + name grouping (Apple-style app tile beside the title) */
+  .ghp-name { display: flex; align-items: center; gap: 11px; min-width: 0; }
+  .ghp-appicon {
+    width: 30px; height: 30px; flex-shrink: 0; border-radius: 7px; display: block;
+    filter: drop-shadow(0 3px 7px rgba(0,0,0,.5));
+    transition: transform .45s var(--ease);
+  }
+  .ghp-card:hover .ghp-appicon { transform: scale(1.08) translateY(-1px); }
+  /* Two variants per icon: animated shown by default, static swapped in under reduced-motion */
+  .ghp-appicon-static { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .ghp-appicon-motion { display: none; }
+    .ghp-appicon-static { display: block; }
+  }
   .ghp-lang {
     display: inline-flex; align-items: center; gap: 6px;
     font-size: 12px; font-weight: 600; color: #a1a1a6; white-space: nowrap;
@@ -1309,8 +1325,8 @@
        (body.cursor-ready). Otherwise a JS failure leaves an invisible cursor. */
     body.cursor-ready * { cursor: none !important; }
     #cur, #cur-ring {
-      position: fixed; border-radius: 50%; pointer-events: none;
-      transform: translate(-50%, -50%); will-change: left, top;
+      position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none;
+      transform: translate3d(-50%, -50%, 0); will-change: transform;
     }
     #cur {
       width: 8px; height: 8px; background: var(--blue); z-index: 9999;
@@ -1430,11 +1446,12 @@
   }
   .ws-node:hover::after    { opacity: .85; color: var(--blue); transform: translate(1px,-1px); }
   .ws-node.selected::after { opacity: 1;   color: var(--blue-bright); }
-  .ws-node:hover {
+  .ws-node:hover, .ws-node:focus-visible {
     border-color: var(--blue);
     box-shadow: 0 0 0 1px var(--blue), 0 4px 14px var(--shadow);
     transform: translateY(-1px);
   }
+  .ws-node:focus-visible { outline: 2px solid var(--blue-bright); outline-offset: 2px; }
   .ws-node.selected {
     border-color: var(--blue-bright); background: rgba(0,102,214,.06);
     box-shadow: 0 0 0 1.5px var(--blue-bright);
@@ -1504,6 +1521,7 @@
   .impact-detail { overflow: hidden; max-height: 0; opacity: 0;
     transition: max-height .42s cubic-bezier(.25,.1,.25,1), opacity .3s; }
   .impact-detail.open { max-height: 500px; opacity: 1; }
+  .impact-detail:focus-visible { outline: 2px solid var(--blue-bright); outline-offset: 3px; }
   .impact-detail-inner {
     background: var(--bg-2); border: 1px solid var(--blue);
     border-radius: var(--radius); padding: 26px 30px; margin-top: 20px;
@@ -2173,7 +2191,7 @@
 
       </div>
     </div>
-    <div class="impact-detail" id="impactDetail"></div>
+    <div class="impact-detail" id="impactDetail" tabindex="-1"></div>
 
     <!-- Floating hint — lives inside impact-wrap so it lifts above the scrim -->
     <div class="map-hint" id="mapHint">
@@ -2288,7 +2306,11 @@
           </div>
           <div class="ghp-body">
             <div class="ghp-title-row">
-              <h4>Orifold</h4>
+              <div class="ghp-name">
+                <img class="ghp-appicon ghp-appicon-motion" src="assets/logos/orifold.svg" alt="" aria-hidden="true">
+                <img class="ghp-appicon ghp-appicon-static" src="assets/logos/orifold-static.svg" alt="" aria-hidden="true">
+                <h4>Orifold</h4>
+              </div>
               <span class="ghp-lang"><span class="ghp-dot swift"></span>Swift</span>
             </div>
             <p class="ghp-desc">A native macOS PDF workspace — combine, read, annotate, and sign multiple PDFs in one clean, focused view.</p>
@@ -2341,7 +2363,11 @@
           </div>
           <div class="ghp-body">
             <div class="ghp-title-row">
-              <h4>FolioSenseAI</h4>
+              <div class="ghp-name">
+                <img class="ghp-appicon ghp-appicon-motion" src="assets/logos/foliosense.svg" alt="" aria-hidden="true">
+                <img class="ghp-appicon ghp-appicon-static" src="assets/logos/foliosense-static.svg" alt="" aria-hidden="true">
+                <h4>FolioSenseAI</h4>
+              </div>
               <span class="ghp-lang"><span class="ghp-dot python"></span>Python</span>
             </div>
             <p class="ghp-desc">An AI portfolio cockpit that reads your book and tells you what to hold, trim, or exit — and why — with a local-intelligence fallback.</p>
@@ -2512,12 +2538,16 @@
   // ── 2. Scroll progress bar + back-to-top visibility ─────────
   const bar    = document.getElementById('progress');
   const topBtn = document.getElementById('topBtn');
-  addEventListener('scroll', () => {
+  let progRaf = 0;
+  const updateProgress = () => {
+    progRaf = 0;
     const h = document.documentElement;
     const scrollable = h.scrollHeight - h.clientHeight;
-    bar.style.width = (scrollable > 0 ? h.scrollTop / scrollable * 100 : 0) + '%';
+    bar.style.transform = 'scaleX(' + (scrollable > 0 ? h.scrollTop / scrollable : 0) + ')';
     topBtn.classList.toggle('visible', h.scrollTop > innerHeight * 0.6);
-  }, { passive: true });
+  };
+  addEventListener('scroll', () => { if (!progRaf) progRaf = requestAnimationFrame(updateProgress); }, { passive: true });
+  updateProgress();
   topBtn.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
 
   // ── 3. Marquee — duplicate content for seamless loop ─────────
@@ -2529,8 +2559,8 @@
     const marqueeEl = document.querySelector('.marquee');
     if (!marqueeEl || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const chips = Array.from(mq.querySelectorAll('span'));
-    let lastActive = null;
-    setInterval(() => {
+    let lastActive = null, timer = null;
+    const step = () => {
       const mCenter = marqueeEl.getBoundingClientRect().left + marqueeEl.offsetWidth / 2;
       let active = null, best = Infinity;
       chips.forEach(c => {
@@ -2541,7 +2571,12 @@
       if (lastActive && lastActive !== active) lastActive.classList.remove('chip-active');
       if (active) active.classList.add('chip-active');
       lastActive = active;
-    }, 600);
+    };
+    // Only tick while the marquee is actually on-screen (no wasted layout reads)
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { if (!timer) timer = setInterval(step, 600); }
+      else if (timer) { clearInterval(timer); timer = null; }
+    }, { threshold: 0 }).observe(marqueeEl);
   })();
 
   // ── 5. Section h2 word-by-word reveal ────────────────────────
@@ -2580,27 +2615,37 @@
   }), { threshold: 0.2 });
   document.querySelectorAll('.r').forEach(el => io.observe(el));
 
+  // ── 7b. Pause continuous decorative animations while off-screen (perf/battery) ──
+  document.querySelectorAll('.gh-projects').forEach(sec => {
+    new IntersectionObserver(([e]) => {
+      sec.classList.toggle('anim-paused', !e.isIntersecting);
+    }, { threshold: 0 }).observe(sec);
+  });
+
   // ── 8–11. Enhanced interactions ───────────────────────────────
   const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hasHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  // ── 8. Custom cursor ──
-  if (hasHover) {
+  // ── 8. Custom cursor ── (skipped under reduced-motion: the lagging ring-follow is a continuous motion effect)
+  if (hasHover && !noMotion) {
     const dot  = Object.assign(document.createElement('div'), { id: 'cur' });
     const ring = Object.assign(document.createElement('div'), { id: 'cur-ring' });
     document.body.prepend(ring, dot);
     // Only now hide the native cursor — if this code never runs, the system
     // cursor stays visible rather than disappearing with no replacement.
     document.body.classList.add('cursor-ready');
-    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, onLink = false;
+    const setXform = (el, x, y) => { el.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0) translate(-50%,-50%)'; };
+    setXform(dot, mx, my); setXform(ring, rx, ry); // avoid first-frame flash at 0,0
     addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
-      document.body.classList.toggle('on-link', !!e.target.closest('a,button,[role=button]'));
-    });
+      const nowLink = !!e.target.closest('a,button,[role=button]');
+      if (nowLink !== onLink) { onLink = nowLink; document.body.classList.toggle('on-link', nowLink); }
+    }, { passive: true });
     (function loopCursor() {
       rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13;
-      dot.style.left  = mx + 'px'; dot.style.top  = my + 'px';
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      setXform(dot, mx, my);
+      setXform(ring, rx, ry);
       requestAnimationFrame(loopCursor);
     })();
   }
@@ -2608,31 +2653,44 @@
   // ── 9. Magnetic buttons ──
   if (!noMotion && hasHover) {
     document.querySelectorAll('.btn').forEach(btn => {
+      let r = null, raf = 0, tx = 0, ty = 0;
+      btn.addEventListener('mouseenter', () => { r = btn.getBoundingClientRect(); });
       btn.addEventListener('mousemove', e => {
-        const r = btn.getBoundingClientRect();
-        const x = (e.clientX - r.left - r.width  * .5) * .28;
-        const y = (e.clientY - r.top  - r.height * .5) * .38;
-        btn.style.transform = `translate(${x}px,${y}px)`;
+        if (!r) r = btn.getBoundingClientRect();
+        tx = (e.clientX - r.left - r.width  * .5) * .28;
+        ty = (e.clientY - r.top  - r.height * .5) * .38;
+        if (!raf) raf = requestAnimationFrame(() => { raf = 0; btn.style.transform = `translate(${tx}px,${ty}px)`; });
+      }, { passive: true });
+      btn.addEventListener('mouseleave', () => {
+        if (raf) { cancelAnimationFrame(raf); raf = 0; }
+        r = null; btn.style.transform = '';
       });
-      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
     });
   }
 
   // ── 10. 3-D card tilt ──
   if (!noMotion && hasHover) {
     document.querySelectorAll('.stat, .xp-card, .ghp-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width  - .5;
-        const y = (e.clientY - r.top)  / r.height - .5;
-        card.style.transition = 'box-shadow .25s var(--ease)';
-        card.style.transform  = `perspective(700px) rotateX(${-y*9}deg) rotateY(${x*9}deg) translateY(-6px) scale(1.018)`;
-        card.style.boxShadow  = `${x * -20}px ${y * -14}px 38px var(--shadow)`;
+      let r = null, raf = 0, rx = 0, ry = 0;
+      card.addEventListener('mouseenter', () => {
+        r = card.getBoundingClientRect();
+        // transform tracks instantly; let the CSS-driven box-shadow (:hover) ease in on its own
+        card.style.transition = 'box-shadow .3s var(--ease)';
       });
+      card.addEventListener('mousemove', e => {
+        if (!r) r = card.getBoundingClientRect();
+        rx = (e.clientX - r.left) / r.width  - .5;
+        ry = (e.clientY - r.top)  / r.height - .5;
+        if (!raf) raf = requestAnimationFrame(() => {
+          raf = 0;
+          card.style.transform = `perspective(700px) rotateX(${-ry*9}deg) rotateY(${rx*9}deg) translateY(-6px) scale(1.018)`;
+        });
+      }, { passive: true });
       card.addEventListener('mouseleave', () => {
+        if (raf) { cancelAnimationFrame(raf); raf = 0; }
+        r = null;
         card.style.transition = 'transform .55s var(--ease), box-shadow .55s var(--ease)';
         card.style.transform  = '';
-        card.style.boxShadow  = '';
       });
     });
   }
@@ -2641,12 +2699,20 @@
   if (hasHover) {
     const gh = document.querySelector('.gh');
     if (gh) {
+      let r = null, raf = 0, px = 0, py = 0;
+      gh.addEventListener('mouseenter', () => { r = gh.getBoundingClientRect(); });
       gh.addEventListener('mousemove', e => {
-        const r = gh.getBoundingClientRect();
-        gh.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-        gh.style.setProperty('--my', (e.clientY - r.top)  + 'px');
-      });
+        if (!r) r = gh.getBoundingClientRect();
+        px = e.clientX - r.left; py = e.clientY - r.top;
+        if (!raf) raf = requestAnimationFrame(() => {
+          raf = 0;
+          gh.style.setProperty('--mx', px + 'px');
+          gh.style.setProperty('--my', py + 'px');
+        });
+      }, { passive: true });
       gh.addEventListener('mouseleave', () => {
+        if (raf) { cancelAnimationFrame(raf); raf = 0; }
+        r = null;
         gh.style.setProperty('--mx', '-999px');
         gh.style.setProperty('--my', '-999px');
       });
@@ -3061,6 +3127,9 @@
         <div class="impact-detail-tags">${tagsHtml}</div>
       </div>`;
       detailEl.classList.add('open');
+      // Move focus into the newly revealed panel so keyboard/screen-reader users
+      // land on the new content instead of staying on the (now stale) trigger node.
+      detailEl.focus({ preventScroll: true });
     }
 
     // Event listeners on nodes
@@ -3074,6 +3143,9 @@
         node.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetail(node.dataset.id); }
         });
+        // Keyboard focus mirrors mouse hover: show the same connection highlight
+        node.addEventListener('focus', () => applyHover(node.dataset.id));
+        node.addEventListener('blur', clearHover);
       }
     });
 
@@ -3113,6 +3185,13 @@
     }, { threshold: 0.15 });
     pathIo.observe(mapEl);
 
+    // Pause the SMIL flow-dot animation clock while the map is off-screen (perf/battery)
+    if (!noMotion && svgEl && svgEl.pauseAnimations) {
+      new IntersectionObserver(([e]) => {
+        try { e.isIntersecting ? svgEl.unpauseAnimations() : svgEl.pauseAnimations(); } catch (_) {}
+      }, { threshold: 0 }).observe(mapEl);
+    }
+
     // Resize handler redraws paths with current positions
     let rTimer;
     window.addEventListener('resize', () => {
@@ -3148,7 +3227,10 @@
         if (link) link.classList.toggle('nav-active', id === active);
       });
     }
-    addEventListener('scroll', updateNavActive, { passive: true });
+    let navRaf = 0;
+    addEventListener('scroll', () => {
+      if (!navRaf) navRaf = requestAnimationFrame(() => { navRaf = 0; updateNavActive(); });
+    }, { passive: true });
     updateNavActive();
   })();
 
@@ -3181,6 +3263,10 @@
     let fired = false;
     let spotlightTimer;
 
+    function onSpotlightKeydown(e) {
+      if (e.key === 'Escape') dismissSpotlight();
+    }
+
     function dismissSpotlight() {
       clearTimeout(spotlightTimer);
       document.body.classList.remove('resume-spotlight');
@@ -3188,6 +3274,7 @@
       if (freshEl) { freshEl.classList.remove('show'); freshEl.classList.add('hide'); }
       if (navBtn) navBtn.classList.remove('resume-highlight');
       if (overlayEl) overlayEl.removeEventListener('click', dismissSpotlight);
+      document.removeEventListener('keydown', onSpotlightKeydown);
     }
 
     const rIo = new IntersectionObserver(entries => {
@@ -3204,6 +3291,7 @@
           overlayEl.classList.add('show');
           overlayEl.addEventListener('click', dismissSpotlight);
         }
+        document.addEventListener('keydown', onSpotlightKeydown);
 
         // Pulse nav resume button
         if (navBtn) {
@@ -3274,8 +3362,10 @@
         hour: 'numeric',
         hour12: false,      // 0–23
       }).formatToParts(new Date());
-      const weekday = parts.find(p => p.type === 'weekday').value;
-      let hour = parseInt(parts.find(p => p.type === 'hour').value, 10);
+      const weekdayPart = parts.find(p => p.type === 'weekday');
+      const hourPart    = parts.find(p => p.type === 'hour');
+      const weekday = weekdayPart ? weekdayPart.value : 'Mon';
+      let hour = hourPart ? parseInt(hourPart.value, 10) : 12;
       if (hour === 24) hour = 0; // some engines report midnight as "24"
 
       const isWeekend  = weekday === 'Sat' || weekday === 'Sun';
@@ -3321,8 +3411,11 @@
     const footer = document.querySelector('footer');
     if (footer) {
       const obs = new IntersectionObserver(entries => {
-        fab.style.opacity = entries[0].isIntersecting ? '0' : '';
-        fab.style.pointerEvents = entries[0].isIntersecting ? 'none' : '';
+        const inFooter = entries[0].isIntersecting;
+        fab.style.opacity = inFooter ? '0' : '';
+        fab.style.pointerEvents = inFooter ? 'none' : '';
+        // pointer-events:none doesn't stop keyboard activation — also pull it out of tab order
+        if (inFooter) fab.setAttribute('tabindex', '-1'); else fab.removeAttribute('tabindex');
       }, { threshold: 0.2 });
       obs.observe(footer);
     }

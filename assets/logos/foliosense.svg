@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="FolioSenseAI app icon">
+  <defs>
+    <linearGradient id="fsBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#28324a"/>
+      <stop offset="0.58" stop-color="#0d1220"/>
+      <stop offset="1" stop-color="#070a11"/>
+    </linearGradient>
+    <linearGradient id="fsSheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.10"/>
+      <stop offset="0.42" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="fsGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#6fd6f0" stop-opacity="0.34"/>
+      <stop offset="0.7" stop-color="#6fd6f0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="fsSoft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.5"/></filter>
+    <filter id="fsTrail" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="0.55"/></filter>
+  </defs>
+  <rect x="0" y="0" width="100" height="100" rx="23" fill="url(#fsBg)"/>
+  <rect x="0" y="0" width="100" height="100" rx="23" fill="url(#fsSheen)"/>
+  <rect x="0.6" y="0.6" width="98.8" height="98.8" rx="22.4" fill="none" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1.2"/>
+  <circle cx="50" cy="50" r="32" fill="url(#fsGlow)"/>
+  <g transform="translate(50,50) scale(0.82) translate(-50,-50)">
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 50 50; 360 50 50" dur="18s" repeatCount="indefinite"/>
+      <ellipse cx="50" cy="50" rx="32" ry="16" transform="rotate(-22 50 50)" fill="none" stroke="#97acec" stroke-opacity="0.26" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="32" ry="16" transform="rotate(-22 50 50)" fill="none" stroke="#6fd6f0" stroke-opacity="0.18" stroke-width="3" stroke-linecap="round" stroke-dasharray="10 118" filter="url(#fsTrail)"/>
+    </g>
+    <circle cx="50" cy="50" r="28" fill="none" stroke="#97acec" stroke-opacity="0.55" stroke-width="2">
+      <animate attributeName="stroke-opacity" values="0.42;0.72;0.42" dur="4.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50" cy="50" r="28" fill="none" stroke="#6fd6f0" stroke-opacity="0" stroke-width="1.2">
+      <animate attributeName="r" values="26;31;26" dur="4.8s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-opacity" values="0;0.34;0" dur="4.8s" repeatCount="indefinite"/>
+    </circle>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 50 50; 360 50 50" dur="8s" repeatCount="indefinite"/>
+      <circle cx="50" cy="22" r="5.5" fill="#6fd6f0" opacity="0.5" filter="url(#fsSoft)">
+        <animate attributeName="opacity" values="0.3;0.72;0.3" dur="2.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="50" cy="22" r="4" fill="#6fd6f0">
+        <animate attributeName="r" values="3.5;4.5;3.5" dur="2.6s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <circle cx="50" cy="50" r="8.5" fill="#6fd6f0" opacity="0.55" filter="url(#fsSoft)">
+      <animate attributeName="opacity" values="0.34;0.72;0.34" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50" cy="50" r="6" fill="#6fd6f0">
+      <animate attributeName="r" values="5.4;6.8;5.4" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
