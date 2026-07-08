@@ -795,6 +795,181 @@
   .gh-graph { background: #fff; border-radius: 16px; padding: 18px; position: relative; }
   .gh-graph img { width: 100%; height: auto; }
 
+  /* ── 14b. GitHub — featured open-source project cards (live inside dark panel) ── */
+  .gh-projects { margin-top: 44px; position: relative; }
+  .ghp-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap; margin-bottom: 22px;
+  }
+  .ghp-head h3 {
+    font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    color: #f5f5f7; display: flex; align-items: center; gap: 11px;
+  }
+  .ghp-head h3::before {
+    content: ""; width: 24px; height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, #2997ff, transparent);
+  }
+  /* MIT badge — the "all software is open-source under MIT" note */
+  .ghp-mit {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12.5px; font-weight: 500; color: #a1a1a6; white-space: nowrap;
+    background: rgba(41,151,255,.10); border: 1px solid rgba(41,151,255,.24);
+    padding: 6px 14px 6px 11px; border-radius: 99px;
+    transition: border-color .35s var(--ease), background .35s var(--ease);
+  }
+  .ghp-mit:hover { border-color: rgba(41,151,255,.5); background: rgba(41,151,255,.15); }
+  .ghp-mit svg { width: 14px; height: 14px; color: #2997ff; flex-shrink: 0; }
+  .ghp-mit b { color: #f5f5f7; font-weight: 700; }
+
+  .ghp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 760px) { .ghp-grid { grid-template-columns: 1fr; } }
+
+  .ghp-card {
+    position: relative; display: flex; flex-direction: column;
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 20px; overflow: hidden;
+    transition: transform .45s var(--ease), box-shadow .45s var(--ease),
+                border-color .45s var(--ease), background .45s var(--ease);
+  }
+  .ghp-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(41,151,255,.45);
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 24px 54px rgba(0,0,0,.5), 0 0 0 1px rgba(41,151,255,.14);
+  }
+
+  /* Animated visual header */
+  .ghp-visual {
+    position: relative; height: 152px; overflow: hidden;
+    background:
+      radial-gradient(120% 150% at 50% -30%, rgba(41,151,255,.16), transparent 62%),
+      linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.16));
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .ghp-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+  .ghp-title-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 9px;
+  }
+  .ghp-title-row h4 { font-size: 20px; font-weight: 700; letter-spacing: -.02em; color: #f5f5f7; }
+  .ghp-lang {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; color: #a1a1a6; white-space: nowrap;
+  }
+  .ghp-lang .ghp-dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
+  .ghp-dot.swift  { background: #f05138; color: #f05138; }
+  .ghp-dot.python { background: #4b8bbe; color: #4b8bbe; }
+  .ghp-desc { font-size: 14.5px; line-height: 1.62; color: #a1a1a6; margin-bottom: 16px; }
+  .ghp-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
+  .ghp-tag {
+    font-size: 11.5px; font-weight: 500; color: #c7c7cc;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08);
+    padding: 4px 11px; border-radius: 99px;
+    transition: border-color .3s var(--ease), color .3s var(--ease);
+  }
+  .ghp-card:hover .ghp-tag { border-color: rgba(41,151,255,.22); }
+
+  .ghp-links { margin-top: auto; display: flex; align-items: center; gap: 18px; }
+  .ghp-link {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 13.5px; font-weight: 600;
+    transition: color .25s var(--ease), gap .25s var(--ease);
+  }
+  .ghp-link svg { width: 15px; height: 15px; }
+  .ghp-link.primary { color: #2997ff; }
+  .ghp-link.primary .arrow { transition: transform .3s var(--ease); }
+  .ghp-card:hover .ghp-link.primary .arrow { transform: translateX(3px); }
+  /* Stretched link: the primary "view source" anchor becomes the whole-card click target */
+  .ghp-link.primary::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+  .ghp-link.secondary { color: #a1a1a6; position: relative; z-index: 2; }
+  .ghp-link.secondary:hover { color: #f5f5f7; }
+
+  /* Closing note under the grid */
+  .ghp-note { font-size: 13px; color: #86868b; margin-top: 22px; line-height: 1.6; }
+  .ghp-note b { color: #a1a1a6; font-weight: 600; }
+
+  /* ── Orifold visual — floating, fanning PDF stack with a self-drawing signature ── */
+  .pdf-stack { position: relative; width: 96px; height: 118px; animation: pdfFloat 5.5s ease-in-out infinite; }
+  @keyframes pdfFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  .pdf-page {
+    position: absolute; inset: 0; border-radius: 9px;
+    background: linear-gradient(158deg, #fbfbfd, #e7ecf3);
+    box-shadow: 0 12px 30px rgba(0,0,0,.42);
+    transition: transform .6s var(--ease);
+  }
+  .pdf-page.p3 { transform: translate(13px, 9px)  rotate(8deg);  background: linear-gradient(158deg, #dfe4ec, #c6ccd7); }
+  .pdf-page.p2 { transform: translate(6px, 4px)   rotate(4deg);  background: linear-gradient(158deg, #edf0f5, #d5dae3); }
+  .ghp-card:hover .pdf-page.p3 { transform: translate(30px, 13px) rotate(15deg); }
+  .ghp-card:hover .pdf-page.p2 { transform: translate(16px, 7px)  rotate(8deg);  }
+  .ghp-card:hover .pdf-page.p1 { transform: rotate(-3deg); }
+  .pdf-line { position: absolute; left: 13px; height: 4px; border-radius: 2px; background: rgba(20,30,50,.16); }
+  .pdf-line.l1 { top: 16px; width: 56px; }
+  .pdf-line.l2 { top: 28px; width: 66px; }
+  .pdf-line.l3 { top: 40px; width: 40px; }
+  .pdf-fold {
+    position: absolute; top: 0; right: 0; width: 20px; height: 20px;
+    background: linear-gradient(225deg, #c3cad6 0 50%, transparent 50%);
+    border-top-right-radius: 9px;
+  }
+  .pdf-sign { position: absolute; left: 13px; bottom: 15px; width: 66px; height: 26px; overflow: visible; }
+  .pdf-sign path {
+    fill: none; stroke: #0066d6; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 132; stroke-dashoffset: 132;
+    animation: pdfSign 5s ease-in-out infinite;
+  }
+  @keyframes pdfSign {
+    0%  { stroke-dashoffset: 132; }
+    38% { stroke-dashoffset: 0; }
+    74% { stroke-dashoffset: 0; opacity: 1; }
+    86% { stroke-dashoffset: 0; opacity: 0; }
+    87% { stroke-dashoffset: 132; opacity: 0; }
+    100%{ stroke-dashoffset: 132; opacity: 1; }
+  }
+
+  /* ── FolioSenseAI visual — self-drawing market line with a pulsing live datapoint ── */
+  .fin-chart { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .fin-grid line { stroke: rgba(255,255,255,.06); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .fin-area { fill: url(#finGrad); opacity: 0; animation: finArea 5s ease-in-out infinite; }
+  @keyframes finArea { 0%, 30% { opacity: 0; } 55%, 78% { opacity: 1; } 100% { opacity: 0; } }
+  .fin-line {
+    fill: none; stroke: url(#finStroke); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 360; stroke-dashoffset: 360;
+    filter: drop-shadow(0 0 6px rgba(48,209,88,.4));
+    animation: finDraw 5s ease-in-out infinite;
+  }
+  @keyframes finDraw { 0% { stroke-dashoffset: 360; } 45% { stroke-dashoffset: 0; } 80% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 360; } }
+  /* Live datapoint — HTML overlay so it stays perfectly round despite the stretched SVG */
+  .fin-dot, .fin-ring {
+    position: absolute; left: 92.5%; top: 24%;
+    width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; border-radius: 50%;
+  }
+  .fin-dot  { background: #30d158; box-shadow: 0 0 10px rgba(48,209,88,.85); opacity: 0; animation: finDot 5s ease-in-out infinite; }
+  .fin-ring { border: 2px solid #30d158; opacity: 0; animation: finRing 5s ease-in-out infinite; }
+  @keyframes finDot { 0%, 44% { opacity: 0; } 50%, 80% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes finRing {
+    0%, 46% { opacity: 0; transform: scale(.5); }
+    52% { opacity: .85; transform: scale(.5); }
+    74% { opacity: 0; transform: scale(2.6); }
+    100% { opacity: 0; transform: scale(2.6); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pdf-stack, .pdf-sign path, .fin-line, .fin-area, .fin-dot, .fin-ring { animation: none !important; }
+    .pdf-sign path { stroke-dashoffset: 0; }
+    .fin-line { stroke-dashoffset: 0; }
+    .fin-area, .fin-dot { opacity: 1; }
+  }
+  @media (max-width: 640px) {
+    .gh-projects { margin-top: 32px; }
+    .ghp-visual { height: 132px; }
+    .ghp-body { padding: 18px; }
+    .ghp-title-row h4 { font-size: 18px; }
+  }
+
   /* ── Footer availability badge ── */
   .footer-avail {
     display: flex; align-items: flex-start; gap: 10px;
@@ -2009,6 +2184,109 @@
            loading="lazy" decoding="async"
            onerror="this.replaceWith(Object.assign(document.createElement('p'),{textContent:'Graph unavailable — see github.com/udhawan97',style:'color:#515154;font-size:14px'}))">
     </div>
+
+    <!-- Featured open-source projects -->
+    <div class="gh-projects">
+      <div class="ghp-head r">
+        <h3>Featured builds</h3>
+        <span class="ghp-mit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+          <span><b>MIT</b> licensed · free to fork</span>
+        </span>
+      </div>
+
+      <div class="ghp-grid">
+        <!-- Orifold -->
+        <article class="ghp-card r d1">
+          <div class="ghp-visual" aria-hidden="true">
+            <div class="pdf-stack">
+              <span class="pdf-page p3"></span>
+              <span class="pdf-page p2"></span>
+              <span class="pdf-page p1">
+                <span class="pdf-fold"></span>
+                <span class="pdf-line l1"></span>
+                <span class="pdf-line l2"></span>
+                <span class="pdf-line l3"></span>
+                <svg class="pdf-sign" viewBox="0 0 66 26"><path d="M2 18 C 8 4, 13 4, 17 15 S 27 24, 31 12 S 41 2, 47 13 Q 54 22, 64 6"/></svg>
+              </span>
+            </div>
+          </div>
+          <div class="ghp-body">
+            <div class="ghp-title-row">
+              <h4>Orifold</h4>
+              <span class="ghp-lang"><span class="ghp-dot swift"></span>Swift</span>
+            </div>
+            <p class="ghp-desc">A native macOS PDF workspace — combine, read, annotate, and sign multiple PDFs in one clean, focused view.</p>
+            <div class="ghp-tags">
+              <span class="ghp-tag">macOS</span>
+              <span class="ghp-tag">OCR</span>
+              <span class="ghp-tag">Annotate</span>
+              <span class="ghp-tag">e-Signature</span>
+            </div>
+            <div class="ghp-links">
+              <a class="ghp-link primary" href="https://github.com/udhawan97/Orifold" target="_blank" rel="noopener" aria-label="View Orifold source on GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                View source
+                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- FolioSenseAI -->
+        <article class="ghp-card r d2">
+          <div class="ghp-visual" aria-hidden="true">
+            <svg class="fin-chart" viewBox="0 0 240 150" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="finStroke" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#2997ff"/>
+                  <stop offset="1" stop-color="#30d158"/>
+                </linearGradient>
+                <linearGradient id="finGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#30d158" stop-opacity=".32"/>
+                  <stop offset="1" stop-color="#30d158" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <g class="fin-grid">
+                <line x1="0" y1="45" x2="240" y2="45"/>
+                <line x1="0" y1="90" x2="240" y2="90"/>
+                <line x1="0" y1="135" x2="240" y2="135"/>
+              </g>
+              <path class="fin-area" d="M0 120 L26 106 L52 112 L80 86 L108 94 L136 60 L164 70 L192 44 L222 36 L240 30 L240 150 L0 150 Z"/>
+              <path class="fin-line" d="M0 120 L26 106 L52 112 L80 86 L108 94 L136 60 L164 70 L192 44 L222 36"/>
+            </svg>
+            <span class="fin-ring"></span>
+            <span class="fin-dot"></span>
+          </div>
+          <div class="ghp-body">
+            <div class="ghp-title-row">
+              <h4>FolioSenseAI</h4>
+              <span class="ghp-lang"><span class="ghp-dot python"></span>Python</span>
+            </div>
+            <p class="ghp-desc">An AI portfolio cockpit that reads your book and tells you what to hold, trim, or exit — and why — with a local-intelligence fallback.</p>
+            <div class="ghp-tags">
+              <span class="ghp-tag">AI insights</span>
+              <span class="ghp-tag">Local-first</span>
+              <span class="ghp-tag">Portfolio</span>
+              <span class="ghp-tag">Market data</span>
+            </div>
+            <div class="ghp-links">
+              <a class="ghp-link primary" href="https://github.com/udhawan97/FolioSenseAI" target="_blank" rel="noopener" aria-label="View FolioSenseAI source on GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                View source
+                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a class="ghp-link secondary" href="https://udhawan97.github.io/FolioSenseAI/" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>
+                Live demo
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="ghp-note r">Everything I build ships fully open-source under the <b>MIT license</b> — clone it, learn from it, ship your own. More landing at <a href="https://github.com/udhawan97" target="_blank" rel="noopener" style="color:#2997ff">github.com/udhawan97</a>.</p>
+    </div>
   </div>
 </section>
 
@@ -2261,7 +2539,7 @@
 
   // ── 10. 3-D card tilt ──
   if (!noMotion && hasHover) {
-    document.querySelectorAll('.stat, .xp-card').forEach(card => {
+    document.querySelectorAll('.stat, .xp-card, .ghp-card').forEach(card => {
       card.addEventListener('mousemove', e => {
         const r = card.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width  - .5;
