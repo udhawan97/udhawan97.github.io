@@ -122,7 +122,7 @@
     z-index: 1000; will-change: transform;
   }
   /* Pause decorative keyframe animations while their section is off-screen (perf/battery) */
-  .anim-paused, .anim-paused * { animation-play-state: paused !important; }
+  .anim-paused, .anim-paused *, .anim-paused *::before, .anim-paused *::after { animation-play-state: paused !important; }
 
   /* ── 4. Nav — floating pill, resume dropdown ── */
   nav {
@@ -435,6 +435,7 @@
   .r.d1.visible            { animation-delay: 100ms; }
   .r.d2.visible            { animation-delay: 200ms; }
   .r.d3.visible            { animation-delay: 300ms; }
+  .r.d4.visible            { animation-delay: 400ms; }
   /* xp-card stagger: 120ms apart */
   .xp-card.r.d1.visible   { animation-delay: 120ms; }
   .xp-card.r.d2.visible   { animation-delay: 240ms; }
@@ -811,7 +812,7 @@
     content: ""; width: 24px; height: 2px; border-radius: 2px;
     background: linear-gradient(90deg, #2997ff, transparent);
   }
-  /* MIT badge — the "all software is open-source under MIT" note */
+  /* License badge — the "all software is open-source (Apache 2.0)" note */
   .ghp-mit {
     display: inline-flex; align-items: center; gap: 8px;
     font-size: 12.5px; font-weight: 500; color: #a1a1a6; white-space: nowrap;
@@ -876,8 +877,9 @@
     font-size: 12px; font-weight: 600; color: #a1a1a6; white-space: nowrap;
   }
   .ghp-lang .ghp-dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
-  .ghp-dot.swift  { background: #f05138; color: #f05138; }
-  .ghp-dot.python { background: #4b8bbe; color: #4b8bbe; }
+  .ghp-dot.swift      { background: #f05138; color: #f05138; }
+  .ghp-dot.python     { background: #4b8bbe; color: #4b8bbe; }
+  .ghp-dot.typescript { background: #3178c6; color: #3178c6; }
   .ghp-desc { font-size: 14.5px; line-height: 1.62; color: #a1a1a6; margin-bottom: 16px; }
   .ghp-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
   .ghp-tag {
@@ -887,6 +889,34 @@
     transition: border-color .3s var(--ease), color .3s var(--ease);
   }
   .ghp-card:hover .ghp-tag { border-color: rgba(41,151,255,.22); }
+  /* License tag — visually distinguished from feature tags, one per card */
+  .ghp-tag-license {
+    color: #8fc8ff; background: rgba(41,151,255,.08); border-color: rgba(41,151,255,.28);
+  }
+  .ghp-card:hover .ghp-tag-license { border-color: rgba(41,151,255,.5); }
+
+  /* "Under construction" status pill — sits over the visual, top-right */
+  .ghp-status {
+    position: absolute; top: 12px; right: 12px; z-index: 4; overflow: hidden;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+    color: #ffcb7a;
+    background: rgba(22,17,8,.6); border: 1px solid rgba(255,183,77,.4);
+    padding: 5px 11px 5px 8px; border-radius: 99px;
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  }
+  .ghp-status-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #ffb74d; flex-shrink: 0;
+    box-shadow: 0 0 6px #ffb74d; animation: ghpStatusPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes ghpStatusPulse { 0%, 100% { opacity: .55; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.15); } }
+  .ghp-status::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(100deg, transparent 32%, rgba(255,183,77,.24) 50%, transparent 68%);
+    transform: translateX(-140%);
+    animation: ghpStatusShimmer 3.4s ease-in-out infinite;
+  }
+  @keyframes ghpStatusShimmer { 0%, 55% { transform: translateX(-140%); } 100% { transform: translateX(140%); } }
 
   .ghp-links { margin-top: auto; display: flex; align-items: center; gap: 18px; }
   .ghp-link {
@@ -998,6 +1028,7 @@
   .ghp-card.visible .ghp-tag:nth-child(2) { animation-delay: .26s; }
   .ghp-card.visible .ghp-tag:nth-child(3) { animation-delay: .34s; }
   .ghp-card.visible .ghp-tag:nth-child(4) { animation-delay: .42s; }
+  .ghp-card.visible .ghp-tag:nth-child(5) { animation-delay: .50s; }
   @keyframes ghpTagIn { to { opacity: 1; transform: none; } }
 
   /* Orifold — ambient sparkles + "signed" checkmark */
@@ -1042,15 +1073,104 @@
   .fin-badge svg { width: 8px; height: 8px; fill: #30d158; }
   @keyframes finBadge { 0%, 42% { opacity: 0; transform: translateY(-5px); } 52%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-5px); } }
 
+  /* ── Golavo — shot arc traced by a ball, goal-ring pulse, static probability strip ── */
+  .gol-pitch line, .gol-pitch circle { stroke: rgba(255,255,255,.05); stroke-width: 1; fill: none; vector-effect: non-scaling-stroke; }
+  .gol-grid line { stroke: rgba(255,255,255,.06); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  /* faint predicted-path guide */
+  .gol-path {
+    fill: none; stroke: rgba(201,162,39,.26); stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 3 7;
+    vector-effect: non-scaling-stroke;
+  }
+  /* the shot itself — a gold trail that draws as the ball travels */
+  .gol-trail {
+    fill: none; stroke: url(#golArc); stroke-width: 2.4; stroke-linecap: round;
+    vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 5px rgba(201,162,39,.5));
+    stroke-dasharray: 100; stroke-dashoffset: 100;
+    animation: golTrail 4.2s ease-in-out infinite;
+  }
+  @keyframes golTrail {
+    0%, 3% { stroke-dashoffset: 100; opacity: 0; }
+    8% { opacity: 1; }
+    68% { stroke-dashoffset: 0; opacity: 1; }
+    88% { stroke-dashoffset: 0; opacity: 0; }
+    100% { stroke-dashoffset: 100; opacity: 0; }
+  }
+  .gol-ball {
+    fill: #f4efe6; stroke: #161a18; stroke-width: 1; opacity: 0;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,.5));
+    animation: golBallFade 4.2s ease-in-out infinite;
+  }
+  @keyframes golBallFade { 0%, 3% { opacity: 0; } 8%, 66% { opacity: 1; } 74%, 100% { opacity: 0; } }
+  .gol-ring {
+    fill: none; stroke: #C9A227; stroke-width: 2; opacity: 0;
+    transform-box: fill-box; transform-origin: center;
+    animation: golRing 4.2s ease-in-out infinite;
+  }
+  @keyframes golRing {
+    0%, 64% { opacity: 0; transform: scale(.4); }
+    70%     { opacity: .85; transform: scale(.4); }
+    88%     { opacity: 0; transform: scale(2.4); }
+    100%    { opacity: 0; transform: scale(2.4); }
+  }
+  .gol-prob {
+    position: absolute; left: 16px; right: 16px; bottom: 14px; z-index: 2;
+    display: flex; gap: 3px; height: 5px; border-radius: 3px; overflow: hidden;
+    animation: golBreathe 4.2s ease-in-out infinite;
+  }
+  .gol-prob span { display: block; height: 100%; }
+  .gol-prob .home { flex: 55; background: #0B6E4F; }
+  .gol-prob .draw { flex: 25; background: #C9A227; }
+  .gol-prob .away { flex: 20; background: #EB6101; }
+  @keyframes golBreathe { 0%, 66% { opacity: .78; } 74% { opacity: 1; } 100% { opacity: .78; } }
+  /* live sweep across the probability bar */
+  .gol-prob::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(100deg, transparent 38%, rgba(255,255,255,.5) 50%, transparent 62%);
+    transform: translateX(-130%);
+    animation: golProbShine 4.2s ease-in-out infinite;
+  }
+  @keyframes golProbShine { 0%, 60% { transform: translateX(-130%); } 84%, 100% { transform: translateX(130%); } }
+
+  /* ── Voyalier — map contours, self-drawing route, gliding marker with glow ── */
+  .voy-contour { fill: none; stroke: rgba(174,185,212,.11); stroke-width: 1; stroke-dasharray: 1 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .voy-route-glow { fill: none; stroke: rgba(195,78,51,.16); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .voy-path {
+    fill: none; stroke: url(#voyPathGrad); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 8;
+    opacity: .6; vector-effect: non-scaling-stroke;
+    animation: voyFlow 2.4s linear infinite;
+  }
+  @keyframes voyFlow { to { stroke-dashoffset: -10; } }
+  .voy-endpoint { fill: rgba(255,255,255,.34); }
+  .voy-waypoint { fill: #e8734f; filter: drop-shadow(0 0 4px rgba(232,115,79,.65)); }
+  .voy-way-ring {
+    fill: none; stroke: #e8734f; stroke-width: 1.6; opacity: 0;
+    transform-box: fill-box; transform-origin: center;
+    animation: voyWayPulse 6s ease-in-out infinite;
+  }
+  @keyframes voyWayPulse {
+    0%, 38% { opacity: 0; transform: scale(.5); }
+    44%     { opacity: .8; transform: scale(.5); }
+    60%     { opacity: 0; transform: scale(2.2); }
+    100%    { opacity: 0; transform: scale(2.2); }
+  }
+  .voy-glider-dot { fill: #fdfbf5; filter: drop-shadow(0 0 5px rgba(253,251,245,.7)); }
+  .voy-glider { opacity: 0; animation: voyGliderFade 6s ease-in-out infinite; }
+  @keyframes voyGliderFade { 0%, 3% { opacity: 0; } 8%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
+
   @media (prefers-reduced-motion: reduce) {
     .pdf-stack, .pdf-sign path, .fin-line, .fin-area, .fin-dot, .fin-ring,
     .ghp-visual::after, .ghp-card::before, .spark, .pdf-check, .fin-scan, .fin-badge,
-    .ghp-card .ghp-tag { animation: none !important; }
+    .ghp-card .ghp-tag,
+    .ghp-status-dot, .ghp-status::before,
+    .gol-ball, .gol-ring, .gol-prob, .gol-prob::after, .gol-trail,
+    .voy-way-ring, .voy-glider, .voy-path { animation: none !important; }
     .pdf-sign path { stroke-dashoffset: 0; }
     .fin-line { stroke-dashoffset: 0; }
     .fin-area, .fin-dot, .fin-badge, .ghp-card .ghp-tag { opacity: 1; }
     .ghp-card .ghp-tag { transform: none; }
     .pdf-check { opacity: 1; transform: scale(1); }
+    .gol-prob { opacity: 1; }
+    .gol-trail { stroke-dashoffset: 0; opacity: .85; }
   }
   @media (max-width: 640px) {
     .gh-projects { margin-top: 32px; }
@@ -2282,7 +2402,7 @@
         <h3>Featured builds</h3>
         <span class="ghp-mit">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
-          <span><b>MIT</b> licensed · free to fork</span>
+          <span><b>Open-source</b> · Apache 2.0</span>
         </span>
       </div>
 
@@ -2315,6 +2435,7 @@
             </div>
             <p class="ghp-desc">A native macOS PDF workspace — combine, read, annotate, and sign multiple PDFs in one clean, focused view.</p>
             <div class="ghp-tags">
+              <span class="ghp-tag ghp-tag-license">Apache-2.0</span>
               <span class="ghp-tag">macOS</span>
               <span class="ghp-tag">OCR</span>
               <span class="ghp-tag">Annotate</span>
@@ -2372,6 +2493,7 @@
             </div>
             <p class="ghp-desc">An AI portfolio cockpit that reads your book and tells you what to hold, trim, or exit — and why — with a local-intelligence fallback.</p>
             <div class="ghp-tags">
+              <span class="ghp-tag ghp-tag-license">Apache-2.0</span>
               <span class="ghp-tag">AI insights</span>
               <span class="ghp-tag">Local-first</span>
               <span class="ghp-tag">Portfolio</span>
@@ -2390,9 +2512,130 @@
             </div>
           </div>
         </article>
+
+        <!-- Golavo -->
+        <article class="ghp-card r d3">
+          <div class="ghp-visual" aria-hidden="true">
+            <span class="ghp-status"><span class="ghp-status-dot"></span>Under construction</span>
+            <svg class="gol-chart" viewBox="0 0 240 150" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="golArc" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#0B6E4F"/>
+                  <stop offset="1" stop-color="#C9A227"/>
+                </linearGradient>
+              </defs>
+              <g class="gol-pitch">
+                <line x1="120" y1="0" x2="120" y2="150"/>
+                <circle cx="120" cy="75" r="30"/>
+                <circle cx="120" cy="75" r="2"/>
+              </g>
+              <g class="gol-grid">
+                <line x1="0" y1="45" x2="240" y2="45"/>
+                <line x1="0" y1="90" x2="240" y2="90"/>
+              </g>
+              <path id="golPath" class="gol-path" d="M22,128 C 74,128 92,42 122,42 S 192,56 214,44"/>
+              <path class="gol-trail" pathLength="100" d="M22,128 C 74,128 92,42 122,42 S 192,56 214,44"/>
+              <circle class="gol-ring" cx="214" cy="44" r="4"/>
+              <circle class="gol-ball" r="5">
+                <animateMotion dur="4.2s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.68;1" calcMode="spline" keySplines="0.3,0,0.15,1;0,0,1,1">
+                  <mpath href="#golPath"/>
+                </animateMotion>
+              </circle>
+            </svg>
+            <div class="gol-prob"><span class="home"></span><span class="draw"></span><span class="away"></span></div>
+          </div>
+          <div class="ghp-body">
+            <div class="ghp-title-row">
+              <div class="ghp-name">
+                <img class="ghp-appicon" src="assets/logos/golavo.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                <h4>Golavo</h4>
+              </div>
+              <span class="ghp-lang"><span class="ghp-dot python"></span>Python</span>
+            </div>
+            <p class="ghp-desc">Local-first, open-source soccer match intelligence. A deterministic engine owns every probability — AI only ever cites and explains. Sealed before kickoff, scored after full time.</p>
+            <div class="ghp-tags">
+              <span class="ghp-tag ghp-tag-license">Apache-2.0</span>
+              <span class="ghp-tag">Local-first</span>
+              <span class="ghp-tag">Dixon-Coles</span>
+              <span class="ghp-tag">FastAPI</span>
+              <span class="ghp-tag">Forecasting</span>
+            </div>
+            <div class="ghp-links">
+              <a class="ghp-link primary" href="https://udhawan97.github.io/Golavo/" target="_blank" rel="noopener" aria-label="Visit the Golavo website">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Visit site
+                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a class="ghp-link secondary" href="https://github.com/udhawan97/Golavo" target="_blank" rel="noopener" aria-label="View Golavo source on GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                Source
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Voyalier -->
+        <article class="ghp-card r d4">
+          <div class="ghp-visual" aria-hidden="true">
+            <span class="ghp-status"><span class="ghp-status-dot"></span>Under construction</span>
+            <svg class="voy-chart" viewBox="0 0 240 150" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="voyPathGrad" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#55617e"/>
+                  <stop offset="1" stop-color="#c34e33"/>
+                </linearGradient>
+              </defs>
+              <g class="voy-contours">
+                <path class="voy-contour" d="M-10,42 Q 60,22 130,46 T 250,38"/>
+                <path class="voy-contour" d="M-10,88 Q 70,66 140,92 T 250,82"/>
+                <path class="voy-contour" d="M-10,122 Q 80,106 150,128 T 250,118"/>
+              </g>
+              <path class="voy-route-glow" d="M22,120 L120,52 L218,94"/>
+              <path id="voyPath" class="voy-path" d="M22,120 L120,52 L218,94"/>
+              <circle class="voy-endpoint" cx="22" cy="120" r="3.4"/>
+              <circle class="voy-endpoint" cx="218" cy="94" r="3.4"/>
+              <circle class="voy-way-ring" cx="120" cy="52" r="5"/>
+              <circle class="voy-waypoint" cx="120" cy="52" r="4"/>
+              <g class="voy-glider">
+                <animateMotion dur="6s" repeatCount="indefinite" keyPoints="0;0.5;0.5;1;1" keyTimes="0;0.42;0.62;0.96;1" calcMode="spline" keySplines="0.4,0,0.2,1;0,0,1,1;0.4,0,0.2,1;0,0,1,1">
+                  <mpath href="#voyPath"/>
+                </animateMotion>
+                <circle class="voy-glider-dot" r="4.4"/>
+              </g>
+            </svg>
+          </div>
+          <div class="ghp-body">
+            <div class="ghp-title-row">
+              <div class="ghp-name">
+                <img class="ghp-appicon" src="assets/logos/voyalier.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                <h4>Voyalier</h4>
+              </div>
+              <span class="ghp-lang"><span class="ghp-dot typescript"></span>TypeScript</span>
+            </div>
+            <p class="ghp-desc">A local-first travel intelligence workspace that turns scattered plans and confirmations into one clear journey — useful without a key, deeper when invited.</p>
+            <div class="ghp-tags">
+              <span class="ghp-tag ghp-tag-license">Apache-2.0</span>
+              <span class="ghp-tag">Itinerary</span>
+              <span class="ghp-tag">RAG</span>
+              <span class="ghp-tag">Local-first</span>
+              <span class="ghp-tag">AI tools</span>
+            </div>
+            <div class="ghp-links">
+              <a class="ghp-link primary" href="https://udhawan97.github.io/Voyalier/" target="_blank" rel="noopener" aria-label="Visit the Voyalier website">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Visit site
+                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a class="ghp-link secondary" href="https://github.com/udhawan97/Voyalier" target="_blank" rel="noopener" aria-label="View Voyalier source on GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                Source
+              </a>
+            </div>
+          </div>
+        </article>
       </div>
 
-      <p class="ghp-note r">Everything I build ships fully open-source under the <b>MIT license</b> — clone it, learn from it, ship your own. More landing at <a href="https://github.com/udhawan97" target="_blank" rel="noopener" style="color:#2997ff">github.com/udhawan97</a>.</p>
+      <p class="ghp-note r">Everything I build ships fully open-source under the <b>Apache 2.0 license</b> — clone it, learn from it, ship your own. More landing at <a href="https://github.com/udhawan97" target="_blank" rel="noopener" style="color:#2997ff">github.com/udhawan97</a>.</p>
     </div>
   </div>
 </section>
