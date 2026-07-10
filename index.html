@@ -1067,26 +1067,75 @@
   .fin-badge svg { width: 8px; height: 8px; fill: #30d158; }
   @keyframes finBadge { 0%, 42% { opacity: 0; transform: translateY(-5px); } 52%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-5px); } }
 
-  /* ── Golavo — a mown pitch, centre circle, goal + net, a ball curling in ── */
+  /* ── Golavo — floodlit night pitch, rippling net, broadcast shot-trace ── */
   .gol-scene { position: absolute; inset: 0; overflow: hidden; }
   .gol-field {
     position: absolute; inset: 0;
     background:
-      radial-gradient(120% 92% at 50% 128%, rgba(23,150,109,.42), transparent 66%),
-      repeating-linear-gradient(90deg, rgba(11,110,79,.20) 0 26px, rgba(11,110,79,.09) 26px 52px),
-      linear-gradient(180deg, #0c1b15, #08120d);
+      radial-gradient(120% 90% at 76% -8%, rgba(255,243,210,.10), transparent 46%),
+      radial-gradient(120% 92% at 50% 130%, rgba(23,150,109,.46), transparent 64%),
+      repeating-linear-gradient(90deg, rgba(11,110,79,.22) 0 26px, rgba(11,110,79,.10) 26px 52px),
+      linear-gradient(180deg, #0a1712, #071008);
   }
+  /* floodlight beams raking across the pitch */
+  .gol-field::before {
+    content: ""; position: absolute; inset: -12%;
+    background:
+      linear-gradient(112deg, transparent 10%, rgba(235,248,255,.055) 17%, transparent 27%),
+      linear-gradient(62deg, transparent 66%, rgba(235,248,255,.05) 76%, transparent 88%);
+  }
+  /* stand darkness up top + soft vignette */
   .gol-field::after {
     content: ""; position: absolute; inset: 0;
-    background: radial-gradient(130% 100% at 50% 38%, transparent 52%, rgba(0,0,0,.42));
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.44), transparent 32%),
+      radial-gradient(135% 100% at 50% 42%, transparent 55%, rgba(0,0,0,.44));
   }
   .gol-mark { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .gol-mark line, .gol-mark ellipse, .gol-mark path { fill: none; stroke: rgba(245,239,230,.24); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
-  .gol-mark .post { stroke: rgba(245,239,230,.72); stroke-width: 2.6; }
-  .gol-mark .net  { stroke: rgba(245,239,230,.22); stroke-width: 1; }
+  .gol-mark line, .gol-mark ellipse { fill: none; stroke: rgba(245,239,230,.22); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+  .gol-mark .spot { fill: rgba(245,239,230,.32); stroke: none; }
+  .gol-mark .post { stroke: rgba(250,247,240,.78); stroke-width: 2.6; }
+  .gol-mark .net  { stroke: rgba(245,239,230,.20); stroke-width: 1; }
+  /* net shivers when the ball arrives */
+  .gol-netg { transform-box: fill-box; transform-origin: 0% 50%; animation: golNet 4.4s ease-in-out infinite; }
+  @keyframes golNet {
+    0%, 64%   { transform: none; }
+    67%       { transform: skewX(-3deg) translateX(2.5px); }
+    71%       { transform: skewX(1.4deg) translateX(-1px); }
+    76%, 100% { transform: none; }
+  }
   /* faint predicted-shot guide */
   .gol-guide { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .gol-guide path { fill: none; stroke: rgba(201,162,39,.34); stroke-width: 1.4; stroke-dasharray: 3 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .gol-guide .dash { fill: none; stroke: rgba(201,162,39,.26); stroke-width: 1.3; stroke-dasharray: 3 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  /* broadcast-style trace draws behind the ball, fades after the goal */
+  .gol-trail {
+    fill: none; stroke: #e9c654; stroke-width: 2; stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 0 4px rgba(233,198,84,.55));
+    stroke-dasharray: 100; stroke-dashoffset: 100;
+    animation: golTrail 4.4s cubic-bezier(.36,.05,.32,1) infinite;
+  }
+  @keyframes golTrail {
+    0%, 5% { stroke-dashoffset: 100; opacity: 0; }
+    9%     { opacity: .85; }
+    66%    { stroke-dashoffset: 0; opacity: .85; }
+    80%    { stroke-dashoffset: 0; opacity: 0; }
+    100%   { stroke-dashoffset: 0; opacity: 0; }
+  }
+  /* gold sparks scatter off the net on impact */
+  .gol-spark {
+    position: absolute; left: 79%; top: 30%; width: 3px; height: 3px; border-radius: 50%;
+    background: #e9c654; box-shadow: 0 0 6px rgba(233,198,84,.9); opacity: 0;
+    animation: golSpark 4.4s ease-out infinite;
+  }
+  .gol-spark.k1 { --dx: 15px;  --dy: -11px; }
+  .gol-spark.k2 { --dx: -13px; --dy: -15px; animation-delay: .06s; }
+  .gol-spark.k3 { --dx: 7px;   --dy: 17px;  animation-delay: .1s; }
+  @keyframes golSpark {
+    0%, 64% { opacity: 0; transform: translate(-50%,-50%); }
+    68%     { opacity: .95; }
+    82%, 100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))); }
+  }
   /* the ball — crisp HTML overlay, curls from lower-left into the top corner */
   .gol-ball {
     position: absolute; left: 12%; top: 66%; width: 17px; height: 17px;
@@ -1103,12 +1152,13 @@
     72%  { left: 79%; top: 30%; opacity: 0; transform: translate(-50%,-50%) scale(.9)  rotate(700deg); }
     100% { left: 79%; top: 30%; opacity: 0; transform: translate(-50%,-50%) scale(.9)  rotate(700deg); }
   }
-  /* net ripple where the ball hits */
+  /* impact rings where the ball hits the net */
   .gol-flash {
     position: absolute; left: 79%; top: 30%; width: 24px; height: 24px; border-radius: 50%;
-    border: 2px solid #C9A227; opacity: 0; transform: translate(-50%,-50%) scale(.3);
+    border: 2px solid #e9c654; opacity: 0; transform: translate(-50%,-50%) scale(.3);
     animation: golFlash 4.4s ease-out infinite;
   }
+  .gol-flash.f2 { width: 34px; height: 34px; border-width: 1.2px; animation-delay: .16s; }
   @keyframes golFlash {
     0%, 60% { opacity: 0; transform: translate(-50%,-50%) scale(.3); }
     67%     { opacity: .9; transform: translate(-50%,-50%) scale(.6); }
@@ -1116,39 +1166,80 @@
     100%    { opacity: 0; transform: translate(-50%,-50%) scale(1.9); }
   }
 
-  /* ── Voyalier — a calm sunset over layered ridges, a paper plane gliding by ── */
+  /* ── Voyalier — alpenglow dusk, half-set sun, clouds, birds, plane + contrail ── */
   .voy-scene { position: absolute; inset: 0; overflow: hidden; }
-  .voy-sky { position: absolute; inset: 0; background: linear-gradient(180deg, #262c3e 0%, #1b1f2b 60%, #14171f 100%); }
+  .voy-sky { position: absolute; inset: 0; background: linear-gradient(180deg, #191e2d 0%, #232941 38%, #3d3a55 60%, #1a1d28 100%); }
+  /* warm alpenglow band along the horizon */
+  .voy-horizon {
+    position: absolute; left: -4%; right: -4%; top: 44%; height: 24%;
+    background: linear-gradient(180deg, transparent, rgba(226,132,86,.17) 48%, transparent);
+  }
   .voy-sun-glow {
-    position: absolute; left: 74%; top: 40%; width: 150px; height: 150px; transform: translate(-50%,-50%);
+    position: absolute; left: 74%; top: 45%; width: 170px; height: 170px; transform: translate(-50%,-50%);
     border-radius: 50%;
     background: radial-gradient(circle, rgba(232,115,79,.5), rgba(195,78,51,.16) 44%, transparent 70%);
     animation: voySun 7s ease-in-out infinite;
   }
   @keyframes voySun { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: .82; } 50% { transform: translate(-50%,-50%) scale(1.09); opacity: 1; } }
+  /* the sun sits low, half-hidden behind the far ridge */
   .voy-sun {
-    position: absolute; left: 74%; top: 40%; width: 32px; height: 32px; transform: translate(-50%,-50%);
-    border-radius: 50%; background: radial-gradient(circle at 40% 36%, #f2a685, #c34e33);
-    box-shadow: 0 0 18px rgba(232,115,79,.55);
+    position: absolute; left: 74%; top: 45%; width: 32px; height: 32px; transform: translate(-50%,-50%);
+    border-radius: 50%; background: radial-gradient(circle at 40% 36%, #f6b28c, #c34e33);
+    box-shadow: 0 0 22px rgba(232,115,79,.6), inset -3px -4px 7px rgba(110,32,18,.5);
   }
-  .voy-star { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fdfbf5; opacity: 0; }
+  .voy-star { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fdfbf5; opacity: 0; box-shadow: 0 0 5px rgba(253,251,245,.75); }
   .voy-star.s1 { left: 20%; top: 24%; animation: voyTwinkle 4.2s ease-in-out infinite; }
-  .voy-star.s2 { left: 38%; top: 15%; animation: voyTwinkle 4.2s ease-in-out 1.3s infinite; }
-  .voy-star.s3 { left: 54%; top: 22%; animation: voyTwinkle 4.2s ease-in-out 2.6s infinite; }
+  .voy-star.s2 { left: 38%; top: 13%; animation: voyTwinkle 4.6s ease-in-out 1.3s infinite; }
+  .voy-star.s3 { left: 54%; top: 22%; width: 2px; height: 2px; animation: voyTwinkle 4.2s ease-in-out 2.6s infinite; }
+  .voy-star.s4 { left: 64%; top: 10%; width: 2.5px; height: 2.5px; animation: voyTwinkle 5.6s ease-in-out 1.9s infinite; }
+  .voy-star.s5 { left: 9%;  top: 13%; width: 2px; height: 2px; animation: voyTwinkle 4.9s ease-in-out 3.4s infinite; }
   @keyframes voyTwinkle { 0%, 100% { opacity: 0; transform: scale(.5); } 50% { opacity: .85; transform: scale(1); } }
+  /* wispy clouds drifting at altitude */
+  .voy-cloud {
+    position: absolute; border-radius: 99px;
+    background: linear-gradient(180deg, rgba(255,238,222,.10), rgba(255,238,222,.02));
+    filter: blur(2px);
+  }
+  .voy-cloud.c1 { left: 12%; top: 25%; width: 64px; height: 9px; animation: voyCloud 26s ease-in-out infinite alternate; }
+  .voy-cloud.c2 { left: 55%; top: 15%; width: 42px; height: 7px; opacity: .75; animation: voyCloud 34s ease-in-out 3s infinite alternate-reverse; }
+  @keyframes voyCloud { from { transform: translateX(0); } to { transform: translateX(18px); } }
+  /* distant birds crossing the dusk */
+  .voy-bird { position: absolute; opacity: .55; }
+  .voy-bird svg { display: block; width: 100%; height: 100%; animation: voyFlap 1.1s ease-in-out infinite; transform-origin: center; }
+  .voy-bird path { fill: none; stroke: rgba(253,251,245,.65); stroke-width: 1.2; stroke-linecap: round; }
+  .voy-bird.b1 { left: 27%; top: 27%; width: 13px; height: 7px; animation: voySoar 30s ease-in-out infinite alternate; }
+  .voy-bird.b2 { left: 33%; top: 32%; width: 9px; height: 5px; opacity: .38; animation: voySoar 30s ease-in-out 1.2s infinite alternate-reverse; }
+  @keyframes voySoar { from { transform: translate(0,0); } to { transform: translate(22px,-6px); } }
+  @keyframes voyFlap { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.5); } }
+  /* three ridge layers with atmospheric perspective + slow parallax */
   .voy-ridges { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .voy-ridges .drift { animation: voyDrift 22s ease-in-out infinite; }
-  @keyframes voyDrift { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-6px); } }
+  .voy-ridges .far { animation: voyDriftFar 36s ease-in-out infinite alternate; }
+  .voy-ridges .mid { animation: voyDrift 24s ease-in-out infinite alternate; }
+  @keyframes voyDrift    { from { transform: translateX(0); } to { transform: translateX(-8px); } }
+  @keyframes voyDriftFar { from { transform: translateX(0); } to { transform: translateX(5px); } }
+  /* valley haze between the ridge layers */
+  .voy-haze {
+    position: absolute; left: 0; right: 0; top: 58%; height: 26%;
+    background: linear-gradient(180deg, transparent, rgba(174,185,212,.09) 55%, transparent);
+  }
   /* dotted journey line + gliding paper plane (crisp HTML overlay) */
   .voy-route { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .voy-route path { fill: none; stroke: rgba(253,251,245,.34); stroke-width: 1.4; stroke-dasharray: 2 6; stroke-linecap: round; vector-effect: non-scaling-stroke; animation: voyDash 3s linear infinite; }
+  .voy-route path { fill: none; stroke: rgba(253,251,245,.30); stroke-width: 1.3; stroke-dasharray: 2 6; stroke-linecap: round; vector-effect: non-scaling-stroke; animation: voyDash 3s linear infinite; }
   @keyframes voyDash { to { stroke-dashoffset: -8; } }
   .voy-plane {
     position: absolute; left: 6%; top: 60%; width: 20px; height: 20px;
     transform: translate(-50%,-50%) rotate(-18deg);
     animation: voyGlide 7s ease-in-out infinite;
   }
-  .voy-plane svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 2px 4px rgba(0,0,0,.5)); }
+  .voy-plane svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 2px 4px rgba(0,0,0,.5)); animation: voyBob 2.8s ease-in-out infinite; }
+  @keyframes voyBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.3px); } }
+  /* faint contrail trailing the plane (rotates with it) */
+  .voy-contrail {
+    position: absolute; right: 82%; top: 58%; width: 26px; height: 1.6px; border-radius: 2px;
+    background: linear-gradient(90deg, transparent, rgba(253,251,245,.5));
+    opacity: .55; animation: voyTrailPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes voyTrailPulse { 0%, 100% { opacity: .3; } 50% { opacity: .65; } }
   @keyframes voyGlide {
     0%   { left: 4%;  top: 62%; opacity: 0; transform: translate(-50%,-50%) rotate(-22deg) scale(.85); }
     9%   { opacity: 1; }
@@ -1162,8 +1253,10 @@
     .ghp-visual::after, .ghp-card::before, .spark, .pdf-check, .fin-scan, .fin-badge,
     .ghp-card .ghp-tag,
     .ghp-status-dot, .ghp-status::before,
-    .gol-ball, .gol-flash, .gol-guide path,
-    .voy-sun-glow, .voy-star, .voy-ridges .drift, .voy-route path, .voy-plane { animation: none !important; }
+    .gol-ball, .gol-flash, .gol-trail, .gol-spark, .gol-netg,
+    .voy-sun-glow, .voy-star, .voy-cloud, .voy-bird, .voy-bird svg,
+    .voy-ridges .far, .voy-ridges .mid, .voy-route path,
+    .voy-plane, .voy-plane svg, .voy-contrail { animation: none !important; }
     .pdf-sign path { stroke-dashoffset: 0; }
     .fin-line { stroke-dashoffset: 0; }
     .fin-area, .fin-dot, .fin-badge, .ghp-card .ghp-tag { opacity: 1; }
@@ -1171,6 +1264,7 @@
     .pdf-check { opacity: 1; transform: scale(1); }
     /* freeze the ball mid-flight and the plane mid-glide as a composed still */
     .gol-ball { left: 58%; top: 27%; opacity: 1; }
+    .gol-trail { stroke-dashoffset: 55; opacity: .5; }
     .voy-plane { left: 50%; top: 38%; opacity: 1; }
     .voy-star { opacity: .6; }
   }
@@ -2523,17 +2617,21 @@
               <svg class="gol-mark" viewBox="0 0 240 150" preserveAspectRatio="none">
                 <line x1="60" y1="0" x2="60" y2="150"/>
                 <ellipse cx="60" cy="75" rx="30" ry="30"/>
+                <circle class="spot" cx="60" cy="75" r="1.7"/>
+                <g class="gol-netg">
+                  <line class="net" x1="206" y1="16" x2="206" y2="122"/>
+                  <line class="net" x1="221" y1="12" x2="221" y2="127"/>
+                  <line class="net" x1="190" y1="46" x2="238" y2="40"/>
+                  <line class="net" x1="190" y1="76" x2="238" y2="74"/>
+                  <line class="net" x1="190" y1="104" x2="238" y2="107"/>
+                </g>
                 <line class="post" x1="190" y1="20" x2="190" y2="118"/>
                 <line class="post" x1="190" y1="20" x2="236" y2="8"/>
                 <line class="post" x1="190" y1="118" x2="236" y2="132"/>
-                <line class="net" x1="206" y1="16" x2="206" y2="122"/>
-                <line class="net" x1="221" y1="12" x2="221" y2="127"/>
-                <line class="net" x1="190" y1="46" x2="238" y2="40"/>
-                <line class="net" x1="190" y1="76" x2="238" y2="74"/>
-                <line class="net" x1="190" y1="104" x2="238" y2="107"/>
               </svg>
               <svg class="gol-guide" viewBox="0 0 240 150" preserveAspectRatio="none">
-                <path d="M29,100 C 82,112 122,42 190,45"/>
+                <path class="dash" d="M29,99 C57,83 78,61 100,53 S150,36 190,45"/>
+                <path class="gol-trail" pathLength="100" d="M29,99 C57,83 78,61 100,53 S150,36 190,45"/>
               </svg>
               <div class="gol-ball">
                 <svg viewBox="0 0 24 24">
@@ -2543,6 +2641,8 @@
                 </svg>
               </div>
               <div class="gol-flash"></div>
+              <div class="gol-flash f2"></div>
+              <i class="gol-spark k1"></i><i class="gol-spark k2"></i><i class="gol-spark k3"></i>
             </div>
           </div>
           <div class="ghp-body">
@@ -2580,20 +2680,27 @@
             <span class="ghp-status"><span class="ghp-status-dot"></span>Under construction</span>
             <div class="voy-scene">
               <div class="voy-sky"></div>
+              <div class="voy-horizon"></div>
               <div class="voy-sun-glow"></div>
               <div class="voy-sun"></div>
-              <i class="voy-star s1"></i><i class="voy-star s2"></i><i class="voy-star s3"></i>
-              <!-- layered ridgelines -->
+              <i class="voy-star s1"></i><i class="voy-star s2"></i><i class="voy-star s3"></i><i class="voy-star s4"></i><i class="voy-star s5"></i>
+              <i class="voy-cloud c1"></i><i class="voy-cloud c2"></i>
+              <span class="voy-bird b1"><svg viewBox="0 0 12 6"><path d="M0.5,4.5 Q3,1 6,4.2 Q9,1 11.5,4.5"/></svg></span>
+              <span class="voy-bird b2"><svg viewBox="0 0 12 6"><path d="M0.5,4.5 Q3,1 6,4.2 Q9,1 11.5,4.5"/></svg></span>
+              <!-- three ridgelines, far to near -->
               <svg class="voy-ridges" viewBox="0 0 240 150" preserveAspectRatio="none">
-                <polygon class="drift" points="-10,150 -10,96 44,74 92,98 146,68 196,92 250,78 250,150" fill="#46536b" opacity=".5"/>
-                <polygon points="-10,150 -10,122 42,106 96,126 150,104 200,122 250,112 250,150" fill="#1c2130"/>
+                <polygon class="far" points="-10,150 -10,88 30,70 74,90 118,62 164,82 206,60 250,72 250,150" fill="#5b6685" opacity=".38"/>
+                <polygon class="mid" points="-10,150 -10,96 44,74 92,98 146,68 196,92 250,78 250,150" fill="#46536b" opacity=".5"/>
+                <polygon points="-10,150 -10,122 42,106 96,126 150,104 200,122 250,112 250,150" fill="#191d2b"/>
               </svg>
+              <div class="voy-haze"></div>
               <!-- dotted journey line -->
               <svg class="voy-route" viewBox="0 0 240 150" preserveAspectRatio="none">
                 <path d="M6,120 Q 74,72 132,76 T 238,50"/>
               </svg>
-              <!-- gliding paper plane -->
+              <!-- gliding paper plane with contrail -->
               <div class="voy-plane">
+                <i class="voy-contrail"></i>
                 <svg viewBox="0 0 24 24">
                   <path fill="#fdfbf5" d="M2 12L22 3l-6 18-3.4-5.9z"/>
                   <path fill="#c3cad9" d="M12.6 15.1L22 3l-9.4 9.9z"/>
