@@ -1067,104 +1067,112 @@
   .fin-badge svg { width: 8px; height: 8px; fill: #30d158; }
   @keyframes finBadge { 0%, 42% { opacity: 0; transform: translateY(-5px); } 52%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-5px); } }
 
-  /* ── Golavo — shot arc traced by a ball, goal-ring pulse, static probability strip ── */
-  .gol-pitch line, .gol-pitch circle { stroke: rgba(255,255,255,.05); stroke-width: 1; fill: none; vector-effect: non-scaling-stroke; }
-  .gol-grid line { stroke: rgba(255,255,255,.06); stroke-width: 1; vector-effect: non-scaling-stroke; }
-  /* faint predicted-path guide */
-  .gol-path {
-    fill: none; stroke: rgba(201,162,39,.26); stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 3 7;
-    vector-effect: non-scaling-stroke;
+  /* ── Golavo — a mown pitch, centre circle, goal + net, a ball curling in ── */
+  .gol-scene { position: absolute; inset: 0; overflow: hidden; }
+  .gol-field {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(120% 92% at 50% 128%, rgba(23,150,109,.42), transparent 66%),
+      repeating-linear-gradient(90deg, rgba(11,110,79,.20) 0 26px, rgba(11,110,79,.09) 26px 52px),
+      linear-gradient(180deg, #0c1b15, #08120d);
   }
-  /* the shot itself — a gold trail that draws as the ball travels */
-  .gol-trail {
-    fill: none; stroke: url(#golArc); stroke-width: 2.4; stroke-linecap: round;
-    vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 5px rgba(201,162,39,.5));
-    stroke-dasharray: 100; stroke-dashoffset: 100;
-    animation: golTrail 4.2s ease-in-out infinite;
-  }
-  @keyframes golTrail {
-    0%, 3% { stroke-dashoffset: 100; opacity: 0; }
-    8% { opacity: 1; }
-    68% { stroke-dashoffset: 0; opacity: 1; }
-    88% { stroke-dashoffset: 0; opacity: 0; }
-    100% { stroke-dashoffset: 100; opacity: 0; }
-  }
-  .gol-ball {
-    fill: #f4efe6; stroke: #161a18; stroke-width: 1; opacity: 0;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,.5));
-    animation: golBallFade 4.2s ease-in-out infinite;
-  }
-  @keyframes golBallFade { 0%, 3% { opacity: 0; } 8%, 66% { opacity: 1; } 74%, 100% { opacity: 0; } }
-  .gol-ring {
-    fill: none; stroke: #C9A227; stroke-width: 2; opacity: 0;
-    transform-box: fill-box; transform-origin: center;
-    animation: golRing 4.2s ease-in-out infinite;
-  }
-  @keyframes golRing {
-    0%, 64% { opacity: 0; transform: scale(.4); }
-    70%     { opacity: .85; transform: scale(.4); }
-    88%     { opacity: 0; transform: scale(2.4); }
-    100%    { opacity: 0; transform: scale(2.4); }
-  }
-  .gol-prob {
-    position: absolute; left: 16px; right: 16px; bottom: 14px; z-index: 2;
-    display: flex; gap: 3px; height: 5px; border-radius: 3px; overflow: hidden;
-    animation: golBreathe 4.2s ease-in-out infinite;
-  }
-  .gol-prob span { display: block; height: 100%; }
-  .gol-prob .home { flex: 55; background: #0B6E4F; }
-  .gol-prob .draw { flex: 25; background: #C9A227; }
-  .gol-prob .away { flex: 20; background: #EB6101; }
-  @keyframes golBreathe { 0%, 66% { opacity: .78; } 74% { opacity: 1; } 100% { opacity: .78; } }
-  /* live sweep across the probability bar */
-  .gol-prob::after {
+  .gol-field::after {
     content: ""; position: absolute; inset: 0;
-    background: linear-gradient(100deg, transparent 38%, rgba(255,255,255,.5) 50%, transparent 62%);
-    transform: translateX(-130%);
-    animation: golProbShine 4.2s ease-in-out infinite;
+    background: radial-gradient(130% 100% at 50% 38%, transparent 52%, rgba(0,0,0,.42));
   }
-  @keyframes golProbShine { 0%, 60% { transform: translateX(-130%); } 84%, 100% { transform: translateX(130%); } }
+  .gol-mark { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .gol-mark line, .gol-mark ellipse, .gol-mark path { fill: none; stroke: rgba(245,239,230,.24); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+  .gol-mark .post { stroke: rgba(245,239,230,.72); stroke-width: 2.6; }
+  .gol-mark .net  { stroke: rgba(245,239,230,.22); stroke-width: 1; }
+  /* faint predicted-shot guide */
+  .gol-guide { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .gol-guide path { fill: none; stroke: rgba(201,162,39,.34); stroke-width: 1.4; stroke-dasharray: 3 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  /* the ball — crisp HTML overlay, curls from lower-left into the top corner */
+  .gol-ball {
+    position: absolute; left: 12%; top: 66%; width: 17px; height: 17px;
+    transform: translate(-50%, -50%);
+    animation: golKick 4.4s cubic-bezier(.36,.05,.32,1) infinite;
+  }
+  .gol-ball svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 2px 3px rgba(0,0,0,.55)); }
+  @keyframes golKick {
+    0%   { left: 12%; top: 66%; opacity: 0; transform: translate(-50%,-50%) scale(.7)  rotate(0deg); }
+    6%   { opacity: 1; }
+    30%  { left: 40%; top: 36%; transform: translate(-50%,-50%) scale(1)   rotate(280deg); }
+    58%  { left: 66%; top: 25%; opacity: 1; transform: translate(-50%,-50%) scale(1) rotate(560deg); }
+    66%  { left: 79%; top: 30%; opacity: 1; transform: translate(-50%,-50%) scale(.96) rotate(680deg); }
+    72%  { left: 79%; top: 30%; opacity: 0; transform: translate(-50%,-50%) scale(.9)  rotate(700deg); }
+    100% { left: 79%; top: 30%; opacity: 0; transform: translate(-50%,-50%) scale(.9)  rotate(700deg); }
+  }
+  /* net ripple where the ball hits */
+  .gol-flash {
+    position: absolute; left: 79%; top: 30%; width: 24px; height: 24px; border-radius: 50%;
+    border: 2px solid #C9A227; opacity: 0; transform: translate(-50%,-50%) scale(.3);
+    animation: golFlash 4.4s ease-out infinite;
+  }
+  @keyframes golFlash {
+    0%, 60% { opacity: 0; transform: translate(-50%,-50%) scale(.3); }
+    67%     { opacity: .9; transform: translate(-50%,-50%) scale(.6); }
+    82%     { opacity: 0; transform: translate(-50%,-50%) scale(1.9); }
+    100%    { opacity: 0; transform: translate(-50%,-50%) scale(1.9); }
+  }
 
-  /* ── Voyalier — map contours, self-drawing route, gliding marker with glow ── */
-  .voy-contour { fill: none; stroke: rgba(174,185,212,.11); stroke-width: 1; stroke-dasharray: 1 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-  .voy-route-glow { fill: none; stroke: rgba(195,78,51,.16); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-  .voy-path {
-    fill: none; stroke: url(#voyPathGrad); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 8;
-    opacity: .6; vector-effect: non-scaling-stroke;
-    animation: voyFlow 2.4s linear infinite;
+  /* ── Voyalier — a calm sunset over layered ridges, a paper plane gliding by ── */
+  .voy-scene { position: absolute; inset: 0; overflow: hidden; }
+  .voy-sky { position: absolute; inset: 0; background: linear-gradient(180deg, #262c3e 0%, #1b1f2b 60%, #14171f 100%); }
+  .voy-sun-glow {
+    position: absolute; left: 74%; top: 40%; width: 150px; height: 150px; transform: translate(-50%,-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,115,79,.5), rgba(195,78,51,.16) 44%, transparent 70%);
+    animation: voySun 7s ease-in-out infinite;
   }
-  @keyframes voyFlow { to { stroke-dashoffset: -10; } }
-  .voy-endpoint { fill: rgba(255,255,255,.34); }
-  .voy-waypoint { fill: #e8734f; filter: drop-shadow(0 0 4px rgba(232,115,79,.65)); }
-  .voy-way-ring {
-    fill: none; stroke: #e8734f; stroke-width: 1.6; opacity: 0;
-    transform-box: fill-box; transform-origin: center;
-    animation: voyWayPulse 6s ease-in-out infinite;
+  @keyframes voySun { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: .82; } 50% { transform: translate(-50%,-50%) scale(1.09); opacity: 1; } }
+  .voy-sun {
+    position: absolute; left: 74%; top: 40%; width: 32px; height: 32px; transform: translate(-50%,-50%);
+    border-radius: 50%; background: radial-gradient(circle at 40% 36%, #f2a685, #c34e33);
+    box-shadow: 0 0 18px rgba(232,115,79,.55);
   }
-  @keyframes voyWayPulse {
-    0%, 38% { opacity: 0; transform: scale(.5); }
-    44%     { opacity: .8; transform: scale(.5); }
-    60%     { opacity: 0; transform: scale(2.2); }
-    100%    { opacity: 0; transform: scale(2.2); }
+  .voy-star { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fdfbf5; opacity: 0; }
+  .voy-star.s1 { left: 20%; top: 24%; animation: voyTwinkle 4.2s ease-in-out infinite; }
+  .voy-star.s2 { left: 38%; top: 15%; animation: voyTwinkle 4.2s ease-in-out 1.3s infinite; }
+  .voy-star.s3 { left: 54%; top: 22%; animation: voyTwinkle 4.2s ease-in-out 2.6s infinite; }
+  @keyframes voyTwinkle { 0%, 100% { opacity: 0; transform: scale(.5); } 50% { opacity: .85; transform: scale(1); } }
+  .voy-ridges { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .voy-ridges .drift { animation: voyDrift 22s ease-in-out infinite; }
+  @keyframes voyDrift { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-6px); } }
+  /* dotted journey line + gliding paper plane (crisp HTML overlay) */
+  .voy-route { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .voy-route path { fill: none; stroke: rgba(253,251,245,.34); stroke-width: 1.4; stroke-dasharray: 2 6; stroke-linecap: round; vector-effect: non-scaling-stroke; animation: voyDash 3s linear infinite; }
+  @keyframes voyDash { to { stroke-dashoffset: -8; } }
+  .voy-plane {
+    position: absolute; left: 6%; top: 60%; width: 20px; height: 20px;
+    transform: translate(-50%,-50%) rotate(-18deg);
+    animation: voyGlide 7s ease-in-out infinite;
   }
-  .voy-glider-dot { fill: #fdfbf5; filter: drop-shadow(0 0 5px rgba(253,251,245,.7)); }
-  .voy-glider { opacity: 0; animation: voyGliderFade 6s ease-in-out infinite; }
-  @keyframes voyGliderFade { 0%, 3% { opacity: 0; } 8%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
+  .voy-plane svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 2px 4px rgba(0,0,0,.5)); }
+  @keyframes voyGlide {
+    0%   { left: 4%;  top: 62%; opacity: 0; transform: translate(-50%,-50%) rotate(-22deg) scale(.85); }
+    9%   { opacity: 1; }
+    50%  { left: 48%; top: 38%; opacity: 1; transform: translate(-50%,-50%) rotate(-14deg) scale(1); }
+    91%  { left: 96%; top: 30%; opacity: 1; transform: translate(-50%,-50%) rotate(-9deg)  scale(.9); }
+    100% { left: 99%; top: 29%; opacity: 0; transform: translate(-50%,-50%) rotate(-9deg)  scale(.85); }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .pdf-stack, .pdf-sign path, .fin-line, .fin-area, .fin-dot, .fin-ring,
     .ghp-visual::after, .ghp-card::before, .spark, .pdf-check, .fin-scan, .fin-badge,
     .ghp-card .ghp-tag,
     .ghp-status-dot, .ghp-status::before,
-    .gol-ball, .gol-ring, .gol-prob, .gol-prob::after, .gol-trail,
-    .voy-way-ring, .voy-glider, .voy-path { animation: none !important; }
+    .gol-ball, .gol-flash, .gol-guide path,
+    .voy-sun-glow, .voy-star, .voy-ridges .drift, .voy-route path, .voy-plane { animation: none !important; }
     .pdf-sign path { stroke-dashoffset: 0; }
     .fin-line { stroke-dashoffset: 0; }
     .fin-area, .fin-dot, .fin-badge, .ghp-card .ghp-tag { opacity: 1; }
     .ghp-card .ghp-tag { transform: none; }
     .pdf-check { opacity: 1; transform: scale(1); }
-    .gol-prob { opacity: 1; }
-    .gol-trail { stroke-dashoffset: 0; opacity: .85; }
+    /* freeze the ball mid-flight and the plane mid-glide as a composed still */
+    .gol-ball { left: 58%; top: 27%; opacity: 1; }
+    .voy-plane { left: 50%; top: 38%; opacity: 1; }
+    .voy-star { opacity: .6; }
   }
   @media (max-width: 640px) {
     .gh-projects { margin-top: 32px; }
@@ -2509,32 +2517,33 @@
         <article class="ghp-card r d3">
           <div class="ghp-visual" aria-hidden="true">
             <span class="ghp-status"><span class="ghp-status-dot"></span>Under construction</span>
-            <svg class="gol-chart" viewBox="0 0 240 150" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="golArc" x1="0" y1="1" x2="1" y2="0">
-                  <stop offset="0" stop-color="#0B6E4F"/>
-                  <stop offset="1" stop-color="#C9A227"/>
-                </linearGradient>
-              </defs>
-              <g class="gol-pitch">
-                <line x1="120" y1="0" x2="120" y2="150"/>
-                <circle cx="120" cy="75" r="30"/>
-                <circle cx="120" cy="75" r="2"/>
-              </g>
-              <g class="gol-grid">
-                <line x1="0" y1="45" x2="240" y2="45"/>
-                <line x1="0" y1="90" x2="240" y2="90"/>
-              </g>
-              <path id="golPath" class="gol-path" d="M22,128 C 74,128 92,42 122,42 S 192,56 214,44"/>
-              <path class="gol-trail" pathLength="100" d="M22,128 C 74,128 92,42 122,42 S 192,56 214,44"/>
-              <circle class="gol-ring" cx="214" cy="44" r="4"/>
-              <circle class="gol-ball" r="5">
-                <animateMotion dur="4.2s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.68;1" calcMode="spline" keySplines="0.3,0,0.15,1;0,0,1,1">
-                  <mpath href="#golPath"/>
-                </animateMotion>
-              </circle>
-            </svg>
-            <div class="gol-prob"><span class="home"></span><span class="draw"></span><span class="away"></span></div>
+            <div class="gol-scene">
+              <div class="gol-field"></div>
+              <!-- pitch markings: halfway line + centre circle (left), goal frame & net (right) -->
+              <svg class="gol-mark" viewBox="0 0 240 150" preserveAspectRatio="none">
+                <line x1="60" y1="0" x2="60" y2="150"/>
+                <ellipse cx="60" cy="75" rx="30" ry="30"/>
+                <line class="post" x1="190" y1="20" x2="190" y2="118"/>
+                <line class="post" x1="190" y1="20" x2="236" y2="8"/>
+                <line class="post" x1="190" y1="118" x2="236" y2="132"/>
+                <line class="net" x1="206" y1="16" x2="206" y2="122"/>
+                <line class="net" x1="221" y1="12" x2="221" y2="127"/>
+                <line class="net" x1="190" y1="46" x2="238" y2="40"/>
+                <line class="net" x1="190" y1="76" x2="238" y2="74"/>
+                <line class="net" x1="190" y1="104" x2="238" y2="107"/>
+              </svg>
+              <svg class="gol-guide" viewBox="0 0 240 150" preserveAspectRatio="none">
+                <path d="M29,100 C 82,112 122,42 190,45"/>
+              </svg>
+              <div class="gol-ball">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="11" fill="#f4efe6" stroke="#12100e" stroke-width="1.2"/>
+                  <path fill="#12100e" d="M12 6.4l3.3 2.4-1.25 3.9H9.95L8.7 8.8z"/>
+                  <path fill="none" stroke="#12100e" stroke-width="1.1" stroke-linecap="round" d="M12 6.4V2.6M15.3 8.8l3.2-1.1M14.05 12.7l2.3 3M9.95 12.7l-2.3 3M8.7 8.8L5.5 7.7"/>
+                </svg>
+              </div>
+              <div class="gol-flash"></div>
+            </div>
           </div>
           <div class="ghp-body">
             <div class="ghp-title-row">
@@ -2569,31 +2578,28 @@
         <article class="ghp-card r d4">
           <div class="ghp-visual" aria-hidden="true">
             <span class="ghp-status"><span class="ghp-status-dot"></span>Under construction</span>
-            <svg class="voy-chart" viewBox="0 0 240 150" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="voyPathGrad" x1="0" y1="1" x2="1" y2="0">
-                  <stop offset="0" stop-color="#55617e"/>
-                  <stop offset="1" stop-color="#c34e33"/>
-                </linearGradient>
-              </defs>
-              <g class="voy-contours">
-                <path class="voy-contour" d="M-10,42 Q 60,22 130,46 T 250,38"/>
-                <path class="voy-contour" d="M-10,88 Q 70,66 140,92 T 250,82"/>
-                <path class="voy-contour" d="M-10,122 Q 80,106 150,128 T 250,118"/>
-              </g>
-              <path class="voy-route-glow" d="M22,120 L120,52 L218,94"/>
-              <path id="voyPath" class="voy-path" d="M22,120 L120,52 L218,94"/>
-              <circle class="voy-endpoint" cx="22" cy="120" r="3.4"/>
-              <circle class="voy-endpoint" cx="218" cy="94" r="3.4"/>
-              <circle class="voy-way-ring" cx="120" cy="52" r="5"/>
-              <circle class="voy-waypoint" cx="120" cy="52" r="4"/>
-              <g class="voy-glider">
-                <animateMotion dur="6s" repeatCount="indefinite" keyPoints="0;0.5;0.5;1;1" keyTimes="0;0.42;0.62;0.96;1" calcMode="spline" keySplines="0.4,0,0.2,1;0,0,1,1;0.4,0,0.2,1;0,0,1,1">
-                  <mpath href="#voyPath"/>
-                </animateMotion>
-                <circle class="voy-glider-dot" r="4.4"/>
-              </g>
-            </svg>
+            <div class="voy-scene">
+              <div class="voy-sky"></div>
+              <div class="voy-sun-glow"></div>
+              <div class="voy-sun"></div>
+              <i class="voy-star s1"></i><i class="voy-star s2"></i><i class="voy-star s3"></i>
+              <!-- layered ridgelines -->
+              <svg class="voy-ridges" viewBox="0 0 240 150" preserveAspectRatio="none">
+                <polygon class="drift" points="-10,150 -10,96 44,74 92,98 146,68 196,92 250,78 250,150" fill="#46536b" opacity=".5"/>
+                <polygon points="-10,150 -10,122 42,106 96,126 150,104 200,122 250,112 250,150" fill="#1c2130"/>
+              </svg>
+              <!-- dotted journey line -->
+              <svg class="voy-route" viewBox="0 0 240 150" preserveAspectRatio="none">
+                <path d="M6,120 Q 74,72 132,76 T 238,50"/>
+              </svg>
+              <!-- gliding paper plane -->
+              <div class="voy-plane">
+                <svg viewBox="0 0 24 24">
+                  <path fill="#fdfbf5" d="M2 12L22 3l-6 18-3.4-5.9z"/>
+                  <path fill="#c3cad9" d="M12.6 15.1L22 3l-9.4 9.9z"/>
+                </svg>
+              </div>
+            </div>
           </div>
           <div class="ghp-body">
             <div class="ghp-title-row">
