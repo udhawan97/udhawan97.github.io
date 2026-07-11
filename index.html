@@ -3,15 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Umang Dhawan</title>
-<meta name="description" content="Umang Dhawan — technology consultant. AI, cloud, and customer service transformation for Fortune 100 companies.">
-<meta property="og:title" content="Umang Dhawan — Technology Consultant">
-<meta property="og:description" content="AI, cloud, and customer service transformation for Fortune 100 companies.">
+<title>Umang Dhawan | Senior Technology Consultant</title>
+<meta name="description" content="Umang Dhawan is a Senior Consultant at EY Studio+ specializing in AI strategy, cloud reliability, quality engineering, and enterprise technology delivery.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:title" content="Umang Dhawan | Senior Technology Consultant">
+<meta property="og:description" content="AI strategy, cloud reliability, and enterprise technology delivery backed by measurable outcomes.">
 <meta property="og:image" content="https://udhawan97.github.io/assets/og-cover.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Umang Dhawan, Senior Technology Consultant specializing in AI, cloud, and reliability">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Umang Dhawan | Senior Technology Consultant">
+<meta name="twitter:description" content="AI strategy, cloud reliability, and enterprise technology delivery backed by measurable outcomes.">
 <meta name="twitter:image" content="https://udhawan97.github.io/assets/og-cover.jpg">
+<meta name="twitter:image:alt" content="Umang Dhawan, Senior Technology Consultant specializing in AI, cloud, and reliability">
 <meta property="og:url" content="https://udhawan97.github.io">
 <meta property="og:type" content="website">
 
@@ -25,6 +30,23 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230066d6'/%3E%3Ctext x='50' y='71' font-size='54' font-weight='700' fill='%23ffffff' font-family='-apple-system,Segoe UI,sans-serif' text-anchor='middle'%3EUD%3C/text%3E%3C/svg%3E">
 <!-- Colours the mobile browser chrome; kept in sync with the active theme by JS (see setIcon) -->
 <meta name="theme-color" id="theme-color-meta" content="#000000">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Umang Dhawan",
+  "url": "https://udhawan97.github.io/",
+  "image": "https://udhawan97.github.io/assets/headshot.jpg",
+  "jobTitle": "Senior Consultant",
+  "worksFor": { "@type": "Organization", "name": "EY Studio+" },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "Indiana University Bloomington" },
+  "knowsAbout": ["AI strategy", "Cloud reliability", "Quality engineering", "Observability", "Enterprise technology delivery"],
+  "sameAs": [
+    "https://www.linkedin.com/in/umangdhawan97",
+    "https://github.com/udhawan97"
+  ]
+}
+</script>
 <script>
   // Set theme before paint: dark by default, unless the visitor chose light.
   (function () {
@@ -112,6 +134,22 @@
   a { color: inherit; text-decoration: none; }
   img { max-width: 100%; display: block; }
 
+  /* Keyboard users should always be able to see where focus is. */
+  :focus-visible {
+    outline: 2px solid var(--blue-bright);
+    outline-offset: 3px;
+  }
+  .skip-link {
+    position: fixed; top: 10px; left: 12px; z-index: 10000;
+    padding: 10px 14px; border-radius: 8px;
+    background: var(--ink); color: var(--bg);
+    font-size: 14px; font-weight: 600;
+    transform: translateY(-150%);
+    transition: transform .2s var(--ease);
+  }
+  .skip-link:focus { transform: translateY(0); }
+  main:focus { outline: none; }
+
   /* ── 2. Reset & Base (above) ── */
 
   /* ── 3. Scroll progress bar ── */
@@ -173,8 +211,8 @@
     position: absolute; top: 100%; right: 0;
     padding-top: 10px;
     background: transparent;
-    opacity: 0; pointer-events: none;
-    transition: opacity .22s var(--ease), transform .22s var(--ease);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .22s var(--ease), transform .22s var(--ease), visibility 0s linear .22s;
     transform: translateY(-8px) scale(.96);
     z-index: 901;
   }
@@ -185,9 +223,9 @@
     border-radius: 16px; padding: 6px; min-width: 168px;
     box-shadow: 0 12px 36px var(--shadow);
   }
-  .nav-dropdown:hover .resume-dropdown,
   .nav-dropdown.open .resume-dropdown {
-    opacity: 1; pointer-events: auto; transform: translateY(0) scale(1);
+    opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0) scale(1);
+    transition-delay: 0s;
   }
   .resume-dropdown a {
     display: flex; align-items: center; gap: 9px;
@@ -370,12 +408,12 @@
   @keyframes portraitIn{ from { opacity:0; transform:scale(1.03) } to { opacity:1; transform:none } }
 
   /* ── Page entrance sequence (Apple expo-out easing throughout) ── */
-  /* Step 1 — thin line draws from centre, 100ms */
+  /* Step 1 — thin line draws from centre without delaying useful content */
   #intro-line {
     position: fixed; top: 64px; left: 0; right: 0; height: 1px;
     background: var(--line);
     transform: scaleX(0); transform-origin: center; opacity: 0;
-    animation: introExpand 420ms cubic-bezier(.16,1,.3,1) 100ms both;
+    animation: introExpand 340ms cubic-bezier(.16,1,.3,1) 40ms both;
     z-index: 850; pointer-events: none;
     transition: opacity 350ms ease;
   }
@@ -386,34 +424,34 @@
     to   { opacity: 1; transform: scaleX(1); }
   }
 
-  /* Step 2 — nav materialises at 300ms */
-  nav { animation: _fadeIn 400ms cubic-bezier(.16,1,.3,1) 300ms both; }
+  /* Step 2 — nav materialises quickly so primary actions are immediately clear */
+  nav { animation: _fadeIn 320ms cubic-bezier(.16,1,.3,1) 100ms both; }
 
 
-  /* Step 4 — h1 fades up as a whole at 650ms */
-  header.hero h1 { animation: heroFadeUp 650ms cubic-bezier(.16,1,.3,1) 650ms both; }
+  /* Step 4 — h1 leads the sequence; avoid a blank first impression */
+  header.hero h1 { animation: heroFadeUp 560ms cubic-bezier(.16,1,.3,1) 220ms both; }
 
-  /* Step 5 — subtitle fades up at 1100ms */
-  header.hero .sub { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 1100ms both; }
+  /* Step 5 — supporting proof follows closely */
+  header.hero .sub { animation: heroFadeUp 460ms cubic-bezier(.16,1,.3,1) 520ms both; }
   @keyframes heroFadeUp {
     from { opacity: 0; transform: translateY(15px); }
     to   { opacity: 1; transform: none; }
   }
 
-  /* Step 6 — CTA buttons scale in, 1300ms + 100ms stagger */
-  header.hero .hero-actions .btn:nth-child(1) { animation: heroBtnIn 400ms cubic-bezier(.16,1,.3,1) 1300ms both; }
-  header.hero .hero-actions .btn:nth-child(2) { animation: heroBtnIn 400ms cubic-bezier(.16,1,.3,1) 1400ms both; }
+  /* Step 6 — CTA buttons arrive within the first second */
+  header.hero .hero-actions .btn:nth-child(1) { animation: heroBtnIn 360ms cubic-bezier(.16,1,.3,1) 760ms both; }
+  header.hero .hero-actions .btn:nth-child(2) { animation: heroBtnIn 360ms cubic-bezier(.16,1,.3,1) 840ms both; }
   @keyframes heroBtnIn {
     from { opacity: 0; transform: scale(.9); }
     to   { opacity: 1; transform: none; }
   }
 
-  /* Step 7 — scroll-hint and marquee fade at 1600ms; restore scroll-hint bob after */
+  /* Step 7 — decorative guidance comes last */
   header.hero .scroll-hint {
-    animation: _fadeIn 500ms cubic-bezier(.16,1,.3,1) 1600ms both,
-               bob 2.6s ease-in-out 2100ms infinite;
+    animation: _fadeIn 420ms cubic-bezier(.16,1,.3,1) 1000ms both,
+               bob 2.6s ease-in-out 1450ms infinite;
   }
-  .marquee { animation: _fadeIn 500ms cubic-bezier(.16,1,.3,1) 1600ms both; }
+  .marquee { animation: _fadeIn 420ms cubic-bezier(.16,1,.3,1) 1000ms both; }
 
   /* hero metrics cluster */
 
@@ -458,6 +496,7 @@
       animation: none !important; opacity: 1 !important; transform: none !important;
     }
     #intro-line { display: none; }   /* purely decorative line — safe to hide */
+    html { scroll-behavior: auto; }
     #progress, .marquee-track, h1 .grad, h2.display .grad, .hero-glow::before { animation:none !important; }
     .stat.r.visible .stat-icon { animation: none; }
   }
@@ -587,7 +626,7 @@
     0%, 100% { box-shadow: 0 0 0 0   rgba(100,210,255,.6); }
     55%       { box-shadow: 0 0 0 5px rgba(100,210,255,0);  }
   }
-  header.hero .hero-status { animation: heroFadeUp 500ms cubic-bezier(.16,1,.3,1) 450ms both; }
+  header.hero .hero-status { animation: heroFadeUp 400ms cubic-bezier(.16,1,.3,1) 160ms both; }
   @media (prefers-reduced-motion: reduce) { .hero-status-dot { animation: none !important; } }
   @media (max-width: 640px) { .hero-status { font-size: 12px; padding: 6px 13px 6px 10px; margin-bottom: 20px; } }
 
@@ -733,12 +772,23 @@
     animation: heroFadeUp 400ms cubic-bezier(.16,1,.3,1) both;
   }
   /* logo-items are at child positions 1, 3, 5 (dividers sit at 2 and 4) */
-  .hero-logos .logo-item:nth-child(1) { animation-delay: 1380ms; }
-  .hero-logos .logo-item:nth-child(3) { animation-delay: 1500ms; }
-  .hero-logos .logo-item:nth-child(5) { animation-delay: 1620ms; }
+  .hero-logos .logo-item:nth-child(1) { animation-delay: 680ms; }
+  .hero-logos .logo-item:nth-child(3) { animation-delay: 760ms; }
+  .hero-logos .logo-item:nth-child(5) { animation-delay: 840ms; }
   /* dividers stagger between their adjacent logos */
-  .hero-logos .logo-divider:nth-child(2) { animation-delay: 1440ms; }
-  .hero-logos .logo-divider:nth-child(4) { animation-delay: 1560ms; }
+  .hero-logos .logo-divider:nth-child(2) { animation-delay: 720ms; }
+  .hero-logos .logo-divider:nth-child(4) { animation-delay: 800ms; }
+
+  /* Keep proof and primary actions above the fold on shorter laptop screens. */
+  @media (min-width: 768px) and (max-height: 780px) {
+    header.hero { padding-top: 82px; padding-bottom: 28px; }
+    header.hero h1 { font-size: 68px; line-height: 1; }
+    .hero-status { margin-bottom: 20px; }
+    .hero p.sub { margin-top: 20px; font-size: 18px; line-height: 1.45; }
+    .hero-logos { margin-top: 20px; }
+    .hero-actions { margin-top: 24px; }
+    .scroll-hint { display: none; }
+  }
 
   /* Logo image sizing */
   .logo-img-studio { height: 32px; width: 32px; border-radius: 8px; }
@@ -1416,7 +1466,7 @@
   }
   #resume-fresh {
     position: fixed; top: 68px; right: 20px; z-index: 9996;
-    opacity: 0; transform: translateY(-28px) scale(.93);
+    opacity: 0; visibility: hidden; transform: translateY(-28px) scale(.93);
     pointer-events: none;
     background: var(--glass);
     -webkit-backdrop-filter: saturate(190%) blur(26px); backdrop-filter: saturate(190%) blur(26px);
@@ -1428,10 +1478,11 @@
   }
   #resume-fresh.show {
     animation: freshSlide 540ms cubic-bezier(.2,.65,.3,1.1) both;
-    pointer-events: auto;
+    visibility: visible; pointer-events: auto;
   }
   #resume-fresh.hide {
     animation: freshOut 360ms cubic-bezier(.4,0,1,1) both;
+    visibility: hidden; transition: visibility 0s linear 360ms;
   }
   #resume-fresh .fresh-icon {
     width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
@@ -1478,7 +1529,7 @@
   #dl-toast {
     position: fixed; bottom: 88px; left: 50%; z-index: 9995;
     transform: translateX(-50%) translateY(16px) scale(.95);
-    opacity: 0; pointer-events: none;
+    opacity: 0; visibility: hidden; pointer-events: none;
     background: var(--glass);
     -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
     border: 1px solid var(--glass-border);
@@ -1486,11 +1537,12 @@
     display: flex; align-items: center; gap: 12px;
     box-shadow: 0 12px 36px var(--shadow);
     white-space: nowrap;
-    transition: opacity .4s var(--ease), transform .4s var(--ease);
+    transition: opacity .4s var(--ease), transform .4s var(--ease), visibility 0s linear .4s;
   }
   #dl-toast.show {
-    opacity: 1; pointer-events: none;
+    opacity: 1; visibility: visible; pointer-events: none;
     transform: translateX(-50%) translateY(0) scale(1);
+    transition-delay: 0s;
   }
   #dl-toast .toast-icon {
     width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
@@ -1508,7 +1560,7 @@
   /* ── Theme tip — appears on first scroll, points at the toggle ── */
   #theme-tip {
     position: fixed; z-index: 9997;
-    opacity: 0; pointer-events: none;
+    opacity: 0; visibility: hidden; pointer-events: none;
     background: var(--bg-2);
     border: 1.5px solid var(--line);
     border-radius: 14px; padding: 11px 17px;
@@ -1532,8 +1584,8 @@
     border-bottom: 5px solid var(--bg-2);
   }
   #theme-tip .tip-icon { flex-shrink: 0; color: var(--blue); opacity: .85; }
-  #theme-tip.tip-show { animation: freshSlide 440ms cubic-bezier(.2,.65,.3,1.1) forwards; pointer-events: auto; }
-  #theme-tip.tip-hide { animation: freshOut  300ms cubic-bezier(.4,0,1,1)       forwards; }
+  #theme-tip.tip-show { animation: freshSlide 440ms cubic-bezier(.2,.65,.3,1.1) forwards; visibility: visible; pointer-events: auto; }
+  #theme-tip.tip-hide { animation: freshOut 300ms cubic-bezier(.4,0,1,1) forwards; visibility: hidden; transition: visibility 0s linear 300ms; }
 
   /* ── 17. Polish details — grain, dot-grid, shimmer, cursor, animations ── */
 
@@ -1896,10 +1948,10 @@
 
   .case-studies-body {
     overflow: hidden;
-    max-height: 0; opacity: 0;
-    transition: max-height .7s cubic-bezier(.25,.1,.25,1), opacity .4s ease;
+    max-height: 0; opacity: 0; visibility: hidden;
+    transition: max-height .7s cubic-bezier(.25,.1,.25,1), opacity .4s ease, visibility 0s linear .7s;
   }
-  .case-studies-body.open { max-height: 6000px; opacity: 1; }
+  .case-studies-body.open { max-height: 6000px; opacity: 1; visibility: visible; transition-delay: 0s; }
 
   @media (max-width: 640px) {
     .case-studies-toggle { margin: 32px 0 0; }
@@ -2080,11 +2132,12 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <div id="progress"></div>
 <div id="intro-line" aria-hidden="true"></div>
 <div id="map-scrim" aria-hidden="true"></div>
 
-<nav>
+<nav aria-label="Primary navigation">
   <a href="#top" style="font-weight:700; color:var(--ink)">UD</a>
   <div class="nav-links">
     <a href="#about">About</a>
@@ -2095,7 +2148,7 @@
     <button aria-haspopup="true" aria-expanded="false" id="resumeBtn">
       Resume <span class="nav-chevron">▾</span>
     </button>
-    <div class="resume-dropdown" role="menu">
+    <div class="resume-dropdown" role="menu" aria-hidden="true" inert>
       <div class="resume-dropdown-inner">
         <a href="Umang_Dhawan_Resume_Formal.pdf" download role="menuitem">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -2108,14 +2161,14 @@
       </div>
     </div>
   </div>
-  <button id="theme-toggle" aria-label="Toggle dark mode">
+  <button id="theme-toggle" aria-label="Switch to light mode" title="Switch to light mode">
     <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
   </button>
 </nav>
 
 <!-- Theme mode tip (first-scroll hint) -->
-<div id="theme-tip" role="status" aria-live="polite">
+<div id="theme-tip" role="status" aria-live="polite" aria-hidden="true">
   <svg class="tip-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
   Press this icon to switch between light &amp; dark
 </div>
@@ -2124,7 +2177,7 @@
 <div id="resume-overlay" aria-hidden="true"></div>
 
 <!-- Resume Fresh notification -->
-<div id="resume-fresh" role="status" aria-live="polite">
+<div id="resume-fresh" role="status" aria-live="polite" aria-hidden="true">
   <div class="fresh-icon">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
   </div>
@@ -2135,7 +2188,7 @@
 </div>
 
 <!-- Download toast -->
-<div id="dl-toast" role="status" aria-live="polite">
+<div id="dl-toast" role="status" aria-live="polite" aria-hidden="true">
   <div class="toast-icon">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
   </div>
@@ -2151,6 +2204,7 @@
   Back to top
 </button>
 
+<main id="main-content" tabindex="-1">
 <!-- ================= HERO ================= -->
 <header class="hero wrap" id="top">
   <div class="hero-glow"></div>
@@ -2159,18 +2213,18 @@
     Chicago, IL &nbsp;·&nbsp; Building AI-ready systems
   </div>
   <h1>Building technology that ships,<br><span class="grad">and strategy that keeps moving.</span></h1>
-  <p class="sub"><b>Senior Consultant at EY Studio+</b> helping organizations make complex technology work in the real world. Starting at <b>SAP America</b> and building through four years at <b>EY</b>, I've shipped retail platforms, cleared federal audits, and shaped AI strategy for Fortune 500 clients. My lane is connecting business goals with the technical execution needed to make systems <b>reliable, useful, and ready to scale</b>.</p>
+  <p class="sub"><b>Senior Consultant at EY Studio+</b> helping organizations make complex technology work in the real world. Across <b>SAP America, EY, and EY Studio+</b>, I've shipped retail platforms, cleared federal audits, and shaped AI strategy for Fortune 500 clients. I connect business goals with the technical execution needed to make systems <b>reliable, useful, and ready to scale</b>.</p>
   <div class="hero-logos" aria-label="Companies I've worked with">
     <div class="logo-item" aria-label="EY Studio+">
-      <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-img logo-img-studio">
+      <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-img logo-img-studio" width="200" height="200" decoding="async">
     </div>
     <div class="logo-divider" aria-hidden="true"></div>
     <div class="logo-item" aria-label="EY">
-      <img src="assets/logos/ey.png" alt="EY" class="logo-img logo-img-ey">
+      <img src="assets/logos/ey.png" alt="EY" class="logo-img logo-img-ey" width="200" height="200" decoding="async">
     </div>
     <div class="logo-divider" aria-hidden="true"></div>
     <div class="logo-item" aria-label="SAP">
-      <img src="assets/logos/sap.png" alt="SAP" class="logo-img logo-img-sap">
+      <img src="assets/logos/sap.png" alt="SAP" class="logo-img logo-img-sap" width="200" height="200" decoding="async">
     </div>
   </div>
   <div class="hero-actions">
@@ -2202,7 +2256,7 @@
   <div class="about-grid">
     <figure class="portrait r d1">
       <!-- Drop your photo at assets/headshot.jpg — placeholder shows until then -->
-      <img src="assets/headshot.jpg" alt="Umang Dhawan" loading="lazy" decoding="async" onerror="this.outerHTML='<div class=&quot;ph&quot;>UD</div>'">
+      <img src="assets/headshot.jpg" alt="Umang Dhawan" width="900" height="1124" loading="lazy" decoding="async" onerror="this.outerHTML='<div class=&quot;ph&quot;>UD</div>'">
       <figcaption>EY Studio+ · Chicago</figcaption>
     </figure>
     <div class="about-copy">
@@ -2362,7 +2416,7 @@
   <div class="xp">
     <div class="xp-card r">
       <div class="xp-icon">
-        <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-has-bg" loading="lazy" decoding="async">
+        <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-has-bg" width="200" height="200" loading="lazy" decoding="async">
       </div>
       <div class="when">Jun 2025 — Present</div>
       <h3>Senior Consultant</h3>
@@ -2371,7 +2425,7 @@
     </div>
     <div class="xp-card r d1">
       <div class="xp-icon">
-        <img src="assets/logos/ey.png" alt="EY" class="logo-img" loading="lazy" decoding="async">
+        <img src="assets/logos/ey.png" alt="EY" class="logo-img" width="200" height="200" loading="lazy" decoding="async">
       </div>
       <div class="when">Jul 2022 — Jun 2025</div>
       <h3>Consultant</h3>
@@ -2380,7 +2434,7 @@
     </div>
     <div class="xp-card r d2">
       <div class="xp-icon">
-        <img src="assets/logos/sap.png" alt="SAP" class="logo-img" loading="lazy" decoding="async">
+        <img src="assets/logos/sap.png" alt="SAP" class="logo-img" width="200" height="200" loading="lazy" decoding="async">
       </div>
       <div class="when">Jan — Dec 2021</div>
       <h3>IT Leadership Intern</h3>
@@ -2484,7 +2538,7 @@
     <svg class="cs-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
   </button>
 
-  <div class="case-studies-body" id="caseStudiesBody">
+  <div class="case-studies-body" id="caseStudiesBody" aria-hidden="true" inert>
     <div class="work-row r">
       <div class="idx">01</div>
       <div>
@@ -2549,7 +2603,7 @@
     <p>Most of my day-to-day commits live in private client repositories — public experiments in AI and automation land at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a> as they're ready.</p>
     <div class="gh-graph">
       <img src="https://ghchart.rshah.org/0066d6/udhawan97" alt="GitHub contribution graph"
-           loading="lazy" decoding="async"
+           width="663" height="104" loading="lazy" decoding="async"
            onerror="this.replaceWith(Object.assign(document.createElement('p'),{textContent:'Graph unavailable — see github.com/udhawan97',style:'color:#515154;font-size:14px'}))">
     </div>
 
@@ -2593,8 +2647,8 @@
           <div class="ghp-body">
             <div class="ghp-title-row">
               <div class="ghp-name">
-                <img class="ghp-appicon ghp-appicon-motion" src="assets/logos/orifold.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-                <img class="ghp-appicon ghp-appicon-static" src="assets/logos/orifold-static.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                <img class="ghp-appicon ghp-appicon-motion" src="assets/logos/orifold.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
+                <img class="ghp-appicon ghp-appicon-static" src="assets/logos/orifold-static.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
                 <h4>Orifold</h4>
               </div>
               <span class="ghp-lang"><span class="ghp-dot swift"></span>Swift</span>
@@ -2667,8 +2721,8 @@
           <div class="ghp-body">
             <div class="ghp-title-row">
               <div class="ghp-name">
-                <img class="ghp-appicon ghp-appicon-motion" src="assets/logos/folioorb.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-                <img class="ghp-appicon ghp-appicon-static" src="assets/logos/folioorb-static.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                <img class="ghp-appicon ghp-appicon-motion" src="assets/logos/folioorb.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
+                <img class="ghp-appicon ghp-appicon-static" src="assets/logos/folioorb-static.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
                 <h4>FolioOrb</h4>
               </div>
               <span class="ghp-lang"><span class="ghp-dot python"></span>Python</span>
@@ -2735,7 +2789,7 @@
           <div class="ghp-body">
             <div class="ghp-title-row">
               <div class="ghp-name">
-                <img class="ghp-appicon" src="assets/logos/golavo.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                <img class="ghp-appicon" src="assets/logos/golavo.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
                 <h4>Golavo</h4>
               </div>
               <span class="ghp-lang"><span class="ghp-dot python"></span>Python</span>
@@ -2798,7 +2852,7 @@
           <div class="ghp-body">
             <div class="ghp-title-row">
               <div class="ghp-name">
-                <img class="ghp-appicon" src="assets/logos/voyalier.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                <img class="ghp-appicon" src="assets/logos/voyalier.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
                 <h4>Voyalier</h4>
               </div>
               <span class="ghp-lang"><span class="ghp-dot typescript"></span>TypeScript</span>
@@ -2830,6 +2884,8 @@
   </div>
 </section>
 
+</main>
+
 <!-- ================= CONTACT ================= -->
 <footer id="contact">
   <div class="wrap">
@@ -2857,7 +2913,7 @@
       <a href="https://www.linkedin.com/in/umangdhawan97" target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
       <a href="https://github.com/udhawan97" target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>GitHub</a>
     </div>
-    <div class="fine">© Last Updated: June 2026 <br>· Built using open-source tools with Github Copilot and Claude Code assistance. <br/>· All content and code © Umang Dhawan.</div>
+    <div class="fine">© Last updated: July 2026 <br>· Designed and hand-coded with AI-assisted tooling; no frameworks or trackers. <br>· All content and code © Umang Dhawan.</div>
   </div>
 </footer>
 
@@ -2905,6 +2961,10 @@
     const dark = document.documentElement.dataset.theme === 'dark';
     iconMoon.style.display = dark  ? 'none'  : '';
     iconSun.style.display  = dark  ? ''      : 'none';
+    const themeLabel = dark ? 'Switch to light mode' : 'Switch to dark mode';
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.setAttribute('aria-label', themeLabel);
+    themeToggle.setAttribute('title', themeLabel);
     // Keep the mobile address-bar colour matched to the page background
     if (themeColorMeta) themeColorMeta.setAttribute('content', dark ? '#000000' : '#f5f5f7');
   };
@@ -2931,12 +2991,14 @@
       clearTimeout(tipTimer);
       tip.classList.remove('tip-show');
       tip.classList.add('tip-hide');
+      tip.setAttribute('aria-hidden', 'true');
     }
 
     function showTip() {
       if (state !== 'pending') return;
       state = 'showing';
       localStorage.setItem('theme-tip-shown', '1');
+      tip.setAttribute('aria-hidden', 'false');
 
       // Position centred below the toggle button (after nav expansion settles)
       const toggle = document.getElementById('theme-toggle');
@@ -3037,6 +3099,10 @@
     e.target.classList.add('visible');
     e.target.querySelectorAll('[data-count]').forEach(el => {
       const end = +el.dataset.count, dur = 1400;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        el.textContent = end;
+        return;
+      }
       const t0 = performance.now();
       (function tick(t) {
         const p = Math.min((t - t0) / dur, 1);
@@ -3067,20 +3133,38 @@
     // Only now hide the native cursor — if this code never runs, the system
     // cursor stays visible rather than disappearing with no replacement.
     document.body.classList.add('cursor-ready');
-    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, onLink = false;
+    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+    let onLink = false, cursorRaf = 0;
     const setXform = (el, x, y) => { el.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0) translate(-50%,-50%)'; };
     setXform(dot, mx, my); setXform(ring, rx, ry); // avoid first-frame flash at 0,0
+
+    // Animate only while the ring is catching up. The old version kept a 60 FPS
+    // loop alive for the entire visit, even when the pointer was completely still.
+    function renderCursor() {
+      rx += (mx - rx) * 0.13;
+      ry += (my - ry) * 0.13;
+      setXform(ring, rx, ry);
+      if (Math.abs(mx - rx) + Math.abs(my - ry) > 0.15 && !document.hidden) {
+        cursorRaf = requestAnimationFrame(renderCursor);
+      } else {
+        rx = mx; ry = my;
+        setXform(ring, rx, ry);
+        cursorRaf = 0;
+      }
+    }
     addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
+      setXform(dot, mx, my);
       const nowLink = !!e.target.closest('a,button,[role=button]');
       if (nowLink !== onLink) { onLink = nowLink; document.body.classList.toggle('on-link', nowLink); }
+      if (!cursorRaf && !document.hidden) cursorRaf = requestAnimationFrame(renderCursor);
     }, { passive: true });
-    (function loopCursor() {
-      rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13;
-      setXform(dot, mx, my);
-      setXform(ring, rx, ry);
-      requestAnimationFrame(loopCursor);
-    })();
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && cursorRaf) {
+        cancelAnimationFrame(cursorRaf);
+        cursorRaf = 0;
+      }
+    });
   }
 
   // ── 9. Magnetic buttons ──
@@ -3191,8 +3275,20 @@
 
     let raf = null;
     let tick = 0;
+    let lastFrame = 0;
+    let heroVisible = false;
 
-    const draw = () => {
+    const draw = now => {
+      if (!heroVisible || document.hidden) { raf = null; return; }
+
+      // The mesh is ambient, so 45 FPS on desktop and 30 FPS on mobile stays
+      // visually fluid while reducing canvas work and battery use.
+      const minFrameMs = W < 768 ? 1000 / 30 : 1000 / 45;
+      if (now - lastFrame < minFrameMs) {
+        raf = requestAnimationFrame(draw);
+        return;
+      }
+      lastFrame = now;
       tick++;
       ctx.clearRect(0, 0, W, H);
       const dark   = document.documentElement.dataset.theme === 'dark';
@@ -3275,30 +3371,47 @@
       raf = requestAnimationFrame(draw);
     };
 
-    // Pause animation when hero scrolls off-screen (battery saver)
+    function startMesh() {
+      if (!raf && heroVisible && !document.hidden) raf = requestAnimationFrame(draw);
+    }
+
+    function stopMesh() {
+      if (raf) cancelAnimationFrame(raf);
+      raf = null;
+    }
+
+    // Pause when the hero is off-screen or the browser tab is hidden.
     new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { if (!raf) raf = requestAnimationFrame(draw); }
-      else                  { cancelAnimationFrame(raf); raf = null; }
+      heroVisible = e.isIntersecting;
+      heroVisible ? startMesh() : stopMesh();
     }, { threshold: 0 }).observe(hero);
+
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? stopMesh() : startMesh();
+    });
   })();
 
   // ── 13. Nav resume dropdown (click/keyboard, closes on outside click) ──
   const resumeDropdown = document.getElementById('resumeDropdown');
   const resumeBtn      = document.getElementById('resumeBtn');
+  const resumeMenu     = resumeDropdown.querySelector('.resume-dropdown');
+
+  function setResumeMenu(open) {
+    resumeDropdown.classList.toggle('open', open);
+    resumeBtn.setAttribute('aria-expanded', String(open));
+    resumeMenu.setAttribute('aria-hidden', String(!open));
+    resumeMenu.inert = !open;
+  }
+
   resumeBtn.addEventListener('click', e => {
     e.stopPropagation();
-    const open = resumeDropdown.classList.toggle('open');
-    resumeBtn.setAttribute('aria-expanded', open);
+    setResumeMenu(!resumeDropdown.classList.contains('open'));
   });
-  document.addEventListener('click', () => {
-    resumeDropdown.classList.remove('open');
-    resumeBtn.setAttribute('aria-expanded', 'false');
-  });
+  document.addEventListener('click', () => setResumeMenu(false));
   // Escape closes the menu and returns focus to the trigger (WAI-ARIA menu-button)
   resumeDropdown.addEventListener('keydown', e => {
     if (e.key === 'Escape' && resumeDropdown.classList.contains('open')) {
-      resumeDropdown.classList.remove('open');
-      resumeBtn.setAttribute('aria-expanded', 'false');
+      setResumeMenu(false);
       resumeBtn.focus();
     }
   });
@@ -3321,8 +3434,8 @@
       if (!navEl.matches(':hover')) shrink();
     }
 
-    // Shrink after entrance animation settles (~2.5 s)
-    setTimeout(shrink, 2500);
+    // Shrink after the faster entrance sequence settles.
+    setTimeout(shrink, 2000);
 
     // Expand while scrolling; start shrink timer when scroll stops
     addEventListener('scroll', () => {
@@ -3705,6 +3818,7 @@
       document.body.classList.remove('resume-spotlight');
       if (overlayEl) overlayEl.classList.remove('show');
       if (freshEl) { freshEl.classList.remove('show'); freshEl.classList.add('hide'); }
+      if (freshEl) freshEl.setAttribute('aria-hidden', 'true');
       if (navBtn) navBtn.classList.remove('resume-highlight');
       if (overlayEl) overlayEl.removeEventListener('click', dismissSpotlight);
       document.removeEventListener('keydown', onSpotlightKeydown);
@@ -3735,6 +3849,7 @@
 
         // Show notification
         if (freshEl) {
+          freshEl.setAttribute('aria-hidden', 'false');
           freshEl.classList.remove('hide');
           freshEl.classList.add('show');
         }
@@ -3759,8 +3874,12 @@
   document.querySelectorAll('a[download]').forEach(link => {
     link.addEventListener('click', () => {
       clearTimeout(dlToastTimer);
+      dlToast.setAttribute('aria-hidden', 'false');
       dlToast.classList.add('show');
-      dlToastTimer = setTimeout(() => dlToast.classList.remove('show'), 4500);
+      dlToastTimer = setTimeout(() => {
+        dlToast.classList.remove('show');
+        dlToast.setAttribute('aria-hidden', 'true');
+      }, 4500);
     });
   });
 
@@ -3805,11 +3924,11 @@
       const isWorkHours = !isWeekend && hour >= 9 && hour < 17;
 
       if (isWeekend) {
-        return { color: '#eab308', pulse: false, statusText: 'Weekend mode', fabHref: LINKEDIN, fabTarget: '_blank', fabLabel: 'Connect', fabIcon: liSVG };
+        return { color: '#eab308', pulse: false, statusText: 'Weekend · Replies within one business day', fabHref: LINKEDIN, fabTarget: '_blank', fabLabel: 'Connect', fabIcon: liSVG };
       } else if (isWorkHours) {
-        return { color: '#22c55e', pulse: true,  statusText: 'Attending client work · I\'ll get back shortly', fabHref: EMAIL, fabTarget: null, fabLabel: 'Say hello', fabIcon: emailSVG };
+        return { color: '#22c55e', pulse: true,  statusText: 'Working in Chicago · Replies as soon as possible', fabHref: EMAIL, fabTarget: null, fabLabel: 'Say hello', fabIcon: emailSVG };
       } else {
-        return { color: '#94a3b8', pulse: false, statusText: 'Recuperating · I\'ll reply shortly', fabHref: EMAIL, fabTarget: null, fabLabel: 'Say hello', fabIcon: emailSVG };
+        return { color: '#94a3b8', pulse: false, statusText: 'Outside office hours · Replies within one business day', fabHref: EMAIL, fabTarget: null, fabLabel: 'Say hello', fabIcon: emailSVG };
       }
     }
 
@@ -3837,8 +3956,8 @@
     update();
     setInterval(update, 60000);
 
-    // Reveal FAB after hero entrance (1.8s) — don't compete with page load
-    setTimeout(() => fab.classList.add('fab-visible'), 1800);
+    // Reveal FAB after the main hero content, without delaying access to contact.
+    setTimeout(() => fab.classList.add('fab-visible'), 1200);
 
     // Hide FAB when user is in the footer (they can already see the contact links)
     const footer = document.querySelector('footer');
@@ -3898,6 +4017,13 @@
       }
     }
 
+    function setCaseStudies(open) {
+      caseBody.classList.toggle('open', open);
+      caseToggle.setAttribute('aria-expanded', String(open));
+      caseBody.setAttribute('aria-hidden', String(!open));
+      caseBody.inert = !open;
+    }
+
     // Dismiss hint on any map interaction
     const mapEl = document.getElementById('impactMap');
     if (mapEl) mapEl.addEventListener('click', dismissHint, { once: true });
@@ -3905,8 +4031,7 @@
     // Hint "expand the list below" button → open case studies + scroll
     if (hintBtn && caseToggle && caseBody) {
       hintBtn.addEventListener('click', () => {
-        caseBody.classList.add('open');
-        caseToggle.setAttribute('aria-expanded', 'true');
+        setCaseStudies(true);
         dismissHint();
         setTimeout(() => caseToggle.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
       });
@@ -3915,8 +4040,8 @@
     // Case studies toggle button
     if (caseToggle && caseBody) {
       caseToggle.addEventListener('click', () => {
-        const open = caseBody.classList.toggle('open');
-        caseToggle.setAttribute('aria-expanded', String(open));
+        const open = !caseBody.classList.contains('open');
+        setCaseStudies(open);
         if (open) dismissHint();
       });
     }
@@ -3932,7 +4057,7 @@
       setTimeout(function () {
         introLine.style.opacity = '0';
         setTimeout(function () { if (introLine.parentNode) introLine.remove(); }, 380);
-      }, 2050);
+      }, 1400);
     }
 
     // CTA buttons: remove animation fill lock so hover transitions work normally
