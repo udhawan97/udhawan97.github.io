@@ -963,6 +963,16 @@
   }
   @keyframes ghpStatusShimmer { 0%, 55% { transform: translateX(-140%); } 100% { transform: translateX(140%); } }
 
+  /* "Beta" variant — same pill, in the site accent blue (early access, not "under construction") */
+  .ghp-status.beta {
+    color: #7abfff;
+    background: rgba(8,16,26,.6); border-color: rgba(41,151,255,.4);
+  }
+  .ghp-status.beta .ghp-status-dot { background: #2997ff; box-shadow: 0 0 6px #2997ff; }
+  .ghp-status.beta::before {
+    background: linear-gradient(100deg, transparent 32%, rgba(41,151,255,.24) 50%, transparent 68%);
+  }
+
   .ghp-links { margin-top: auto; display: flex; align-items: center; gap: 18px; }
   .ghp-link {
     display: inline-flex; align-items: center; gap: 7px;
@@ -2621,6 +2631,7 @@
         <!-- Orifold -->
         <article class="ghp-card r d1">
           <div class="ghp-visual ori-visual" aria-hidden="true">
+            <span class="ghp-status beta"><span class="ghp-status-dot"></span>Beta</span>
             <div class="ori-scene">
               <!-- faint brand crane keeping the stack company -->
               <svg class="ori-crane" viewBox="0 0 100 100">
