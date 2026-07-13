@@ -99,9 +99,15 @@
     --glass-border: rgba(0,0,0,.06);
     --hover: rgba(0,0,0,.05);
     --shadow: rgba(0,0,0,.08);
+    --material-shadow: 0 18px 55px rgba(15,23,42,.09), 0 1px 0 rgba(255,255,255,.72) inset;
+    --material-shadow-strong: 0 26px 76px rgba(15,23,42,.14), 0 1px 0 rgba(255,255,255,.78) inset;
+    --edge-light: rgba(255,255,255,.78);
+    --page-grid: rgba(0,102,214,.055);
+    --page-wash: rgba(0,102,214,.045);
     --panel: #1d1d1f;          /* GitHub panel stays dark in both themes */
     --radius: 22px;
     --ease: cubic-bezier(.22, .8, .26, .99);
+    --scroll-signal: 0;
     color-scheme: light;
   }
   [data-theme="dark"] {
@@ -117,6 +123,11 @@
     --glass-border: rgba(255,255,255,.1);
     --hover: rgba(255,255,255,.08);
     --shadow: rgba(0,0,0,.5);
+    --material-shadow: 0 20px 70px rgba(0,0,0,.38), 0 1px 0 rgba(255,255,255,.08) inset;
+    --material-shadow-strong: 0 30px 90px rgba(0,0,0,.52), 0 1px 0 rgba(255,255,255,.12) inset;
+    --edge-light: rgba(255,255,255,.13);
+    --page-grid: rgba(111,195,255,.075);
+    --page-wash: rgba(41,151,255,.06);
     --panel: #161617;
     color-scheme: dark;
   }
@@ -124,7 +135,12 @@
   button, input, select, textarea { font-family: inherit; font-size: inherit; }
   html { scroll-behavior: smooth; overflow-x: hidden; }
   body {
-    background: var(--bg); color: var(--ink);
+    background:
+      linear-gradient(180deg, var(--bg) 0%, var(--bg) 38%, color-mix(in srgb, var(--bg), var(--blue) 3%) 100%),
+      repeating-linear-gradient(90deg, transparent 0 108px, var(--page-grid) 108px 109px),
+      repeating-linear-gradient(0deg, transparent 0 108px, var(--page-grid) 108px 109px);
+    background-attachment: fixed, fixed, fixed;
+    color: var(--ink);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
@@ -162,6 +178,39 @@
   /* Pause decorative keyframe animations while their section is off-screen (perf/battery) */
   .anim-paused, .anim-paused *, .anim-paused *::before, .anim-paused *::after { animation-play-state: paused !important; }
 
+  /* Scroll-linked signal thread: a quiet progress spine for large screens */
+  #signal-thread {
+    position: fixed;
+    top: 112px; bottom: 92px;
+    left: max(24px, calc(50vw - 620px));
+    width: 1px; z-index: 620; pointer-events: none;
+    background: linear-gradient(180deg, transparent, var(--line) 14%, var(--line) 86%, transparent);
+    opacity: .72;
+  }
+  #signal-thread::before,
+  #signal-thread::after {
+    content: "";
+    position: absolute; left: 50%;
+    width: 7px; height: 7px; border-radius: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-2);
+    border: 1px solid var(--blue);
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  #signal-thread::before { top: 0; }
+  #signal-thread::after  { bottom: 0; }
+  #signal-thread span {
+    position: absolute; inset: 0;
+    transform: scaleY(var(--scroll-signal));
+    transform-origin: 50% 0;
+    background: linear-gradient(180deg, var(--blue), var(--blue-bright), transparent 96%);
+    box-shadow: 0 0 18px rgba(41,151,255,.32);
+    will-change: transform;
+  }
+  @media (max-width: 1180px), (prefers-reduced-motion: reduce) {
+    #signal-thread { display: none; }
+  }
+
   /* ── 4. Nav — floating pill, resume dropdown ── */
   nav {
     position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
@@ -192,6 +241,21 @@
   nav a.nav-active { color: var(--ink); background: var(--hover); font-weight: 600; }
   nav a.cta { background: var(--ink); color: var(--bg); }
   nav a.cta:hover { background: var(--blue); color: #fff; }
+  nav a.brand-mark {
+    color: var(--ink) !important;
+    font-weight: 800;
+    letter-spacing: .02em;
+    background:
+      linear-gradient(var(--glass), var(--glass)) padding-box,
+      linear-gradient(135deg, var(--blue), var(--edge-light), var(--blue-bright)) border-box;
+    border: 1px solid transparent;
+    box-shadow: 0 8px 22px rgba(0,102,214,.08);
+  }
+  nav a.brand-mark:hover {
+    color: #fff !important;
+    background: linear-gradient(135deg, var(--blue), var(--blue-bright));
+    box-shadow: 0 12px 26px rgba(0,102,214,.22);
+  }
 
   /* nav resume dropdown */
   .nav-dropdown { position: relative; }
@@ -244,8 +308,8 @@
 
   /* ── Back-to-top button ── */
   #topBtn {
-    position: fixed; bottom: 28px; left: 50%;
-    transform: translateX(-50%) translateY(16px) scale(.92);
+    position: fixed; bottom: 28px; left: 28px;
+    transform: translateY(16px) scale(.92);
     opacity: 0; pointer-events: none; z-index: 900;
     height: 46px; border-radius: 99px; padding: 0 22px; gap: 9px;
     background: var(--glass);
@@ -259,10 +323,10 @@
   }
   #topBtn.visible {
     opacity: 1; pointer-events: auto;
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: translateY(0) scale(1);
   }
   #topBtn:hover { background: var(--ink); color: var(--bg); box-shadow: 0 14px 36px var(--shadow); }
-  @media (max-width: 640px) { #topBtn { bottom: 18px; } }
+  @media (max-width: 640px) { #topBtn { bottom: 18px; left: 16px; } }
 
 
   /* ── 5. Layout utilities — .wrap, sections, kicker, section orbs ── */
@@ -300,28 +364,68 @@
     transition: opacity .55s cubic-bezier(.25,.1,.25,1), transform .55s cubic-bezier(.25,.1,.25,1);
   }
   h2.display.visible .word { opacity: 1; transform: none; }
-  /* section decorative orbs */
-  #about, #work, #experience { position: relative; }
+  /* Section atmospheres: full-width texture bands, not layout-changing cards */
+  section, footer, header.hero { isolation: isolate; }
+  #about, #stats-section, #approach, #work, #experience, #github, footer { position: relative; }
+  #about::after, #stats-section::after, #approach::after, #experience::after, #work::after, #github::after, footer::before {
+    content: "";
+    position: absolute;
+    inset: -26px calc(50% - 50vw);
+    z-index: -2;
+    pointer-events: none;
+    opacity: .72;
+    background: var(--section-atmosphere, transparent);
+    -webkit-mask-image: linear-gradient(180deg, transparent, black 18%, black 82%, transparent);
+    mask-image: linear-gradient(180deg, transparent, black 18%, black 82%, transparent);
+  }
+  #about { --section-atmosphere:
+    linear-gradient(115deg, transparent 0 24%, var(--page-wash) 24% 25%, transparent 25% 100%),
+    linear-gradient(180deg, transparent, rgba(0,102,214,.035), transparent);
+  }
+  #stats-section { --section-atmosphere:
+    repeating-linear-gradient(135deg, transparent 0 28px, var(--page-grid) 28px 29px),
+    linear-gradient(180deg, transparent, rgba(41,151,255,.04), transparent);
+  }
+  #approach { --section-atmosphere:
+    linear-gradient(90deg, transparent, rgba(0,102,214,.04), transparent),
+    repeating-linear-gradient(0deg, transparent 0 54px, rgba(41,151,255,.05) 54px 55px);
+  }
+  #experience { --section-atmosphere:
+    linear-gradient(120deg, transparent 0 32%, rgba(111,195,255,.055) 32% 33%, transparent 33% 100%),
+    linear-gradient(180deg, transparent, rgba(140,90,240,.035), transparent);
+  }
+  #work { --section-atmosphere:
+    linear-gradient(65deg, transparent 0 36%, rgba(41,151,255,.055) 36% 36.8%, transparent 36.8% 100%),
+    repeating-linear-gradient(90deg, transparent 0 74px, rgba(41,151,255,.045) 74px 75px);
+  }
+  #github { --section-atmosphere:
+    linear-gradient(180deg, transparent, rgba(41,151,255,.055), transparent);
+  }
+  footer { --section-atmosphere:
+    linear-gradient(180deg, transparent 0%, rgba(41,151,255,.09) 55%, transparent 100%),
+    repeating-linear-gradient(90deg, transparent 0 92px, rgba(41,151,255,.052) 92px 93px);
+  }
   #about::before {
     content: ""; position: absolute; z-index: -1; pointer-events: none;
-    width: 720px; height: 720px; border-radius: 50%;
-    top: -120px; right: -240px;
-    background: radial-gradient(circle at 38% 38%, rgba(41,151,255,.22), rgba(0,102,214,.06) 50%, transparent 70%);
-    filter: blur(72px);
+    inset: 2% calc(50% - 50vw) auto;
+    height: 360px; border-radius: 0;
+    background: linear-gradient(105deg, transparent 18%, rgba(41,151,255,.10) 18.4%, transparent 40%),
+                linear-gradient(180deg, rgba(255,255,255,.03), transparent);
+    filter: blur(10px);
   }
   #work::before {
     content: ""; position: absolute; z-index: -1; pointer-events: none;
-    width: 560px; height: 560px; border-radius: 50%;
-    top: -80px; left: -220px;
-    background: radial-gradient(circle at 55% 42%, rgba(100,210,255,.18), rgba(41,151,255,.05) 50%, transparent 70%);
-    filter: blur(72px);
+    inset: 8% calc(50% - 50vw) auto;
+    height: 420px; border-radius: 0;
+    background: linear-gradient(72deg, transparent 0 39%, rgba(100,210,255,.09) 39.4%, transparent 58%);
+    filter: blur(12px);
   }
   #experience::before {
     content: ""; position: absolute; z-index: -1; pointer-events: none;
-    width: 640px; height: 640px; border-radius: 50%;
-    top: -120px; right: -200px;
-    background: radial-gradient(circle at 40% 40%, rgba(140,90,240,.14), rgba(41,151,255,.07) 52%, transparent 72%);
-    filter: blur(72px);
+    inset: 0 calc(50% - 50vw) auto;
+    height: 380px; border-radius: 0;
+    background: linear-gradient(118deg, transparent 0 52%, rgba(140,90,240,.075) 52.5%, transparent 72%);
+    filter: blur(12px);
   }
 
   #stats-section { padding-top: 48px; padding-bottom: 32px; }
@@ -331,10 +435,10 @@
   #approach h2.display { margin-bottom: 32px; }
   #approach::before {
     content: ""; position: absolute; z-index: -1; pointer-events: none;
-    width: 680px; height: 680px; border-radius: 50%;
-    top: -100px; right: -200px;
-    background: radial-gradient(circle at 38% 42%, rgba(100,210,255,.17), rgba(41,151,255,.05) 50%, transparent 70%);
-    filter: blur(72px);
+    inset: -40px calc(50% - 50vw) auto;
+    height: 390px; border-radius: 0;
+    background: linear-gradient(100deg, transparent 0 28%, rgba(100,210,255,.085) 28.4%, transparent 49%);
+    filter: blur(12px);
   }
   .process-strip {
     position: relative;
@@ -499,6 +603,7 @@
     html { scroll-behavior: auto; }
     #progress, .marquee-track, h1 .grad, h2.display .grad, .hero-glow::before { animation:none !important; }
     .stat.r.visible .stat-icon { animation: none; }
+    nav { transform: translateX(-50%) !important; }
   }
 
   /* ── 7. Hero section ── */
@@ -524,6 +629,17 @@
     content: ""; position: absolute; width: 46vw; height: 46vw; max-width: 620px; max-height: 620px;
     left: -14vw; bottom: -16vw; border-radius: 50%;
     background: radial-gradient(circle at 60% 40%, rgba(120,140,170,.12), transparent 65%);
+  }
+  header.hero::after {
+    content: "";
+    position: absolute; inset: auto calc(50% - 50vw) 4%;
+    height: 34%;
+    z-index: -1; pointer-events: none;
+    background:
+      linear-gradient(180deg, transparent, rgba(41,151,255,.045)),
+      repeating-linear-gradient(90deg, transparent 0 78px, rgba(41,151,255,.07) 78px 79px);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 16%, black 84%, transparent);
+    mask-image: linear-gradient(90deg, transparent, black 16%, black 84%, transparent);
   }
 
   /* Cloud dashboard card texture */
@@ -567,7 +683,12 @@
   }
   @media (prefers-reduced-motion: reduce) { #fab-dot { animation: none !important; } }
   @media (max-width: 640px) {
-    #contact-fab { bottom: 20px; right: 16px; padding: 12px 16px 12px 13px; font-size: 13px; }
+    #contact-fab {
+      bottom: 18px; right: 16px;
+      width: 46px; height: 46px; padding: 0;
+      justify-content: center; gap: 0;
+    }
+    #fab-label, #fab-dot { display: none; }
   }
   h1 {
     font-size: clamp(34px, 6.4vw, 82px); font-weight: 700;
@@ -593,6 +714,7 @@
     padding: 14px 26px; border-radius: 99px; font-size: 15px; font-weight: 500;
     transition: transform .35s var(--ease), background .35s var(--ease), box-shadow .35s var(--ease), color .35s var(--ease);
     will-change: transform;
+    box-shadow: 0 1px 0 rgba(255,255,255,.16) inset;
   }
   .btn.dark { background: var(--ink); color: var(--bg); }
   .btn.dark:hover { background: var(--blue); color: #fff; box-shadow: 0 14px 34px rgba(0,102,214,.28); }
@@ -691,10 +813,15 @@
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
   @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
   .stat {
-    background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 30px 26px; transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .45s ease;
+    background:
+      linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
+      linear-gradient(145deg, var(--edge-light), transparent 45%, rgba(41,151,255,.24)) border-box;
+    border: 1px solid transparent; border-radius: var(--radius);
+    padding: 30px 26px;
+    box-shadow: var(--material-shadow);
+    transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .45s ease;
   }
-  .stat:hover { transform: translateY(-6px); box-shadow: 0 18px 44px var(--shadow); }
+  .stat:hover { transform: translateY(-6px); box-shadow: var(--material-shadow-strong); }
   .stat .n { font-size: clamp(34px, 4.4vw, 50px); font-weight: 700; letter-spacing: -.03em; }
   .stat .n em { font-style: normal; color: var(--blue); }
   .stat .l { font-size: 13.5px; color: var(--ink-2); margin-top: 6px; line-height: 1.45; }
@@ -706,9 +833,27 @@
   .portrait {
     position: relative; border-radius: 28px; overflow: hidden;
     aspect-ratio: 4/4.6; background: linear-gradient(160deg, #dfe9f5, #c4d6ec);
-    transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+    border: 1px solid transparent;
+    box-shadow: var(--material-shadow);
+    transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease);
   }
   .portrait:hover { transform: scale(1.015); }
+  .portrait::before {
+    content: "";
+    position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.26), transparent 28%),
+      linear-gradient(0deg, rgba(0,0,0,.14), transparent 42%);
+    mix-blend-mode: screen;
+    opacity: .55;
+  }
+  .portrait::after {
+    content: "";
+    position: absolute; inset: 12px; z-index: 2; pointer-events: none;
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 21px;
+    opacity: .55;
+  }
   .portrait img { width: 100%; height: 100%; object-fit: cover; }
   .portrait .ph {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
@@ -820,11 +965,15 @@
   .xp { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
   @media (max-width: 880px) { .xp { grid-template-columns: 1fr; } }
   .xp-card {
-    background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
+    background:
+      linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
+      linear-gradient(145deg, var(--edge-light), transparent 48%, rgba(41,151,255,.22)) border-box;
+    border: 1px solid transparent; border-radius: var(--radius);
     padding: 30px 28px; display: flex; flex-direction: column;
+    box-shadow: var(--material-shadow);
     transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .45s ease;
   }
-  .xp-card:hover { transform: translateY(-6px); box-shadow: 0 18px 44px var(--shadow); }
+  .xp-card:hover { transform: translateY(-6px); box-shadow: var(--material-shadow-strong); }
   .xp-card .when { font-size: 12.5px; font-weight: 600; color: var(--blue); letter-spacing: .06em; text-transform: uppercase; }
   .xp-card h3 { font-size: 19px; font-weight: 700; letter-spacing: -.015em; margin: 10px 0 2px; }
   .xp-card .org { font-size: 14.5px; color: var(--ink-2); margin-bottom: 14px; }
@@ -833,8 +982,12 @@
   /* ── 14. GitHub panel (dark in both light/dark themes) ── */
   #github { padding-top: 88px; }
   .gh {
-    background: var(--panel); color: #f5f5f7; border-radius: 30px; padding: 52px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.035), transparent 34%),
+      var(--panel);
+    color: #f5f5f7; border-radius: 30px; padding: 52px;
     position: relative; overflow: hidden; border: 1px solid var(--line);
+    box-shadow: 0 30px 90px rgba(0,0,0,.42), 0 1px 0 rgba(255,255,255,.07) inset;
   }
   .gh::before {
     content: ""; position: absolute; width: 480px; height: 480px; border-radius: 50%;
@@ -845,7 +998,10 @@
   .gh p { color: #a1a1a6; font-size: 15.5px; line-height: 1.65; max-width: 560px; margin-bottom: 30px; position: relative; }
   .gh p a { color: #2997ff; }
   .gh p a:hover { text-decoration: underline; }
-  .gh-graph { background: #fff; border-radius: 16px; padding: 18px; position: relative; }
+  .gh-graph {
+    background: #fff; border-radius: 16px; padding: 18px; position: relative;
+    box-shadow: 0 18px 44px rgba(0,0,0,.28);
+  }
   .gh-graph img { width: 100%; height: auto; }
 
   /* ── 14b. GitHub — featured open-source project cards (live inside dark panel) ── */
@@ -882,6 +1038,7 @@
     background: rgba(255,255,255,.035);
     border: 1px solid rgba(255,255,255,.09);
     border-radius: 20px; overflow: hidden;
+    transform-style: preserve-3d;
     transition: transform .45s var(--ease), box-shadow .45s var(--ease),
                 border-color .45s var(--ease), background .45s var(--ease);
   }
@@ -900,7 +1057,10 @@
       linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.16));
     border-bottom: 1px solid rgba(255,255,255,.06);
     display: flex; align-items: center; justify-content: center;
+    transform: translateZ(0);
+    transition: filter .55s var(--ease);
   }
+  .ghp-card:hover .ghp-visual { filter: saturate(1.08) brightness(1.04); }
 
   .ghp-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
   .ghp-title-row {
@@ -1425,7 +1585,21 @@
   }
 
   /* ── 15. Footer / Contact ── */
-  footer { padding: 90px 0 50px; text-align: center; }
+  footer {
+    padding: 90px 0 50px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  footer::after {
+    content: "";
+    position: absolute; left: calc(50% - 50vw); right: calc(50% - 50vw); bottom: 0;
+    height: 42%;
+    z-index: -1; pointer-events: none;
+    background:
+      linear-gradient(180deg, transparent, rgba(41,151,255,.075)),
+      repeating-linear-gradient(90deg, transparent 0 76px, rgba(41,151,255,.07) 76px 77px);
+    -webkit-mask-image: linear-gradient(180deg, transparent, black 42%, transparent);
+    mask-image: linear-gradient(180deg, transparent, black 42%, transparent);
+  }
   footer .kicker { justify-content: center; }
   footer .kicker::before { display: none; }
   footer h2.big {
@@ -1515,10 +1689,12 @@
     position: fixed; inset: 0; z-index: 50;
     background: rgba(0,0,0,0);
     pointer-events: none;
-    transition: background .55s ease;
+    -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0);
+    transition: background .55s ease, backdrop-filter .55s ease, -webkit-backdrop-filter .55s ease;
   }
   #resume-overlay.show {
-    background: rgba(0,0,0,.68);
+    background: rgba(0,0,0,.24);
+    -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
     pointer-events: auto;
     cursor: pointer;
   }
@@ -1532,7 +1708,7 @@
     position: relative; z-index: 200;
   }
   body.resume-spotlight .resume-dl .btn {
-    box-shadow: 0 0 0 2px var(--blue-bright), 0 0 22px rgba(41,151,255,.4);
+    box-shadow: 0 0 0 2px var(--blue-bright), 0 14px 36px rgba(41,151,255,.24);
   }
 
   /* Download toast (fires after resume PDF click) */
@@ -1635,7 +1811,7 @@
   .stat:hover .n em { text-shadow: 0 0 20px rgba(0,102,214,.45); }
 
   /* Portrait hover: subtle scale + glow ring */
-  .portrait:hover { transform: scale(1.015); box-shadow: 0 0 52px rgba(0,102,214,.28); }
+  .portrait:hover { transform: scale(1.015); box-shadow: var(--material-shadow-strong), 0 0 52px rgba(0,102,214,.22); }
 
   /* Pullquote: animated gradient left border */
   .about-copy .pullquote {
@@ -1725,8 +1901,21 @@
   .impact-wrap { margin-top: 48px; }
   .impact-map {
     position: relative; padding: 28px;
-    background: var(--bg-2); border: 1px solid var(--line);
+    background:
+      linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
+      linear-gradient(145deg, var(--edge-light), transparent 48%, rgba(41,151,255,.22)) border-box;
+    border: 1px solid transparent;
     border-radius: 20px;
+    box-shadow: var(--material-shadow);
+    overflow: hidden;
+  }
+  .impact-map::before {
+    content: "";
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(115deg, transparent 0 42%, rgba(41,151,255,.055) 42.4%, transparent 58%),
+      repeating-linear-gradient(90deg, transparent 0 64px, rgba(41,151,255,.035) 64px 65px);
+    opacity: .75;
   }
   .impact-svg {
     position: absolute; inset: 0; width: 100%; height: 100%;
@@ -1862,8 +2051,12 @@
   .impact-detail.open { max-height: 500px; opacity: 1; }
   .impact-detail:focus-visible { outline: 2px solid var(--blue-bright); outline-offset: 3px; }
   .impact-detail-inner {
-    background: var(--bg-2); border: 1px solid var(--blue);
+    background:
+      linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
+      linear-gradient(135deg, var(--blue), transparent 46%, var(--edge-light)) border-box;
+    border: 1px solid transparent;
     border-radius: var(--radius); padding: 26px 30px; margin-top: 20px;
+    box-shadow: var(--material-shadow);
   }
   .impact-detail-outcome {
     font-size: 10px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
@@ -2144,11 +2337,12 @@
 
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div id="progress"></div>
+<div id="signal-thread" aria-hidden="true"><span></span></div>
 <div id="intro-line" aria-hidden="true"></div>
 <div id="map-scrim" aria-hidden="true"></div>
 
 <nav aria-label="Primary navigation">
-  <a href="#top" style="font-weight:700; color:var(--ink)">UD</a>
+  <a class="brand-mark" href="#top">UD</a>
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#experience">Experience</a>
@@ -3050,7 +3244,9 @@
     progRaf = 0;
     const h = document.documentElement;
     const scrollable = h.scrollHeight - h.clientHeight;
-    bar.style.transform = 'scaleX(' + (scrollable > 0 ? h.scrollTop / scrollable : 0) + ')';
+    const progress = scrollable > 0 ? h.scrollTop / scrollable : 0;
+    bar.style.transform = 'scaleX(' + progress + ')';
+    h.style.setProperty('--scroll-signal', progress.toFixed(4));
     topBtn.classList.toggle('visible', h.scrollTop > innerHeight * 0.6);
   };
   addEventListener('scroll', () => { if (!progRaf) progRaf = requestAnimationFrame(updateProgress); }, { passive: true });
@@ -3260,8 +3456,17 @@
     hero.insertBefore(cvs, hero.querySelector('.hero-glow').nextSibling);
     const ctx = cvs.getContext('2d');
 
-    let W, H, rzTimer;
-    const resize = () => { W = cvs.width = hero.offsetWidth; H = cvs.height = hero.offsetHeight; };
+    let W, H, DPR, rzTimer;
+    const resize = () => {
+      W = hero.offsetWidth;
+      H = hero.offsetHeight;
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      cvs.width = Math.round(W * DPR);
+      cvs.height = Math.round(H * DPR);
+      cvs.style.width = W + 'px';
+      cvs.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    };
     resize();
     addEventListener('resize', () => { clearTimeout(rzTimer); rzTimer = setTimeout(resize, 150); });
 
@@ -3971,17 +4176,25 @@
     // Reveal FAB after the main hero content, without delaying access to contact.
     setTimeout(() => fab.classList.add('fab-visible'), 1200);
 
-    // Hide FAB when user is in the footer (they can already see the contact links)
-    const footer = document.querySelector('footer');
-    if (footer) {
-      const obs = new IntersectionObserver(entries => {
-        const inFooter = entries[0].isIntersecting;
-        fab.style.opacity = inFooter ? '0' : '';
-        fab.style.pointerEvents = inFooter ? 'none' : '';
+    // Hide FAB in dense end sections where contact paths are already visible.
+    const fabHideZones = [document.querySelector('.gh'), document.querySelector('footer')].filter(Boolean);
+    if (fabHideZones.length) {
+      const hiddenZones = new Set();
+      const syncFabVisibility = () => {
+        const shouldHide = hiddenZones.size > 0;
+        fab.style.opacity = shouldHide ? '0' : '';
+        fab.style.pointerEvents = shouldHide ? 'none' : '';
         // pointer-events:none doesn't stop keyboard activation — also pull it out of tab order
-        if (inFooter) fab.setAttribute('tabindex', '-1'); else fab.removeAttribute('tabindex');
-      }, { threshold: 0.2 });
-      obs.observe(footer);
+        if (shouldHide) fab.setAttribute('tabindex', '-1'); else fab.removeAttribute('tabindex');
+      };
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) hiddenZones.add(entry.target);
+          else hiddenZones.delete(entry.target);
+        });
+        syncFabVisibility();
+      }, { threshold: 0.03 });
+      fabHideZones.forEach(zone => obs.observe(zone));
     }
   })();
 
