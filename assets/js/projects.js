@@ -73,13 +73,7 @@ const ICON_GITHUB =
 /* CSS only defines stagger delays d1–d4. */
 const MAX_DELAY_STEP = 4;
 
-function esc(value) {
-  return String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
+/* esc() comes from util.js, which index.html loads first. */
 
 /*
  * Only some icons need a staticIcon twin, and that isn't an oversight:

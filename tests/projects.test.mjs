@@ -12,14 +12,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { runInNewContext } from 'node:vm';
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { join } from 'node:path';
+import { load, root, readIndex } from './load.mjs';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const source = readFileSync(join(root, 'assets/js/projects.js'), 'utf8');
-const { PROJECTS, projectCardHtml } = runInNewContext(
-  `${source}\n;({ PROJECTS, projectCardHtml });`
+const { PROJECTS, projectCardHtml } = load(
+  ['assets/js/util.js', 'assets/js/projects.js'],
+  '{ PROJECTS, projectCardHtml }'
 );
 
 const project = {

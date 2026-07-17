@@ -2729,70 +2729,22 @@
       <svg class="impact-svg" id="impactSvg" aria-hidden="true"></svg>
       <div class="impact-cols">
 
+        <!--
+          The three columns are filled by assets/js/work.js from ROLES and
+          WORKSTREAMS. Only the headers are written here — the nodes, the paths
+          between them, the detail panel and the case studies below all read the
+          same data, so they can't drift apart.
+        -->
         <div class="impact-col">
           <div class="col-header">Roles</div>
-          <div class="impact-node role-node r" data-id="senior" data-type="role">
-            <span class="node-label">Senior Consultant</span>
-            <span class="node-sub">EY Studio+</span>
-          </div>
-          <div class="impact-node role-node r" data-id="consultant" data-type="role">
-            <span class="node-label">Consultant</span>
-            <span class="node-sub">EY</span>
-          </div>
-          <div class="impact-node role-node r" data-id="intern" data-type="role">
-            <span class="node-label">IT Leadership Intern</span>
-            <span class="node-sub">SAP America</span>
-          </div>
         </div>
 
         <div class="impact-col">
           <div class="col-header">Workstreams<span class="col-hint">tap to expand ↗</span></div>
-          <div class="impact-node ws-node r" data-id="ws1" data-type="workstream" data-role="senior" data-outcome="out1">
-            <span class="node-label">Release Safety &amp; Observability</span>
-          </div>
-          <div class="impact-node ws-node r" data-id="ws2" data-type="workstream" data-role="senior" data-outcome="out2">
-            <span class="node-label">Contact Center AI Strategy</span>
-          </div>
-          <div class="impact-node ws-node r" data-id="ws3" data-type="workstream" data-role="consultant" data-outcome="out3">
-            <span class="node-label">Retail Platform Launch</span>
-          </div>
-          <div class="impact-node ws-node r" data-id="ws4" data-type="workstream" data-role="consultant" data-outcome="out4">
-            <span class="node-label">Federal Cloud Compliance</span>
-          </div>
-          <div class="impact-node ws-node r" data-id="ws5" data-type="workstream" data-role="consultant" data-outcome="out5">
-            <span class="node-label">API Performance Engineering</span>
-          </div>
-          <div class="impact-node ws-node r" data-id="ws6" data-type="workstream" data-role="intern" data-outcome="out6">
-            <span class="node-label">Global Product Delivery &amp; Design</span>
-          </div>
         </div>
 
         <div class="impact-col">
           <div class="col-header">Outcomes</div>
-          <div class="impact-node outcome-node r" data-id="out1" data-type="outcome">
-            <span class="outcome-metric">−20%</span>
-            <span class="node-sub">incidents · MTTR −15%</span>
-          </div>
-          <div class="impact-node outcome-node r" data-id="out2" data-type="outcome">
-            <span class="outcome-metric">Strategy</span>
-            <span class="node-sub">pursuit shaped</span>
-          </div>
-          <div class="impact-node outcome-node r" data-id="out3" data-type="outcome">
-            <span class="outcome-metric">+30%</span>
-            <span class="node-sub">routing efficiency</span>
-          </div>
-          <div class="impact-node outcome-node r" data-id="out4" data-type="outcome">
-            <span class="outcome-metric">0</span>
-            <span class="node-sub">audit findings</span>
-          </div>
-          <div class="impact-node outcome-node r" data-id="out5" data-type="outcome">
-            <span class="outcome-metric">+15%</span>
-            <span class="node-sub">API reliability</span>
-          </div>
-          <div class="impact-node outcome-node r" data-id="out6" data-type="outcome">
-            <span class="outcome-metric">50+</span>
-            <span class="node-sub">professionals upskilled across 3 continents</span>
-          </div>
         </div>
 
       </div>
@@ -2813,60 +2765,17 @@
     <svg class="cs-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
   </button>
 
+  <!--
+    Rows are rendered by assets/js/work.js from WORKSTREAMS — the same entries
+    the impact map above reads. Only each row's icon lives here.
+  -->
   <div class="case-studies-body" id="caseStudiesBody" aria-hidden="true" inert>
-    <div class="work-row r">
-      <div class="idx">01</div>
-      <div>
-        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Release safety &amp; observability at scale</h3>
-        <p class="desc">Embedded with a Fortune 100 retailer's cloud engineering team to harden releases — rollback standards, pre-deployment risk patterns, and an observability framework built from structured logs, dashboards, and diagnostic metrics.</p>
-      </div>
-      <div class="meta"><span class="outcome">Incidents <em>−20%</em> · MTTR <em>−15%</em></span>Cloud · CI/CD · Grafana · AppDynamics</div>
-    </div>
-
-    <div class="work-row r">
-      <div class="idx">02</div>
-      <div>
-        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Contact center AI strategy</h3>
-        <p class="desc">AI and technology points of view for Fortune 500 healthcare clients — capability assessments, tech stack benchmarks, and persona-based journeys, anchored in live validation of real customer service experiences.</p>
-      </div>
-      <div class="meta"><span class="outcome">Shaped <em>pursuit strategy</em></span>Generative AI · CX Strategy · Research</div>
-    </div>
-
-    <div class="work-row r">
-      <div class="idx">03</div>
-      <div>
-        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Retail platform launch, 100+ locations</h3>
-        <p class="desc">Led quality engineering for an in-store production platform rollout: automated regression with Kotlin and Appium, cross-team triage, weekly release sign-offs.</p>
-      </div>
-      <div class="meta"><span class="outcome">Routing efficiency <em>+30%</em></span>Kotlin · Appium · Agile · JIRA</div>
-    </div>
-
-    <div class="work-row r">
-      <div class="idx">04</div>
-      <div>
-        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Federal cloud, zero audit findings</h3>
-        <p class="desc">Coordinated agile delivery on a Microsoft GCC High implementation, ensuring FedRAMP and NIST 800-53 controls were executed and verified end to end.</p>
-      </div>
-      <div class="meta"><span class="outcome"><em>0</em> audit findings</span>Azure · FedRAMP · NIST 800-53</div>
-    </div>
-
-    <div class="work-row r">
-      <div class="idx">05</div>
-      <div>
-        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Shipping API performance engineering</h3>
-        <p class="desc">20+ JMeter test scripts and load benchmarks built with teams across the US and India for a major e-commerce launch, tracked in Azure DevOps, AppDynamics, and Grafana.</p>
-      </div>
-      <div class="meta"><span class="outcome">API reliability <em>+15%</em></span>JMeter · Performance · Azure DevOps</div>
-    </div>
-
-    <div class="work-row r">
-      <div class="idx">06</div>
-      <div>
-        <h3><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Global product delivery &amp; SAFe agile — SAP</h3>
-        <p class="desc">Coordinated SAFe delivery with the Chief Product Owner across Germany, the US, and India — managing ARTs, tracking OKRs, and keeping increments on schedule. Facilitated design thinking workshops for 50+ professionals across three continents; UX research shaped SAP FlexConnect.</p>
-      </div>
-      <div class="meta"><span class="outcome"><em>50+</em> professionals upskilled across 3 continents</span>SAP · SAFe · ARTs · OKRs · Product Management · UX Research</div>
-    </div>
+    <template class="work-icon" data-ws="ws1"><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></template>
+    <template class="work-icon" data-ws="ws2"><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></template>
+    <template class="work-icon" data-ws="ws3"><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></template>
+    <template class="work-icon" data-ws="ws4"><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></template>
+    <template class="work-icon" data-ws="ws5"><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></template>
+    <template class="work-icon" data-ws="ws6"><svg class="row-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></template>
   </div>
 </section>
 
@@ -3085,8 +2994,12 @@
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
 </a>
 
-<!-- Renders the project cards. Must stay ahead of the script below, which
-     expects .ghp-card to be in the DOM when it binds. -->
+<!-- Data + rendering for the impact map, case studies and project cards. These
+     must stay ahead of the script below, which expects the nodes, rows and
+     cards to be in the DOM when it binds — and util.js must come first, since
+     it declares the esc() the others share. -->
+<script src="assets/js/util.js"></script>
+<script src="assets/js/work.js"></script>
 <script src="assets/js/projects.js"></script>
 
 <script>
@@ -3644,59 +3557,11 @@
     const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isMobile = () => window.innerWidth < 768;
 
-    const connections = [
-      { from:'senior',     to:'ws1'  },
-      { from:'senior',     to:'ws2'  },
-      { from:'consultant', to:'ws3'  },
-      { from:'consultant', to:'ws4'  },
-      { from:'consultant', to:'ws5'  },
-      { from:'intern',     to:'ws6'  },
-      { from:'ws1',  to:'out1' },
-      { from:'ws2',  to:'out2' },
-      { from:'ws3',  to:'out3' },
-      { from:'ws4',  to:'out4' },
-      { from:'ws5',  to:'out5' },
-      { from:'ws6',  to:'out6' },
-    ];
-
-    const wsData = {
-      ws1: {
-        title:   'Release Safety & Observability at Scale',
-        desc:    'Embedded with a Fortune 100 retailer’s cloud engineering team to harden releases — rollback standards, pre-deployment risk patterns, and an observability framework built from structured logs, dashboards, and diagnostic metrics.',
-        tags:    ['Cloud', 'CI/CD', 'Grafana', 'AppDynamics'],
-        outcome: 'Incidents −20% · MTTR −15%',
-      },
-      ws2: {
-        title:   'Contact Center AI Strategy',
-        desc:    'AI and technology points of view for Fortune 500 healthcare clients — capability assessments, tech stack benchmarks, and persona-based journeys, anchored in live validation of real customer service experiences.',
-        tags:    ['Generative AI', 'CX Strategy', 'Research'],
-        outcome: 'Shaped pursuit strategy',
-      },
-      ws3: {
-        title:   'Retail Platform Launch, 100+ Locations',
-        desc:    'Led quality engineering for an in-store production platform rollout: automated regression with Kotlin and Appium, cross-team triage, weekly release sign-offs.',
-        tags:    ['Kotlin', 'Appium', 'Agile', 'JIRA'],
-        outcome: 'Routing efficiency +30%',
-      },
-      ws4: {
-        title:   'Federal Cloud, Zero Audit Findings',
-        desc:    'Coordinated agile delivery on a Microsoft GCC High implementation, ensuring FedRAMP and NIST 800-53 controls were executed and verified end to end.',
-        tags:    ['Azure', 'FedRAMP', 'NIST 800-53'],
-        outcome: '0 audit findings',
-      },
-      ws5: {
-        title:   'Shipping API Performance Engineering',
-        desc:    '20+ JMeter test scripts and load benchmarks built with teams across the US and India for a major e-commerce launch, tracked in Azure DevOps, AppDynamics, and Grafana.',
-        tags:    ['JMeter', 'Performance', 'Azure DevOps'],
-        outcome: 'API reliability +15%',
-      },
-      ws6: {
-        title:   'Global Product Delivery & Design — SAP',
-        desc:    'Coordinated SAFe delivery with the Chief Product Owner across Germany, the US, and India — managing ARTs, tracking OKRs, and keeping program increments on schedule. Facilitated design thinking and agile upskilling workshops for 50+ cross-functional professionals spanning product, engineering, and business roles across three continents. UX research shaped SAP FlexConnect; assisted with UI design for internal tools.',
-        tags:    ['SAP', 'SAFe', 'ARTs', 'OKRs', 'Product Management', 'UX Research', 'Design Thinking'],
-        outcome: '50+ professionals upskilled across 3 continents',
-      },
-    };
+    // Both read from WORKSTREAMS (assets/js/work.js) — the same entries that
+    // rendered the nodes above and the case studies below, so the map, the
+    // detail panel and the case studies cannot disagree.
+    const connections = workConnections(WORKSTREAMS);
+    const wsData = Object.fromEntries(WORKSTREAMS.map(ws => [ws.id, ws]));
 
     let activeWs = null;
     let pathEls  = [];
@@ -3841,11 +3706,11 @@
       }
       activeWs = wsId;
       mapEl.querySelectorAll('.ws-node').forEach(n => n.classList.toggle('selected', n.dataset.id === wsId));
-      const tagsHtml = data.tags.map(t => `<span class="impact-tag">${t}</span>`).join('');
+      const tagsHtml = data.tags.map(t => `<span class="impact-tag">${esc(t)}</span>`).join('');
       detailEl.innerHTML = `<div class="impact-detail-inner">
-        <div class="impact-detail-outcome">${data.outcome}</div>
-        <h4 class="impact-detail-title">${data.title}</h4>
-        <p class="impact-detail-desc">${data.desc}</p>
+        <div class="impact-detail-outcome">${outcomeText(data.outcome.statement)}</div>
+        <h4 class="impact-detail-title">${esc(data.title)}</h4>
+        <p class="impact-detail-desc">${esc(data.desc)}</p>
         <div class="impact-detail-tags">${tagsHtml}</div>
       </div>`;
       detailEl.classList.add('open');
