@@ -55,6 +55,9 @@
   })();
 </script>
 <style>
+  /* Hallmark · redesign-in-place · tone: technical/evidence · anchor hue: blue (210°)
+   * type roles: SF Pro (display+body) + system mono (figures, dates, labels)
+   * signature: impact map · hero: split lede|evidence panel · pre-emit critique: P4 H5 E4 S4 R5 V4 */
   /*
    * ══════════════════════════════════════════════════════════════
    *  UMANG DHAWAN — udhawan97.github.io
@@ -94,6 +97,15 @@
     --line: #d9d9de;
     --blue: #0066d6;
     --blue-bright: #2997ff;
+    /*
+     * Hero gradient stops, themed. The shared stops used to be light blues that
+     * sat at 1.5:1 against this paper — the animation settles on the lightest
+     * one, so half the headline was near-invisible in light mode. These three
+     * stay in the same blue family and all clear 3:1 for large text.
+     */
+    --grad-1: #0066d6;   /* 4.98:1 */
+    --grad-2: #1a7fe0;   /* 3.74:1 */
+    --grad-3: #2a8ae8;   /* 3.27:1 */
     --glass: rgba(255,255,255,.72);
     --glass-2: rgba(255,255,255,.6);
     --glass-border: rgba(0,0,0,.06);
@@ -109,6 +121,18 @@
     --ease: cubic-bezier(.22, .8, .26, .99);
     --scroll-signal: 0;
     color-scheme: light;
+
+    /*
+     * Type roles. Two families, three jobs — all system faces, so there's no
+     * webfont request and no FOUT.
+     *   --font-sans  display + body (the reading voice)
+     *   --font-mono  every measured thing: figures, dates, units, labels.
+     * The mono role is what makes a number read as an instrument reading
+     * rather than a marketing claim. Reach for it only where there is a
+     * real measurement or a fixed label — never for prose.
+     */
+    --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   }
   [data-theme="dark"] {
     --bg: #000000;
@@ -118,6 +142,10 @@
     --line: #2d2d30;
     --blue: #2997ff;
     --blue-bright: #6fc3ff;
+    /* Unchanged from the original stops — on black these run 7:1 to 13:1. */
+    --grad-1: #2997ff;
+    --grad-2: #6fc3ff;
+    --grad-3: #94d5ff;
     --glass: rgba(22,22,23,.72);
     --glass-2: rgba(22,22,23,.6);
     --glass-border: rgba(255,255,255,.1);
@@ -133,7 +161,10 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   button, input, select, textarea { font-family: inherit; font-size: inherit; }
-  html { scroll-behavior: smooth; overflow-x: hidden; }
+  /* `clip` rather than `hidden`: it contains the same horizontal overflow but
+     doesn't create a scroll container, which would break `position: sticky`
+     for every descendant (the About portrait relies on it). */
+  html { scroll-behavior: smooth; overflow-x: clip; }
   body {
     background:
       linear-gradient(180deg, var(--bg) 0%, var(--bg) 38%, color-mix(in srgb, var(--bg), var(--blue) 3%) 100%),
@@ -141,9 +172,9 @@
       repeating-linear-gradient(0deg, transparent 0 108px, var(--page-grid) 108px 109px);
     background-attachment: fixed, fixed, fixed;
     color: var(--ink);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
     transition: background .45s ease, color .45s ease;
   }
   ::selection { background: var(--blue); color: #fff; }
@@ -335,15 +366,21 @@
   #about { padding-top: 88px; }
   #work { padding-top: 80px; }
   #experience { padding-top: 88px; }
+  /*
+   * Section label. Deliberately quiet: the <h2> underneath already names the
+   * section, so this is wayfinding, not decoration. Mono + muted keeps it in
+   * the utility register and leaves the accent colour free to mean something
+   * where it's actually load-bearing (the impact map, the hero).
+   */
   .kicker {
-    font-size: 15px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
-    color: var(--blue); margin-bottom: 26px;
-    display: flex; align-items: center; gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-2); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
   }
   .kicker::before {
-    content: ""; flex-shrink: 0; width: 26px; height: 2.5px;
-    background: linear-gradient(90deg, var(--blue), var(--blue-bright));
-    border-radius: 2px;
+    content: ""; flex-shrink: 0; width: 14px; height: 1px;
+    background: var(--line);
     transform: scaleX(0); transform-origin: left;
     transition: transform .55s var(--ease) .3s;
   }
@@ -366,8 +403,8 @@
   h2.display.visible .word { opacity: 1; transform: none; }
   /* Section atmospheres: full-width texture bands, not layout-changing cards */
   section, footer, header.hero { isolation: isolate; }
-  #about, #stats-section, #approach, #work, #experience, #github, footer { position: relative; }
-  #about::after, #stats-section::after, #approach::after, #experience::after, #work::after, #github::after, footer::before {
+  #about, #approach, #work, #experience, #github, footer { position: relative; }
+  #about::after, #approach::after, #experience::after, #work::after, #github::after, footer::before {
     content: "";
     position: absolute;
     inset: -26px calc(50% - 50vw);
@@ -381,10 +418,6 @@
   #about { --section-atmosphere:
     linear-gradient(115deg, transparent 0 24%, var(--page-wash) 24% 25%, transparent 25% 100%),
     linear-gradient(180deg, transparent, rgba(0,102,214,.035), transparent);
-  }
-  #stats-section { --section-atmosphere:
-    repeating-linear-gradient(135deg, transparent 0 28px, var(--page-grid) 28px 29px),
-    linear-gradient(180deg, transparent, rgba(41,151,255,.04), transparent);
   }
   #approach { --section-atmosphere:
     linear-gradient(90deg, transparent, rgba(0,102,214,.04), transparent),
@@ -427,8 +460,6 @@
     background: linear-gradient(118deg, transparent 0 52%, rgba(140,90,240,.075) 52.5%, transparent 72%);
     filter: blur(12px);
   }
-
-  #stats-section { padding-top: 48px; padding-bottom: 32px; }
 
   /* ── 12. Approach / process strip ── */
   #approach { position: relative; padding-top: 48px; padding-bottom: 88px; }
@@ -481,8 +512,9 @@
   .step-icon-wrap svg { width: 28px; height: 28px; }
   .step-content { display: flex; flex-direction: column; align-items: center; }
   .step-num {
-    font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--blue); opacity: .5; margin-bottom: 5px;
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500; letter-spacing: .06em;
+    color: var(--ink-2); margin-bottom: 5px;
   }
   .step-label { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -.015em; }
   .step-desc { font-size: 13px; color: var(--ink-2); line-height: 1.5; margin-top: 8px; max-width: 200px; }
@@ -508,7 +540,6 @@
   @keyframes fadeUp    { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:none } }
   @keyframes _fadeIn   { from { opacity:0 } to { opacity:1 } }
   @keyframes slideLeft { from { opacity:0; transform:translateX(-30px) } to { opacity:1; transform:none } }
-  @keyframes scaleIn   { from { opacity:0; transform:scale(.95) translateY(12px) } to { opacity:1; transform:none } }
   @keyframes portraitIn{ from { opacity:0; transform:scale(1.03) } to { opacity:1; transform:none } }
 
   /* ── Page entrance sequence (Apple expo-out easing throughout) ── */
@@ -562,14 +593,12 @@
   /* scroll-triggered: hidden until .visible is added by IntersectionObserver */
   .r { opacity:0; transform:translateY(20px); }
   .kicker.r    { transform:translateX(-30px); }
-  .stat.r      { transform:scale(.95) translateY(12px); }
   .portrait.r  { transform:scale(1.03); }
   h2.display.r { opacity:1; transform:none; will-change:auto; } /* h2 itself visible; words animate */
 
   /* reveal animations */
   .r.visible               { animation: fadeUp    500ms cubic-bezier(.25,.1,.25,1) both; }
   .kicker.r.visible        { animation: slideLeft 500ms cubic-bezier(.25,.1,.25,1) both; }
-  .stat.r.visible          { animation: scaleIn   600ms cubic-bezier(.25,.1,.25,1) both; }
   .portrait.r.visible      { animation: portraitIn 700ms cubic-bezier(.25,.1,.25,1) both; }
   h2.display.r.visible     { animation: none; } /* words handle their own entrance */
 
@@ -579,8 +608,8 @@
   .r.d3.visible            { animation-delay: 300ms; }
   .r.d4.visible            { animation-delay: 400ms; }
   /* xp-card stagger: 120ms apart */
-  .xp-card.r.d1.visible   { animation-delay: 120ms; }
-  .xp-card.r.d2.visible   { animation-delay: 240ms; }
+  .xp-item.r.d1.visible   { animation-delay: 120ms; }
+  .xp-item.r.d2.visible   { animation-delay: 240ms; }
 
   @media (prefers-reduced-motion: reduce) {
     /*
@@ -601,8 +630,7 @@
     }
     #intro-line { display: none; }   /* purely decorative line — safe to hide */
     html { scroll-behavior: auto; }
-    #progress, .marquee-track, h1 .grad, h2.display .grad, .hero-glow::before { animation:none !important; }
-    .stat.r.visible .stat-icon { animation: none; }
+    #progress, .marquee-track, h1 .grad, .hero-glow::before { animation:none !important; }
     nav { transform: translateX(-50%) !important; }
   }
 
@@ -643,17 +671,17 @@
   }
 
   /* Cloud dashboard card texture */
-  .xp-card, .stat {
+  .xp-card {
     --card-texture: url('assets/images/cloud-dashboard-texture.webp');
   }
-  .xp-card::before, .stat::before {
+  .xp-card::before {
     content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
     background: var(--card-texture) center / cover no-repeat;
     opacity: 0; transition: opacity .45s var(--ease);
     mix-blend-mode: luminosity; z-index: 0;
   }
-  .xp-card:hover::before, .stat:hover::before { opacity: .04; }
-  .xp-card > *, .stat > * { position: relative; z-index: 1; }
+  .xp-card:hover::before { opacity: .04; }
+  .xp-card > * { position: relative; z-index: 1; }
   /* ---------- contact FAB ---------- */
   #contact-fab {
     position: fixed; bottom: 28px; right: 28px; z-index: 900;
@@ -690,25 +718,80 @@
     }
     #fab-label, #fab-dot { display: none; }
   }
+  /*
+   * Sized so both clauses hold one line each at desktop. At 82px the second
+   * clause overflowed the measure and dropped "moving." onto a line of its
+   * own — a two-line headline with a one-word orphan reads as a mistake.
+   */
   h1 {
-    font-size: clamp(34px, 6.4vw, 82px); font-weight: 700;
-    letter-spacing: -.035em; line-height: .98;
+    font-size: clamp(34px, 5.3vw, 70px); font-weight: 700;
+    letter-spacing: -.035em; line-height: 1.02;
+    text-wrap: balance;
   }
-  h1 .grad, h2.display .grad {
-    background: linear-gradient(92deg, var(--blue) 0%, var(--blue-bright) 35%, #94d5ff 55%, var(--blue) 100%);
+  /*
+   * The gradient runs on the hero headline and nowhere else. Repeating it on
+   * every section heading turned it into a tic that meant nothing; spending it
+   * once buys the page a single loud moment and keeps the h2s confident in
+   * plain ink.
+   */
+  h1 .grad {
+    background: linear-gradient(92deg, var(--grad-1) 0%, var(--grad-2) 35%, var(--grad-3) 55%, var(--grad-1) 100%);
     background-size: 240% auto;
     -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: gradShift 3s linear 1 forwards;
   }
-  h1 .grad       { animation: gradShift 3s linear 1 forwards; }
-  h2.display .grad { animation: gradShift 7s linear infinite; }
   @keyframes gradShift { to { background-position: 240% center; } }
+  /* Headline spans the full measure; everything under it splits lede | evidence. */
+  .hero-body {
+    margin-top: 30px;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+    gap: 56px; align-items: start;
+  }
+  @media (max-width: 1000px) {
+    .hero-body { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  }
   .hero p.sub {
-    margin-top: 30px; max-width: 640px;
+    margin-top: 0; max-width: 620px;
     font-size: clamp(17px, 2.2vw, 21px); line-height: 1.55; color: var(--ink-2);
     font-weight: 400;
   }
   .hero p.sub b { color: var(--ink); font-weight: 600; }
   .hero-actions { margin-top: 40px; display: flex; gap: 14px; flex-wrap: wrap; }
+
+  /* ── Hero evidence panel — the numbers, each with the engagement it came from ── */
+  .evidence { padding-top: 6px; }
+  .evidence-head {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-2);
+    padding-bottom: 14px; margin-bottom: 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .evidence-list { list-style: none; }
+  .evidence-list li {
+    display: grid; grid-template-columns: 68px minmax(0, 1fr);
+    gap: 16px; align-items: baseline;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .evidence-list li:last-child { border-bottom: none; }
+  .ev-n {
+    font-family: var(--font-mono);
+    font-size: 25px; font-weight: 600; letter-spacing: -.02em;
+    color: var(--blue);
+    font-variant-numeric: tabular-nums;   /* count-up must not reflow the label */
+    text-align: right;
+  }
+  .ev-n em { font-style: normal; }
+  .ev-t {
+    font-size: 14px; line-height: 1.45; color: var(--ink);
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .ev-src {
+    font-family: var(--font-mono);
+    font-size: 11px; line-height: 1.4; letter-spacing: .01em;
+    color: var(--ink-2);
+  }
   .btn {
     display: inline-flex; align-items: center; gap: 9px;
     padding: 14px 26px; border-radius: 99px; font-size: 15px; font-weight: 500;
@@ -754,7 +837,8 @@
 
   .scroll-hint {
     position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-    font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2);
     animation: bob 2.6s ease-in-out infinite;
     display: flex; flex-direction: column; align-items: center; gap: 10px;
     white-space: nowrap;
@@ -809,29 +893,22 @@
   }
   @keyframes slide { to { transform: translateX(-50%); } }
 
-  /* ── 9. Stats grid ── */
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-  .stat {
-    background:
-      linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
-      linear-gradient(145deg, var(--edge-light), transparent 45%, rgba(41,151,255,.24)) border-box;
-    border: 1px solid transparent; border-radius: var(--radius);
-    padding: 30px 26px;
-    box-shadow: var(--material-shadow);
-    transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .45s ease;
-  }
-  .stat:hover { transform: translateY(-6px); box-shadow: var(--material-shadow-strong); }
-  .stat .n { font-size: clamp(34px, 4.4vw, 50px); font-weight: 700; letter-spacing: -.03em; }
-  .stat .n em { font-style: normal; color: var(--blue); }
-  .stat .l { font-size: 13.5px; color: var(--ink-2); margin-top: 6px; line-height: 1.45; }
-
   /* ── 10. About section ── */
   .about-grid { display: grid; grid-template-columns: 380px 1fr; gap: 64px; align-items: start; }
   .about-copy { min-width: 0; overflow-wrap: break-word; }
-  @media (max-width: 880px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
+  @media (max-width: 880px) {
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    /* One column here on — a sticky portrait would trail the bio down the page. */
+    .portrait { position: relative; top: auto; }
+  }
+  /*
+   * The bio runs about twice the height of the portrait, which left a long
+   * void down the left column. Sticking the portrait to its grid area fills
+   * that space and keeps the face with the story being told.
+   */
   .portrait {
-    position: relative; border-radius: 28px; overflow: hidden;
+    position: sticky; top: 96px;
+    border-radius: 28px; overflow: hidden;
     aspect-ratio: 4/4.6; background: linear-gradient(160deg, #dfe9f5, #c4d6ec);
     border: 1px solid transparent;
     box-shadow: var(--material-shadow);
@@ -936,15 +1013,19 @@
   }
 
   /* Logo image sizing */
-  .logo-img-studio { height: 32px; width: 32px; border-radius: 8px; }
-  .logo-img-ey     { height: 26px; width: auto; }
-  .logo-img-sap    { height: 24px; width: auto; }
+  .logo-img-studio { height: 38px; width: 38px; border-radius: 9px; }
+  .logo-img-ey     { height: 31px; width: auto; }
+  .logo-img-sap    { height: 28px; width: auto; }
 
-  /* Hero logos: subtle opacity tint, show color, brighten on hover */
-  .hero-logos .logo-item .logo-img { opacity: .5; transition: opacity .3s ease; }
+  /*
+   * These are the employers — the strongest trust signal on the page — so they
+   * rest legible rather than waiting for a hover to earn their opacity.
+   * Hover still lifts them to full strength.
+   */
+  .hero-logos .logo-item .logo-img { opacity: .8; transition: opacity .3s ease; }
   .hero-logos .logo-item:hover .logo-img { opacity: 1; }
-  [data-theme="dark"] .hero-logos .logo-item .logo-img { opacity: .35; }
-  [data-theme="dark"] .hero-logos .logo-item:hover .logo-img { opacity: .75; }
+  [data-theme="dark"] .hero-logos .logo-item .logo-img { opacity: .66; }
+  [data-theme="dark"] .hero-logos .logo-item:hover .logo-img { opacity: 1; }
 
   /* Experience card logos: full color, no filter */
   .xp-icon .logo-img { opacity: 1; filter: none; }
@@ -961,9 +1042,41 @@
     .hero-logos .logo-item, .logo-bar .logo-item, .logo-bar .logo-divider { animation: none !important; opacity: 1 !important; transform: none !important; transition: none !important; }
   }
 
-  /* ── 13. Experience cards ── */
-  .xp { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-  @media (max-width: 880px) { .xp { grid-template-columns: 1fr; } }
+  /* ── 13. Experience — chronological ladder ── */
+  .xp { list-style: none; display: grid; gap: 20px; }
+  /* 146px holds the longest range ("Jul 2022 — Jun 2025") on one line. */
+  .xp-item {
+    display: grid; grid-template-columns: 146px minmax(0, 1fr);
+    gap: 34px; align-items: start;
+    position: relative;
+  }
+  /* The rail runs down the gutter between the dates and the roles — it is the
+     time axis, so it connects the entries rather than decorating them. */
+  .xp-item::before {
+    content: ""; position: absolute; top: 8px; bottom: -28px; left: 163px;
+    width: 1px; background: var(--line);
+  }
+  .xp-item:last-child::before { display: none; }
+  .xp-when {
+    font-family: var(--font-mono);
+    font-size: 12px; line-height: 1.5; letter-spacing: .01em;
+    color: var(--ink-2);
+    text-align: right; padding-top: 30px;
+    position: relative;
+  }
+  /* Node on the rail, reusing the marker language of the page's signal thread. */
+  .xp-when::after {
+    content: ""; position: absolute; top: 35px; right: -22px;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--bg-2); border: 1px solid var(--blue);
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  @media (max-width: 880px) {
+    .xp-item { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    .xp-item::before { display: none; }
+    .xp-when { text-align: left; padding-top: 0; }
+    .xp-when::after { display: none; }
+  }
   .xp-card {
     background:
       linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
@@ -974,7 +1087,6 @@
     transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .45s ease;
   }
   .xp-card:hover { transform: translateY(-6px); box-shadow: var(--material-shadow-strong); }
-  .xp-card .when { font-size: 12.5px; font-weight: 600; color: var(--blue); letter-spacing: .06em; text-transform: uppercase; }
   .xp-card h3 { font-size: 19px; font-weight: 700; letter-spacing: -.015em; margin: 10px 0 2px; }
   .xp-card .org { font-size: 14.5px; color: var(--ink-2); margin-bottom: 14px; }
   .xp-card p { font-size: 14.5px; line-height: 1.6; color: var(--ink-2); }
@@ -998,11 +1110,20 @@
   .gh p { color: #a1a1a6; font-size: 15.5px; line-height: 1.65; max-width: 560px; margin-bottom: 30px; position: relative; }
   .gh p a { color: #2997ff; }
   .gh p a:hover { text-decoration: underline; }
+  /*
+   * The chart is a remote SVG drawn for a light background, but this panel is
+   * dark in both themes — a white slab here read as a hole in the page.
+   * invert() darkens the empty cells and lifts the labels; the hue-rotate puts
+   * the inverted accent back on the blue side so it matches the rest of the page.
+   */
   .gh-graph {
-    background: #fff; border-radius: 16px; padding: 18px; position: relative;
-    box-shadow: 0 18px 44px rgba(0,0,0,.28);
+    background: rgba(255,255,255,.028); border-radius: 16px; padding: 18px 20px;
+    position: relative; border: 1px solid rgba(255,255,255,.07);
   }
-  .gh-graph img { width: 100%; height: auto; }
+  .gh-graph img {
+    width: 100%; height: auto;
+    filter: invert(1) hue-rotate(180deg);
+  }
 
   /* ── 14b. GitHub — featured open-source project cards (live inside dark panel) ── */
   .gh-projects { margin-top: 44px; position: relative; }
@@ -1010,13 +1131,16 @@
     display: flex; align-items: center; justify-content: space-between;
     gap: 14px; flex-wrap: wrap; margin-bottom: 22px;
   }
+  /* Matches the page's section label (.kicker) — this panel had its own
+     louder copy of the same idea, which broke the utility register. */
   .ghp-head h3 {
-    font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-    color: #f5f5f7; display: flex; align-items: center; gap: 11px;
+    font-family: var(--font-mono);
+    font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+    color: #a1a1a6; display: flex; align-items: center; gap: 10px;
   }
   .ghp-head h3::before {
-    content: ""; width: 24px; height: 2px; border-radius: 2px;
-    background: linear-gradient(90deg, #2997ff, transparent);
+    content: ""; width: 14px; height: 1px;
+    background: rgba(255,255,255,.22);
   }
   /* License badge — the "all software is open-source (Apache 2.0)" note */
   .ghp-mit {
@@ -1084,7 +1208,8 @@
   }
   .ghp-lang {
     display: inline-flex; align-items: center; gap: 6px;
-    font-size: 12px; font-weight: 600; color: #a1a1a6; white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 11.5px; font-weight: 500; color: #a1a1a6; white-space: nowrap;
   }
   .ghp-lang .ghp-dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
   .ghp-dot.swift      { background: #f05138; color: #f05138; }
@@ -1107,7 +1232,8 @@
   .ghp-status {
     position: absolute; top: 12px; right: 12px; z-index: 4; overflow: hidden;
     display: inline-flex; align-items: center; gap: 6px;
-    font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase;
     color: #ffcb7a;
     background: rgba(22,17,8,.6); border: 1px solid rgba(255,183,77,.4);
     padding: 5px 11px 5px 8px; border-radius: 99px;
@@ -1609,7 +1735,9 @@
     font-size: clamp(44px, 8.4vw, 100px); font-weight: 700; letter-spacing: -.035em; line-height: 1;
     margin-bottom: 30px;
   }
-  footer h2.big a { position: relative; }
+  /* "talk" is the page's one true CTA — it wears the accent at rest so nobody
+     has to hover to discover the headline is a mailto. */
+  footer h2.big a { position: relative; color: var(--blue); }
   footer h2.big a::after {
     content: ""; position: absolute; left: 0; bottom: 6px; height: 4px; width: 100%;
     background: var(--blue); transform: scaleX(0); transform-origin: left;
@@ -1803,15 +1931,14 @@
   [data-theme="dark"] header.hero::before { opacity: .14; }
 
   /* Card shimmer gradient — slides on hover (JS tilt enhances further) */
-  .stat, .xp-card { position: relative; overflow: hidden; }
-  .stat::after, .xp-card::after {
+  .xp-card { position: relative; overflow: hidden; }
+  .xp-card::after {
     content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
     background: linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.07) 50%, rgba(255,255,255,0) 70%);
     background-size: 220% 220%; background-position: 200% 200%;
     transition: background-position .7s var(--ease);
   }
-  .stat:hover::after, .xp-card:hover::after { background-position: -100% -100%; }
-  .stat:hover .n em { text-shadow: 0 0 20px rgba(0,102,214,.45); }
+  .xp-card:hover::after { background-position: -100% -100%; }
 
   /* Portrait hover: subtle scale + glow ring */
   .portrait:hover { transform: scale(1.015); box-shadow: var(--material-shadow-strong), 0 0 52px rgba(0,102,214,.22); }
@@ -1870,33 +1997,6 @@
   #theme-toggle svg { width: 16px; height: 16px; pointer-events: none; }
 
   /* Stat card icons — pop-in animation triggered when card becomes visible */
-  .stat-icon {
-    width: 42px; height: 42px; border-radius: 13px;
-    background: rgba(0,102,214,.09); color: var(--blue);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 20px; flex-shrink: 0;
-    transition: background .3s var(--ease), transform .3s var(--ease), box-shadow .3s var(--ease);
-  }
-  [data-theme="dark"] .stat-icon { background: rgba(41,151,255,.15); }
-  .stat-icon svg { width: 21px; height: 21px; transition: transform .35s var(--ease); }
-  /* Icon pops in after the card itself scales in */
-  .stat.r.visible .stat-icon { animation: iconPop 520ms cubic-bezier(.16,1,.3,1) 280ms; }
-  @keyframes iconPop {
-    0%   { transform: scale(.55); opacity: .3; }
-    60%  { transform: scale(1.18); opacity: 1; }
-    100% { transform: scale(1);    opacity: 1; }
-  }
-  /* Hover: lift + glow ring + icon rotates */
-  .stat:hover .stat-icon {
-    background: rgba(0,102,214,.16);
-    box-shadow: 0 0 0 6px rgba(0,102,214,.07), 0 8px 20px rgba(0,102,214,.14);
-    transform: translateY(-2px) scale(1.06);
-  }
-  [data-theme="dark"] .stat:hover .stat-icon {
-    background: rgba(41,151,255,.22);
-    box-shadow: 0 0 0 6px rgba(41,151,255,.1), 0 8px 20px rgba(41,151,255,.18);
-  }
-  .stat:hover .stat-icon svg { transform: scale(1.1) rotate(-8deg); }
   .work-row h3 { display: flex; align-items: center; gap: 10px; }
   .row-icon { width: 17px; height: 17px; color: var(--blue); flex-shrink: 0; opacity: .75; }
 
@@ -1932,13 +2032,22 @@
     display: flex; flex-direction: column;
     align-items: stretch; gap: 8px; padding: 0 20px;
   }
-  .impact-col:first-child  { padding-left: 0; justify-content: center; }
+  .impact-col:first-child  { padding-left: 0; }
   .impact-col:last-child   { padding-right: 0; }
+  /*
+   * The roles column holds three nodes against six workstreams, so its nodes
+   * are centred against them. Centring the whole column also dropped its
+   * header 125px below the other two, which read as a misalignment — so the
+   * header stays pinned at the top and only the node group centres.
+   */
+  .impact-col:first-child .role-node:first-of-type { margin-top: auto; }
+  .impact-col:first-child .role-node:last-of-type  { margin-bottom: auto; }
 
   /* Column header — small pill badge */
   .col-header {
-    font-size: 10px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
-    color: var(--blue); text-align: center;
+    font-family: var(--font-mono);
+    font-size: 10.5px; font-weight: 500; letter-spacing: .11em; text-transform: uppercase;
+    color: var(--ink-2); text-align: center;
     padding: 4px 0 11px; margin-bottom: 4px;
     border-bottom: 1px solid var(--line);
   }
@@ -2062,7 +2171,8 @@
     box-shadow: var(--material-shadow);
   }
   .impact-detail-outcome {
-    font-size: 10px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+    font-family: var(--font-mono);
+    font-size: 10.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
     color: var(--blue-bright); margin-bottom: 9px;
   }
   .impact-detail-title { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
@@ -2082,7 +2192,8 @@
   .case-divider {
     display: flex; align-items: center; gap: 18px;
     margin: 60px 0 36px;
-    font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    font-family: var(--font-mono);
+    font-size: 10.5px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase;
     color: var(--ink-2);
   }
   .case-divider::before, .case-divider::after {
@@ -2137,9 +2248,10 @@
   .case-studies-toggle {
     display: flex; align-items: center; gap: 18px; width: 100%;
     margin: 60px 0 0; padding: 12px 0;
-    font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    font-family: var(--font-mono);
+    font-size: 10.5px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase;
     color: var(--ink-2); cursor: pointer;
-    background: none; border: none; font-family: inherit;
+    background: none; border: none;
     transition: color .25s;
   }
   .case-studies-toggle::before { content: ''; flex: 1; height: 1px; background: var(--line); }
@@ -2230,7 +2342,6 @@
     #experience { padding-top: 72px; }
     #github    { padding-top: 64px !important; }
     #approach  { padding-top: 48px; padding-bottom: 48px; }
-    #stats-section { padding-top: 36px; padding-bottom: 20px; }
 
     /* Headings */
     h2.display { line-height: 1.1; margin-bottom: 32px; }
@@ -2245,10 +2356,6 @@
       padding-left: 16px; margin: 24px 0;
     }
     .edu-strip { gap: 7px; margin-top: 22px; }
-
-    /* Stats */
-    .stat   { padding: 20px 16px; }
-    .stat .n { font-size: 36px; }
 
     /* Approach steps: unset desktop max-width that clips text in column layout */
     .step-desc { max-width: none; }
@@ -2292,16 +2399,11 @@
     .logo-img-studio { height: 28px; width: 28px; }
   }
 
-  /* Single-column stats on very narrow */
-  @media (max-width: 380px) {
-    .stats { grid-template-columns: 1fr; }
-  }
-
   /* Disable all hover effects on touch — prevents sticky hover states and layout jumps */
   @media (hover: none) {
     .work-row:hover { background: transparent; }
     .work-row:hover { padding-left: 0; }
-    .xp-card:hover, .stat:hover { transform: none; box-shadow: none; }
+    .xp-card:hover { transform: none; box-shadow: none; }
     .portrait:hover { transform: none; box-shadow: none; }
   }
 
@@ -2420,25 +2522,70 @@
     Chicago, IL &nbsp;·&nbsp; Building AI-ready systems
   </div>
   <h1>Building technology that ships,<br><span class="grad">and strategy that keeps moving.</span></h1>
-  <p class="sub"><b>Senior Consultant at EY Studio+</b> helping organizations make complex technology work in the real world. Across <b>SAP America, EY, and EY Studio+</b>, I've shipped retail platforms, cleared federal audits, and shaped AI strategy for Fortune 500 clients. I connect business goals with the technical execution needed to make systems <b>reliable, useful, and ready to scale</b>.</p>
-  <div class="hero-logos" aria-label="Companies I've worked with">
-    <div class="logo-item" aria-label="EY Studio+">
-      <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-img logo-img-studio" width="200" height="200" decoding="async">
+  <!--
+    The headline stays full-bleed; only the supporting block splits. The right
+    column used to be dead space next to the sub — it now carries the numbers,
+    so the claim and its proof land in the same glance.
+  -->
+  <div class="hero-body">
+   <div class="hero-lede">
+    <p class="sub"><b>Senior Consultant at EY Studio+</b> helping organizations make complex technology work in the real world. Across SAP America, EY, and EY Studio+, I've shipped retail platforms, cleared federal audits, and shaped AI strategy for Fortune 500 clients. I connect business goals with the technical execution needed to make systems reliable, useful, and ready to scale.</p>
+    <div class="hero-logos" aria-label="Companies I've worked with">
+      <div class="logo-item" aria-label="EY Studio+">
+        <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-img logo-img-studio" width="200" height="200" decoding="async">
+      </div>
+      <div class="logo-divider" aria-hidden="true"></div>
+      <div class="logo-item" aria-label="EY">
+        <img src="assets/logos/ey.png" alt="EY" class="logo-img logo-img-ey" width="200" height="200" decoding="async">
+      </div>
+      <div class="logo-divider" aria-hidden="true"></div>
+      <div class="logo-item" aria-label="SAP">
+        <img src="assets/logos/sap.png" alt="SAP" class="logo-img logo-img-sap" width="200" height="200" decoding="async">
+      </div>
     </div>
-    <div class="logo-divider" aria-hidden="true"></div>
-    <div class="logo-item" aria-label="EY">
-      <img src="assets/logos/ey.png" alt="EY" class="logo-img logo-img-ey" width="200" height="200" decoding="async">
+    <div class="hero-actions">
+      <a class="btn dark" href="#work">See the work
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn ghost" href="mailto:umangdhawan97@gmail.com">Get in touch</a>
     </div>
-    <div class="logo-divider" aria-hidden="true"></div>
-    <div class="logo-item" aria-label="SAP">
-      <img src="assets/logos/sap.png" alt="SAP" class="logo-img logo-img-sap" width="200" height="200" decoding="async">
-    </div>
-  </div>
-  <div class="hero-actions">
-    <a class="btn dark" href="#work">See the work
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </a>
-    <a class="btn ghost" href="mailto:umangdhawan97@gmail.com">Get in touch</a>
+   </div>
+
+   <!--
+     Each figure carries the engagement it came from. A number without its
+     source is a marketing claim; a number with one is a finding.
+     Values are seeded in the markup so they read correctly with JS disabled —
+     the count-up in §7 zeroes them itself before animating.
+   -->
+   <aside class="evidence r d2" aria-label="Selected outcomes">
+    <p class="evidence-head">Evidence</p>
+    <ul class="evidence-list">
+      <li>
+        <span class="ev-n"><em data-count="20">20</em>%</span>
+        <span class="ev-t">reduction in production deployment failures
+          <span class="ev-src">Fortune 100 cloud platform</span>
+        </span>
+      </li>
+      <li>
+        <span class="ev-n"><em data-count="15">15</em>%</span>
+        <span class="ev-t">improvement in mean time to resolution
+          <span class="ev-src">Ground-up observability platform</span>
+        </span>
+      </li>
+      <li>
+        <span class="ev-n"><em data-count="100">100</em>+</span>
+        <span class="ev-t">retail locations shipped
+          <span class="ev-src">Platform quality-engineered end to end</span>
+        </span>
+      </li>
+      <li>
+        <span class="ev-n"><em data-count="0">0</em></span>
+        <span class="ev-t">compliance findings
+          <span class="ev-src">FedRAMP-authorized federal cloud</span>
+        </span>
+      </li>
+    </ul>
+   </aside>
   </div>
   <div class="scroll-hint">
     Scroll
@@ -2478,10 +2625,10 @@
         </span>
       </div>
       <h2 class="display r">Five years turning complex programs into shipped outcomes.</h2>
-      <p class="r d1">I started at <b>SAP America</b> coordinating product delivery across Germany, the US, and India — learning how enterprise decisions move when product, engineering, and business teams all have a seat at the table. That foundation carried into four years at <b>EY</b>, where I helped ship a <b>100+ location retail platform</b>, supported a federal cloud implementation with <b>zero audit findings</b>, and built observability practices that reduced incidents and response times.</p>
-      <p class="r d1">Now at <b>EY Studio+</b>, I work at the intersection of delivery, reliability, and AI strategy — helping <b>Consumer, Retail, and Health</b> teams turn ambitious technology ideas into practical systems, workflows, and operating models that can survive real production environments.</p>
+      <p class="r d1">I started at <b>SAP America</b> coordinating product delivery across Germany, the US, and India — learning how enterprise decisions move when product, engineering, and business teams all have a seat at the table. That foundation carried into four years at EY, where I helped ship a 100+ location retail platform, supported a federal cloud implementation with zero audit findings, and built observability practices that reduced incidents and response times.</p>
+      <p class="r d1">Now at <b>EY Studio+</b>, I work at the intersection of delivery, reliability, and AI strategy — helping Consumer, Retail, and Health teams turn ambitious technology ideas into practical systems, workflows, and operating models that can survive real production environments.</p>
       <div class="pullquote r d2">Less interested in AI hype than in how large organizations actually move past pilots and put it to work.</div>
-      <p class="r d2">I came up through Informatics and a Master's in Information Systems at <b>Indiana University's Kelley School of Business</b>. Alongside certifications across <b>AWS, Azure, SAFe, and DeepLearning.AI</b> generative AI coursework, I'm currently working through <b>Azure AI-901 and AI-103</b> prep while coding AI-focused side projects.</p>
+      <p class="r d2">I came up through Informatics and a Master's in Information Systems at <b>Indiana University's Kelley School of Business</b>. Alongside certifications across AWS, Azure, SAFe, and DeepLearning.AI generative AI coursework, I'm currently working through Azure AI-901 and AI-103 prep while coding AI-focused side projects.</p>
       <div class="edu-strip r d3" aria-label="Awards">
         <span class="edu-pill">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
@@ -2501,54 +2648,10 @@
 </section>
 
 
-<!-- ================= STATS ================= -->
-<section class="wrap" id="stats-section">
-  <div class="stats">
-    <div class="stat r">
-      <div class="stat-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        </svg>
-      </div>
-      <div class="n"><em data-count="20">0</em>%</div>
-      <div class="l">reduction in production deployment failures across a Fortune 100 cloud platform</div>
-    </div>
-    <div class="stat r d1">
-      <div class="stat-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <polyline points="12 6 12 12 16 14"/>
-        </svg>
-      </div>
-      <div class="n"><em data-count="15">0</em>%</div>
-      <div class="l">improvement in mean time to resolution via a ground-up observability platform</div>
-    </div>
-    <div class="stat r d2">
-      <div class="stat-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
-      </div>
-      <div class="n"><em data-count="100">0</em>+</div>
-      <div class="l">retail locations successfully shipped on a platform I quality-engineered end to end</div>
-    </div>
-    <div class="stat r d3">
-      <div class="stat-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
-      </div>
-      <div class="n"><em data-count="0">0</em></div>
-      <div class="l">compliance findings on a FedRAMP-authorized federal cloud implementation</div>
-    </div>
-  </div>
-</section>
-
 <!-- ================= APPROACH ================= -->
 <section class="wrap" id="approach">
   <div class="kicker r">Approach</div>
-  <h2 class="display r d1">How I <span class="grad">think.</span></h2>
+  <h2 class="display r d1">How I think.</h2>
 
   <div class="process-strip" id="processStrip">
     <div class="process-connector" aria-hidden="true">
@@ -2618,43 +2721,54 @@
 <!-- ================= EXPERIENCE ================= -->
 <section class="wrap" id="experience">
   <div class="kicker r">Experience</div>
-  <h2 class="display r d1">Where I've <span class="grad">been.</span></h2>
+  <h2 class="display r d1">Where I've been.</h2>
 
-  <div class="xp">
-    <div class="xp-card r">
-      <div class="xp-icon">
-        <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-has-bg" width="200" height="200" loading="lazy" decoding="async">
+  <!--
+    An ordered list, laid out as a descending time axis: the dates sit on their
+    own rail so the eye reads the career in sequence. Three equal cards in a row
+    made 2021 and 2025 look like peers rather than a progression.
+  -->
+  <ol class="xp">
+    <li class="xp-item r">
+      <p class="xp-when"><time datetime="2025-06">Jun 2025</time> — Present</p>
+      <div class="xp-card">
+        <div class="xp-icon">
+          <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-has-bg" width="200" height="200" loading="lazy" decoding="async">
+        </div>
+        <h3>Senior Consultant</h3>
+        <div class="org">EY Studio+ · Customer Service Transformation</div>
+        <p>Leading quality engineering across four cloud products for a Fortune 100 restaurant chain — owning release sign-off, building observability frameworks, and shaping AI strategy for Fortune 500 healthcare clients. The connective tissue between engineering velocity and executive confidence.</p>
       </div>
-      <div class="when">Jun 2025 — Present</div>
-      <h3>Senior Consultant</h3>
-      <div class="org">EY Studio+ · Customer Service Transformation</div>
-      <p>Leading quality engineering across four cloud products for a Fortune 100 restaurant chain — owning release sign-off, building observability frameworks, and shaping AI strategy for Fortune 500 healthcare clients. The connective tissue between engineering velocity and executive confidence.</p>
-    </div>
-    <div class="xp-card r d1">
-      <div class="xp-icon">
-        <img src="assets/logos/ey.png" alt="EY" class="logo-img" width="200" height="200" loading="lazy" decoding="async">
+    </li>
+    <li class="xp-item r d1">
+      <p class="xp-when"><time datetime="2022-07">Jul 2022</time> — <time datetime="2025-06">Jun 2025</time></p>
+      <div class="xp-card">
+        <div class="xp-icon">
+          <img src="assets/logos/ey.png" alt="EY" class="logo-img" width="200" height="200" loading="lazy" decoding="async">
+        </div>
+        <h3>Consultant</h3>
+        <div class="org">EY · Digital &amp; Emerging Technologies</div>
+        <p>Embedded across three concurrent client engagements as Lead QE, Performance Engineer, and BA — shipping a 100+ location retail platform, closing a federal cloud with zero audit findings, and load-testing an e-commerce API under production traffic. Rookie of the Year nominee among 100+ peers; 3× Bravo Award recipient.</p>
       </div>
-      <div class="when">Jul 2022 — Jun 2025</div>
-      <h3>Consultant</h3>
-      <div class="org">EY · Digital & Emerging Technologies</div>
-      <p>Embedded across three concurrent client engagements as Lead QE, Performance Engineer, and BA — shipping a 100+ location retail platform, closing a federal cloud with zero audit findings, and load-testing an e-commerce API under production traffic. Rookie of the Year nominee among 100+ peers; 3× Bravo Award recipient.</p>
-    </div>
-    <div class="xp-card r d2">
-      <div class="xp-icon">
-        <img src="assets/logos/sap.png" alt="SAP" class="logo-img" width="200" height="200" loading="lazy" decoding="async">
+    </li>
+    <li class="xp-item r d2">
+      <p class="xp-when"><time datetime="2021-01">Jan</time> — <time datetime="2021-12">Dec 2021</time></p>
+      <div class="xp-card">
+        <div class="xp-icon">
+          <img src="assets/logos/sap.png" alt="SAP" class="logo-img" width="200" height="200" loading="lazy" decoding="async">
+        </div>
+        <h3>IT Leadership Intern</h3>
+        <div class="org">SAP America · IE Business Solutions</div>
+        <p>Coordinated SAFe delivery across Germany, the US, and India alongside the Chief Product Owner — managing ARTs, tracking OKRs, and keeping program increments on schedule. Facilitated design thinking and agile upskilling workshops for 50+ cross-functional professionals spanning product, engineering, and business roles across three continents. UX research contributed to SAP FlexConnect; recognized as SAP Official Challenge Winner.</p>
       </div>
-      <div class="when">Jan — Dec 2021</div>
-      <h3>IT Leadership Intern</h3>
-      <div class="org">SAP America · IE Business Solutions</div>
-      <p>Coordinated SAFe delivery across Germany, the US, and India alongside the Chief Product Owner — managing ARTs, tracking OKRs, and keeping program increments on schedule. Facilitated design thinking and agile upskilling workshops for 50+ cross-functional professionals spanning product, engineering, and business roles across three continents. UX research contributed to SAP FlexConnect; recognized as SAP Official Challenge Winner.</p>
-    </div>
-  </div>
+    </li>
+  </ol>
 </section>
 
 <!-- ================= WORK ================= -->
 <section class="wrap" id="work">
   <div class="kicker r">Selected Work</div>
-  <h2 class="display r d1">Case <span class="grad">studies.</span></h2>
+  <h2 class="display r d1">Case studies.</h2>
 
   <div class="impact-wrap">
     <div class="impact-map" id="impactMap">
@@ -3290,9 +3404,6 @@
     h.innerHTML = h.innerHTML.replace(/(<br\s*\/?>|<[^>]+>)|([^\s<]+)/gi, (m, tag, word) => {
       return tag ? tag : `<span class="word">${word}</span>`;
     });
-    // .word spans inside .grad inherit color:transparent but not the gradient background,
-    // so re-apply .grad so they get their own background-clip:text gradient.
-    h.querySelectorAll('.grad .word').forEach(w => w.classList.add('grad'));
     h.querySelectorAll('.word').forEach((w, i) => {
       w.style.transitionDelay = `${.04 + i * .06}s`;
     });
@@ -3310,10 +3421,13 @@
     e.target.classList.add('visible');
     e.target.querySelectorAll('[data-count]').forEach(el => {
       const end = +el.dataset.count, dur = 1400;
+      // The real figure is already in the markup, so a no-JS visitor reads the
+      // truth rather than "0%". Only zero it once we're committed to animating.
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
         el.textContent = end;
         return;
       }
+      el.textContent = '0';
       const t0 = performance.now();
       (function tick(t) {
         const p = Math.min((t - t0) / dur, 1);
@@ -3398,7 +3512,7 @@
 
   // ── 10. 3-D card tilt ──
   if (!noMotion && hasHover) {
-    document.querySelectorAll('.stat, .xp-card, .ghp-card').forEach(card => {
+    document.querySelectorAll('.xp-card, .ghp-card').forEach(card => {
       let r = null, raf = 0, rx = 0, ry = 0;
       card.addEventListener('mouseenter', () => {
         r = card.getBoundingClientRect();
@@ -4179,8 +4293,14 @@
     // Reveal FAB after the main hero content, without delaying access to contact.
     setTimeout(() => fab.classList.add('fab-visible'), 1200);
 
-    // Hide FAB in dense end sections where contact paths are already visible.
-    const fabHideZones = [document.querySelector('.gh'), document.querySelector('footer')].filter(Boolean);
+    // Hide FAB wherever a contact path is already on screen. The hero counts:
+    // it has its own "Get in touch", and on a narrow viewport the FAB lands
+    // directly on top of that button.
+    const fabHideZones = [
+      document.querySelector('.hero-actions'),
+      document.querySelector('.gh'),
+      document.querySelector('footer')
+    ].filter(Boolean);
     if (fabHideZones.length) {
       const hiddenZones = new Set();
       const syncFabVisibility = () => {
