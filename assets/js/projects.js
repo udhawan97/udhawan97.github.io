@@ -81,12 +81,18 @@ function esc(value) {
     .replace(/"/g, '&quot;');
 }
 
+/*
+ * Only some icons need a staticIcon twin, and that isn't an oversight:
+ * orifold/folioorb animate with SMIL <animate> tags, which ignore
+ * prefers-reduced-motion, so CSS swaps in a still twin instead. golavo and
+ * voyalier animate with CSS inside the SVG and already guard themselves.
+ * Adding a twin for those two would be dead weight.
+ */
 function appIconHtml(project) {
   const attrs = `alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async"`;
   if (!project.staticIcon) {
     return `<img class="ghp-appicon" src="${esc(project.icon)}" ${attrs}>`;
   }
-  /* Two icons: CSS swaps to the still one under prefers-reduced-motion. */
   return `<img class="ghp-appicon ghp-appicon-motion" src="${esc(project.icon)}" ${attrs}>
                 <img class="ghp-appicon ghp-appicon-static" src="${esc(project.staticIcon)}" ${attrs}>`;
 }
