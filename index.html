@@ -2892,11 +2892,15 @@
         </span>
       </div>
 
+      <!--
+        Cards are rendered by assets/js/projects.js from the PROJECTS array.
+        Each <template> below holds only that project's bespoke visual — the
+        title, copy, tags, pills and links all come from the data.
+        Adding a project: one entry in PROJECTS + one template here.
+      -->
       <div class="ghp-grid">
         <!-- Orifold -->
-        <article class="ghp-card r d1">
-          <div class="ghp-visual ori-visual" aria-hidden="true">
-            <span class="ghp-status beta"><span class="ghp-status-dot"></span>Beta</span>
+        <template class="ghp-scene" data-project="orifold">
             <div class="ori-scene">
               <!-- faint brand crane keeping the stack company -->
               <svg class="ori-crane" viewBox="0 0 100 100">
@@ -2919,41 +2923,10 @@
                 <span class="pdf-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
               </span>
             </div>
-          </div>
-          <div class="ghp-body">
-            <div class="ghp-title-row">
-              <div class="ghp-name">
-                <img class="ghp-appicon ghp-appicon-motion" src="assets/logos/orifold.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
-                <img class="ghp-appicon ghp-appicon-static" src="assets/logos/orifold-static.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
-                <h4>Orifold</h4>
-              </div>
-              <span class="ghp-lang"><span class="ghp-dot swift"></span>Swift</span>
-            </div>
-            <p class="ghp-desc">A native, local-first macOS workspace that turns mixed files into polished, searchable PDFs, covering merge, repair, OCR, editing, annotation, signing, protection, and export. It replaces fragmented subscriptions and upload-first tools with one private workflow that keeps every document on the Mac and every core capability available without an account.</p>
-            <div class="ghp-tags">
-              <span class="ghp-tag">macOS</span>
-              <span class="ghp-tag">Local-first</span>
-              <span class="ghp-tag">OCR</span>
-              <span class="ghp-tag">PDF workflow</span>
-            </div>
-            <div class="ghp-links">
-              <a class="ghp-link primary" href="https://udhawan97.github.io/Orifold/" target="_blank" rel="noopener" aria-label="Visit the Orifold website">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                Visit site
-                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-              <a class="ghp-link secondary" href="https://github.com/udhawan97/Orifold" target="_blank" rel="noopener" aria-label="View Orifold source on GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-                Source
-              </a>
-            </div>
-          </div>
-        </article>
+        </template>
 
         <!-- FolioOrb -->
-        <article class="ghp-card r d2">
-          <div class="ghp-visual orb-visual" aria-hidden="true">
-            <span class="ghp-status beta"><span class="ghp-status-dot"></span>Beta</span>
+        <template class="ghp-scene" data-project="folioorb">
             <svg class="fin-chart" viewBox="0 0 240 150" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="finStroke" x1="0" y1="0" x2="1" y2="0">
@@ -2994,41 +2967,10 @@
             <span class="fin-badge"><svg viewBox="0 0 12 12"><path d="M6 1l5 9H1z"/></svg>+12.4%</span>
             <span class="fin-ring"></span>
             <span class="fin-dot"></span>
-          </div>
-          <div class="ghp-body">
-            <div class="ghp-title-row">
-              <div class="ghp-name">
-                <img class="ghp-appicon ghp-appicon-motion" src="assets/logos/folioorb.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
-                <img class="ghp-appicon ghp-appicon-static" src="assets/logos/folioorb-static.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
-                <h4>FolioOrb</h4>
-              </div>
-              <span class="ghp-lang"><span class="ghp-dot python"></span>Python</span>
-            </div>
-            <p class="ghp-desc">A local portfolio intelligence dashboard that unifies holdings, live market data, risk signals, news, and clear Hold/Add/Trim/Exit guidance. It helps investors understand exposure and next actions faster, while deterministic local analysis stays useful without AI and optional Claude narration explains the reasoning without placing trades.</p>
-            <div class="ghp-tags">
-              <span class="ghp-tag">AI insights</span>
-              <span class="ghp-tag">Local-first</span>
-              <span class="ghp-tag">Portfolio</span>
-              <span class="ghp-tag">Market data</span>
-            </div>
-            <div class="ghp-links">
-              <a class="ghp-link primary" href="https://udhawan97.github.io/FolioOrb/" target="_blank" rel="noopener" aria-label="Visit the FolioOrb website">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                Visit site
-                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-              <a class="ghp-link secondary" href="https://github.com/udhawan97/FolioOrb" target="_blank" rel="noopener" aria-label="View FolioOrb source on GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-                Source
-              </a>
-            </div>
-          </div>
-        </article>
+        </template>
 
         <!-- Golavo -->
-        <article class="ghp-card r d3">
-          <div class="ghp-visual" aria-hidden="true">
-            <span class="ghp-status"><span class="ghp-status-dot"></span>Under construction</span>
+        <template class="ghp-scene" data-project="golavo">
             <div class="gol-scene">
               <div class="gol-field"></div>
               <!-- pitch markings: halfway line + centre circle (left), goal frame & net (right) -->
@@ -3062,40 +3004,10 @@
               <div class="gol-flash f2"></div>
               <i class="gol-spark k1"></i><i class="gol-spark k2"></i><i class="gol-spark k3"></i>
             </div>
-          </div>
-          <div class="ghp-body">
-            <div class="ghp-title-row">
-              <div class="ghp-name">
-                <img class="ghp-appicon" src="assets/logos/golavo.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
-                <h4>Golavo</h4>
-              </div>
-              <span class="ghp-lang"><span class="ghp-dot python"></span>Python</span>
-            </div>
-            <p class="ghp-desc">A local-first football intelligence cockpit powered by Elo, independent Poisson, time-decayed Dixon–Coles, and bivariate Poisson models. It turns predictions into auditable evidence through pre-kickoff seals, post-match scoring, and calibration, while optional AI delivers cited explanations without changing a single model probability.</p>
-            <div class="ghp-tags">
-              <span class="ghp-tag">Local-first</span>
-              <span class="ghp-tag">Dixon-Coles</span>
-              <span class="ghp-tag">Bivariate Poisson</span>
-              <span class="ghp-tag">AI evidence</span>
-            </div>
-            <div class="ghp-links">
-              <a class="ghp-link primary" href="https://udhawan97.github.io/Golavo/" target="_blank" rel="noopener" aria-label="Visit the Golavo website">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                Visit site
-                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-              <a class="ghp-link secondary" href="https://github.com/udhawan97/Golavo" target="_blank" rel="noopener" aria-label="View Golavo source on GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-                Source
-              </a>
-            </div>
-          </div>
-        </article>
+        </template>
 
         <!-- Voyalier -->
-        <article class="ghp-card r d4">
-          <div class="ghp-visual" aria-hidden="true">
-            <span class="ghp-status"><span class="ghp-status-dot"></span>Under construction</span>
+        <template class="ghp-scene" data-project="voyalier">
             <div class="voy-scene">
               <div class="voy-sky"></div>
               <div class="voy-horizon"></div>
@@ -3125,35 +3037,7 @@
                 </svg>
               </div>
             </div>
-          </div>
-          <div class="ghp-body">
-            <div class="ghp-title-row">
-              <div class="ghp-name">
-                <img class="ghp-appicon" src="assets/logos/voyalier.svg" alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async">
-                <h4>Voyalier</h4>
-              </div>
-              <span class="ghp-lang"><span class="ghp-dot typescript"></span>TypeScript</span>
-            </div>
-            <p class="ghp-desc">A local-first travel intelligence workspace that turns confirmations, official advice, weather, maps, offline packs, and recommendations into a reviewed Smart Blueprint. It reduces planning chaos and travel-day uncertainty through evidence-backed readiness, explicit consent, and optional AI that works on-device or with user-supplied keys.</p>
-            <div class="ghp-tags">
-              <span class="ghp-tag">Local-first</span>
-              <span class="ghp-tag">Readiness</span>
-              <span class="ghp-tag">Offline packs</span>
-              <span class="ghp-tag">AI assist</span>
-            </div>
-            <div class="ghp-links">
-              <a class="ghp-link primary" href="https://udhawan97.github.io/Voyalier/" target="_blank" rel="noopener" aria-label="Visit the Voyalier website">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                Visit site
-                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-              <a class="ghp-link secondary" href="https://github.com/udhawan97/Voyalier" target="_blank" rel="noopener" aria-label="View Voyalier source on GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-                Source
-              </a>
-            </div>
-          </div>
-        </article>
+        </template>
       </div>
 
       <p class="ghp-note r">Everything I build ships fully open-source under the <b>Apache 2.0 license</b> — clone it, learn from it, ship your own. More landing at <a href="https://github.com/udhawan97" target="_blank" rel="noopener" style="color:#2997ff">github.com/udhawan97</a>.</p>
@@ -3200,6 +3084,10 @@
   <span id="fab-label">Say hello</span>
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
 </a>
+
+<!-- Renders the project cards. Must stay ahead of the script below, which
+     expects .ghp-card to be in the DOM when it binds. -->
+<script src="assets/js/projects.js"></script>
 
 <script>
   /*

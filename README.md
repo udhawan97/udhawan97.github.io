@@ -53,9 +53,27 @@ class Umang:
 
 ```
 ├── index.html                      ← the whole site (hand-coded, zero frameworks 💪)
+├── assets/js/projects.js           ← the "Featured builds" cards: data + renderer
 ├── assets/headshot.jpg             ← my face
+├── tests/                          ← node --test, zero dependencies
 ├── Umang_Dhawan_Resume_Formal.pdf  ← the serious one (ATS-friendly)
 └── Umang_Dhawan_Resume_Modern.pdf  ← the pretty one (charts! donuts! 📊🍩)
 ```
+
+### 🧪 Tests
+
+```bash
+node --test          # no install, no dependencies, no build
+```
+
+### ➕ Adding a project card
+
+The four project cards render from one place, so a new one is two edits:
+
+1. Add an entry to `PROJECTS` in `assets/js/projects.js` (name, copy, tags, links, status pill).
+2. Add its bespoke visual as `<template class="ghp-scene" data-project="your-id">` in the `.ghp-grid` in `index.html`.
+
+The tests will tell you if you miss the template or point an icon at a file that
+isn't there.
 
 *Designed & hand-coded with AI assistance. No templates were harmed in the making of this site.*
