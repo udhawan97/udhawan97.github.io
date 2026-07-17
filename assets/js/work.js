@@ -174,8 +174,8 @@ function caseStudyRowHtml(ws, index, iconHtml) {
  * innerHTML is safe here: every value is authored in this repo, text goes
  * through esc(), and the row icons come from the page's own templates.
  */
-function renderWork(doc) {
-  const cols = doc.querySelectorAll('.impact-cols .impact-col');
+function renderWork() {
+  const cols = document.querySelectorAll('.impact-cols .impact-col');
   if (cols.length === 3) {
     const [roleCol, wsCol, outCol] = cols;
     const keepHeader = (col) => col.querySelector('.col-header').outerHTML;
@@ -184,7 +184,7 @@ function renderWork(doc) {
     outCol.innerHTML = keepHeader(outCol) + WORKSTREAMS.map(outcomeNodeHtml).join('\n');
   }
 
-  const body = doc.getElementById('caseStudiesBody');
+  const body = document.getElementById('caseStudiesBody');
   if (body) {
     const icons = new Map();
     body.querySelectorAll('template.work-icon').forEach((tpl) => {
@@ -198,5 +198,5 @@ function renderWork(doc) {
 
 /* Absent under `node --test`, which only exercises the pure parts above. */
 if (typeof document !== 'undefined') {
-  renderWork(document);
+  renderWork();
 }

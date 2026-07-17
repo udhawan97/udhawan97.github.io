@@ -140,6 +140,11 @@ test('workstream and outcome ids are unique', () => {
   assert.equal(new Set(outIds).size, outIds.length);
 });
 
+test('role ids are unique — the map looks nodes up by id', () => {
+  const ids = ROLES.map((r) => r.id);
+  assert.equal(new Set(ids).size, ids.length);
+});
+
 test('every workstream carries the fields both views need', () => {
   for (const w of WORKSTREAMS) {
     for (const field of ['id', 'role', 'nodeLabel', 'title', 'desc']) {

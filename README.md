@@ -53,12 +53,19 @@ class Umang:
 
 ```
 ├── index.html                      ← the whole site (hand-coded, zero frameworks 💪)
+├── assets/js/work.js               ← roles, workstreams & outcomes (impact map + case studies)
 ├── assets/js/projects.js           ← the "Featured builds" cards: data + renderer
+├── assets/js/util.js               ← the esc() the two share (loads first)
 ├── assets/headshot.jpg             ← my face
 ├── tests/                          ← node --test, zero dependencies
 ├── Umang_Dhawan_Resume_Formal.pdf  ← the serious one (ATS-friendly)
 └── Umang_Dhawan_Resume_Modern.pdf  ← the pretty one (charts! donuts! 📊🍩)
 ```
+
+The three scripts in `assets/js/` are plain classic scripts sharing one global
+scope — no modules, so `index.html` still opens straight from the filesystem.
+They load before the main script, which expects their markup to already be in
+the DOM. `util.js` goes first: it's the only place `esc()` may be declared.
 
 ### 🧪 Tests
 
@@ -73,7 +80,19 @@ The four project cards render from one place, so a new one is two edits:
 1. Add an entry to `PROJECTS` in `assets/js/projects.js` (name, copy, tags, links, status pill).
 2. Add its bespoke visual as `<template class="ghp-scene" data-project="your-id">` in the `.ghp-grid` in `index.html`.
 
-The tests will tell you if you miss the template or point an icon at a file that
-isn't there.
+### ➕ Adding a workstream
+
+The impact map, its detail panel, and the case-study rows all read the same
+entries, so a new workstream is also two edits:
+
+1. Add an entry to `WORKSTREAMS` in `assets/js/work.js` (role, title, copy, tags, outcome).
+   The `*stars*` in an outcome mark what the case-study row emphasises.
+2. Add its row icon as `<template class="work-icon" data-ws="your-id">` in `#caseStudiesBody`.
+
+The role and outcome links come from the entry itself — there's no separate
+connection list to update.
+
+In both cases the tests will tell you if you miss the template, point an icon at
+a file that isn't there, or reference a role that doesn't exist.
 
 *Designed & hand-coded with AI assistance. No templates were harmed in the making of this site.*
