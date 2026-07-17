@@ -1,3 +1,3 @@
 
-## 19:15 | friendly-helper-claude/website-design-improvements-29874f
-Refactored index.html: added SF Pro + mono type tokens, removed gradient/eyebrow/scattered-bold AI slop, restructured experience section from equal cards to chronological timeline, integrated stat counters into hero evidence panel, fixed sticky portrait positioning, inverted GitHub graph for dark mode, resolved FAB/CTA overlap on mobile, corrected hero gradient contrast in light theme.
+## 20:02 | friendly-helper-claude/website-design-improvements-29874f
+Polished udhawan97.github.io index.html design (employer logo visibility, footer link styling, type unification, light-mode contrast fixes) → committed to main (63d73eb); began perf work removing blur/darkening effects from scroll.
