@@ -60,6 +60,19 @@ const PROJECTS = [
     site: 'https://udhawan97.github.io/Voyalier/',
     source: 'https://github.com/udhawan97/Voyalier',
   },
+  {
+    id: 'codemble',
+    name: 'Codemble',
+    icon: 'assets/logos/codemble.svg',
+    visualClass: 'cod-visual',
+    cardClass: 'codemble-card',
+    status: { label: 'Early access', tone: 'beta' },
+    lang: { dot: 'polyglot', label: 'Python · JS/TS' },
+    desc: 'A local-first learning game that turns the code AI wrote into a parser-proven 3D galaxy you light up by proving you understand it. It maps Python, JavaScript, TypeScript, and mixed projects without running them, then combines real source, language lenses, graph-derived checks, and optional evidence-bound AI narration.',
+    tags: ['Learning game', 'Local-first', 'Parser-proven', 'Polyglot'],
+    site: 'https://udhawan97.github.io/Codemble/',
+    source: 'https://github.com/udhawan97/Codemble',
+  },
 ];
 
 /* Inlined once here instead of once per card. */
@@ -99,6 +112,7 @@ function statusHtml(status) {
 
 function projectCardHtml(project, sceneHtml, index = 0) {
   const delay = Math.min(index + 1, MAX_DELAY_STEP);
+  const cardClass = project.cardClass ? ` ${esc(project.cardClass)}` : '';
   const visual = project.visualClass
     ? `ghp-visual ${esc(project.visualClass)}`
     : 'ghp-visual';
@@ -106,7 +120,7 @@ function projectCardHtml(project, sceneHtml, index = 0) {
     .map((tag) => `<span class="ghp-tag">${esc(tag)}</span>`)
     .join('\n              ');
 
-  return `<article class="ghp-card r d${delay}">
+  return `<article class="ghp-card r d${delay}${cardClass}">
           <div class="${visual}" aria-hidden="true">
             ${statusHtml(project.status)}
             ${sceneHtml}

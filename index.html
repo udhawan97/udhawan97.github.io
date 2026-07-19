@@ -1211,6 +1211,10 @@
   .ghp-dot.swift      { background: #f05138; color: #f05138; }
   .ghp-dot.python     { background: #4b8bbe; color: #4b8bbe; }
   .ghp-dot.typescript { background: #3178c6; color: #3178c6; }
+  .ghp-dot.polyglot   {
+    background: conic-gradient(#4b8bbe 0 45%, #f7df1e 45% 68%, #3178c6 68% 100%);
+    color: #82abec;
+  }
   .ghp-desc {
     font-size: 14.5px; line-height: 1.62; color: #a1a1a6; margin-bottom: 16px;
     text-wrap: pretty;
@@ -1652,6 +1656,78 @@
     100% { left: 99%; top: 29%; opacity: 0; transform: translate(-50%,-50%) rotate(-9deg)  scale(.85); }
   }
 
+  /* ── Codemble — parser-proven code galaxy lighting up as the learner advances ── */
+  .codemble-card { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(300px, .94fr) minmax(0, 1.06fr); }
+  .codemble-card .ghp-visual {
+    height: auto; min-height: 340px;
+    border-bottom: 0; border-right: 1px solid rgba(255,255,255,.06);
+  }
+  .codemble-card .ghp-body { padding: 30px; }
+  .cod-visual {
+    background:
+      radial-gradient(90% 80% at 48% 44%, rgba(63,106,192,.18), transparent 66%),
+      linear-gradient(180deg, #101a3e, #070b1c);
+  }
+  .cod-visual::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(rgba(130,171,236,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(130,171,236,.035) 1px, transparent 1px),
+      radial-gradient(120% 95% at 50% 48%, transparent 52%, rgba(0,0,0,.48));
+    background-size: 28px 28px, 28px 28px, auto;
+  }
+  .cod-scene { position: absolute; inset: 0; overflow: hidden; }
+  .cod-map { width: 100%; height: 100%; display: block; overflow: visible; }
+  .cod-orbit { fill: none; stroke: rgba(130,171,236,.14); stroke-width: 1; stroke-dasharray: 4 8; transform-origin: 210px 145px; animation: codOrbit 26s linear infinite; }
+  .cod-link { fill: none; stroke: rgba(63,106,192,.55); stroke-width: 1.4; stroke-linecap: round; }
+  .cod-link.trace {
+    stroke: #e89b2e; stroke-width: 1.8; stroke-dasharray: 1 220; stroke-dashoffset: 1;
+    filter: drop-shadow(0 0 5px rgba(232,155,46,.65));
+    animation: codTrace 6.4s ease-in-out infinite;
+  }
+  .cod-node { fill: #82abec; stroke: rgba(207,228,255,.75); stroke-width: 1; filter: drop-shadow(0 0 5px rgba(130,171,236,.48)); }
+  .cod-node.dim { fill: #40547f; stroke: rgba(130,171,236,.35); filter: none; }
+  .cod-node.lit { fill: #f4c46a; stroke: #fff1cd; filter: drop-shadow(0 0 8px rgba(232,155,46,.85)); animation: codNode 6.4s ease-in-out infinite; }
+  .cod-node.l2 { animation-delay: .55s; }
+  .cod-node.l3 { animation-delay: 1.05s; }
+  .cod-home-ring { fill: none; stroke: rgba(232,155,46,.58); stroke-width: 1.4; transform-origin: 210px 145px; animation: codRing 3.2s ease-out infinite; }
+  .cod-home-glow { fill: rgba(232,155,46,.18); filter: blur(7px); animation: codGlow 4.2s ease-in-out infinite; }
+  .cod-home { fill: #fff1cd; filter: drop-shadow(0 0 10px rgba(232,155,46,.95)); animation: codHome 4.2s ease-in-out infinite; transform-origin: 210px 145px; }
+  .cod-coordinate {
+    position: absolute; left: 18px; top: 17px;
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(182,194,218,.62);
+  }
+  .cod-proof {
+    position: absolute; right: 18px; bottom: 17px;
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+    color: #f4c46a; border: 1px solid rgba(232,155,46,.28);
+    background: rgba(7,11,28,.62); padding: 6px 9px; border-radius: 99px;
+    -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+  }
+  .cod-proof i { width: 5px; height: 5px; border-radius: 50%; background: #e89b2e; box-shadow: 0 0 7px #e89b2e; animation: codProof 2.1s ease-in-out infinite; }
+  @keyframes codOrbit { to { transform: rotate(360deg); } }
+  @keyframes codTrace {
+    0%, 10% { stroke-dasharray: 1 220; stroke-dashoffset: 1; opacity: 0; }
+    35%, 72% { stroke-dasharray: 220 1; stroke-dashoffset: 0; opacity: .9; }
+    92%, 100% { stroke-dasharray: 220 1; opacity: 0; }
+  }
+  @keyframes codNode { 0%, 18%, 100% { opacity: .45; } 35%, 78% { opacity: 1; } }
+  @keyframes codRing { 0% { opacity: .7; transform: scale(.72); } 78%, 100% { opacity: 0; transform: scale(1.5); } }
+  @keyframes codGlow { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+  @keyframes codHome { 0%, 100% { transform: scale(.94); } 50% { transform: scale(1.08); } }
+  @keyframes codProof { 0%, 100% { opacity: .5; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.15); } }
+
+  @media (max-width: 760px) {
+    .codemble-card { grid-column: auto; display: flex; }
+    .codemble-card .ghp-visual {
+      height: 152px; min-height: 0;
+      border-right: 0; border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .codemble-card .ghp-body { padding: 20px 22px 22px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .pdf-stack, .pdf-sign path, .fin-line, .fin-area, .fin-dot, .fin-ring,
     .ghp-visual::after, .ghp-card::before, .spark, .pdf-check, .fin-scan, .fin-badge,
@@ -1661,7 +1737,9 @@
     .gol-ball, .gol-flash, .gol-trail, .gol-spark, .gol-netg,
     .voy-sun-glow, .voy-star, .voy-cloud, .voy-bird, .voy-bird svg,
     .voy-ridges .far, .voy-ridges .mid, .voy-route path,
-    .voy-plane, .voy-plane svg, .voy-contrail { animation: none !important; }
+    .voy-plane, .voy-plane svg, .voy-contrail,
+    .cod-orbit, .cod-link.trace, .cod-node.lit, .cod-home-ring,
+    .cod-home-glow, .cod-home, .cod-proof i { animation: none !important; }
     .ori-mote { opacity: .18; }
     .pdf-sign path { stroke-dashoffset: 0; }
     .fin-line { stroke-dashoffset: 0; }
@@ -1673,6 +1751,8 @@
     .gol-trail { stroke-dashoffset: 55; opacity: .5; }
     .voy-plane { left: 50%; top: 38%; opacity: 1; }
     .voy-star { opacity: .6; }
+    .cod-link.trace { stroke-dasharray: none; opacity: .75; }
+    .cod-node.lit, .cod-home-ring, .cod-home-glow, .cod-home, .cod-proof i { opacity: 1; }
   }
   @media (max-width: 640px) {
     .gh-projects { margin-top: 32px; }
@@ -2945,6 +3025,33 @@
                   <path fill="#c3cad9" d="M12.6 15.1L22 3l-9.4 9.9z"/>
                 </svg>
               </div>
+            </div>
+        </template>
+
+        <!-- Codemble -->
+        <template class="ghp-scene" data-project="codemble">
+            <div class="cod-scene">
+              <span class="cod-coordinate">local graph / parser proven</span>
+              <svg class="cod-map" viewBox="0 0 420 300" preserveAspectRatio="xMidYMid meet">
+                <ellipse class="cod-orbit" cx="210" cy="145" rx="142" ry="94"/>
+                <ellipse class="cod-orbit" cx="210" cy="145" rx="108" ry="128"/>
+                <g>
+                  <path class="cod-link" d="M210 145L115 92L76 178M210 145L155 225L258 250M210 145L298 86L354 159M210 145L320 218L354 159M115 92L178 42L298 86M155 225L76 178"/>
+                  <path class="cod-link trace" pathLength="220" d="M76 178L115 92L210 145L298 86L354 159"/>
+                </g>
+                <circle class="cod-node dim" cx="178" cy="42" r="4"/>
+                <circle class="cod-node lit l2" cx="115" cy="92" r="6"/>
+                <circle class="cod-node lit l3" cx="76" cy="178" r="5"/>
+                <circle class="cod-node" cx="155" cy="225" r="6"/>
+                <circle class="cod-node dim" cx="258" cy="250" r="4"/>
+                <circle class="cod-node lit" cx="298" cy="86" r="6"/>
+                <circle class="cod-node lit l2" cx="354" cy="159" r="5"/>
+                <circle class="cod-node" cx="320" cy="218" r="5"/>
+                <circle class="cod-home-glow" cx="210" cy="145" r="34"/>
+                <circle class="cod-home-ring" cx="210" cy="145" r="29"/>
+                <path class="cod-home" d="M210 119C213 136 223 142 241 145C223 148 213 155 210 172C207 155 197 148 179 145C197 142 207 136 210 119Z"/>
+              </svg>
+              <span class="cod-proof"><i></i>system lit</span>
             </div>
         </template>
       </div>

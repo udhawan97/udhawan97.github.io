@@ -154,6 +154,17 @@ test('every project links out over https', () => {
   }
 });
 
+test('Codemble is featured with its public product and source links', () => {
+  const codemble = PROJECTS.find((p) => p.id === 'codemble');
+  assert.ok(codemble, 'Codemble is missing from the featured builds');
+  assert.equal(codemble.site, 'https://udhawan97.github.io/Codemble/');
+  assert.equal(codemble.source, 'https://github.com/udhawan97/Codemble');
+  assert.deepEqual(
+    Array.from(codemble.tags),
+    ['Learning game', 'Local-first', 'Parser-proven', 'Polyglot']
+  );
+});
+
 test('project ids are unique — each one needs its own scene template', () => {
   const ids = PROJECTS.map((p) => p.id);
   assert.equal(new Set(ids).size, ids.length);
