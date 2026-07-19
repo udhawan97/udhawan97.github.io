@@ -75,7 +75,7 @@ node --test          # no install, no dependencies, no build
 
 ### ➕ Adding a project card
 
-The four project cards render from one place, so a new one is two edits:
+The project cards render from one place, so a new one is two edits:
 
 1. Add an entry to `PROJECTS` in `assets/js/projects.js` (name, copy, tags, links, status pill).
 2. Add its bespoke visual as `<template class="ghp-scene" data-project="your-id">` in the `.ghp-grid` in `index.html`.
