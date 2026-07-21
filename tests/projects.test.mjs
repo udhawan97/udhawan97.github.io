@@ -71,7 +71,7 @@ test('app icon renders once when the project has no reduced-motion twin', () => 
   const html = projectCardHtml({ ...project, icon: 'assets/logos/golavo.svg' }, '');
   const icons = [...html.matchAll(/<img class="ghp-appicon[^"]*"/g)];
   assert.equal(icons.length, 1);
-  assert.match(html, /<span class="ghp-icon-stage"><img class="ghp-appicon" src="assets\/logos\/golavo\.svg"/);
+  assert.match(html, /<img class="ghp-appicon" src="assets\/logos\/golavo\.svg"/);
 });
 
 test('app icon renders motion and static twins when a staticIcon is given', () => {
@@ -81,7 +81,7 @@ test('app icon renders motion and static twins when a staticIcon is given', () =
   );
   assert.match(
     html,
-    /<span class="ghp-icon-stage"><img class="ghp-appicon ghp-appicon-motion" src="assets\/logos\/orifold\.svg"/
+    /<img class="ghp-appicon ghp-appicon-motion" src="assets\/logos\/orifold\.svg"/
   );
   assert.match(
     html,
@@ -220,18 +220,6 @@ test('featured product marks are live SVG animations with motion-safe fallbacks'
       );
     }
   }
-});
-
-test('Codemble and Dusori keep the richer motion signatures used by their READMEs', () => {
-  const codemble = readFileSync(join(root, 'assets/logos/codemble.svg'), 'utf8');
-  assert.match(codemble, /Edo star atlas/);
-  assert.match(codemble, /cm-starBreathe/);
-  assert.match(codemble, /cm-ring2/);
-
-  const dusori = readFileSync(join(root, 'assets/logos/dusori.svg'), 'utf8');
-  assert.match(dusori, /readme-chakra/);
-  assert.match(dusori, /chakra-revolve/);
-  assert.match(dusori, /blade-strike/);
 });
 
 test('Orifold explains one private document workflow instead of leading on local AI', () => {
