@@ -194,14 +194,66 @@ test('featured builds are framed around user problems and visible value', () => 
   assert.doesNotMatch(html, /public experiments in AI and automation/);
 });
 
-test('Codemble and Dusori marks are live CSS animations with reduced-motion guards', () => {
-  for (const icon of ['assets/logos/codemble.svg', 'assets/logos/dusori.svg']) {
+test('featured product marks are live CSS animations with reduced-motion guards', () => {
+  for (const icon of [
+    'assets/logos/golavo.svg',
+    'assets/logos/voyalier.svg',
+    'assets/logos/codemble.svg',
+    'assets/logos/dusori.svg',
+  ]) {
     const svg = readFileSync(join(root, icon), 'utf8');
     assert.match(svg, /<style>/, `${icon} has no embedded animation styles`);
     assert.match(svg, /@keyframes/, `${icon} has no motion keyframes`);
     assert.match(svg, /animation:/, `${icon} has no live animation`);
-    assert.match(svg, /@media \(prefers-reduced-motion: reduce\)/, `${icon} ignores reduced motion`);
+    assert.match(svg, /@media \(prefers-reduced-motion:\s*reduce\)/, `${icon} ignores reduced motion`);
   }
+});
+
+test('Golavo explains accountable forecasting instead of leading on local AI', () => {
+  const golavo = PROJECTS.find((p) => p.id === 'golavo');
+  assert.match(golavo.desc, /makes every forecast accountable/);
+  assert.match(golavo.desc, /pre-kickoff seals prevent hindsight edits/);
+  assert.match(golavo.desc, /scoring and calibration show which methods actually earn trust/);
+  assert.doesNotMatch(golavo.desc, /\bAI\b/i);
+  assert.deepEqual(
+    Array.from(golavo.tags),
+    ['Forecast accountability', 'Four-model ensemble', 'Sealed predictions', 'Calibration']
+  );
+});
+
+test('Voyalier explains reviewed travel readiness instead of leading on local AI', () => {
+  const voyalier = PROJECTS.find((p) => p.id === 'voyalier');
+  assert.match(voyalier.desc, /one reviewed Smart Blueprint/);
+  assert.match(voyalier.desc, /Unlike itinerary apps that merely collect bookings/);
+  assert.match(voyalier.desc, /remains usable when connectivity disappears/);
+  assert.doesNotMatch(voyalier.desc, /\bAI\b/i);
+  assert.deepEqual(
+    Array.from(voyalier.tags),
+    ['Evidence-backed', 'Smart Blueprint', 'Offline-ready', 'Consent-first']
+  );
+});
+
+test('Golavo scene resolves forecast evidence into an intact audit trail', () => {
+  const html = readFileSync(join(root, 'index.html'), 'utf8');
+  assert.match(html, /class="gol-scene" aria-hidden="true"/);
+  assert.match(html, /Forecast → seal → score/);
+  assert.match(html, /A prediction with a receipt\./);
+  assert.match(html, /audit trail intact/);
+  assert.match(html, /\.ghp-card\.visible \.gol-packet \{ animation: golPacket [^;]+ both; \}/);
+  assert.doesNotMatch(html, /@keyframes golKick/, 'the story should resolve instead of looping a goal forever');
+  assert.match(html, /\.gol-progress, \.gol-packet, \.gol-node\.seal, \.gol-node\.score, \.gol-verdict,/);
+});
+
+test('Voyalier scene turns reviewed evidence into a ready Smart Blueprint', () => {
+  const html = readFileSync(join(root, 'index.html'), 'utf8');
+  assert.match(html, /class="voy-scene" aria-hidden="true"/);
+  assert.match(html, /Evidence → readiness/);
+  assert.match(html, /Plans that survive travel day\./);
+  assert.match(html, /class="voy-source">official advice/);
+  assert.match(html, /class="voy-signal"/);
+  assert.match(html, /Smart Blueprint ready/);
+  assert.doesNotMatch(html, /@keyframes voyGlide/, 'the story should resolve instead of looping a flight forever');
+  assert.match(html, /\.voy-source, \.voy-route-group, \.voy-signal, \.voy-checkpoint, \.voy-destination, \.voy-blueprint,/);
 });
 
 test('Dusori scene animates a reviewed local write and keeps a reduced-motion state', () => {
