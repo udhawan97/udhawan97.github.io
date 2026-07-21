@@ -134,6 +134,15 @@
     --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, Helvetica, Arial, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
+    /* Codemble galaxy — evidence blue with proof-state amber. */
+    --cod-void: #060916;
+    --cod-depth: #0c1532;
+    --cod-blue: #82abec;
+    --cod-blue-deep: #40547f;
+    --cod-paper: #e7f0ff;
+    --cod-amber: #e89b2e;
+    --cod-amber-soft: #f4c46a;
+
     /* Dusori brand — Paper, Ink, Vermilion, and Marigold in perceptual colour. */
     --dus-paper: oklch(96% .018 78);
     --dus-paper-muted: oklch(87% .025 75);
@@ -1671,62 +1680,115 @@
     100% { left: 99%; top: 29%; opacity: 0; transform: translate(-50%,-50%) rotate(-9deg)  scale(.85); }
   }
 
-  /* ── Codemble — parser-proven code galaxy lighting up as the learner advances ── */
+  /* Hallmark · component: project-card scene · genre: atmospheric · theme: Codemble galaxy
+   * motion: graph-enter · evidence-route · proof-resolve
+   * reduced-motion: complete static state · contrast: pass (40–41)
+   * tokens: pass (48) · mobile: pass (34, 49, 50–57)
+   * pre-emit critique: P5 H5 E5 S5 R5 V5
+   */
+  /* ── Codemble — a source graph becomes an evidence-backed learning path ── */
   .cod-visual {
+    container-type: inline-size;
     background:
-      radial-gradient(90% 80% at 48% 44%, rgba(63,106,192,.18), transparent 66%),
-      linear-gradient(180deg, #101a3e, #070b1c);
+      radial-gradient(78% 110% at 68% 48%, color-mix(in oklch, var(--cod-blue-deep), transparent 67%), transparent 68%),
+      linear-gradient(165deg, var(--cod-depth), var(--cod-void));
   }
   .cod-visual::before {
     content: ""; position: absolute; inset: 0; pointer-events: none;
     background:
-      linear-gradient(rgba(130,171,236,.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(130,171,236,.035) 1px, transparent 1px),
-      radial-gradient(120% 95% at 50% 48%, transparent 52%, rgba(0,0,0,.48));
+      linear-gradient(color-mix(in oklch, var(--cod-blue), transparent 96%) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklch, var(--cod-blue), transparent 96%) 1px, transparent 1px),
+      radial-gradient(110% 100% at 67% 50%, transparent 46%, color-mix(in oklch, var(--cod-void), transparent 20%));
     background-size: 28px 28px, 28px 28px, auto;
   }
   .cod-scene { position: absolute; inset: 0; overflow: hidden; }
-  .cod-map { width: 100%; height: 100%; display: block; overflow: visible; }
-  .cod-orbit { fill: none; stroke: rgba(130,171,236,.14); stroke-width: 1; stroke-dasharray: 4 8; transform-origin: 210px 145px; animation: codOrbit 26s linear infinite; }
-  .cod-link { fill: none; stroke: rgba(63,106,192,.55); stroke-width: 1.4; stroke-linecap: round; }
-  .cod-link.trace {
-    stroke: #e89b2e; stroke-width: 1.8; stroke-dasharray: 1 220; stroke-dashoffset: 1;
-    filter: drop-shadow(0 0 5px rgba(232,155,46,.65));
-    animation: codTrace 6.4s ease-in-out infinite;
+  .cod-stage {
+    position: absolute; left: 50%; top: 50%; width: 432px; height: 132px;
+    transform: translate(-50%,-50%); transform-origin: 50% 50%;
   }
-  .cod-node { fill: #82abec; stroke: rgba(207,228,255,.75); stroke-width: 1; filter: drop-shadow(0 0 5px rgba(130,171,236,.48)); }
-  .cod-node.dim { fill: #40547f; stroke: rgba(130,171,236,.35); filter: none; }
-  .cod-node.lit { fill: #f4c46a; stroke: #fff1cd; filter: drop-shadow(0 0 8px rgba(232,155,46,.85)); animation: codNode 6.4s ease-in-out infinite; }
-  .cod-node.l2 { animation-delay: .55s; }
-  .cod-node.l3 { animation-delay: 1.05s; }
-  .cod-home-ring { fill: none; stroke: rgba(232,155,46,.58); stroke-width: 1.4; transform-origin: 210px 145px; animation: codRing 3.2s ease-out infinite; }
-  .cod-home-glow { fill: rgba(232,155,46,.18); filter: blur(7px); animation: codGlow 4.2s ease-in-out infinite; }
-  .cod-home { fill: #fff1cd; filter: drop-shadow(0 0 10px rgba(232,155,46,.95)); animation: codHome 4.2s ease-in-out infinite; transform-origin: 210px 145px; }
-  .cod-coordinate {
-    position: absolute; left: 18px; top: 17px;
-    font-family: var(--font-mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
-    color: rgba(182,194,218,.62);
+  .cod-story {
+    position: absolute; left: 12px; top: 12px; z-index: 3; width: 124px;
+    font-family: var(--font-mono); color: var(--cod-paper);
   }
+  .cod-kicker {
+    display: block; color: var(--cod-blue); font-size: 10px; font-weight: 700;
+    letter-spacing: .16em; text-transform: uppercase;
+  }
+  .cod-story strong {
+    display: block; margin-top: 8px; max-width: 120px;
+    font-family: var(--font-sans); font-size: 13px; line-height: 1.2; letter-spacing: -.015em;
+  }
+  .cod-beats { display: flex; gap: 8px; margin-top: 12px; }
+  .cod-beat {
+    position: relative; padding-top: 8px; color: color-mix(in oklch, var(--cod-paper), transparent 42%);
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .cod-beat::before {
+    content: ""; position: absolute; left: 0; top: 0; width: 24px; height: 1px;
+    background: color-mix(in oklch, var(--cod-blue), transparent 66%);
+  }
+  .cod-beat.proven { color: var(--cod-amber-soft); }
+  .cod-beat.proven::before { background: var(--cod-amber); }
+  .cod-map { position: absolute; left: 120px; top: 0; width: 312px; height: 132px; display: block; overflow: visible; }
+  .cod-orbit { fill: none; stroke: color-mix(in oklch, var(--cod-blue), transparent 84%); stroke-width: 1; stroke-dasharray: 3 7; }
+  .cod-link { fill: none; stroke: color-mix(in oklch, var(--cod-blue), transparent 58%); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  .cod-evidence {
+    fill: none; stroke: var(--cod-amber); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+    opacity: .92; filter: drop-shadow(0 0 5px color-mix(in oklch, var(--cod-amber), transparent 38%));
+  }
+  .cod-node {
+    fill: var(--cod-blue-deep); stroke: color-mix(in oklch, var(--cod-blue), transparent 35%); stroke-width: 1;
+  }
+  .cod-node.verified {
+    fill: var(--cod-amber-soft); stroke: var(--cod-paper); transform-box: fill-box; transform-origin: center;
+    filter: drop-shadow(0 0 6px color-mix(in oklch, var(--cod-amber), transparent 28%));
+  }
+  .cod-core-halo { fill: color-mix(in oklch, var(--cod-amber), transparent 82%); filter: blur(5px); }
+  .cod-core-ring {
+    fill: none; stroke: color-mix(in oklch, var(--cod-amber), transparent 34%); stroke-width: 1.3;
+    transform-box: fill-box; transform-origin: center;
+  }
+  .cod-core {
+    fill: var(--cod-paper); transform-box: fill-box; transform-origin: center;
+    filter: drop-shadow(0 0 9px color-mix(in oklch, var(--cod-amber), transparent 18%));
+  }
+  .cod-signal { fill: var(--cod-paper); opacity: 0; filter: drop-shadow(0 0 5px var(--cod-amber)); }
   .cod-proof {
-    position: absolute; right: 18px; bottom: 17px;
-    display: inline-flex; align-items: center; gap: 7px;
-    font-family: var(--font-mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
-    color: #f4c46a; border: 1px solid rgba(232,155,46,.28);
-    background: rgba(7,11,28,.62); padding: 6px 9px; border-radius: 99px;
-    -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+    position: absolute; right: 12px; bottom: 8px; z-index: 3;
+    display: inline-flex; align-items: center; gap: 8px; padding: 4px 8px;
+    color: var(--cod-amber-soft); border: 1px solid color-mix(in oklch, var(--cod-amber), transparent 56%);
+    background: color-mix(in oklch, var(--cod-void), transparent 20%);
+    font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
   }
-  .cod-proof i { width: 5px; height: 5px; border-radius: 50%; background: #e89b2e; box-shadow: 0 0 7px #e89b2e; animation: codProof 2.1s ease-in-out infinite; }
-  @keyframes codOrbit { to { transform: rotate(360deg); } }
-  @keyframes codTrace {
-    0%, 10% { stroke-dasharray: 1 220; stroke-dashoffset: 1; opacity: 0; }
-    35%, 72% { stroke-dasharray: 220 1; stroke-dashoffset: 0; opacity: .9; }
-    92%, 100% { stroke-dasharray: 220 1; opacity: 0; }
+  .cod-proof i { width: 5px; height: 5px; border-radius: 50%; background: var(--cod-amber); box-shadow: 0 0 7px var(--cod-amber); }
+  .ghp-card.visible .cod-network { animation: codGraphIn .8s var(--ease-out) both; }
+  .ghp-card.visible .cod-evidence { animation: codEvidence .8s var(--ease-out) .95s both; }
+  .ghp-card.visible .cod-signal { animation: codSignal 2.35s var(--ease-in-out) .42s both; }
+  .ghp-card.visible .cod-node.verified { animation: codVerify .5s var(--ease-out) both; }
+  .ghp-card.visible .cod-node.v1 { animation-delay: .92s; }
+  .ghp-card.visible .cod-node.v2 { animation-delay: 1.45s; }
+  .ghp-card.visible .cod-node.v3 { animation-delay: 2.02s; }
+  .ghp-card.visible .cod-core-ring,
+  .ghp-card.visible .cod-core { animation: codResolve .65s var(--ease-out) 2.15s both; }
+  .ghp-card.visible .cod-proof { animation: codProofIn .55s var(--ease-out) 2.45s both; }
+  @keyframes codGraphIn { from { opacity: 0; transform: translate3d(10px,0,0); } to { opacity: 1; transform: none; } }
+  @keyframes codEvidence { from { opacity: 0; } to { opacity: .92; } }
+  @keyframes codSignal {
+    0% { opacity: 0; transform: translate3d(28px,90px,0) scale(.55); }
+    9% { opacity: 1; }
+    31% { opacity: 1; transform: translate3d(75px,33px,0) scale(1); }
+    58% { opacity: 1; transform: translate3d(145px,65px,0) scale(1); }
+    84% { opacity: 1; transform: translate3d(231px,37px,0) scale(.9); }
+    92%, 100% { opacity: 0; transform: translate3d(282px,74px,0) scale(.45); }
   }
-  @keyframes codNode { 0%, 18%, 100% { opacity: .45; } 35%, 78% { opacity: 1; } }
-  @keyframes codRing { 0% { opacity: .7; transform: scale(.72); } 78%, 100% { opacity: 0; transform: scale(1.5); } }
-  @keyframes codGlow { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
-  @keyframes codHome { 0%, 100% { transform: scale(.94); } 50% { transform: scale(1.08); } }
-  @keyframes codProof { 0%, 100% { opacity: .5; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.15); } }
+  @keyframes codVerify { from { opacity: .35; transform: scale(.55); } to { opacity: 1; transform: scale(1); } }
+  @keyframes codResolve { from { opacity: .28; transform: scale(.7); } to { opacity: 1; transform: scale(1); } }
+  @keyframes codProofIn { from { opacity: 0; transform: translate3d(0,5px,0); } to { opacity: 1; transform: none; } }
+
+  @container (max-width: 440px) { .cod-stage { transform: translate(-50%,-50%) scale(.88); } }
+  @container (max-width: 360px) { .cod-stage { transform: translate(-50%,-50%) scale(.74); } }
+  @container (max-width: 315px) { .cod-stage { transform: translate(-50%,-50%) scale(.66); } }
+  @container (max-width: 260px) { .cod-stage { transform: translate(-50%,-50%) scale(.55); } }
 
   /* Hallmark · component: project-card scene · genre: atmospheric · theme: Dusori brand
    * motion: file-intake · reviewed-transit · roadmap-resolve
@@ -1809,7 +1871,6 @@
   }
   .dus-step.current i { background: transparent; border-color: var(--dus-vermilion); color: var(--dus-vermilion); }
   .dus-resolve-check { opacity: 0; }
-  .dus-roadmap-foot { position: absolute; left: 10px; bottom: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; color: var(--dus-ink-soft); text-transform: uppercase; transform: scale(.66); transform-origin: left bottom; }
   .dus-review {
     position: absolute; left: 145px; top: 108px; z-index: 6; display: flex; align-items: center; gap: 4px;
     padding: 4px 8px; border: 1px solid color-mix(in oklch, var(--dus-vermilion), transparent 54%); border-radius: 99px;
@@ -1856,8 +1917,8 @@
     .voy-sun-glow, .voy-star, .voy-cloud, .voy-bird, .voy-bird svg,
     .voy-ridges .far, .voy-ridges .mid, .voy-route path,
     .voy-plane, .voy-plane svg, .voy-contrail,
-    .cod-orbit, .cod-link.trace, .cod-node.lit, .cod-home-ring,
-    .cod-home-glow, .cod-home, .cod-proof i,
+    .cod-network, .cod-evidence, .cod-signal, .cod-node.verified,
+    .cod-core-ring, .cod-core, .cod-proof,
     .dus-packet, .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { animation: none !important; }
     .ori-mote { opacity: .18; }
     .pdf-sign path { stroke-dashoffset: 0; }
@@ -1870,8 +1931,8 @@
     .gol-trail { stroke-dashoffset: 55; opacity: .5; }
     .voy-plane { left: 50%; top: 38%; opacity: 1; }
     .voy-star { opacity: .6; }
-    .cod-link.trace { stroke-dasharray: none; opacity: .75; }
-    .cod-node.lit, .cod-home-ring, .cod-home-glow, .cod-home, .cod-proof i { opacity: 1; }
+    .cod-network, .cod-evidence, .cod-node.verified, .cod-core-ring, .cod-core, .cod-proof { opacity: 1; transform: none; }
+    .cod-signal { opacity: 0; }
     .dus-packet { opacity: 0; }
     .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { transform: none; }
     .dus-review, .dus-resolve-check { opacity: 1; }
@@ -3153,28 +3214,34 @@
 
         <!-- Codemble -->
         <template class="ghp-scene" data-project="codemble">
-            <div class="cod-scene">
-              <span class="cod-coordinate">parser evidence / understanding proven</span>
-              <svg class="cod-map" viewBox="0 0 420 300" preserveAspectRatio="xMidYMid meet">
-                <ellipse class="cod-orbit" cx="210" cy="145" rx="142" ry="94"/>
-                <ellipse class="cod-orbit" cx="210" cy="145" rx="108" ry="128"/>
-                <g>
-                  <path class="cod-link" d="M210 145L115 92L76 178M210 145L155 225L258 250M210 145L298 86L354 159M210 145L320 218L354 159M115 92L178 42L298 86M155 225L76 178"/>
-                  <path class="cod-link trace" pathLength="220" d="M76 178L115 92L210 145L298 86L354 159"/>
-                </g>
-                <circle class="cod-node dim" cx="178" cy="42" r="4"/>
-                <circle class="cod-node lit l2" cx="115" cy="92" r="6"/>
-                <circle class="cod-node lit l3" cx="76" cy="178" r="5"/>
-                <circle class="cod-node" cx="155" cy="225" r="6"/>
-                <circle class="cod-node dim" cx="258" cy="250" r="4"/>
-                <circle class="cod-node lit" cx="298" cy="86" r="6"/>
-                <circle class="cod-node lit l2" cx="354" cy="159" r="5"/>
-                <circle class="cod-node" cx="320" cy="218" r="5"/>
-                <circle class="cod-home-glow" cx="210" cy="145" r="34"/>
-                <circle class="cod-home-ring" cx="210" cy="145" r="29"/>
-                <path class="cod-home" d="M210 119C213 136 223 142 241 145C223 148 213 155 210 172C207 155 197 148 179 145C197 142 207 136 210 119Z"/>
-              </svg>
-              <span class="cod-proof"><i></i>system lit</span>
+            <div class="cod-scene" aria-hidden="true">
+              <div class="cod-stage">
+                <div class="cod-story">
+                  <span class="cod-kicker">Source → system</span>
+                  <strong>See the codebase become learnable.</strong>
+                  <div class="cod-beats"><span class="cod-beat">Chart</span><span class="cod-beat">Inspect</span><span class="cod-beat proven">Prove</span></div>
+                </div>
+                <svg class="cod-map" viewBox="0 0 312 132" preserveAspectRatio="xMidYMid meet">
+                  <g class="cod-network">
+                    <ellipse class="cod-orbit" cx="165" cy="65" rx="110" ry="42"/>
+                    <ellipse class="cod-orbit" cx="165" cy="65" rx="73" ry="54"/>
+                    <path class="cod-link" d="M28 90L75 33L145 65L198 22L231 37L282 74L245 103L145 65L105 108L28 90M75 33L198 22M105 108L245 103"/>
+                    <circle class="cod-node" cx="28" cy="90" r="4"/>
+                    <circle class="cod-node verified v1" cx="75" cy="33" r="5"/>
+                    <circle class="cod-node" cx="105" cy="108" r="4"/>
+                    <circle class="cod-node" cx="198" cy="22" r="4"/>
+                    <circle class="cod-node verified v2" cx="231" cy="37" r="5"/>
+                    <circle class="cod-node verified v3" cx="282" cy="74" r="5"/>
+                    <circle class="cod-node" cx="245" cy="103" r="4"/>
+                    <circle class="cod-core-halo" cx="145" cy="65" r="21"/>
+                    <circle class="cod-core-ring" cx="145" cy="65" r="14"/>
+                    <path class="cod-core" d="M145 52C147 60 152 64 161 65C152 67 147 71 145 79C143 71 138 67 129 65C138 64 143 60 145 52Z"/>
+                  </g>
+                  <path class="cod-evidence" d="M28 90L75 33L145 65L231 37L282 74"/>
+                  <circle class="cod-signal" cx="0" cy="0" r="3"/>
+                </svg>
+                <span class="cod-proof"><i></i>understanding proven</span>
+              </div>
             </div>
         </template>
 
@@ -3197,7 +3264,6 @@
                   <div class="dus-roadmap-head"><b>roadmap.md</b><span>file-backed</span></div>
                   <div class="dus-step"><i>✓</i><span>Choose a topic</span></div>
                   <div class="dus-step current"><i><span class="dus-resolve-check">✓</span></i><span>Review the source</span></div>
-                  <div class="dus-roadmap-foot">portable</div>
                 </div>
                 <div class="dus-review"><span>external edit</span><i>→</i><b>reviewed</b></div>
               </div>

@@ -210,8 +210,23 @@ test('Dusori scene animates a reviewed local write and keeps a reduced-motion st
   assert.match(html, /class="dus-source"[^>]*>.*topic\.md/s);
   assert.match(html, /class="dus-review"[^>]*>.*external edit.*reviewed/s);
   assert.doesNotMatch(html, /class="dus-ready"/, 'redundant caption can collide with the source stack');
+  assert.doesNotMatch(html, /class="dus-roadmap-foot"/, 'roadmap footer can collide with the final step');
   assert.match(html, /@keyframes dusTransit/);
   assert.match(html, /\.dus-packet, \.dus-roadmap, \.dus-review, \.dus-resolve-check, \.dus-wheel \{ animation: none !important; \}/);
+});
+
+test('Codemble scene turns source relationships into a settled proof state', () => {
+  const html = readFileSync(join(root, 'index.html'), 'utf8');
+  assert.match(html, /class="cod-scene" aria-hidden="true"/);
+  assert.match(html, /Source → system/);
+  assert.match(html, /Chart<\/span><span class="cod-beat">Inspect<\/span><span class="cod-beat proven">Prove/);
+  assert.match(html, /class="cod-evidence"/);
+  assert.match(html, /understanding proven/);
+  assert.doesNotMatch(html, /class="cod-mode"/, 'the project status badge owns the top-right scene space');
+  assert.doesNotMatch(html, /class="cod-label"/, 'the project status badge owns the top-right graph space');
+  assert.match(html, /\.ghp-card\.visible \.cod-signal \{ animation: codSignal [^;]+ both; \}/);
+  assert.doesNotMatch(html, /@keyframes codOrbit/, 'the learning story should settle instead of orbiting forever');
+  assert.match(html, /\.cod-network, \.cod-evidence, \.cod-signal, \.cod-node\.verified,/);
 });
 
 test('project ids are unique — each one needs its own scene template', () => {
