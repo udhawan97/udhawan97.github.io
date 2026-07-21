@@ -1910,13 +1910,15 @@
   .dus-step.current i { background: transparent; border-color: var(--dus-vermilion); color: var(--dus-vermilion); }
   .dus-resolve-check { opacity: 0; }
   .dus-review {
-    position: absolute; left: 145px; top: 108px; z-index: 6; display: flex; align-items: center; gap: 4px;
+    position: absolute; left: 140px; top: 104px; z-index: 6; display: flex; align-items: center; gap: 4px;
     padding: 4px 8px; border: 1px solid color-mix(in oklch, var(--dus-vermilion), transparent 54%); border-radius: 99px;
-    background: var(--dus-paper); box-shadow: 0 7px 14px color-mix(in oklch, var(--dus-ink), transparent 55%);
-    color: var(--dus-ink); font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+    background: color-mix(in oklch, var(--dus-ink), var(--dus-paper) 8%);
+    box-shadow: 0 7px 14px color-mix(in oklch, var(--dus-ink), transparent 55%);
+    color: var(--dus-paper); font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+    white-space: nowrap;
     opacity: 0; scale: .78; transform-origin: left center;
   }
-  .dus-review span { color: var(--dus-vermilion-ink); }
+  .dus-review span { color: var(--dus-paper-dim); }
   .dus-review i { color: var(--dus-marigold); font-style: normal; }
   .dus-review b { font-size: inherit; letter-spacing: inherit; }
   .ghp-card.visible .dus-packet { animation: dusTransit var(--dus-cycle) var(--ease-in-out) 1 both; }

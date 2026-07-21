@@ -319,6 +319,12 @@ test('Dusori scene animates a reviewed local write and keeps a reduced-motion st
   assert.match(html, /class="dus-review"[^>]*>.*external edit.*reviewed/s);
   assert.doesNotMatch(html, /class="dus-ready"/, 'redundant caption can collide with the source stack');
   assert.doesNotMatch(html, /class="dus-roadmap-foot"/, 'roadmap footer can collide with the final step');
+  assert.match(
+    html,
+    /\.dus-review \{[\s\S]*?left: 140px; top: 104px;[\s\S]*?background: color-mix\(in oklch, var\(--dus-ink\), var\(--dus-paper\) 8%\);[\s\S]*?white-space: nowrap;/,
+    'the review checkpoint must stay distinct from the pale roadmap panel'
+  );
+  assert.match(html, /\.dus-review span \{ color: var\(--dus-paper-dim\); \}/);
   assert.match(html, /@keyframes dusTransit/);
   assert.match(html, /\.dus-packet, \.dus-roadmap, \.dus-review, \.dus-resolve-check, \.dus-wheel \{ animation: none !important; \}/);
 });
