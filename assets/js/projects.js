@@ -107,12 +107,12 @@ const MAX_DELAY_STEP = 4;
  * guard themselves. Adding twins for those four would be dead weight.
  */
 function appIconHtml(project) {
-  const attrs = `alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async"`;
+  const attrs = `alt="" aria-hidden="true" width="56" height="56" loading="lazy" decoding="async"`;
   if (!project.staticIcon) {
-    return `<img class="ghp-appicon" src="${esc(project.icon)}" ${attrs}>`;
+    return `<span class="ghp-icon-stage"><img class="ghp-appicon" src="${esc(project.icon)}" ${attrs}></span>`;
   }
-  return `<img class="ghp-appicon ghp-appicon-motion" src="${esc(project.icon)}" ${attrs}>
-                <img class="ghp-appicon ghp-appicon-static" src="${esc(project.staticIcon)}" ${attrs}>`;
+  return `<span class="ghp-icon-stage"><img class="ghp-appicon ghp-appicon-motion" src="${esc(project.icon)}" ${attrs}>
+                <img class="ghp-appicon ghp-appicon-static" src="${esc(project.staticIcon)}" ${attrs}></span>`;
 }
 
 function statusHtml(status) {
