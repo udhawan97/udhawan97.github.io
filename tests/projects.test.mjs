@@ -289,12 +289,26 @@ test('FolioOrb scene resolves visible evidence into a verdict without fake retur
   assert.match(html, /Evidence → verdict/);
   assert.match(html, /Decisions without hidden math\./);
   assert.match(html, /class="orb-source price">prices/);
-  assert.match(html, /Hold · Add/);
+  assert.match(html, /<span><em>Hold<\/em><em>Add<\/em><em>Trim<\/em><em>Exit<\/em><\/span>/);
   assert.match(html, /data quality visible/);
   assert.match(html, /\.ghp-card\.visible \.orb-signal \{ animation: orbSignal [^;]+ both; \}/);
   assert.doesNotMatch(html, /\+12\.4%/, 'the card must not invent a portfolio return');
   assert.doesNotMatch(html, /@keyframes finDraw/, 'the decision story should resolve instead of replaying a market chart');
   assert.match(html, /\.orb-source, \.orb-signal, \.orb-core-ring, \.orb-core, \.orb-actions, \.orb-proof,/);
+});
+
+test('FolioOrb evidence lanes do not cross labels or bleed from narrow cards', () => {
+  const html = readIndex();
+  assert.match(html, /class="orb-link price" d="M30 10\.5 H43 L52 50"/);
+  assert.match(html, /class="orb-link news" d="M30 63\.2 H47 L52 50"/);
+  assert.doesNotMatch(html, /M56 10 L126 10 L156 40/, 'a price connector must not run through the news label');
+  assert.match(html, /\.orb-source\.price \{ top: 0; \}/);
+  assert.match(html, /\.orb-source\.history \{ top: 60px; \}/);
+  assert.match(
+    html,
+    /@container \(max-width: 360px\) \{[\s\S]*?\.orb-stage \{[\s\S]*?left: 0; top: 0; width: 100%; height: 100%;[\s\S]*?transform: none;/
+  );
+  assert.match(html, /--orb-signal-shift: 9cqw;/);
 });
 
 test('Golavo scene resolves forecast evidence into an intact audit trail', () => {
