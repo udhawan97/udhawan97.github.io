@@ -194,19 +194,47 @@ test('featured builds are framed around user problems and visible value', () => 
   assert.doesNotMatch(html, /public experiments in AI and automation/);
 });
 
-test('featured product marks are live CSS animations with reduced-motion guards', () => {
-  for (const icon of [
-    'assets/logos/golavo.svg',
-    'assets/logos/voyalier.svg',
-    'assets/logos/codemble.svg',
-    'assets/logos/dusori.svg',
-  ]) {
-    const svg = readFileSync(join(root, icon), 'utf8');
-    assert.match(svg, /<style>/, `${icon} has no embedded animation styles`);
-    assert.match(svg, /@keyframes/, `${icon} has no motion keyframes`);
-    assert.match(svg, /animation:/, `${icon} has no live animation`);
-    assert.match(svg, /@media \(prefers-reduced-motion:\s*reduce\)/, `${icon} ignores reduced motion`);
+test('featured product marks are live SVG animations with motion-safe fallbacks', () => {
+  for (const project of PROJECTS) {
+    const svg = readFileSync(join(root, project.icon), 'utf8');
+    const hasSmilMotion = /<animate(?:Transform)?\b/.test(svg);
+    const hasCssMotion = /@keyframes/.test(svg) && /animation:/.test(svg);
+    assert.ok(hasSmilMotion || hasCssMotion, `${project.icon} has no live animation`);
+
+    if (hasSmilMotion) {
+      assert.ok(project.staticIcon, `${project.icon} needs a reduced-motion twin`);
+      assert.ok(existsSync(join(root, project.staticIcon)), `${project.staticIcon} is missing`);
+    } else {
+      assert.match(
+        svg,
+        /@media \(prefers-reduced-motion:\s*reduce\)/,
+        `${project.icon} ignores reduced motion`
+      );
+    }
   }
+});
+
+test('Orifold explains one private document workflow instead of leading on local AI', () => {
+  const orifold = PROJECTS.find((p) => p.id === 'orifold');
+  assert.match(orifold.desc, /one complete PDF workflow/);
+  assert.match(orifold.desc, /no account or cloud handoff required/);
+  assert.doesNotMatch(orifold.desc, /\bAI\b/i);
+  assert.deepEqual(
+    Array.from(orifold.tags),
+    ['Document workflow', 'Private by design', 'OCR + editing', 'macOS']
+  );
+});
+
+test('FolioOrb explains evidence-led decisions without invented performance claims', () => {
+  const folioorb = PROJECTS.find((p) => p.id === 'folioorb');
+  assert.match(folioorb.desc, /connects holdings, market prices, risk, news, and position history/);
+  assert.match(folioorb.desc, /labels missing or stale inputs/);
+  assert.match(folioorb.desc, /never calculates the numbers or places a trade/);
+  assert.doesNotMatch(folioorb.desc, /\bAI\b/i);
+  assert.deepEqual(
+    Array.from(folioorb.tags),
+    ['Evidence-led', 'Decision support', 'Data quality', 'No auto-trading']
+  );
 });
 
 test('Golavo explains accountable forecasting instead of leading on local AI', () => {
@@ -231,6 +259,34 @@ test('Voyalier explains reviewed travel readiness instead of leading on local AI
     Array.from(voyalier.tags),
     ['Evidence-backed', 'Smart Blueprint', 'Offline-ready', 'Consent-first']
   );
+});
+
+test('Orifold scene resolves mixed operations into one private document', () => {
+  const html = readIndex();
+  assert.match(html, /class="ori-scene" aria-hidden="true"/);
+  assert.match(html, /Files → finished PDF/);
+  assert.match(html, /One document workflow\./);
+  assert.match(html, /class="ori-source merge"[^>]*>.*Merge/s);
+  assert.match(html, /class="ori-source ocr"[^>]*>.*OCR/s);
+  assert.match(html, /class="ori-source sign"[^>]*>.*Sign/s);
+  assert.match(html, /stays on this Mac/);
+  assert.match(html, /\.ghp-card\.visible \.ori-packet \{ animation: oriPacket [^;]+ both; \}/);
+  assert.doesNotMatch(html, /@keyframes pdfFloat/, 'the document story should resolve instead of floating forever');
+  assert.match(html, /\.ori-source, \.ori-packet, \.ori-document, \.ori-doc-sign, \.ori-proof,/);
+});
+
+test('FolioOrb scene resolves visible evidence into a verdict without fake returns', () => {
+  const html = readIndex();
+  assert.match(html, /class="orb-scene" aria-hidden="true"/);
+  assert.match(html, /Evidence → verdict/);
+  assert.match(html, /Decisions without hidden math\./);
+  assert.match(html, /class="orb-source price">prices/);
+  assert.match(html, /Hold · Add/);
+  assert.match(html, /data quality visible/);
+  assert.match(html, /\.ghp-card\.visible \.orb-signal \{ animation: orbSignal [^;]+ both; \}/);
+  assert.doesNotMatch(html, /\+12\.4%/, 'the card must not invent a portfolio return');
+  assert.doesNotMatch(html, /@keyframes finDraw/, 'the decision story should resolve instead of replaying a market chart');
+  assert.match(html, /\.orb-source, \.orb-signal, \.orb-core-ring, \.orb-core, \.orb-actions, \.orb-proof,/);
 });
 
 test('Golavo scene resolves forecast evidence into an intact audit trail', () => {

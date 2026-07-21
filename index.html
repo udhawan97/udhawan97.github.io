@@ -134,6 +134,22 @@
     --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, Helvetica, Arial, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
+    /* Orifold — moonlit paper, cyan structure, private-workflow blue. */
+    --ori-night: oklch(18% .025 240);
+    --ori-night-deep: oklch(12% .018 240);
+    --ori-paper: oklch(95% .014 225);
+    --ori-paper-dim: oklch(76% .025 225);
+    --ori-cyan: oklch(74% .10 215);
+    --ori-blue: oklch(54% .12 240);
+
+    /* FolioOrb — evidence navy, cool paper, analytical cyan. */
+    --orb-night: oklch(15% .028 270);
+    --orb-depth: oklch(22% .042 270);
+    --orb-paper: oklch(94% .014 240);
+    --orb-muted: oklch(74% .032 250);
+    --orb-cyan: oklch(75% .12 220);
+    --orb-cyan-deep: oklch(58% .10 235);
+
     /* Golavo — sumi night, washi evidence, gold seal. */
     --gol-night: oklch(16% .018 150);
     --gol-night-deep: oklch(11% .012 145);
@@ -1322,71 +1338,174 @@
   .ghp-note { font-size: 13px; color: #86868b; margin-top: 22px; line-height: 1.6; }
   .ghp-note b { color: #a1a1a6; font-weight: 600; }
 
-  /* ── Orifold visual — floating, fanning PDF stack with a self-drawing signature ── */
-  .pdf-stack { position: relative; width: 96px; height: 118px; animation: pdfFloat 5.5s ease-in-out infinite; }
-  @keyframes pdfFloat { 0%, 100% { transform: translateY(0) rotate(-1.2deg); } 50% { transform: translateY(-7px) rotate(1.2deg); } }
-  .pdf-page {
-    position: absolute; inset: 0; border-radius: 9px;
-    background: linear-gradient(158deg, #fbfbfd, #e7ecf3);
-    box-shadow: 0 12px 30px rgba(0,0,0,.42);
-    transition: transform .6s var(--ease);
+  /* Hallmark · component: project-card scene · genre: atmospheric · theme: Orifold moonlit paper
+   * motion: sources-enter · document-assemble · privacy-resolve
+   * reduced-motion: complete static state · contrast: pass (40–41)
+   * tokens: pass (48) · honest: pass (46) · icons: pass (30)
+   * mobile: pass (34, 49, 50–57) · slop: pass (58/58)
+   * pre-emit critique: P5 H5 E5 S5 R5 V5
+   */
+  /* ── Orifold — mixed files resolve into one finished, private PDF ── */
+  .ori-visual {
+    container-type: inline-size;
+    background:
+      radial-gradient(90% 140% at 84% 112%, color-mix(in oklch, var(--ori-cyan), transparent 82%), transparent 62%),
+      linear-gradient(165deg, var(--ori-night), var(--ori-night-deep));
   }
-  .pdf-page.p3 { transform: translate(13px, 9px)  rotate(8deg);  background: linear-gradient(158deg, #dfe4ec, #c6ccd7); }
-  .pdf-page.p2 { transform: translate(6px, 4px)   rotate(4deg);  background: linear-gradient(158deg, #edf0f5, #d5dae3); }
-  .ghp-card:hover .pdf-page.p3 { transform: translate(30px, 13px) rotate(15deg); }
-  .ghp-card:hover .pdf-page.p2 { transform: translate(16px, 7px)  rotate(8deg);  }
-  .ghp-card:hover .pdf-page.p1 { transform: rotate(-3deg); }
-  .pdf-line { position: absolute; left: 13px; height: 4px; border-radius: 2px; background: rgba(20,30,50,.16); }
-  .pdf-line.l1 { top: 16px; width: 56px; }
-  .pdf-line.l2 { top: 28px; width: 66px; }
-  .pdf-line.l3 { top: 40px; width: 40px; }
-  .pdf-fold {
-    position: absolute; top: 0; right: 0; width: 20px; height: 20px;
-    background: linear-gradient(225deg, #c3cad6 0 50%, transparent 50%);
-    border-top-right-radius: 9px;
+  .ori-visual::before {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      linear-gradient(64deg, transparent 49.5%, color-mix(in oklch, var(--ori-paper), transparent 94%) 50%, transparent 50.5%),
+      linear-gradient(-38deg, transparent 49.5%, color-mix(in oklch, var(--ori-cyan), transparent 94%) 50%, transparent 50.5%),
+      radial-gradient(135% 108% at 50% 40%, transparent 58%, color-mix(in oklch, var(--ori-night-deep), transparent 20%));
   }
-  .pdf-sign { position: absolute; left: 13px; bottom: 15px; width: 66px; height: 26px; overflow: visible; }
-  .pdf-sign path {
-    fill: none; stroke: #0066d6; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
-    stroke-dasharray: 132; stroke-dashoffset: 132;
-    animation: pdfSign 5s ease-in-out infinite;
+  .ori-scene { position: absolute; inset: 0; z-index: 2; overflow: hidden; color: var(--ori-paper); }
+  .ori-stage {
+    position: absolute; left: 50%; top: 50%; width: 432px; height: 132px;
+    transform: translate(-50%,-50%); transform-origin: center;
   }
-  @keyframes pdfSign {
-    0%  { stroke-dashoffset: 132; }
-    38% { stroke-dashoffset: 0; }
-    74% { stroke-dashoffset: 0; opacity: 1; }
-    86% { stroke-dashoffset: 0; opacity: 0; }
-    87% { stroke-dashoffset: 132; opacity: 0; }
-    100%{ stroke-dashoffset: 132; opacity: 1; }
+  .ori-story { position: absolute; left: 12px; top: 12px; width: 132px; }
+  .ori-kicker {
+    display: block; color: var(--ori-cyan); font: 700 10px/1.2 var(--font-mono);
+    letter-spacing: .08em; text-transform: uppercase;
   }
+  .ori-story strong { display: block; margin-top: 8px; font-size: 14px; line-height: 1.16; letter-spacing: -.015em; }
+  .ori-flow { position: absolute; left: 154px; top: 28px; width: 266px; height: 76px; }
+  .ori-source {
+    position: absolute; left: 0; width: 72px; height: 18px; display: flex; align-items: center; gap: 7px;
+    padding: 0 8px; border: 1px solid color-mix(in oklch, var(--ori-paper-dim), transparent 65%);
+    border-radius: 4px; color: var(--ori-paper-dim); background: color-mix(in oklch, var(--ori-night), transparent 18%);
+    font: 650 10px/1 var(--font-mono); letter-spacing: .025em; opacity: 0; transform: translateX(-10px);
+  }
+  .ori-source.merge { top: 0; }
+  .ori-source.ocr { top: 28px; }
+  .ori-source.sign { top: 56px; }
+  .ori-source i { width: 7px; height: 9px; border: 1px solid currentColor; border-radius: 1px; opacity: .75; }
+  .ori-rail { position: absolute; left: 80px; top: 37px; width: 78px; height: 1px; background: color-mix(in oklch, var(--ori-cyan), transparent 42%); }
+  .ori-rail::before, .ori-rail::after { content: ""; position: absolute; left: 0; width: 1px; height: 28px; background: inherit; }
+  .ori-rail::before { top: -28px; }
+  .ori-rail::after { top: 0; }
+  .ori-packet {
+    position: absolute; left: 77px; top: 33px; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--ori-cyan); box-shadow: 0 0 12px color-mix(in oklch, var(--ori-cyan), transparent 24%); opacity: 0;
+  }
+  .ori-document {
+    position: absolute; left: 166px; top: 2px; width: 84px; height: 70px; border-radius: 6px;
+    border: 1px solid color-mix(in oklch, var(--ori-paper), var(--ori-blue) 18%);
+    background: linear-gradient(150deg, var(--ori-paper), color-mix(in oklch, var(--ori-paper), var(--ori-blue) 13%));
+    box-shadow: 0 12px 28px color-mix(in oklch, var(--ori-night-deep), transparent 20%);
+    opacity: 0; transform: scale(.86) translateX(-8px); transform-origin: left center;
+  }
+  .ori-doc-fold {
+    position: absolute; top: -1px; right: -1px; width: 18px; height: 18px;
+    background: linear-gradient(225deg, var(--ori-paper-dim) 0 50%, transparent 51%); border-top-right-radius: 6px;
+  }
+  .ori-doc-line { position: absolute; left: 10px; height: 3px; border-radius: 2px; background: color-mix(in oklch, var(--ori-night), transparent 76%); }
+  .ori-doc-line.one { top: 13px; width: 46px; }
+  .ori-doc-line.two { top: 22px; width: 58px; }
+  .ori-doc-line.three { top: 31px; width: 37px; }
+  .ori-doc-search {
+    position: absolute; left: 10px; bottom: 9px; padding: 2px 4px; border-radius: 2px;
+    color: var(--ori-blue); background: color-mix(in oklch, var(--ori-cyan), transparent 82%); font: 750 7px/1 var(--font-mono);
+  }
+  .ori-doc-sign { position: absolute; right: 8px; bottom: 7px; width: 42px; height: 14px; overflow: visible; opacity: 0; }
+  .ori-doc-sign path { fill: none; stroke: var(--ori-blue); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .ori-proof, .orb-proof {
+    position: absolute; right: 12px; bottom: 8px; display: inline-flex; align-items: center; gap: 6px;
+    color: var(--ori-paper-dim); font: 650 9px/1 var(--font-mono); letter-spacing: .025em; opacity: 0; transform: translateY(5px);
+  }
+  .ori-proof i, .orb-proof i { width: 6px; height: 6px; border-radius: 50%; background: var(--ori-cyan); box-shadow: 0 0 8px color-mix(in oklch, var(--ori-cyan), transparent 28%); }
+  .ghp-card.visible .ori-source { animation: oriSource .42s var(--ease) both; }
+  .ghp-card.visible .ori-source.ocr { animation-delay: .16s; }
+  .ghp-card.visible .ori-source.sign { animation-delay: .32s; }
+  .ghp-card.visible .ori-packet { animation: oriPacket 1.1s var(--ease) .5s both; }
+  .ghp-card.visible .ori-document { animation: oriAssemble .48s var(--ease) 1.38s both; }
+  .ghp-card.visible .ori-doc-sign { animation: oriResolve .4s var(--ease) 1.7s both; }
+  .ghp-card.visible .ori-proof { animation: oriResolve .44s var(--ease) 1.96s both; }
+  @keyframes oriSource { to { opacity: 1; transform: none; } }
+  @keyframes oriPacket { 0% { opacity: 0; transform: translateX(0); } 16%, 76% { opacity: 1; } 100% { opacity: 0; transform: translateX(82px); } }
+  @keyframes oriAssemble { to { opacity: 1; transform: none; } }
+  @keyframes oriResolve { to { opacity: 1; transform: none; } }
 
-  /* ── FolioOrb visual — self-drawing market line with a pulsing live datapoint ── */
-  .fin-chart { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .fin-grid line { stroke: rgba(255,255,255,.06); stroke-width: 1; vector-effect: non-scaling-stroke; }
-  .fin-area { fill: url(#finGrad); opacity: 0; animation: finArea 5s ease-in-out infinite; }
-  @keyframes finArea { 0%, 30% { opacity: 0; } 55%, 78% { opacity: 1; } 100% { opacity: 0; } }
-  .fin-line {
-    fill: none; stroke: url(#finStroke); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;
-    stroke-dasharray: 360; stroke-dashoffset: 360;
-    filter: drop-shadow(0 0 6px rgba(48,209,88,.4));
-    animation: finDraw 5s ease-in-out infinite;
+  @container (max-width: 440px) { .ori-stage { transform: translate(-50%,-50%) scale(.88); } }
+  @container (max-width: 360px) { .ori-stage { top: 54%; transform: translate(-50%,-50%) scale(.74); } }
+  @container (max-width: 315px) { .ori-stage { transform: translate(-50%,-50%) scale(.66); } }
+  @container (max-width: 260px) { .ori-stage { transform: translate(-50%,-50%) scale(.55); } }
+
+  /* Hallmark · component: project-card scene · genre: atmospheric · theme: FolioOrb evidence orbit
+   * motion: evidence-enter · signal-converge · verdict-resolve
+   * reduced-motion: complete static state · contrast: pass (40–41)
+   * tokens: pass (48) · honest: pass (46) · icons: pass (30)
+   * mobile: pass (34, 49, 50–57) · slop: pass (58/58)
+   * pre-emit critique: P5 H5 E5 S5 R5 V5
+   */
+  /* ── FolioOrb — evidence converges before a decision is named ── */
+  .orb-visual {
+    container-type: inline-size;
+    background:
+      radial-gradient(100% 145% at 84% 112%, color-mix(in oklch, var(--orb-cyan), transparent 84%), transparent 60%),
+      linear-gradient(165deg, var(--orb-depth), var(--orb-night));
   }
-  @keyframes finDraw { 0% { stroke-dashoffset: 360; } 45% { stroke-dashoffset: 0; } 80% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 360; } }
-  /* Live datapoint — a tiny orb (HTML overlay so it stays perfectly round despite the stretched SVG) */
-  .fin-dot, .fin-ring {
-    position: absolute; left: 92.5%; top: 24%; z-index: 2;
-    width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px; border-radius: 50%;
+  .orb-visual::before {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      linear-gradient(color-mix(in oklch, var(--orb-paper), transparent 95%) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklch, var(--orb-paper), transparent 95%) 1px, transparent 1px),
+      radial-gradient(135% 108% at 50% 42%, transparent 58%, color-mix(in oklch, var(--orb-night), transparent 16%));
+    background-size: 28px 28px, 28px 28px, auto;
   }
-  .fin-dot  { background: radial-gradient(circle at 36% 30%, #b9f7d0, #30d158 55%, #0e8f46); box-shadow: 0 0 12px rgba(48,209,88,.9); opacity: 0; animation: finDot 5s ease-in-out infinite; }
-  .fin-ring { border: 2px solid #30d158; opacity: 0; animation: finRing 5s ease-in-out infinite; }
-  @keyframes finDot { 0%, 44% { opacity: 0; } 50%, 80% { opacity: 1; } 100% { opacity: 0; } }
-  @keyframes finRing {
-    0%, 46% { opacity: 0; transform: scale(.5); }
-    52% { opacity: .85; transform: scale(.5); }
-    74% { opacity: 0; transform: scale(2.6); }
-    100% { opacity: 0; transform: scale(2.6); }
+  .orb-scene { position: absolute; inset: 0; z-index: 2; overflow: hidden; color: var(--orb-paper); }
+  .orb-stage {
+    position: absolute; left: 50%; top: 50%; width: 432px; height: 132px;
+    transform: translate(-50%,-50%); transform-origin: center;
   }
+  .orb-story { position: absolute; left: 12px; top: 12px; width: 132px; }
+  .orb-kicker {
+    display: block; color: var(--orb-cyan); font: 700 10px/1.2 var(--font-mono);
+    letter-spacing: .08em; text-transform: uppercase;
+  }
+  .orb-story strong { display: block; margin-top: 8px; font-size: 14px; line-height: 1.16; letter-spacing: -.015em; }
+  .orb-system { position: absolute; left: 154px; top: 28px; width: 266px; height: 76px; }
+  .orb-links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .orb-links path { fill: none; stroke: color-mix(in oklch, var(--orb-muted), transparent 58%); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .orb-source {
+    position: absolute; width: 56px; height: 16px; display: flex; align-items: center; gap: 5px;
+    color: var(--orb-muted); font: 650 9px/1 var(--font-mono); opacity: 0; transform: translateX(-7px);
+  }
+  .orb-source::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--orb-cyan-deep); box-shadow: 0 0 7px color-mix(in oklch, var(--orb-cyan), transparent 38%); }
+  .orb-source.price { left: 0; top: 2px; }
+  .orb-source.risk { left: 0; top: 30px; }
+  .orb-source.news { left: 64px; top: 2px; }
+  .orb-source.history { left: 64px; top: 54px; }
+  .orb-core-ring, .orb-core { position: absolute; border-radius: 50%; opacity: 0; transform: scale(.6); }
+  .orb-core-ring { left: 138px; top: 22px; width: 36px; height: 36px; border: 1px solid color-mix(in oklch, var(--orb-cyan), transparent 25%); }
+  .orb-core { left: 149px; top: 33px; width: 14px; height: 14px; background: radial-gradient(circle at 36% 28%, var(--orb-paper), var(--orb-cyan) 48%, var(--orb-cyan-deep)); box-shadow: 0 0 16px color-mix(in oklch, var(--orb-cyan), transparent 18%); }
+  .orb-signal { position: absolute; left: 112px; top: 36px; width: 7px; height: 7px; border-radius: 50%; background: var(--orb-cyan); opacity: 0; }
+  .orb-actions {
+    position: absolute; left: 186px; top: 12px; width: 70px; min-height: 50px; padding: 7px 8px;
+    border: 1px solid color-mix(in oklch, var(--orb-cyan), transparent 48%); border-radius: 5px;
+    background: color-mix(in oklch, var(--orb-depth), transparent 10%); opacity: 0; transform: translateX(-6px);
+  }
+  .orb-actions b { display: block; color: var(--orb-cyan); font: 750 8px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+  .orb-actions span { display: block; margin-top: 7px; color: var(--orb-paper); font: 650 8px/1.35 var(--font-mono); }
+  .orb-proof { color: var(--orb-muted); }
+  .orb-proof i { background: var(--orb-cyan); box-shadow: 0 0 8px color-mix(in oklch, var(--orb-cyan), transparent 28%); }
+  .ghp-card.visible .orb-source { animation: orbEvidence .4s var(--ease) both; }
+  .ghp-card.visible .orb-source.risk { animation-delay: .14s; }
+  .ghp-card.visible .orb-source.news { animation-delay: .28s; }
+  .ghp-card.visible .orb-source.history { animation-delay: .42s; }
+  .ghp-card.visible .orb-signal { animation: orbSignal 1.15s var(--ease) .54s both; }
+  .ghp-card.visible .orb-core-ring, .ghp-card.visible .orb-core { animation: orbResolve .42s var(--ease) 1.34s both; }
+  .ghp-card.visible .orb-actions { animation: orbResolve .45s var(--ease) 1.68s both; }
+  .ghp-card.visible .orb-proof { animation: orbResolve .44s var(--ease) 1.98s both; }
+  @keyframes orbEvidence { to { opacity: 1; transform: none; } }
+  @keyframes orbSignal { 0% { opacity: 0; transform: translateX(0); } 16%, 76% { opacity: 1; } 100% { opacity: 0; transform: translateX(74px); } }
+  @keyframes orbResolve { to { opacity: 1; transform: none; } }
+
+  @container (max-width: 440px) { .orb-stage { transform: translate(-50%,-50%) scale(.88); } }
+  @container (max-width: 360px) { .orb-stage { top: 54%; transform: translate(-50%,-50%) scale(.74); } }
+  @container (max-width: 315px) { .orb-stage { transform: translate(-50%,-50%) scale(.66); } }
+  @container (max-width: 260px) { .orb-stage { transform: translate(-50%,-50%) scale(.55); } }
 
   /* Ambient light sweep across every visual */
   .ghp-visual::after {
@@ -1414,107 +1533,6 @@
   .ghp-card.visible .ghp-tag:nth-child(3) { animation-delay: .34s; }
   .ghp-card.visible .ghp-tag:nth-child(4) { animation-delay: .42s; }
   @keyframes ghpTagIn { to { opacity: 1; transform: none; } }
-
-  /* Orifold — ambient sparkles + "signed" checkmark */
-  .spark {
-    position: absolute; width: 4px; height: 4px; border-radius: 50%; z-index: 2;
-    background: #2997ff; box-shadow: 0 0 7px #2997ff; opacity: 0;
-  }
-  .spark.s1 { left: 20%; top: 24%; animation: sparkle 4.2s ease-in-out infinite; }
-  .spark.s2 { left: 78%; top: 32%; animation: sparkle 4.2s ease-in-out .9s infinite; }
-  .spark.s3 { left: 68%; top: 74%; animation: sparkle 4.2s ease-in-out 1.9s infinite; }
-  @keyframes sparkle { 0%, 100% { opacity: 0; transform: scale(.3); } 50% { opacity: .9; transform: scale(1); } }
-  .pdf-check {
-    position: absolute; right: 6px; bottom: 8px; width: 22px; height: 22px; border-radius: 50%;
-    background: #30d158; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 12px rgba(48,209,88,.55);
-    opacity: 0; transform: scale(0); animation: pdfCheck 5s ease-in-out infinite;
-  }
-  .pdf-check svg { width: 12px; height: 12px; fill: none; stroke: #fff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
-  @keyframes pdfCheck {
-    0%, 38% { opacity: 0; transform: scale(0); }
-    46% { opacity: 1; transform: scale(1.25); }
-    54%, 74% { opacity: 1; transform: scale(1); }
-    84%, 100% { opacity: 0; transform: scale(.4); }
-  }
-
-  /* FolioOrb — analysis scan line + gain badge */
-  .fin-scan {
-    position: absolute; top: 0; bottom: 0; width: 2px; left: -2%; z-index: 2;
-    background: linear-gradient(180deg, transparent, rgba(41,151,255,.65), transparent);
-    box-shadow: 0 0 12px rgba(41,151,255,.75); opacity: 0;
-    animation: finScan 5s ease-in-out infinite;
-  }
-  @keyframes finScan { 0% { left: -2%; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { left: 102%; opacity: 0; } }
-  .fin-badge {
-    position: absolute; top: 12px; left: 12px; z-index: 3;
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 11px; font-weight: 700; color: #30d158;
-    background: rgba(48,209,88,.12); border: 1px solid rgba(48,209,88,.32);
-    padding: 3px 9px 3px 7px; border-radius: 99px;
-    opacity: 0; animation: finBadge 5s ease-in-out infinite;
-  }
-  .fin-badge svg { width: 8px; height: 8px; fill: #30d158; }
-  @keyframes finBadge { 0%, 42% { opacity: 0; transform: translateY(-5px); } 52%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-5px); } }
-
-  /* ── Orifold scene — midnight paper studio behind the PDF stack ── */
-  .ori-visual {
-    background:
-      radial-gradient(110% 120% at 80% -12%, rgba(255,238,205,.10), transparent 46%),
-      radial-gradient(130% 130% at 10% 120%, rgba(99,183,207,.17), transparent 58%),
-      linear-gradient(180deg, #16222f, #0c1219);
-  }
-  /* fold creases + vignette (above scene, below the stack) */
-  .ori-visual::before {
-    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background:
-      linear-gradient(64deg, transparent 49.3%, rgba(255,255,255,.05) 49.8%, rgba(255,255,255,.05) 50.2%, transparent 50.7%),
-      linear-gradient(-38deg, transparent 49.4%, rgba(255,255,255,.035) 49.9%, rgba(255,255,255,.035) 50.4%, transparent 50.9%),
-      radial-gradient(135% 108% at 50% 40%, transparent 58%, rgba(0,0,0,.38));
-  }
-  .ori-visual .pdf-stack { z-index: 2; }
-  .ori-scene { position: absolute; inset: 0; overflow: hidden; }
-  /* faint brand crane, wing slowly beating */
-  .ori-crane { position: absolute; left: 5%; bottom: 6%; width: 76px; height: 76px; transform: rotate(-8deg); }
-  .ori-crane polygon { fill: none; stroke: rgba(122,196,222,.22); stroke-width: 1.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-  .ori-crane .wing { transform-box: fill-box; transform-origin: 53% 52%; animation: oriFlap 6s ease-in-out infinite; }
-  @keyframes oriFlap { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(3deg); } }
-  /* paper motes drifting up through the lamp light */
-  .ori-mote {
-    position: absolute; width: 3px; height: 7px; border-radius: 2px;
-    background: rgba(235,244,250,.4); opacity: 0;
-  }
-  .ori-mote.m1 { left: 22%; bottom: 8%;  animation: oriMote 11s  linear infinite; }
-  .ori-mote.m2 { left: 62%; bottom: 2%;  animation: oriMote 14s  linear 3s infinite; }
-  .ori-mote.m3 { left: 86%; bottom: 14%; animation: oriMote 9.5s linear 6s infinite; }
-  @keyframes oriMote {
-    0%   { transform: translateY(12px) rotate(0deg); opacity: 0; }
-    12%  { opacity: .32; }
-    80%  { opacity: .2; }
-    100% { transform: translateY(-98px) rotate(170deg); opacity: 0; }
-  }
-
-  /* ── FolioOrb scene — market depth behind the line, orb datapoint ── */
-  .orb-visual {
-    background:
-      radial-gradient(120% 130% at 86% 116%, rgba(48,209,88,.12), transparent 55%),
-      radial-gradient(110% 120% at 12% -14%, rgba(41,151,255,.14), transparent 50%),
-      linear-gradient(180deg, #101724, #0b1017);
-  }
-  .orb-visual::before {
-    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background: radial-gradient(135% 108% at 50% 42%, transparent 58%, rgba(0,0,0,.36));
-  }
-  /* faint candlesticks for market depth */
-  .orb-candle { stroke: rgba(255,255,255,.06); vector-effect: non-scaling-stroke; }
-  .orb-candle.wick { stroke-width: 1; }
-  .orb-candle.body { stroke-width: 5; }
-  /* dashed benchmark the portfolio line beats */
-  .orb-bench {
-    fill: none; stroke: rgba(160,174,192,.30); stroke-width: 1.3; stroke-dasharray: 3 5; stroke-linecap: round;
-    vector-effect: non-scaling-stroke; animation: orbBench 3.2s linear infinite;
-  }
-  @keyframes orbBench { to { stroke-dashoffset: -8; } }
 
   /* Hallmark · component: project-card scene · genre: atmospheric · theme: Golavo sumi evidence
    * motion: model-converge · seal-resolve · score-settle
@@ -1928,22 +1946,20 @@
   @container (max-width: 260px) { .dus-stage { transform: translate(-50%,-50%) scale(.55); } }
 
   @media (prefers-reduced-motion: reduce) {
-    .pdf-stack, .pdf-sign path, .fin-line, .fin-area, .fin-dot, .fin-ring,
-    .ghp-visual::after, .ghp-card::before, .spark, .pdf-check, .fin-scan, .fin-badge,
+    .ori-source, .ori-packet, .ori-document, .ori-doc-sign, .ori-proof,
+    .orb-source, .orb-signal, .orb-core-ring, .orb-core, .orb-actions, .orb-proof,
+    .ghp-visual::after, .ghp-card::before,
     .ghp-card .ghp-tag,
     .ghp-status-dot, .ghp-status::before,
-    .ori-crane .wing, .ori-mote, .orb-bench,
     .gol-progress, .gol-packet, .gol-node.seal, .gol-node.score, .gol-verdict,
     .voy-source, .voy-route-group, .voy-signal, .voy-checkpoint, .voy-destination, .voy-blueprint,
     .cod-network, .cod-evidence, .cod-signal, .cod-node.verified,
     .cod-core-ring, .cod-core, .cod-proof,
     .dus-packet, .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { animation: none !important; }
-    .ori-mote { opacity: .18; }
-    .pdf-sign path { stroke-dashoffset: 0; }
-    .fin-line { stroke-dashoffset: 0; }
-    .fin-area, .fin-dot, .fin-badge, .ghp-card .ghp-tag { opacity: 1; }
-    .ghp-card .ghp-tag { transform: none; }
-    .pdf-check { opacity: 1; transform: scale(1); }
+    .ori-source, .ori-document, .ori-doc-sign, .ori-proof,
+    .orb-source, .orb-core-ring, .orb-core, .orb-actions, .orb-proof,
+    .ghp-card .ghp-tag { opacity: 1; transform: none; }
+    .ori-packet, .orb-signal { opacity: 0; }
     .gol-progress, .gol-node.seal, .gol-node.score, .gol-verdict,
     .voy-source, .voy-route-group, .voy-checkpoint, .voy-destination, .voy-blueprint { opacity: 1; transform: none; }
     .gol-packet, .voy-signal { opacity: 0; }
@@ -3090,72 +3106,60 @@
       <div class="ghp-grid">
         <!-- Orifold -->
         <template class="ghp-scene" data-project="orifold">
-            <div class="ori-scene">
-              <!-- faint brand crane keeping the stack company -->
-              <svg class="ori-crane" viewBox="0 0 100 100">
-                <polygon points="24,44 50,27 65,47 87,55 53,75"/>
-                <polygon points="11,33 24,44 27,35"/>
-                <polygon class="wing" points="50,27 33,5 65,47"/>
-              </svg>
-              <i class="ori-mote m1"></i><i class="ori-mote m2"></i><i class="ori-mote m3"></i>
-            </div>
-            <i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i>
-            <div class="pdf-stack">
-              <span class="pdf-page p3"></span>
-              <span class="pdf-page p2"></span>
-              <span class="pdf-page p1">
-                <span class="pdf-fold"></span>
-                <span class="pdf-line l1"></span>
-                <span class="pdf-line l2"></span>
-                <span class="pdf-line l3"></span>
-                <svg class="pdf-sign" viewBox="0 0 66 26"><path d="M2 18 C 8 4, 13 4, 17 15 S 27 24, 31 12 S 41 2, 47 13 Q 54 22, 64 6"/></svg>
-                <span class="pdf-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-              </span>
+            <div class="ori-scene" aria-hidden="true">
+              <div class="ori-stage">
+                <div class="ori-story">
+                  <span class="ori-kicker">Files → finished PDF</span>
+                  <strong>One document workflow.</strong>
+                </div>
+                <div class="ori-flow">
+                  <span class="ori-source merge"><i></i>Merge</span>
+                  <span class="ori-source ocr"><i></i>OCR</span>
+                  <span class="ori-source sign"><i></i>Sign</span>
+                  <span class="ori-rail"></span>
+                  <span class="ori-packet"></span>
+                  <div class="ori-document">
+                    <span class="ori-doc-fold"></span>
+                    <span class="ori-doc-line one"></span>
+                    <span class="ori-doc-line two"></span>
+                    <span class="ori-doc-line three"></span>
+                    <span class="ori-doc-search">OCR</span>
+                    <svg class="ori-doc-sign" viewBox="0 0 52 16"><path d="M1 12 C6 2 10 2 13 10 S21 15 24 7 S32 1 36 9 Q42 15 51 4"/></svg>
+                  </div>
+                </div>
+                <span class="ori-proof"><i></i>stays on this Mac</span>
+              </div>
             </div>
         </template>
 
         <!-- FolioOrb -->
         <template class="ghp-scene" data-project="folioorb">
-            <svg class="fin-chart" viewBox="0 0 240 150" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="finStroke" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stop-color="#2997ff"/>
-                  <stop offset="1" stop-color="#30d158"/>
-                </linearGradient>
-                <linearGradient id="finGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#30d158" stop-opacity=".32"/>
-                  <stop offset="1" stop-color="#30d158" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-              <g class="fin-grid">
-                <line x1="0" y1="45" x2="240" y2="45"/>
-                <line x1="0" y1="90" x2="240" y2="90"/>
-                <line x1="0" y1="135" x2="240" y2="135"/>
-              </g>
-              <!-- faint candlesticks for market depth -->
-              <g class="orb-candles">
-                <line class="orb-candle wick" x1="24"  y1="96" x2="24"  y2="132"/>
-                <line class="orb-candle body" x1="24"  y1="104" x2="24"  y2="126"/>
-                <line class="orb-candle wick" x1="64"  y1="80" x2="64"  y2="120"/>
-                <line class="orb-candle body" x1="64"  y1="88" x2="64"  y2="112"/>
-                <line class="orb-candle wick" x1="104" y1="92" x2="104" y2="134"/>
-                <line class="orb-candle body" x1="104" y1="100" x2="104" y2="126"/>
-                <line class="orb-candle wick" x1="144" y1="70" x2="144" y2="110"/>
-                <line class="orb-candle body" x1="144" y1="78" x2="144" y2="102"/>
-                <line class="orb-candle wick" x1="184" y1="84" x2="184" y2="122"/>
-                <line class="orb-candle body" x1="184" y1="90" x2="184" y2="114"/>
-                <line class="orb-candle wick" x1="224" y1="58" x2="224" y2="96"/>
-                <line class="orb-candle body" x1="224" y1="64" x2="224" y2="88"/>
-              </g>
-              <!-- dashed benchmark the portfolio line stays ahead of -->
-              <path class="orb-bench" d="M0 130 L30 122 L60 126 L90 108 L120 114 L150 92 L180 98 L210 78 L240 70"/>
-              <path class="fin-area" d="M0 120 L26 106 L52 112 L80 86 L108 94 L136 60 L164 70 L192 44 L222 36 L240 30 L240 150 L0 150 Z"/>
-              <path class="fin-line" d="M0 120 L26 106 L52 112 L80 86 L108 94 L136 60 L164 70 L192 44 L222 36"/>
-            </svg>
-            <span class="fin-scan"></span>
-            <span class="fin-badge"><svg viewBox="0 0 12 12"><path d="M6 1l5 9H1z"/></svg>+12.4%</span>
-            <span class="fin-ring"></span>
-            <span class="fin-dot"></span>
+            <div class="orb-scene" aria-hidden="true">
+              <div class="orb-stage">
+                <div class="orb-story">
+                  <span class="orb-kicker">Evidence → verdict</span>
+                  <strong>Decisions without hidden math.</strong>
+                </div>
+                <div class="orb-system">
+                  <svg class="orb-links" viewBox="0 0 266 76">
+                    <path d="M56 10 L126 10 L156 40"/>
+                    <path d="M56 38 L156 40"/>
+                    <path d="M120 10 L156 40"/>
+                    <path d="M120 62 L156 40"/>
+                    <path d="M174 40 L186 38"/>
+                  </svg>
+                  <span class="orb-source price">prices</span>
+                  <span class="orb-source risk">risk</span>
+                  <span class="orb-source news">news</span>
+                  <span class="orb-source history">history</span>
+                  <span class="orb-signal"></span>
+                  <span class="orb-core-ring"></span>
+                  <span class="orb-core"></span>
+                  <span class="orb-actions"><b>Verdict</b><span>Hold · Add<br>Trim · Exit</span></span>
+                </div>
+                <span class="orb-proof"><i></i>data quality visible</span>
+              </div>
+            </div>
         </template>
 
         <!-- Golavo -->
