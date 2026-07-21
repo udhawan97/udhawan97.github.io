@@ -65,13 +65,24 @@ const PROJECTS = [
     name: 'Codemble',
     icon: 'assets/logos/codemble.svg',
     visualClass: 'cod-visual',
-    cardClass: 'codemble-card',
     status: { label: 'Early access', tone: 'beta' },
     lang: { dot: 'polyglot', label: 'Python · JS/TS' },
-    desc: 'A local-first learning game that turns the code AI wrote into a parser-proven 3D galaxy you light up by proving you understand it. It maps Python, JavaScript, TypeScript, and mixed projects without running them, then combines real source, language lenses, graph-derived checks, and optional evidence-bound AI narration.',
-    tags: ['Learning game', 'Local-first', 'Parser-proven', 'Polyglot'],
+    desc: 'An explorable code-learning game that turns an unfamiliar codebase into a parser-proven 3D galaxy—and understanding into visible progress. Instead of treating an explanation as proof, Codemble makes learners navigate real files, inspect exact connections, and pass graph-derived checks before a system lights up, building a durable mental model across Python, JavaScript, TypeScript, and mixed projects.',
+    tags: ['Code literacy', 'Parser-proven', '3D + 2D maps', 'Polyglot'],
     site: 'https://udhawan97.github.io/Codemble/',
     source: 'https://github.com/udhawan97/Codemble',
+  },
+  {
+    id: 'dusori',
+    name: 'Dusori',
+    icon: 'assets/logos/dusori.svg',
+    visualClass: 'dus-visual',
+    status: { label: 'Early access', tone: 'beta' },
+    lang: { dot: 'typescript', label: 'TypeScript' },
+    desc: 'A learning workspace that turns a scattered syllabus, notes, and source material into a paced system of topics, roadmaps, progress, and visible connections. Unlike course dashboards or second-brain databases that trap state inside an account, Dusori keeps the learning structure in portable files and makes external edits reviewable—so the same body of work can move between Dusori, Obsidian, and any Markdown editor without losing ownership or context.',
+    tags: ['Learning workspace', 'Portable files', 'Conflict-safe', 'Obsidian-ready'],
+    site: 'https://udhawan97.github.io/Dusori/',
+    source: 'https://github.com/udhawan97/Dusori',
   },
 ];
 
@@ -91,9 +102,9 @@ const MAX_DELAY_STEP = 4;
 /*
  * Only some icons need a staticIcon twin, and that isn't an oversight:
  * orifold/folioorb animate with SMIL <animate> tags, which ignore
- * prefers-reduced-motion, so CSS swaps in a still twin instead. golavo and
- * voyalier animate with CSS inside the SVG and already guard themselves.
- * Adding a twin for those two would be dead weight.
+ * prefers-reduced-motion, so CSS swaps in a still twin instead. golavo,
+ * voyalier, codemble, and dusori animate with CSS inside the SVG and already
+ * guard themselves. Adding twins for those four would be dead weight.
  */
 function appIconHtml(project) {
   const attrs = `alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async"`;
@@ -112,7 +123,6 @@ function statusHtml(status) {
 
 function projectCardHtml(project, sceneHtml, index = 0) {
   const delay = Math.min(index + 1, MAX_DELAY_STEP);
-  const cardClass = project.cardClass ? ` ${esc(project.cardClass)}` : '';
   const visual = project.visualClass
     ? `ghp-visual ${esc(project.visualClass)}`
     : 'ghp-visual';
@@ -120,7 +130,7 @@ function projectCardHtml(project, sceneHtml, index = 0) {
     .map((tag) => `<span class="ghp-tag">${esc(tag)}</span>`)
     .join('\n              ');
 
-  return `<article class="ghp-card r d${delay}${cardClass}">
+  return `<article class="ghp-card r d${delay}">
           <div class="${visual}" aria-hidden="true">
             ${statusHtml(project.status)}
             ${sceneHtml}

@@ -1,0 +1,14 @@
+{
+  "scannedAt": "2026-07-20",
+  "framework": "Vanilla HTML, CSS, and JavaScript",
+  "fontStack": "System sans plus system mono roles",
+  "palette": "Light and dark CSS custom properties in index.html",
+  "motion": "CSS keyframes with prefers-reduced-motion support; no motion library",
+  "spacing": "Hand-authored responsive scale",
+  "preserve": [
+    "single-file page implementation",
+    "portfolio light and dark themes",
+    "existing typography roles",
+    "project-card information architecture"
+  ]
+}

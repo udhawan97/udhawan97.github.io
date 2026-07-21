@@ -161,8 +161,57 @@ test('Codemble is featured with its public product and source links', () => {
   assert.equal(codemble.source, 'https://github.com/udhawan97/Codemble');
   assert.deepEqual(
     Array.from(codemble.tags),
-    ['Learning game', 'Local-first', 'Parser-proven', 'Polyglot']
+    ['Code literacy', 'Parser-proven', '3D + 2D maps', 'Polyglot']
   );
+});
+
+test('Dusori is featured with its public product and source links', () => {
+  const dusori = PROJECTS.find((p) => p.id === 'dusori');
+  assert.ok(dusori, 'Dusori is missing from the featured builds');
+  assert.equal(dusori.site, 'https://udhawan97.github.io/Dusori/');
+  assert.equal(dusori.source, 'https://github.com/udhawan97/Dusori');
+  assert.deepEqual(
+    Array.from(dusori.tags),
+    ['Learning workspace', 'Portable files', 'Conflict-safe', 'Obsidian-ready']
+  );
+});
+
+test('Codemble and Dusori explain their distinct user value without leading on AI', () => {
+  const codemble = PROJECTS.find((p) => p.id === 'codemble');
+  const dusori = PROJECTS.find((p) => p.id === 'dusori');
+  assert.match(codemble.desc, /understanding into visible progress/);
+  assert.match(codemble.desc, /pass graph-derived checks before a system lights up/);
+  assert.doesNotMatch(codemble.desc, /\bAI\b/i);
+  assert.match(dusori.desc, /paced system of topics, roadmaps, progress, and visible connections/);
+  assert.match(dusori.desc, /portable files and makes external edits reviewable/);
+  assert.doesNotMatch(dusori.desc, /\bAI\b/i);
+});
+
+test('featured builds are framed around user problems and visible value', () => {
+  const html = readFileSync(join(root, 'index.html'), 'utf8');
+  assert.match(html, /Problems, turned into products\./);
+  assert.match(html, /makes value visible through evidence, portability, or measurable feedback/);
+  assert.doesNotMatch(html, /public experiments in AI and automation/);
+});
+
+test('Codemble and Dusori marks are live CSS animations with reduced-motion guards', () => {
+  for (const icon of ['assets/logos/codemble.svg', 'assets/logos/dusori.svg']) {
+    const svg = readFileSync(join(root, icon), 'utf8');
+    assert.match(svg, /<style>/, `${icon} has no embedded animation styles`);
+    assert.match(svg, /@keyframes/, `${icon} has no motion keyframes`);
+    assert.match(svg, /animation:/, `${icon} has no live animation`);
+    assert.match(svg, /@media \(prefers-reduced-motion: reduce\)/, `${icon} ignores reduced motion`);
+  }
+});
+
+test('Dusori scene animates a reviewed local write and keeps a reduced-motion state', () => {
+  const html = readFileSync(join(root, 'index.html'), 'utf8');
+  assert.match(html, /class="dus-scene" aria-hidden="true"/);
+  assert.match(html, /class="dus-source"[^>]*>.*topic\.md/s);
+  assert.match(html, /class="dus-review"[^>]*>.*external edit.*reviewed/s);
+  assert.doesNotMatch(html, /class="dus-ready"/, 'redundant caption can collide with the source stack');
+  assert.match(html, /@keyframes dusTransit/);
+  assert.match(html, /\.dus-packet, \.dus-roadmap, \.dus-review, \.dus-resolve-check, \.dus-wheel \{ animation: none !important; \}/);
 });
 
 test('project ids are unique — each one needs its own scene template', () => {
@@ -179,6 +228,12 @@ test('index.html carries a scene template for every project', () => {
       `index.html has no scene template for ${p.id}`
     );
   }
+});
+
+test('featured builds are not hidden behind a tall parent reveal gate', () => {
+  const html = readFileSync(join(root, 'index.html'), 'utf8');
+  assert.doesNotMatch(html, /class="gh r"/);
+  assert.match(html, /class="gh"/);
 });
 
 test('index.html loads the project data before the main script needs the cards', () => {

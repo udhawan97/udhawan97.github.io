@@ -133,6 +133,20 @@
      */
     --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, Helvetica, Arial, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+    /* Dusori brand — Paper, Ink, Vermilion, and Marigold in perceptual colour. */
+    --dus-paper: oklch(96% .018 78);
+    --dus-paper-muted: oklch(87% .025 75);
+    --dus-paper-dim: oklch(78% .014 75);
+    --dus-ink: oklch(20% .016 58);
+    --dus-ink-soft: oklch(38% .025 61);
+    --dus-vermilion: oklch(60% .17 34);
+    --dus-vermilion-ink: oklch(44% .13 34);
+    --dus-marigold: oklch(69% .14 70);
+    --dus-cycle: 4.8s;
+    --ease-out: cubic-bezier(.16, 1, .3, 1);
+    --ease-in: cubic-bezier(.7, 0, .84, 0);
+    --ease-in-out: cubic-bezier(.65, 0, .35, 1);
   }
   [data-theme="dark"] {
     --bg: #000000;
@@ -1265,6 +1279,7 @@
   .ghp-links { margin-top: auto; display: flex; align-items: center; gap: 18px; }
   .ghp-link {
     display: inline-flex; align-items: center; gap: 7px;
+    min-height: 44px;
     font-size: 13.5px; font-weight: 600;
     transition: color .25s var(--ease), gap .25s var(--ease);
   }
@@ -1657,12 +1672,6 @@
   }
 
   /* ── Codemble — parser-proven code galaxy lighting up as the learner advances ── */
-  .codemble-card { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(300px, .94fr) minmax(0, 1.06fr); }
-  .codemble-card .ghp-visual {
-    height: auto; min-height: 340px;
-    border-bottom: 0; border-right: 1px solid rgba(255,255,255,.06);
-  }
-  .codemble-card .ghp-body { padding: 30px; }
   .cod-visual {
     background:
       radial-gradient(90% 80% at 48% 44%, rgba(63,106,192,.18), transparent 66%),
@@ -1719,14 +1728,123 @@
   @keyframes codHome { 0%, 100% { transform: scale(.94); } 50% { transform: scale(1.08); } }
   @keyframes codProof { 0%, 100% { opacity: .5; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.15); } }
 
-  @media (max-width: 760px) {
-    .codemble-card { grid-column: auto; display: flex; }
-    .codemble-card .ghp-visual {
-      height: 152px; min-height: 0;
-      border-right: 0; border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-    .codemble-card .ghp-body { padding: 20px 22px 22px; }
+  /* Hallmark · component: project-card scene · genre: atmospheric · theme: Dusori brand
+   * motion: file-intake · reviewed-transit · roadmap-resolve
+   * reduced-motion: complete static state · contrast: pass
+   * pre-emit critique: P5 H5 E5 S5 R4 V5
+   */
+  /* ── Dusori — local files become a reviewed, portable learning roadmap ── */
+  .dus-visual {
+    container-type: inline-size;
+    background:
+      radial-gradient(90% 140% at 55% 115%, color-mix(in oklch, var(--dus-marigold), transparent 78%), transparent 62%),
+      linear-gradient(165deg, color-mix(in oklch, var(--dus-ink), var(--dus-vermilion) 8%), var(--dus-ink));
   }
+  .dus-visual::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      repeating-linear-gradient(0deg, color-mix(in oklch, var(--dus-paper), transparent 98%) 0 1px, transparent 1px 5px),
+      radial-gradient(110% 110% at 52% 45%, transparent 46%, color-mix(in oklch, var(--dus-ink), transparent 22%));
+  }
+  .dus-scene { position: absolute; inset: 0; overflow: hidden; }
+  .dus-stage {
+    position: absolute; left: 50%; top: 50%; width: 430px; height: 132px;
+    transform: translate(-50%,-50%); transform-origin: 50% 50%;
+  }
+  .dus-wheel {
+    position: absolute; left: 183px; top: 23px; width: 78px; height: 78px; z-index: 0;
+    border-radius: 50%; opacity: .19;
+    background: repeating-conic-gradient(from 9deg, var(--dus-marigold) 0 1.5deg, transparent 1.5deg 20deg);
+    -webkit-mask: radial-gradient(circle, transparent 0 19px, var(--dus-ink) 20px 22px, transparent 23px 31px, var(--dus-ink) 32px 34px, transparent 35px);
+    mask: radial-gradient(circle, transparent 0 19px, var(--dus-ink) 20px 22px, transparent 23px 31px, var(--dus-ink) 32px 34px, transparent 35px);
+  }
+  .dus-sources { position: absolute; left: 8px; top: 31px; width: 122px; height: 72px; z-index: 3; }
+  .dus-source {
+    position: absolute; left: 0; width: 112px; height: 40px; padding: 8px 8px 8px 32px;
+    border: 1px solid color-mix(in oklch, var(--dus-paper), transparent 79%); border-radius: 7px;
+    background: color-mix(in oklch, var(--dus-ink), var(--dus-paper) 7%);
+    box-shadow: 0 8px 18px color-mix(in oklch, var(--dus-ink), transparent 52%);
+    color: var(--dus-paper); font-family: var(--font-mono); line-height: 1;
+  }
+  .dus-source:nth-child(2) { left: 12px; top: 44px; }
+  .dus-file-mark {
+    position: absolute; left: 10px; top: 8px; width: 12px; height: 15px;
+    border: 1px solid color-mix(in oklch, var(--dus-marigold), transparent 18%); border-radius: 2px;
+  }
+  .dus-file-mark::after {
+    content: ""; position: absolute; left: 2px; right: 2px; top: 5px; height: 1px;
+    background: var(--dus-marigold); box-shadow: 0 3px 0 color-mix(in oklch, var(--dus-marigold), transparent 35%);
+  }
+  .dus-source b { display: block; font-size: 10px; letter-spacing: .015em; font-weight: 650; }
+  .dus-source em { display: block; margin-top: 4px; color: var(--dus-paper-dim); font-size: 10px; font-style: normal; letter-spacing: .08em; text-transform: uppercase; transform: scale(.72); transform-origin: left top; }
+  .dus-route { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; overflow: visible; }
+  .dus-route path { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .dus-route .rail { stroke: color-mix(in oklch, var(--dus-marigold), transparent 68%); stroke-width: 1; stroke-dasharray: 2 5; }
+  .dus-route .guide { stroke: color-mix(in oklch, var(--dus-paper), transparent 89%); stroke-width: 6; }
+  .dus-route circle { fill: var(--dus-marigold); opacity: .55; }
+  .dus-packet {
+    position: absolute; left: 0; top: 0; z-index: 5; width: 9px; height: 9px; border-radius: 50%;
+    border: 2px solid var(--dus-paper); background: var(--dus-vermilion);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--dus-vermilion), transparent 72%), 0 0 12px color-mix(in oklch, var(--dus-vermilion), transparent 20%);
+    opacity: 0;
+  }
+  .dus-roadmap {
+    position: absolute; left: 282px; top: 42px; z-index: 4; width: 139px; height: 80px; padding: 8px;
+    border: 1px solid color-mix(in oklch, var(--dus-ink), transparent 84%); border-radius: 8px;
+    background: linear-gradient(145deg, var(--dus-paper), var(--dus-paper-muted)); color: var(--dus-ink);
+    box-shadow: -8px 9px 0 color-mix(in oklch, var(--dus-paper-muted), transparent 64%), 0 15px 28px color-mix(in oklch, var(--dus-ink), transparent 38%);
+    transform-origin: 45% 60%;
+  }
+  .dus-roadmap-head {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 4px;
+    border-bottom: 1px solid color-mix(in oklch, var(--dus-ink), transparent 86%); font-family: var(--font-mono);
+  }
+  .dus-roadmap-head b { font-size: 10px; letter-spacing: .02em; }
+  .dus-roadmap-head span { color: var(--dus-vermilion-ink); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; transform: scale(.72); transform-origin: right center; }
+  .dus-step { display: flex; align-items: center; gap: 4px; height: 16px; color: var(--dus-ink-soft); font-size: 10px; font-weight: 650; transform: scale(.86); transform-origin: left center; width: 116%; }
+  .dus-step i {
+    width: 9px; height: 9px; flex: 0 0 auto; display: grid; place-items: center;
+    border: 1px solid color-mix(in oklch, var(--dus-ink), transparent 66%); border-radius: 3px;
+    color: var(--dus-paper); background: var(--dus-marigold); font-size: 10px; font-style: normal; line-height: 1;
+  }
+  .dus-step.current i { background: transparent; border-color: var(--dus-vermilion); color: var(--dus-vermilion); }
+  .dus-resolve-check { opacity: 0; }
+  .dus-roadmap-foot { position: absolute; left: 10px; bottom: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; color: var(--dus-ink-soft); text-transform: uppercase; transform: scale(.66); transform-origin: left bottom; }
+  .dus-review {
+    position: absolute; left: 145px; top: 108px; z-index: 6; display: flex; align-items: center; gap: 4px;
+    padding: 4px 8px; border: 1px solid color-mix(in oklch, var(--dus-vermilion), transparent 54%); border-radius: 99px;
+    background: var(--dus-paper); box-shadow: 0 7px 14px color-mix(in oklch, var(--dus-ink), transparent 55%);
+    color: var(--dus-ink); font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+    opacity: 0; scale: .78; transform-origin: left center;
+  }
+  .dus-review span { color: var(--dus-vermilion-ink); }
+  .dus-review i { color: var(--dus-marigold); font-style: normal; }
+  .dus-review b { font-size: inherit; letter-spacing: inherit; }
+  .ghp-card.visible .dus-packet { animation: dusTransit var(--dus-cycle) var(--ease-in-out) 1 both; }
+  .ghp-card.visible .dus-review,
+  .ghp-card.visible .dus-resolve-check { animation: dusResolve var(--dus-cycle) var(--ease-out) 1 both; }
+  .ghp-card.visible .dus-roadmap { animation: dusDrift var(--dus-cycle) var(--ease-in-out) 1 both; }
+  .ghp-card.visible .dus-wheel { animation: dusDrift var(--dus-cycle) var(--ease-in-out) 1 reverse both; }
+  @keyframes dusTransit {
+    0%, 12% { opacity: 0; transform: translate3d(116px,65px,0) scale(.5); }
+    18% { opacity: 1; }
+    45% { opacity: 1; transform: translate3d(214px,42px,0) scale(1); }
+    72% { opacity: 1; transform: translate3d(292px,76px,0) scale(.82); }
+    80%, 100% { opacity: 0; transform: translate3d(302px,76px,0) scale(.35); }
+  }
+  @keyframes dusResolve {
+    0%, 52% { opacity: 0; transform: translate3d(0,6px,0) scale(.96); }
+    61%, 100% { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+  }
+  @keyframes dusDrift {
+    0%, 100% { transform: translate3d(0,1px,0) rotate(-.35deg); }
+    50% { transform: translate3d(0,-2px,0) rotate(.25deg); }
+  }
+
+  @container (max-width: 440px) { .dus-stage { transform: translate(-50%,-50%) scale(.88); } }
+  @container (max-width: 360px) { .dus-stage { top: 54%; transform: translate(-50%,-50%) scale(.74); } }
+  @container (max-width: 315px) { .dus-stage { transform: translate(-50%,-50%) scale(.66); } }
+  @container (max-width: 260px) { .dus-stage { transform: translate(-50%,-50%) scale(.55); } }
 
   @media (prefers-reduced-motion: reduce) {
     .pdf-stack, .pdf-sign path, .fin-line, .fin-area, .fin-dot, .fin-ring,
@@ -1739,7 +1857,8 @@
     .voy-ridges .far, .voy-ridges .mid, .voy-route path,
     .voy-plane, .voy-plane svg, .voy-contrail,
     .cod-orbit, .cod-link.trace, .cod-node.lit, .cod-home-ring,
-    .cod-home-glow, .cod-home, .cod-proof i { animation: none !important; }
+    .cod-home-glow, .cod-home, .cod-proof i,
+    .dus-packet, .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { animation: none !important; }
     .ori-mote { opacity: .18; }
     .pdf-sign path { stroke-dashoffset: 0; }
     .fin-line { stroke-dashoffset: 0; }
@@ -1753,6 +1872,10 @@
     .voy-star { opacity: .6; }
     .cod-link.trace { stroke-dasharray: none; opacity: .75; }
     .cod-node.lit, .cod-home-ring, .cod-home-glow, .cod-home, .cod-proof i { opacity: 1; }
+    .dus-packet { opacity: 0; }
+    .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { transform: none; }
+    .dus-review, .dus-resolve-check { opacity: 1; }
+    .dus-wheel { opacity: .19; }
   }
   @media (max-width: 640px) {
     .gh-projects { margin-top: 32px; }
@@ -2862,9 +2985,9 @@
 <!-- ================= GITHUB ================= -->
 <section class="wrap" id="github">
   <div class="kicker r">GitHub</div>
-  <div class="gh r">
-    <h2><svg class="gh-logo" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>Always building something.</h2>
-    <p>Most of my day-to-day commits live in private client repositories — public experiments in AI and automation land at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a> as they're ready.</p>
+  <div class="gh">
+    <h2><svg class="gh-logo" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>Problems, turned into products.</h2>
+    <p>The work below turns recurring problems—understanding code, learning from source material, working with documents, testing forecasts, and planning uncertain journeys—into focused products. Each build begins with a decision or workflow, then makes value visible through evidence, portability, or measurable feedback; source and release history live at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a>.</p>
     <div class="gh-graph">
       <img src="https://ghchart.rshah.org/0066d6/udhawan97" alt="GitHub contribution graph"
            width="663" height="104" loading="lazy" decoding="async"
@@ -3031,7 +3154,7 @@
         <!-- Codemble -->
         <template class="ghp-scene" data-project="codemble">
             <div class="cod-scene">
-              <span class="cod-coordinate">local graph / parser proven</span>
+              <span class="cod-coordinate">parser evidence / understanding proven</span>
               <svg class="cod-map" viewBox="0 0 420 300" preserveAspectRatio="xMidYMid meet">
                 <ellipse class="cod-orbit" cx="210" cy="145" rx="142" ry="94"/>
                 <ellipse class="cod-orbit" cx="210" cy="145" rx="108" ry="128"/>
@@ -3052,6 +3175,32 @@
                 <path class="cod-home" d="M210 119C213 136 223 142 241 145C223 148 213 155 210 172C207 155 197 148 179 145C197 142 207 136 210 119Z"/>
               </svg>
               <span class="cod-proof"><i></i>system lit</span>
+            </div>
+        </template>
+
+        <!-- Dusori -->
+        <template class="ghp-scene" data-project="dusori">
+            <div class="dus-scene" aria-hidden="true">
+              <div class="dus-stage">
+                <span class="dus-wheel"></span>
+                <div class="dus-sources">
+                  <div class="dus-source"><i class="dus-file-mark"></i><b>topic.md</b><em>plain text</em></div>
+                  <div class="dus-source"><i class="dus-file-mark"></i><b>sources.json</b><em>validated</em></div>
+                </div>
+                <svg class="dus-route" viewBox="0 0 430 132" preserveAspectRatio="none">
+                  <path class="guide" d="M116 65C165 64 170 30 218 42S264 91 302 76"/>
+                  <path class="rail" d="M116 65C165 64 170 30 218 42S264 91 302 76"/>
+                  <circle cx="116" cy="65" r="2"/><circle cx="218" cy="42" r="2"/><circle cx="302" cy="76" r="2"/>
+                </svg>
+                <span class="dus-packet"></span>
+                <div class="dus-roadmap">
+                  <div class="dus-roadmap-head"><b>roadmap.md</b><span>file-backed</span></div>
+                  <div class="dus-step"><i>✓</i><span>Choose a topic</span></div>
+                  <div class="dus-step current"><i><span class="dus-resolve-check">✓</span></i><span>Review the source</span></div>
+                  <div class="dus-roadmap-foot">portable</div>
+                </div>
+                <div class="dus-review"><span>external edit</span><i>→</i><b>reviewed</b></div>
+              </div>
             </div>
         </template>
       </div>
