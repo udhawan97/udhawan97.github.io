@@ -176,6 +176,14 @@ test('Dusori is featured with its public product and source links', () => {
   );
 });
 
+test('project maturity labels match the current public rollout order', () => {
+  const status = Object.fromEntries(PROJECTS.map((p) => [p.id, p.status]));
+  assert.deepEqual({ ...status.golavo }, { label: 'Early access', tone: 'beta' });
+  assert.deepEqual({ ...status.voyalier }, { label: 'Early access', tone: 'beta' });
+  assert.deepEqual({ ...status.codemble }, { label: 'Under construction' });
+  assert.deepEqual({ ...status.dusori }, { label: 'Under construction' });
+});
+
 test('Codemble and Dusori explain their distinct user value without leading on AI', () => {
   const codemble = PROJECTS.find((p) => p.id === 'codemble');
   const dusori = PROJECTS.find((p) => p.id === 'dusori');
