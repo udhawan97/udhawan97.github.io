@@ -189,6 +189,14 @@
     --ease-out: cubic-bezier(.16, 1, .3, 1);
     --ease-in: cubic-bezier(.7, 0, .84, 0);
     --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+
+    /* Nindova — Shahi Raat indigo, madder, silk pink, saffron, and cream. */
+    --nin-night: #10143a;
+    --nin-sapphire: #3a4a9e;
+    --nin-madder: #9a3a42;
+    --nin-pink: #c4638a;
+    --nin-saffron: #e0a64b;
+    --nin-cream: #efe1c4;
   }
   [data-theme="dark"] {
     --bg: #000000;
@@ -1318,6 +1326,18 @@
     background: linear-gradient(100deg, transparent 32%, rgba(41,151,255,.24) 50%, transparent 68%);
   }
 
+  /* "Live" means there is a playable public build, not a maturity claim. */
+  .ghp-status.live {
+    color: var(--nin-cream);
+    background: rgba(16,20,58,.72); border-color: color-mix(in srgb, var(--nin-saffron), transparent 48%);
+  }
+  .ghp-status.live .ghp-status-dot {
+    background: var(--nin-saffron); box-shadow: 0 0 6px var(--nin-saffron);
+  }
+  .ghp-status.live::before {
+    background: linear-gradient(100deg, transparent 32%, color-mix(in srgb, var(--nin-saffron), transparent 72%) 50%, transparent 68%);
+  }
+
   .ghp-links { margin-top: auto; display: flex; align-items: center; gap: 18px; }
   .ghp-link {
     display: inline-flex; align-items: center; gap: 7px;
@@ -1984,6 +2004,95 @@
   @container (max-width: 315px) { .dus-stage { transform: translate(-50%,-50%) scale(.66); } }
   @container (max-width: 260px) { .dus-stage { transform: translate(-50%,-50%) scale(.55); } }
 
+  /* ── Nindova — an exposed pair folds away and the bounded Session settles ── */
+  .nin-visual {
+    container-type: inline-size;
+    background:
+      radial-gradient(85% 135% at 78% 118%, color-mix(in srgb, var(--nin-madder), transparent 45%), transparent 64%),
+      linear-gradient(158deg, color-mix(in srgb, var(--nin-sapphire), var(--nin-night) 58%), var(--nin-night));
+  }
+  .nin-visual::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(45deg, transparent 47%, color-mix(in srgb, var(--nin-cream), transparent 94%) 48% 52%, transparent 53%) 0 0 / 28px 28px,
+      linear-gradient(-45deg, transparent 47%, color-mix(in srgb, var(--nin-pink), transparent 93%) 48% 52%, transparent 53%) 0 0 / 28px 28px,
+      radial-gradient(115% 110% at 52% 42%, transparent 50%, color-mix(in srgb, var(--nin-night), transparent 15%));
+  }
+  .nin-scene { position: absolute; inset: 0; overflow: hidden; color: var(--nin-cream); }
+  .nin-stage {
+    position: absolute; left: 50%; top: 50%; width: 432px; height: 132px;
+    transform: translate(-50%,-50%); transform-origin: center;
+  }
+  .nin-story { position: absolute; left: 12px; top: 22px; width: 136px; z-index: 4; }
+  .nin-kicker {
+    display: block; color: var(--nin-saffron); font: 700 10px/1.2 var(--font-mono);
+    letter-spacing: .08em; text-transform: uppercase;
+  }
+  .nin-story strong { display: block; margin-top: 8px; font-size: 14px; line-height: 1.16; letter-spacing: -.015em; }
+  .nin-mound { position: absolute; left: 166px; top: 9px; width: 244px; height: 108px; }
+  .nin-tile {
+    position: absolute; width: 56px; height: 42px; display: grid; place-items: center;
+    border: 1px solid color-mix(in srgb, var(--nin-cream), transparent 55%); border-radius: 7px;
+    background: linear-gradient(150deg, color-mix(in srgb, var(--nin-sapphire), white 8%), color-mix(in srgb, var(--nin-sapphire), var(--nin-night) 34%));
+    box-shadow: 0 7px 13px rgba(4,6,24,.38), inset 0 1px rgba(255,255,255,.08);
+    color: var(--nin-cream); font: 650 8px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
+  }
+  .nin-tile::before {
+    content: ""; position: absolute; top: 7px; width: 7px; height: 7px;
+    border: 1px solid currentColor; transform: rotate(45deg); opacity: .72;
+  }
+  .nin-tile b { margin-top: 14px; font: inherit; }
+  .nin-tile.base-one { left: 3px; top: 58px; }
+  .nin-tile.base-two { left: 55px; top: 58px; }
+  .nin-tile.base-three { left: 107px; top: 58px; }
+  .nin-tile.base-four { left: 159px; top: 58px; }
+  .nin-tile.mid-one { left: 29px; top: 32px; z-index: 2; }
+  .nin-tile.mid-two { left: 81px; top: 32px; z-index: 2; }
+  .nin-tile.mid-three { left: 133px; top: 32px; z-index: 2; }
+  .nin-tile.match {
+    top: 4px; z-index: 3; border-color: color-mix(in srgb, var(--nin-saffron), white 12%);
+    background: linear-gradient(150deg, color-mix(in srgb, var(--nin-madder), white 8%), color-mix(in srgb, var(--nin-madder), var(--nin-night) 28%));
+    color: #fff4dc; box-shadow: 0 7px 16px rgba(4,6,24,.46), 0 0 0 2px color-mix(in srgb, var(--nin-saffron), transparent 77%);
+  }
+  .nin-tile.match.left { left: 55px; }
+  .nin-tile.match.right { left: 111px; }
+  .nin-bloom {
+    position: absolute; left: 105px; top: 17px; z-index: 5; width: 18px; height: 18px;
+    border: 1px solid var(--nin-saffron); transform: rotate(45deg) scale(.35); opacity: 0;
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--nin-pink), transparent 82%), 0 0 20px color-mix(in srgb, var(--nin-saffron), transparent 30%);
+  }
+  .nin-proof {
+    position: absolute; right: 12px; bottom: 6px; z-index: 6; display: inline-flex; align-items: center; gap: 6px;
+    color: color-mix(in srgb, var(--nin-cream), transparent 18%); font: 650 9px/1 var(--font-mono);
+    letter-spacing: .025em; opacity: 0; transform: translateY(5px);
+  }
+  .nin-proof i { width: 6px; height: 6px; transform: rotate(45deg); background: var(--nin-saffron); box-shadow: 0 0 8px color-mix(in srgb, var(--nin-saffron), transparent 22%); }
+  .ghp-card.visible .nin-tile.match.left { animation: ninPairLeft 1.05s var(--ease-in-out) .72s both; }
+  .ghp-card.visible .nin-tile.match.right { animation: ninPairRight 1.05s var(--ease-in-out) .72s both; }
+  .ghp-card.visible .nin-bloom { animation: ninBloom .7s var(--ease-out) 1.2s both; }
+  .ghp-card.visible .nin-proof { animation: ninResolve .5s var(--ease-out) 1.7s both; }
+  @keyframes ninPairLeft {
+    0%, 18% { opacity: 1; transform: none; }
+    68% { opacity: 1; transform: translateX(28px) scale(.94); }
+    100% { opacity: 0; transform: translateX(33px) scale(.66); }
+  }
+  @keyframes ninPairRight {
+    0%, 18% { opacity: 1; transform: none; }
+    68% { opacity: 1; transform: translateX(-28px) scale(.94); }
+    100% { opacity: 0; transform: translateX(-33px) scale(.66); }
+  }
+  @keyframes ninBloom {
+    0% { opacity: 0; transform: rotate(45deg) scale(.3); }
+    42% { opacity: 1; transform: rotate(135deg) scale(1.08); }
+    100% { opacity: 0; transform: rotate(225deg) scale(1.55); }
+  }
+  @keyframes ninResolve { to { opacity: 1; transform: none; } }
+
+  @container (max-width: 440px) { .nin-stage { transform: translate(-50%,-50%) scale(.88); } }
+  @container (max-width: 360px) { .nin-stage { top: 54%; transform: translate(-50%,-50%) scale(.74); } }
+  @container (max-width: 315px) { .nin-stage { transform: translate(-50%,-50%) scale(.66); } }
+  @container (max-width: 260px) { .nin-stage { transform: translate(-50%,-50%) scale(.55); } }
+
   @media (prefers-reduced-motion: reduce) {
     .ori-source, .ori-packet, .ori-document, .ori-doc-sign, .ori-proof,
     .orb-source, .orb-signal, .orb-core-ring, .orb-core, .orb-actions, .orb-proof,
@@ -1995,6 +2104,7 @@
     .cod-network, .cod-evidence, .cod-signal, .cod-node.verified,
     .cod-core-ring, .cod-core, .cod-proof,
     .dus-packet, .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { animation: none !important; }
+    .nin-tile.match, .nin-bloom, .nin-proof { animation: none !important; }
     .ori-source, .ori-document, .ori-doc-sign, .ori-proof,
     .orb-source, .orb-core-ring, .orb-core, .orb-actions, .orb-proof,
     .ghp-card .ghp-tag { opacity: 1; transform: none; }
@@ -2008,6 +2118,8 @@
     .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { transform: none; }
     .dus-review, .dus-resolve-check { opacity: 1; }
     .dus-wheel { opacity: .19; }
+    .nin-tile.match, .nin-bloom { opacity: 0; }
+    .nin-proof { opacity: 1; transform: none; }
   }
   @media (max-width: 640px) {
     .gh-projects { margin-top: 32px; }
@@ -3119,7 +3231,7 @@
   <div class="kicker r">GitHub</div>
   <div class="gh">
     <h2><svg class="gh-logo" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>Problems, turned into products.</h2>
-    <p>The work below turns recurring problems—understanding code, learning from source material, working with documents, testing forecasts, and planning uncertain journeys—into focused products. Each build begins with a decision or workflow, then makes value visible through evidence, portability, or measurable feedback; source and release history live at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a>.</p>
+    <p>The work below turns recurring problems—understanding code, learning from source material, working with documents, testing forecasts, planning uncertain journeys, and making play stop on purpose—into focused products. Each build begins with a decision, workflow, or boundary, then makes value visible through evidence, portability, measurable feedback, or a clear ending; source and release history live at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a>.</p>
     <div class="gh-graph">
       <img src="https://ghchart.rshah.org/0066d6/udhawan97" alt="GitHub contribution graph"
            width="663" height="104" loading="lazy" decoding="async"
@@ -3309,6 +3421,31 @@
                   <div class="dus-step current"><i><span class="dus-resolve-check">✓</span></i><span>Review the source</span></div>
                 </div>
                 <div class="dus-review"><span>external edit</span><i>→</i><b>reviewed</b></div>
+              </div>
+            </div>
+        </template>
+
+        <!-- Nindova -->
+        <template class="ghp-scene" data-project="nindova">
+            <div class="nin-scene" aria-hidden="true">
+              <div class="nin-stage">
+                <div class="nin-story">
+                  <span class="nin-kicker">Pair → settle</span>
+                  <strong>A game with an exit.</strong>
+                </div>
+                <div class="nin-mound">
+                  <span class="nin-tile base-one"><b>belan</b></span>
+                  <span class="nin-tile base-two"><b>tawa</b></span>
+                  <span class="nin-tile base-three"><b>katori</b></span>
+                  <span class="nin-tile base-four"><b>tiffin</b></span>
+                  <span class="nin-tile mid-one"><b>chakla</b></span>
+                  <span class="nin-tile mid-two"><b>chimta</b></span>
+                  <span class="nin-tile mid-three"><b>dabba</b></span>
+                  <span class="nin-tile match left"><b>chai</b></span>
+                  <span class="nin-tile match right"><b>chai</b></span>
+                  <span class="nin-bloom"></span>
+                </div>
+                <span class="nin-proof"><i></i>one session, then goodnight</span>
               </div>
             </div>
         </template>

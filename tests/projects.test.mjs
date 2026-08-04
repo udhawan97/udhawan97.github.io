@@ -176,12 +176,24 @@ test('Dusori is featured with its public product and source links', () => {
   );
 });
 
+test('Nindova is featured with its live product and source links', () => {
+  const nindova = PROJECTS.find((p) => p.id === 'nindova');
+  assert.ok(nindova, 'Nindova is missing from the featured builds');
+  assert.equal(nindova.site, 'https://udhawan97.github.io/Nindova/');
+  assert.equal(nindova.source, 'https://github.com/udhawan97/Nindova');
+  assert.deepEqual(
+    Array.from(nindova.tags),
+    ['Bounded play', 'Always solvable', 'Zero tracking', 'Offline-ready']
+  );
+});
+
 test('project maturity labels match the current public rollout order', () => {
   const status = Object.fromEntries(PROJECTS.map((p) => [p.id, p.status]));
   assert.deepEqual({ ...status.golavo }, { label: 'Early access', tone: 'beta' });
   assert.deepEqual({ ...status.voyalier }, { label: 'Early access', tone: 'beta' });
   assert.deepEqual({ ...status.codemble }, { label: 'Under construction' });
   assert.deepEqual({ ...status.dusori }, { label: 'Under construction' });
+  assert.deepEqual({ ...status.nindova }, { label: 'Live', tone: 'live' });
 });
 
 test('Codemble and Dusori explain their distinct user value without leading on AI', () => {
@@ -198,7 +210,8 @@ test('Codemble and Dusori explain their distinct user value without leading on A
 test('featured builds are framed around user problems and visible value', () => {
   const html = readFileSync(join(root, 'index.html'), 'utf8');
   assert.match(html, /Problems, turned into products\./);
-  assert.match(html, /makes value visible through evidence, portability, or measurable feedback/);
+  assert.match(html, /making play stop on purpose/);
+  assert.match(html, /evidence, portability, measurable feedback, or a clear ending/);
   assert.doesNotMatch(html, /public experiments in AI and automation/);
 });
 
@@ -267,6 +280,14 @@ test('Voyalier explains reviewed travel readiness instead of leading on local AI
     Array.from(voyalier.tags),
     ['Evidence-backed', 'Smart Blueprint', 'Offline-ready', 'Consent-first']
   );
+});
+
+test('Nindova explains bounded play without reward or sleep-performance claims', () => {
+  const nindova = PROJECTS.find((p) => p.id === 'nindova');
+  assert.match(nindova.desc, /every legal choice still reaches the ending/);
+  assert.match(nindova.desc, /no score, streak, timer, tracking, or variable reward/);
+  assert.match(nindova.desc, /offline-ready PWA and standalone file/);
+  assert.doesNotMatch(nindova.desc, /improves? sleep|dopamine|memory/i);
 });
 
 test('Orifold scene resolves mixed operations into one private document', () => {
@@ -363,6 +384,19 @@ test('Codemble scene turns source relationships into a settled proof state', () 
   assert.match(html, /\.ghp-card\.visible \.cod-signal \{ animation: codSignal [^;]+ both; \}/);
   assert.doesNotMatch(html, /@keyframes codOrbit/, 'the learning story should settle instead of orbiting forever');
   assert.match(html, /\.cod-network, \.cod-evidence, \.cod-signal, \.cod-node\.verified,/);
+});
+
+test('Nindova scene resolves one legal pair into a bounded ending', () => {
+  const html = readIndex();
+  assert.match(html, /class="nin-scene" aria-hidden="true"/);
+  assert.match(html, /Pair → settle/);
+  assert.match(html, /A game with an exit\./);
+  assert.match(html, /class="nin-tile match left"[^>]*>.*chai/s);
+  assert.match(html, /class="nin-tile match right"[^>]*>.*chai/s);
+  assert.match(html, /one session, then goodnight/);
+  assert.match(html, /\.ghp-card\.visible \.nin-tile\.match\.left \{ animation: ninPairLeft [^;]+ both; \}/);
+  assert.doesNotMatch(html, /animation: ninPairLeft [^;]+ infinite/, 'the pair-removal story should settle');
+  assert.match(html, /\.nin-tile\.match, \.nin-bloom, \.nin-proof \{ animation: none !important; \}/);
 });
 
 test('project ids are unique — each one needs its own scene template', () => {

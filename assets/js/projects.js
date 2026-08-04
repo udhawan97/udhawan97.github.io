@@ -84,6 +84,18 @@ const PROJECTS = [
     site: 'https://udhawan97.github.io/Dusori/',
     source: 'https://github.com/udhawan97/Dusori',
   },
+  {
+    id: 'nindova',
+    name: 'Nindova',
+    icon: 'assets/logos/nindova.svg',
+    visualClass: 'nin-visual',
+    status: { label: 'Live', tone: 'live' },
+    lang: { dot: 'typescript', label: 'TypeScript' },
+    desc: 'A calm, bounded pair-removal game for the end of the day. Masala Mound layers 36 everyday Indian kitchen forms around one readable rule and guarantees that every legal choice still reaches the ending. The session stays finite—no score, streak, timer, tracking, or variable reward—and ships as an offline-ready PWA and standalone file.',
+    tags: ['Bounded play', 'Always solvable', 'Zero tracking', 'Offline-ready'],
+    site: 'https://udhawan97.github.io/Nindova/',
+    source: 'https://github.com/udhawan97/Nindova',
+  },
 ];
 
 /* Inlined once here instead of once per card. */
