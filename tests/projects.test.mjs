@@ -235,6 +235,18 @@ test('featured product marks are live SVG animations with motion-safe fallbacks'
   }
 });
 
+test('Nindova icon stitches four pairs in sequence before closing the center', () => {
+  const svg = readFileSync(join(root, 'assets/logos/nindova.svg'), 'utf8');
+  assert.match(svg, /animation: nindova-stitch 7s steps\(1, end\) infinite/);
+  assert.match(svg, /\.nindova-pair-two \{ animation-delay: \.35s; \}/);
+  assert.match(svg, /\.nindova-pair-three \{ animation-delay: \.7s; \}/);
+  assert.match(svg, /\.nindova-pair-four \{ animation-delay: 1\.05s; \}/);
+  assert.match(svg, /\.nindova-center \{ animation-delay: 1\.6s; \}/);
+  assert.match(svg, /6%, 88% \{ opacity: 1; \}/);
+  assert.match(svg, /\.nindova-diamond \{[\s\S]*?animation: none !important;[\s\S]*?opacity: 1;/);
+  assert.match(svg, /\.nindova-glow \{[\s\S]*?animation: none !important;[\s\S]*?opacity: 0;/);
+});
+
 test('Orifold explains one private document workflow instead of leading on local AI', () => {
   const orifold = PROJECTS.find((p) => p.id === 'orifold');
   assert.match(orifold.desc, /one complete PDF workflow/);
