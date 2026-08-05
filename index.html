@@ -958,8 +958,9 @@
   .about-copy { min-width: 0; overflow-wrap: break-word; }
   @media (max-width: 880px) {
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
-    /* One column here on — a sticky portrait would trail the bio down the page. */
-    .portrait { position: relative; top: auto; }
+    /* Higher specificity keeps the later sticky base rule from reclaiming the
+       full-width portrait and letting the biography scroll across the photo. */
+    .about-grid .portrait { position: relative; top: auto; }
   }
   /*
    * The bio runs about twice the height of the portrait, which left a long
@@ -2004,107 +2005,159 @@
   @container (max-width: 315px) { .dus-stage { transform: translate(-50%,-50%) scale(.66); } }
   @container (max-width: 260px) { .dus-stage { transform: translate(-50%,-50%) scale(.55); } }
 
+  /* Hallmark · component: Nindova project-card scene · genre: atmospheric
+   * theme: existing Shahi Raat · enrichment: tier-B hand-built SVG palace cutaway
+   * motion: palace-arrive · five-tables-settle · threshold-to-night-room
+   * reduced-motion: complete static state · pre-emit critique: P5 H5 E5 S5 R5 V5
+   */
   /* ── Nindova — five finite Salon tables and one deliberately separate Night Room ── */
   .nin-visual {
     container-type: inline-size;
+    isolation: isolate;
     background:
-      radial-gradient(85% 135% at 78% 118%, color-mix(in srgb, var(--nin-madder), transparent 45%), transparent 64%),
-      linear-gradient(158deg, color-mix(in srgb, var(--nin-sapphire), var(--nin-night) 58%), var(--nin-night));
+      radial-gradient(68% 120% at 76% 112%, color-mix(in oklch, var(--nin-madder), transparent 50%), transparent 68%),
+      linear-gradient(158deg, color-mix(in oklch, var(--nin-sapphire), var(--nin-night) 58%), var(--nin-night));
   }
   .nin-visual::before {
     content: ""; position: absolute; inset: 0; pointer-events: none;
     background:
-      linear-gradient(45deg, transparent 47%, color-mix(in srgb, var(--nin-cream), transparent 94%) 48% 52%, transparent 53%) 0 0 / 28px 28px,
-      linear-gradient(-45deg, transparent 47%, color-mix(in srgb, var(--nin-pink), transparent 93%) 48% 52%, transparent 53%) 0 0 / 28px 28px,
-      radial-gradient(115% 110% at 52% 42%, transparent 50%, color-mix(in srgb, var(--nin-night), transparent 15%));
+      linear-gradient(45deg, transparent 47%, color-mix(in oklch, var(--nin-cream), transparent 94%) 48% 52%, transparent 53%) 0 0 / 28px 28px,
+      linear-gradient(-45deg, transparent 47%, color-mix(in oklch, var(--nin-pink), transparent 93%) 48% 52%, transparent 53%) 0 0 / 28px 28px,
+      radial-gradient(95% 95% at 64% 48%, transparent 45%, color-mix(in oklch, var(--nin-night), transparent 12%));
   }
+  .nin-visual .ghp-status { z-index: 10; }
   .nin-scene { position: absolute; inset: 0; overflow: hidden; color: var(--nin-cream); }
+  .nin-scene::after {
+    content: ""; position: absolute; left: 29%; right: 2%; bottom: 8%; height: 16%; pointer-events: none;
+    background: radial-gradient(ellipse, color-mix(in oklch, var(--nin-saffron), transparent 82%), transparent 70%);
+    opacity: .6;
+  }
   .nin-stage {
-    position: absolute; left: 50%; top: 50%; width: 432px; height: 132px;
-    transform: translate(-50%,-50%); transform-origin: center;
+    position: absolute; left: 50%; top: 51%; width: min(100%, 468px); height: auto;
+    aspect-ratio: 13 / 4; transform: translate(-50%,-50%); transform-origin: center;
   }
-  .nin-story { position: absolute; left: 12px; top: 22px; width: 136px; z-index: 4; }
+  .nin-story {
+    position: absolute; left: 2.6%; top: 25%; width: 25%; z-index: 4;
+    display: grid; grid-template-columns: auto 1fr; gap: 0 6px; align-items: center;
+  }
+  .nin-crest {
+    position: relative; grid-row: 1 / span 2; width: clamp(10px, 2.8cqi, 15px); aspect-ratio: 1; transform: rotate(45deg);
+    border: 1px solid color-mix(in oklch, var(--nin-saffron), transparent 25%);
+    box-shadow: inset 0 0 0 3px color-mix(in oklch, var(--nin-saffron), transparent 84%);
+  }
+  .nin-crest::after {
+    content: ""; position: absolute; inset: 32%; background: var(--nin-saffron);
+  }
   .nin-kicker {
-    display: block; color: var(--nin-saffron); font: 700 10px/1.2 var(--font-mono);
-    letter-spacing: .08em; text-transform: uppercase;
+    display: block; color: var(--nin-saffron); font: 700 clamp(7px, 1.9cqi, 10px)/1.15 var(--font-mono);
+    letter-spacing: .08em; text-transform: uppercase; white-space: nowrap;
   }
-  .nin-story strong { display: block; margin-top: 8px; font-size: 14px; line-height: 1.16; letter-spacing: -.015em; }
-  .nin-floorplan { position: absolute; left: 166px; top: 12px; width: 244px; height: 96px; }
-  .nin-salon, .nin-night-room {
-    position: absolute; top: 4px; height: 82px; border-radius: 9px;
-    box-shadow: 0 9px 18px rgba(4,6,24,.38), inset 0 1px rgba(255,255,255,.06);
+  .nin-kicker span { display: inline; }
+  .nin-story strong {
+    grid-column: 1 / -1; display: block; margin-top: 8px; max-width: 112px;
+    color: var(--nin-cream); font-size: clamp(10px, 2.9cqi, 14px); line-height: 1.14; letter-spacing: -.018em;
+    text-wrap: balance;
   }
-  .nin-salon {
-    left: 0; width: 158px; border: 1px solid color-mix(in srgb, var(--nin-pink), transparent 56%);
-    background: linear-gradient(150deg, color-mix(in srgb, var(--nin-sapphire), white 6%), color-mix(in srgb, var(--nin-sapphire), var(--nin-night) 40%));
+  .nin-story strong::after {
+    content: ""; display: block; width: 34%; height: 1px; margin-top: 8px;
+    background: linear-gradient(90deg, var(--nin-saffron), transparent);
+  }
+  .nin-palace {
+    position: absolute; left: 28%; top: 2%; width: 70%; height: 86%; z-index: 3;
+    display: block; overflow: visible; filter: drop-shadow(0 9px 9px color-mix(in oklch, var(--nin-night), transparent 46%));
+  }
+  .nin-palace text { font-family: var(--font-mono); }
+  .nin-palace-shadow { fill: color-mix(in oklch, var(--nin-night), transparent 28%); }
+  .nin-palace-shell {
+    fill: url(#nin-facade); stroke: color-mix(in oklch, var(--nin-saffron), transparent 35%); stroke-width: 1;
+    opacity: .25; transform: translateY(3px); transform-origin: center;
+  }
+  .nin-roof, .nin-plinth { fill: color-mix(in oklch, var(--nin-madder), var(--nin-night) 46%); }
+  .nin-roof-line, .nin-palace-rule {
+    fill: none; stroke: color-mix(in oklch, var(--nin-saffron), transparent 28%); stroke-width: 1; stroke-linecap: round;
+  }
+  .nin-finial { fill: var(--nin-saffron); }
+  .nin-room-fill { fill: color-mix(in oklch, var(--nin-sapphire), var(--nin-night) 34%); }
+  .nin-room-arch {
+    fill: none; stroke: color-mix(in oklch, var(--nin-cream), transparent 58%); stroke-width: 1;
   }
   .nin-room-label {
-    position: absolute; left: 8px; top: 7px; color: color-mix(in srgb, var(--nin-cream), transparent 14%);
-    font: 700 7px/1 var(--font-mono); letter-spacing: .09em; text-transform: uppercase;
+    fill: color-mix(in oklch, var(--nin-cream), transparent 12%); font-size: 6.8px; font-weight: 760;
+    letter-spacing: .72px; text-transform: uppercase;
   }
   .nin-salon-note {
-    position: absolute; left: 8px; bottom: 6px; color: color-mix(in srgb, var(--nin-cream), transparent 35%);
-    font: 650 7px/1 var(--font-mono); letter-spacing: .05em; text-transform: uppercase;
+    fill: color-mix(in oklch, var(--nin-cream), transparent 34%); font-size: 5.8px; font-weight: 680;
+    letter-spacing: .45px; text-transform: uppercase;
+  }
+  .nin-curtain {
+    fill: color-mix(in oklch, var(--nin-madder), var(--nin-pink) 25%); opacity: .18;
+    transform: scaleX(.7); transform-box: fill-box;
+  }
+  .nin-curtain-left { transform-origin: left center; }
+  .nin-curtain-right { transform-origin: right center; }
+  .nin-curtain-fold {
+    fill: none; stroke: color-mix(in oklch, var(--nin-cream), transparent 72%); stroke-width: .7;
   }
   .nin-table {
-    position: absolute; width: 16px; height: 16px; border: 1px solid color-mix(in srgb, var(--nin-cream), transparent 38%);
-    background: color-mix(in srgb, var(--nin-pink), var(--nin-night) 18%); transform: rotate(45deg) scale(.55); opacity: 0;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--nin-cream), transparent 91%);
+    opacity: 0; transform: translateY(3px) scale(.72); transform-box: fill-box; transform-origin: center;
   }
-  .nin-table::after { content: ""; position: absolute; inset: 4px; background: var(--nin-saffron); opacity: .82; }
-  .nin-table.one { left: 25px; top: 33px; }
-  .nin-table.two { left: 58px; top: 27px; background: color-mix(in srgb, var(--nin-madder), var(--nin-night) 12%); }
-  .nin-table.three { left: 91px; top: 33px; }
-  .nin-table.four { left: 42px; top: 52px; background: color-mix(in srgb, var(--nin-madder), var(--nin-night) 12%); }
-  .nin-table.five { left: 75px; top: 50px; }
+  .nin-table-surface {
+    fill: color-mix(in oklch, var(--nin-pink), var(--nin-night) 22%);
+    stroke: color-mix(in oklch, var(--nin-cream), transparent 28%); stroke-width: .9;
+  }
+  .nin-table.two .nin-table-surface, .nin-table.four .nin-table-surface {
+    fill: color-mix(in oklch, var(--nin-madder), var(--nin-night) 16%);
+  }
+  .nin-table-inlay { fill: var(--nin-saffron); opacity: .9; }
+  .nin-seat { fill: color-mix(in oklch, var(--nin-cream), transparent 50%); }
   .nin-threshold {
-    position: absolute; left: 164px; top: 15px; width: 1px; height: 60px;
-    background: linear-gradient(var(--nin-saffron), transparent 44% 56%, var(--nin-saffron)); opacity: .55;
+    fill: none; stroke: var(--nin-saffron); stroke-width: 1; stroke-dasharray: 3 3; opacity: .24;
+    transform: scaleY(.4); transform-origin: center;
   }
-  .nin-threshold::after {
-    content: ""; position: absolute; left: -2px; top: 28px; width: 5px; height: 5px;
-    background: var(--nin-saffron); transform: rotate(45deg);
+  .nin-threshold-jewel { fill: var(--nin-saffron); opacity: .72; }
+  .nin-door-glow {
+    fill: url(#nin-door-light); opacity: 0; transform: scale(.5); transform-box: fill-box; transform-origin: center;
   }
-  .nin-night-room {
-    right: 0; width: 68px; border: 1px solid color-mix(in srgb, var(--nin-saffron), transparent 45%);
-    background: linear-gradient(150deg, color-mix(in srgb, var(--nin-madder), var(--nin-night) 34%), var(--nin-night));
-    opacity: .45; transform: translateX(5px);
+  .nin-night-room { opacity: .25; transform: translateX(6px); transform-box: fill-box; transform-origin: center; }
+  .nin-night-room .nin-room-fill {
+    fill: color-mix(in oklch, var(--nin-madder), var(--nin-night) 46%);
+    stroke: color-mix(in oklch, var(--nin-saffron), transparent 22%); stroke-width: 1;
   }
-  .nin-night-room .nin-room-label { left: 7px; color: var(--nin-cream); white-space: nowrap; }
-  .nin-moon {
-    position: absolute; left: 24px; top: 28px; width: 20px; height: 20px; border-radius: 50%;
-    box-shadow: -6px 2px 0 0 var(--nin-cream); opacity: .88;
-  }
+  .nin-night-room .nin-room-arch { stroke: color-mix(in oklch, var(--nin-saffron), transparent 42%); }
+  .nin-moon { fill: var(--nin-cream); }
+  .nin-moon-cut { fill: color-mix(in oklch, var(--nin-madder), var(--nin-night) 46%); }
   .nin-night-tile {
-    position: absolute; bottom: 10px; width: 17px; height: 10px; border-radius: 2px;
-    border: 1px solid color-mix(in srgb, var(--nin-saffron), transparent 22%);
-    background: color-mix(in srgb, var(--nin-madder), white 5%);
+    fill: color-mix(in oklch, var(--nin-madder), var(--nin-cream) 7%);
+    stroke: color-mix(in oklch, var(--nin-saffron), transparent 18%); stroke-width: .8;
   }
-  .nin-night-tile.one { left: 14px; transform: rotate(-7deg); }
-  .nin-night-tile.two { left: 26px; bottom: 13px; z-index: 2; }
-  .nin-night-tile.three { left: 38px; transform: rotate(7deg); }
+  .nin-jaali { fill: color-mix(in oklch, var(--nin-saffron), transparent 18%); opacity: .72; }
   .nin-proof {
-    position: absolute; right: 12px; bottom: 6px; z-index: 6; display: inline-flex; align-items: center; gap: 6px;
-    color: color-mix(in srgb, var(--nin-cream), transparent 18%); font: 650 9px/1 var(--font-mono);
-    letter-spacing: .025em; opacity: 0; transform: translateY(5px);
+    position: absolute; right: 3%; bottom: 1%; z-index: 6; display: inline-flex; align-items: center; gap: 6px;
+    color: color-mix(in oklch, var(--nin-cream), transparent 14%); font: 680 clamp(7px, 1.8cqi, 9px)/1 var(--font-mono);
+    letter-spacing: .025em; white-space: nowrap; opacity: 0; transform: translateY(5px);
   }
-  .nin-proof i { width: 6px; height: 6px; transform: rotate(45deg); background: var(--nin-saffron); box-shadow: 0 0 8px color-mix(in srgb, var(--nin-saffron), transparent 22%); }
+  .nin-proof i {
+    width: clamp(5px, 1.3cqi, 7px); aspect-ratio: 1; transform: rotate(45deg); background: var(--nin-saffron);
+    box-shadow: 0 0 8px color-mix(in oklch, var(--nin-saffron), transparent 22%);
+  }
+  .ghp-card.visible .nin-palace-shell { animation: ninPalace .5s var(--ease-out) both; }
+  .ghp-card.visible .nin-curtain { animation: ninCurtain .55s var(--ease-out) .16s both; }
   .ghp-card.visible .nin-table { animation: ninTable .42s var(--ease-out) both; }
-  .ghp-card.visible .nin-table.one { animation-delay: .34s; }
-  .ghp-card.visible .nin-table.two { animation-delay: .48s; }
+  .ghp-card.visible .nin-table.one { animation-delay: .38s; }
+  .ghp-card.visible .nin-table.two { animation-delay: .5s; }
   .ghp-card.visible .nin-table.three { animation-delay: .62s; }
-  .ghp-card.visible .nin-table.four { animation-delay: .76s; }
-  .ghp-card.visible .nin-table.five { animation-delay: .9s; }
-  .ghp-card.visible .nin-night-room { animation: ninRoom .5s var(--ease-out) 1.08s both; }
-  .ghp-card.visible .nin-proof { animation: ninResolve .5s var(--ease-out) 1.5s both; }
-  @keyframes ninTable { to { opacity: 1; transform: rotate(45deg) scale(1); } }
+  .ghp-card.visible .nin-table.four { animation-delay: .74s; }
+  .ghp-card.visible .nin-table.five { animation-delay: .86s; }
+  .ghp-card.visible .nin-threshold, .ghp-card.visible .nin-door-glow { animation: ninThreshold .5s var(--ease-out) .98s both; }
+  .ghp-card.visible .nin-night-room { animation: ninRoom .52s var(--ease-out) 1.14s both; }
+  .ghp-card.visible .nin-proof { animation: ninResolve .48s var(--ease-out) 1.48s both; }
+  @keyframes ninPalace { to { opacity: 1; transform: none; } }
+  @keyframes ninCurtain { to { opacity: 1; transform: none; } }
+  @keyframes ninTable { to { opacity: 1; transform: none; } }
+  @keyframes ninThreshold { to { opacity: 1; transform: none; } }
   @keyframes ninRoom { to { opacity: 1; transform: none; } }
   @keyframes ninResolve { to { opacity: 1; transform: none; } }
-
-  @container (max-width: 440px) { .nin-stage { transform: translate(-50%,-50%) scale(.88); } }
-  @container (max-width: 360px) { .nin-stage { top: 54%; transform: translate(-50%,-50%) scale(.74); } }
-  @container (max-width: 315px) { .nin-stage { transform: translate(-50%,-50%) scale(.66); } }
-  @container (max-width: 260px) { .nin-stage { transform: translate(-50%,-50%) scale(.55); } }
+  @container (max-width: 360px) { .nin-kicker span { display: block; } }
 
   @media (prefers-reduced-motion: reduce) {
     .ori-source, .ori-packet, .ori-document, .ori-doc-sign, .ori-proof,
@@ -2117,7 +2170,8 @@
     .cod-network, .cod-evidence, .cod-signal, .cod-node.verified,
     .cod-core-ring, .cod-core, .cod-proof,
     .dus-packet, .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { animation: none !important; }
-    .nin-table, .nin-night-room, .nin-proof { animation: none !important; }
+    .nin-palace-shell, .nin-curtain, .nin-table,
+    .nin-threshold, .nin-door-glow, .nin-night-room, .nin-proof { animation: none !important; }
     .ori-source, .ori-document, .ori-doc-sign, .ori-proof,
     .orb-source, .orb-core-ring, .orb-core, .orb-actions, .orb-proof,
     .ghp-card .ghp-tag { opacity: 1; transform: none; }
@@ -2131,7 +2185,7 @@
     .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { transform: none; }
     .dus-review, .dus-resolve-check { opacity: 1; }
     .dus-wheel { opacity: .19; }
-    .nin-table { opacity: 1; transform: rotate(45deg) scale(1); }
+    .nin-palace-shell, .nin-curtain, .nin-table, .nin-threshold, .nin-door-glow { opacity: 1; transform: none; }
     .nin-night-room { opacity: 1; transform: none; }
     .nin-proof { opacity: 1; transform: none; }
   }
@@ -3245,7 +3299,7 @@
   <div class="kicker r">GitHub</div>
   <div class="gh">
     <h2><svg class="gh-logo" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>Problems, turned into products.</h2>
-    <p>The work below turns recurring problems—understanding code, learning from source material, working with documents, testing forecasts, planning uncertain journeys, and making play stop on purpose—into focused products. Each build begins with a decision, workflow, or boundary, then makes value visible through evidence, portability, measurable feedback, or a clear ending; source and release history live at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a>.</p>
+    <p>When I’m not working on client projects, I keep learning by turning recurring problems into working products. These open-source builds let me explore new domains, make practical product decisions, and carry an idea from first principles through design, engineering, testing, and release. The projects below span code understanding, learning, documents, forecasting, travel planning, and intentional play; their source and release history live at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a>.</p>
     <div class="gh-graph">
       <img src="https://ghchart.rshah.org/0066d6/udhawan97" alt="GitHub contribution graph"
            width="663" height="104" loading="lazy" decoding="async"
@@ -3444,28 +3498,87 @@
             <div class="nin-scene" aria-hidden="true">
               <div class="nin-stage">
                 <div class="nin-story">
-                  <span class="nin-kicker">House + Night Room</span>
+                  <span class="nin-crest"></span>
+                  <span class="nin-kicker"><span>House +</span> <span>Night Room</span></span>
                   <strong>Every room has an ending.</strong>
                 </div>
-                <div class="nin-floorplan">
-                  <div class="nin-salon">
-                    <span class="nin-room-label">Grand Salon</span>
-                    <span class="nin-table one"></span>
-                    <span class="nin-table two"></span>
-                    <span class="nin-table three"></span>
-                    <span class="nin-table four"></span>
-                    <span class="nin-table five"></span>
-                    <span class="nin-salon-note">5 finite tables</span>
-                  </div>
-                  <span class="nin-threshold"></span>
-                  <div class="nin-night-room">
-                    <span class="nin-room-label">Night Room</span>
-                    <span class="nin-moon"></span>
-                    <span class="nin-night-tile one"></span>
-                    <span class="nin-night-tile two"></span>
-                    <span class="nin-night-tile three"></span>
-                  </div>
-                </div>
+                <svg class="nin-palace" viewBox="0 0 324 118" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <linearGradient id="nin-facade" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="var(--nin-sapphire)"/>
+                      <stop offset="1" stop-color="var(--nin-night)"/>
+                    </linearGradient>
+                    <radialGradient id="nin-door-light">
+                      <stop offset="0" stop-color="var(--nin-saffron)" stop-opacity=".64"/>
+                      <stop offset="1" stop-color="var(--nin-saffron)" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+
+                  <ellipse class="nin-palace-shadow" cx="164" cy="110" rx="154" ry="7"/>
+                  <path class="nin-palace-shell" d="M8 106V34H31L43 22H108L121 7L134 22H202L214 34H236L249 24H296L316 42V106Z"/>
+                  <path class="nin-roof" d="M25 34L42 18H106L121 2L136 18H204L221 34H207L197 26H140L121 11L102 26H47L39 34ZM235 42L249 21H297L319 42H309L292 30H255L245 42Z"/>
+                  <path class="nin-roof-line" d="M25 35H221M235 43H319M42 19H105L121 3L137 19H204M249 22H297"/>
+                  <circle class="nin-finial" cx="121" cy="4" r="2"/>
+                  <circle class="nin-finial" cx="273" cy="21" r="1.6"/>
+                  <path class="nin-plinth" d="M7 102H317V108H7Z"/>
+                  <path class="nin-palace-rule" d="M14 97H311M36 39V101M226 39V101M235 47V101"/>
+
+                  <path class="nin-room-fill" d="M42 101V48C42 39 49 32 58 32H202C211 32 218 39 218 48V101Z"/>
+                  <path class="nin-room-arch" d="M49 101V51C49 44 55 38 62 38H198C205 38 211 44 211 51V101M55 49H205"/>
+                  <text class="nin-room-label" x="130" y="45" text-anchor="middle">GRAND SALON</text>
+                  <text class="nin-salon-note" x="130" y="97" text-anchor="middle">5 FINITE TABLES · 5 CURTAIN CALLS</text>
+
+                  <g class="nin-curtain nin-curtain-left">
+                    <path d="M43 35H65L58 50L61 67L55 82L59 101H43Z"/>
+                    <path class="nin-curtain-fold" d="M49 38L52 56L49 75L52 98M57 38L55 56L57 75L55 98"/>
+                  </g>
+                  <g class="nin-curtain nin-curtain-right">
+                    <path d="M218 35H196L203 50L200 67L206 82L202 101H218Z"/>
+                    <path class="nin-curtain-fold" d="M212 38L209 56L212 75L209 98M204 38L206 56L204 75L206 98"/>
+                  </g>
+
+                  <g class="nin-table one">
+                    <rect class="nin-table-surface" x="70" y="53" width="13" height="13" transform="rotate(45 76.5 59.5)"/>
+                    <rect class="nin-table-inlay" x="74" y="57" width="5" height="5" transform="rotate(45 76.5 59.5)"/>
+                    <circle class="nin-seat" cx="76.5" cy="48" r="1.6"/><circle class="nin-seat" cx="88" cy="59.5" r="1.6"/>
+                  </g>
+                  <g class="nin-table two">
+                    <rect class="nin-table-surface" x="114" y="49" width="13" height="13" transform="rotate(45 120.5 55.5)"/>
+                    <rect class="nin-table-inlay" x="118" y="53" width="5" height="5" transform="rotate(45 120.5 55.5)"/>
+                    <circle class="nin-seat" cx="120.5" cy="44" r="1.6"/><circle class="nin-seat" cx="132" cy="55.5" r="1.6"/>
+                  </g>
+                  <g class="nin-table three">
+                    <rect class="nin-table-surface" x="158" y="53" width="13" height="13" transform="rotate(45 164.5 59.5)"/>
+                    <rect class="nin-table-inlay" x="162" y="57" width="5" height="5" transform="rotate(45 164.5 59.5)"/>
+                    <circle class="nin-seat" cx="164.5" cy="48" r="1.6"/><circle class="nin-seat" cx="176" cy="59.5" r="1.6"/>
+                  </g>
+                  <g class="nin-table four">
+                    <rect class="nin-table-surface" x="92" y="74" width="13" height="13" transform="rotate(45 98.5 80.5)"/>
+                    <rect class="nin-table-inlay" x="96" y="78" width="5" height="5" transform="rotate(45 98.5 80.5)"/>
+                    <circle class="nin-seat" cx="87" cy="80.5" r="1.6"/><circle class="nin-seat" cx="110" cy="80.5" r="1.6"/>
+                  </g>
+                  <g class="nin-table five">
+                    <rect class="nin-table-surface" x="136" y="74" width="13" height="13" transform="rotate(45 142.5 80.5)"/>
+                    <rect class="nin-table-inlay" x="140" y="78" width="5" height="5" transform="rotate(45 142.5 80.5)"/>
+                    <circle class="nin-seat" cx="131" cy="80.5" r="1.6"/><circle class="nin-seat" cx="154" cy="80.5" r="1.6"/>
+                  </g>
+
+                  <ellipse class="nin-door-glow" cx="228" cy="69" rx="15" ry="31"/>
+                  <path class="nin-threshold" d="M226 39V100"/>
+                  <rect class="nin-threshold-jewel" x="223.5" y="66.5" width="5" height="5" transform="rotate(45 226 69)"/>
+
+                  <g class="nin-night-room">
+                    <path class="nin-room-fill" d="M238 101V54C238 44 246 36 256 36H293C303 36 311 44 311 54V101Z"/>
+                    <path class="nin-room-arch" d="M245 101V57C245 49 251 43 259 43H290C298 43 304 49 304 57V101"/>
+                    <text class="nin-room-label" x="274.5" y="51" text-anchor="middle">NIGHT ROOM</text>
+                    <circle class="nin-moon" cx="274" cy="67" r="9"/>
+                    <circle class="nin-moon-cut" cx="278" cy="64" r="9"/>
+                    <rect class="nin-night-tile" x="258" y="84" width="15" height="8" rx="1.5" transform="rotate(-7 265.5 88)"/>
+                    <rect class="nin-night-tile" x="270" y="81" width="15" height="8" rx="1.5"/>
+                    <rect class="nin-night-tile" x="282" y="84" width="15" height="8" rx="1.5" transform="rotate(7 289.5 88)"/>
+                    <path class="nin-jaali" d="M250 96h3v3h-3zM258 96h3v3h-3zM289 96h3v3h-3zM297 96h3v3h-3z"/>
+                  </g>
+                </svg>
                 <span class="nin-proof"><i></i>five finite games · one night room</span>
               </div>
             </div>

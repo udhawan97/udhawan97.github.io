@@ -210,8 +210,9 @@ test('Codemble and Dusori explain their distinct user value without leading on A
 test('featured builds are framed around user problems and visible value', () => {
   const html = readFileSync(join(root, 'index.html'), 'utf8');
   assert.match(html, /Problems, turned into products\./);
-  assert.match(html, /making play stop on purpose/);
-  assert.match(html, /evidence, portability, measurable feedback, or a clear ending/);
+  assert.match(html, /When I’m not working on client projects/);
+  assert.match(html, /turning recurring problems into working products/);
+  assert.match(html, /from first principles through design, engineering, testing, and release/);
   assert.doesNotMatch(html, /public experiments in AI and automation/);
 });
 
@@ -402,15 +403,30 @@ test('Codemble scene turns source relationships into a settled proof state', () 
 test('Nindova scene separates five finite Salon tables from the Night Room', () => {
   const html = readIndex();
   assert.match(html, /class="nin-scene" aria-hidden="true"/);
-  assert.match(html, /House \+ Night Room/);
+  assert.match(html, /House \+<\/span> <span>Night Room/);
   assert.match(html, /Every room has an ending\./);
+  assert.match(html, /class="nin-palace" viewBox="0 0 324 118"/);
+  assert.match(html, /class="nin-curtain nin-curtain-left"/);
+  assert.match(html, /class="nin-curtain nin-curtain-right"/);
   assert.equal((html.match(/class="nin-table [^"]+"/g) || []).length, 5);
   assert.match(html, /class="nin-threshold"/);
+  assert.match(html, /class="nin-door-glow"/);
   assert.match(html, /class="nin-night-room"/);
   assert.match(html, /five finite games · one night room/);
+  assert.match(
+    html,
+    /\.nin-stage \{[\s\S]*?width: min\(100%, 468px\);[\s\S]*?aspect-ratio: 13 \/ 4;/,
+    'the scene should scale with the card instead of clipping a fixed-width stage'
+  );
+  assert.doesNotMatch(
+    html,
+    /@container \(max-width: [^)]+\) \{ \.nin-stage/,
+    'the Nindova stage should not rely on breakpoint-specific scale guesses'
+  );
   assert.match(html, /\.ghp-card\.visible \.nin-table \{ animation: ninTable [^;]+ both; \}/);
   assert.doesNotMatch(html, /animation: ninTable [^;]+ infinite/, 'the House story should settle');
-  assert.match(html, /\.nin-table, \.nin-night-room, \.nin-proof \{ animation: none !important; \}/);
+  assert.match(html, /\.nin-palace-shell, \.nin-curtain, \.nin-table,/);
+  assert.match(html, /\.nin-door-glow, \.nin-night-room, \.nin-proof \{ animation: none !important; \}/);
 });
 
 test('project ids are unique — each one needs its own scene template', () => {
@@ -433,6 +449,15 @@ test('featured builds are not hidden behind a tall parent reveal gate', () => {
   const html = readFileSync(join(root, 'index.html'), 'utf8');
   assert.doesNotMatch(html, /class="gh r"/);
   assert.match(html, /class="gh"/);
+});
+
+test('the stacked About layout releases the portrait before copy can cross it', () => {
+  const html = readIndex();
+  assert.match(
+    html,
+    /@media \(max-width: 880px\) \{[\s\S]*?\.about-grid \.portrait \{ position: relative; top: auto; \}/,
+    'the one-column portrait override must outrank the later sticky base rule'
+  );
 });
 
 test('index.html loads the project data before the main script needs the cards', () => {
