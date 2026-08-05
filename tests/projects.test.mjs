@@ -183,7 +183,7 @@ test('Nindova is featured with its live product and source links', () => {
   assert.equal(nindova.source, 'https://github.com/udhawan97/Nindova');
   assert.deepEqual(
     Array.from(nindova.tags),
-    ['Bounded play', 'Always solvable', 'Zero tracking', 'Offline-ready']
+    ['Five finite games', 'Separate Night Room', 'Private + offline', 'No rankings or ads']
   );
 });
 
@@ -294,11 +294,12 @@ test('Voyalier explains reviewed travel readiness instead of leading on local AI
   );
 });
 
-test('Nindova explains bounded play without reward or sleep-performance claims', () => {
+test('Nindova explains its separate finite House and Night loops without reward claims', () => {
   const nindova = PROJECTS.find((p) => p.id === 'nindova');
-  assert.match(nindova.desc, /every legal choice still reaches the ending/);
-  assert.match(nindova.desc, /no score, streak, timer, tracking, or variable reward/);
-  assert.match(nindova.desc, /offline-ready PWA and standalone file/);
+  assert.match(nindova.desc, /Five finite Grand Salon tables/);
+  assert.match(nindova.desc, /deliberately separate Night Room/);
+  assert.match(nindova.desc, /no account, public ranking, advertising, app telemetry, or randomized prize/);
+  assert.match(nindova.desc, /latest completion per game/);
   assert.doesNotMatch(nindova.desc, /improves? sleep|dopamine|memory/i);
 });
 
@@ -398,17 +399,18 @@ test('Codemble scene turns source relationships into a settled proof state', () 
   assert.match(html, /\.cod-network, \.cod-evidence, \.cod-signal, \.cod-node\.verified,/);
 });
 
-test('Nindova scene resolves one legal pair into a bounded ending', () => {
+test('Nindova scene separates five finite Salon tables from the Night Room', () => {
   const html = readIndex();
   assert.match(html, /class="nin-scene" aria-hidden="true"/);
-  assert.match(html, /Pair → settle/);
-  assert.match(html, /A game with an exit\./);
-  assert.match(html, /class="nin-tile match left"[^>]*>.*chai/s);
-  assert.match(html, /class="nin-tile match right"[^>]*>.*chai/s);
-  assert.match(html, /one session, then goodnight/);
-  assert.match(html, /\.ghp-card\.visible \.nin-tile\.match\.left \{ animation: ninPairLeft [^;]+ both; \}/);
-  assert.doesNotMatch(html, /animation: ninPairLeft [^;]+ infinite/, 'the pair-removal story should settle');
-  assert.match(html, /\.nin-tile\.match, \.nin-bloom, \.nin-proof \{ animation: none !important; \}/);
+  assert.match(html, /House \+ Night Room/);
+  assert.match(html, /Every room has an ending\./);
+  assert.equal((html.match(/class="nin-table [^"]+"/g) || []).length, 5);
+  assert.match(html, /class="nin-threshold"/);
+  assert.match(html, /class="nin-night-room"/);
+  assert.match(html, /five finite games · one night room/);
+  assert.match(html, /\.ghp-card\.visible \.nin-table \{ animation: ninTable [^;]+ both; \}/);
+  assert.doesNotMatch(html, /animation: ninTable [^;]+ infinite/, 'the House story should settle');
+  assert.match(html, /\.nin-table, \.nin-night-room, \.nin-proof \{ animation: none !important; \}/);
 });
 
 test('project ids are unique — each one needs its own scene template', () => {

@@ -2004,7 +2004,7 @@
   @container (max-width: 315px) { .dus-stage { transform: translate(-50%,-50%) scale(.66); } }
   @container (max-width: 260px) { .dus-stage { transform: translate(-50%,-50%) scale(.55); } }
 
-  /* ── Nindova — an exposed pair folds away and the bounded Session settles ── */
+  /* ── Nindova — five finite Salon tables and one deliberately separate Night Room ── */
   .nin-visual {
     container-type: inline-size;
     background:
@@ -2029,63 +2029,76 @@
     letter-spacing: .08em; text-transform: uppercase;
   }
   .nin-story strong { display: block; margin-top: 8px; font-size: 14px; line-height: 1.16; letter-spacing: -.015em; }
-  .nin-mound { position: absolute; left: 166px; top: 9px; width: 244px; height: 108px; }
-  .nin-tile {
-    position: absolute; width: 56px; height: 42px; display: grid; place-items: center;
-    border: 1px solid color-mix(in srgb, var(--nin-cream), transparent 55%); border-radius: 7px;
-    background: linear-gradient(150deg, color-mix(in srgb, var(--nin-sapphire), white 8%), color-mix(in srgb, var(--nin-sapphire), var(--nin-night) 34%));
-    box-shadow: 0 7px 13px rgba(4,6,24,.38), inset 0 1px rgba(255,255,255,.08);
-    color: var(--nin-cream); font: 650 8px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
+  .nin-floorplan { position: absolute; left: 166px; top: 12px; width: 244px; height: 96px; }
+  .nin-salon, .nin-night-room {
+    position: absolute; top: 4px; height: 82px; border-radius: 9px;
+    box-shadow: 0 9px 18px rgba(4,6,24,.38), inset 0 1px rgba(255,255,255,.06);
   }
-  .nin-tile::before {
-    content: ""; position: absolute; top: 7px; width: 7px; height: 7px;
-    border: 1px solid currentColor; transform: rotate(45deg); opacity: .72;
+  .nin-salon {
+    left: 0; width: 158px; border: 1px solid color-mix(in srgb, var(--nin-pink), transparent 56%);
+    background: linear-gradient(150deg, color-mix(in srgb, var(--nin-sapphire), white 6%), color-mix(in srgb, var(--nin-sapphire), var(--nin-night) 40%));
   }
-  .nin-tile b { margin-top: 14px; font: inherit; }
-  .nin-tile.base-one { left: 3px; top: 58px; }
-  .nin-tile.base-two { left: 55px; top: 58px; }
-  .nin-tile.base-three { left: 107px; top: 58px; }
-  .nin-tile.base-four { left: 159px; top: 58px; }
-  .nin-tile.mid-one { left: 29px; top: 32px; z-index: 2; }
-  .nin-tile.mid-two { left: 81px; top: 32px; z-index: 2; }
-  .nin-tile.mid-three { left: 133px; top: 32px; z-index: 2; }
-  .nin-tile.match {
-    top: 4px; z-index: 3; border-color: color-mix(in srgb, var(--nin-saffron), white 12%);
-    background: linear-gradient(150deg, color-mix(in srgb, var(--nin-madder), white 8%), color-mix(in srgb, var(--nin-madder), var(--nin-night) 28%));
-    color: #fff4dc; box-shadow: 0 7px 16px rgba(4,6,24,.46), 0 0 0 2px color-mix(in srgb, var(--nin-saffron), transparent 77%);
+  .nin-room-label {
+    position: absolute; left: 8px; top: 7px; color: color-mix(in srgb, var(--nin-cream), transparent 14%);
+    font: 700 7px/1 var(--font-mono); letter-spacing: .09em; text-transform: uppercase;
   }
-  .nin-tile.match.left { left: 55px; }
-  .nin-tile.match.right { left: 111px; }
-  .nin-bloom {
-    position: absolute; left: 105px; top: 17px; z-index: 5; width: 18px; height: 18px;
-    border: 1px solid var(--nin-saffron); transform: rotate(45deg) scale(.35); opacity: 0;
-    box-shadow: 0 0 0 6px color-mix(in srgb, var(--nin-pink), transparent 82%), 0 0 20px color-mix(in srgb, var(--nin-saffron), transparent 30%);
+  .nin-salon-note {
+    position: absolute; left: 8px; bottom: 6px; color: color-mix(in srgb, var(--nin-cream), transparent 35%);
+    font: 650 7px/1 var(--font-mono); letter-spacing: .05em; text-transform: uppercase;
   }
+  .nin-table {
+    position: absolute; width: 16px; height: 16px; border: 1px solid color-mix(in srgb, var(--nin-cream), transparent 38%);
+    background: color-mix(in srgb, var(--nin-pink), var(--nin-night) 18%); transform: rotate(45deg) scale(.55); opacity: 0;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--nin-cream), transparent 91%);
+  }
+  .nin-table::after { content: ""; position: absolute; inset: 4px; background: var(--nin-saffron); opacity: .82; }
+  .nin-table.one { left: 25px; top: 33px; }
+  .nin-table.two { left: 58px; top: 27px; background: color-mix(in srgb, var(--nin-madder), var(--nin-night) 12%); }
+  .nin-table.three { left: 91px; top: 33px; }
+  .nin-table.four { left: 42px; top: 52px; background: color-mix(in srgb, var(--nin-madder), var(--nin-night) 12%); }
+  .nin-table.five { left: 75px; top: 50px; }
+  .nin-threshold {
+    position: absolute; left: 164px; top: 15px; width: 1px; height: 60px;
+    background: linear-gradient(var(--nin-saffron), transparent 44% 56%, var(--nin-saffron)); opacity: .55;
+  }
+  .nin-threshold::after {
+    content: ""; position: absolute; left: -2px; top: 28px; width: 5px; height: 5px;
+    background: var(--nin-saffron); transform: rotate(45deg);
+  }
+  .nin-night-room {
+    right: 0; width: 68px; border: 1px solid color-mix(in srgb, var(--nin-saffron), transparent 45%);
+    background: linear-gradient(150deg, color-mix(in srgb, var(--nin-madder), var(--nin-night) 34%), var(--nin-night));
+    opacity: .45; transform: translateX(5px);
+  }
+  .nin-night-room .nin-room-label { left: 7px; color: var(--nin-cream); white-space: nowrap; }
+  .nin-moon {
+    position: absolute; left: 24px; top: 28px; width: 20px; height: 20px; border-radius: 50%;
+    box-shadow: -6px 2px 0 0 var(--nin-cream); opacity: .88;
+  }
+  .nin-night-tile {
+    position: absolute; bottom: 10px; width: 17px; height: 10px; border-radius: 2px;
+    border: 1px solid color-mix(in srgb, var(--nin-saffron), transparent 22%);
+    background: color-mix(in srgb, var(--nin-madder), white 5%);
+  }
+  .nin-night-tile.one { left: 14px; transform: rotate(-7deg); }
+  .nin-night-tile.two { left: 26px; bottom: 13px; z-index: 2; }
+  .nin-night-tile.three { left: 38px; transform: rotate(7deg); }
   .nin-proof {
     position: absolute; right: 12px; bottom: 6px; z-index: 6; display: inline-flex; align-items: center; gap: 6px;
     color: color-mix(in srgb, var(--nin-cream), transparent 18%); font: 650 9px/1 var(--font-mono);
     letter-spacing: .025em; opacity: 0; transform: translateY(5px);
   }
   .nin-proof i { width: 6px; height: 6px; transform: rotate(45deg); background: var(--nin-saffron); box-shadow: 0 0 8px color-mix(in srgb, var(--nin-saffron), transparent 22%); }
-  .ghp-card.visible .nin-tile.match.left { animation: ninPairLeft 1.05s var(--ease-in-out) .72s both; }
-  .ghp-card.visible .nin-tile.match.right { animation: ninPairRight 1.05s var(--ease-in-out) .72s both; }
-  .ghp-card.visible .nin-bloom { animation: ninBloom .7s var(--ease-out) 1.2s both; }
-  .ghp-card.visible .nin-proof { animation: ninResolve .5s var(--ease-out) 1.7s both; }
-  @keyframes ninPairLeft {
-    0%, 18% { opacity: 1; transform: none; }
-    68% { opacity: 1; transform: translateX(28px) scale(.94); }
-    100% { opacity: 0; transform: translateX(33px) scale(.66); }
-  }
-  @keyframes ninPairRight {
-    0%, 18% { opacity: 1; transform: none; }
-    68% { opacity: 1; transform: translateX(-28px) scale(.94); }
-    100% { opacity: 0; transform: translateX(-33px) scale(.66); }
-  }
-  @keyframes ninBloom {
-    0% { opacity: 0; transform: rotate(45deg) scale(.3); }
-    42% { opacity: 1; transform: rotate(135deg) scale(1.08); }
-    100% { opacity: 0; transform: rotate(225deg) scale(1.55); }
-  }
+  .ghp-card.visible .nin-table { animation: ninTable .42s var(--ease-out) both; }
+  .ghp-card.visible .nin-table.one { animation-delay: .34s; }
+  .ghp-card.visible .nin-table.two { animation-delay: .48s; }
+  .ghp-card.visible .nin-table.three { animation-delay: .62s; }
+  .ghp-card.visible .nin-table.four { animation-delay: .76s; }
+  .ghp-card.visible .nin-table.five { animation-delay: .9s; }
+  .ghp-card.visible .nin-night-room { animation: ninRoom .5s var(--ease-out) 1.08s both; }
+  .ghp-card.visible .nin-proof { animation: ninResolve .5s var(--ease-out) 1.5s both; }
+  @keyframes ninTable { to { opacity: 1; transform: rotate(45deg) scale(1); } }
+  @keyframes ninRoom { to { opacity: 1; transform: none; } }
   @keyframes ninResolve { to { opacity: 1; transform: none; } }
 
   @container (max-width: 440px) { .nin-stage { transform: translate(-50%,-50%) scale(.88); } }
@@ -2104,7 +2117,7 @@
     .cod-network, .cod-evidence, .cod-signal, .cod-node.verified,
     .cod-core-ring, .cod-core, .cod-proof,
     .dus-packet, .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { animation: none !important; }
-    .nin-tile.match, .nin-bloom, .nin-proof { animation: none !important; }
+    .nin-table, .nin-night-room, .nin-proof { animation: none !important; }
     .ori-source, .ori-document, .ori-doc-sign, .ori-proof,
     .orb-source, .orb-core-ring, .orb-core, .orb-actions, .orb-proof,
     .ghp-card .ghp-tag { opacity: 1; transform: none; }
@@ -2118,7 +2131,8 @@
     .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { transform: none; }
     .dus-review, .dus-resolve-check { opacity: 1; }
     .dus-wheel { opacity: .19; }
-    .nin-tile.match, .nin-bloom { opacity: 0; }
+    .nin-table { opacity: 1; transform: rotate(45deg) scale(1); }
+    .nin-night-room { opacity: 1; transform: none; }
     .nin-proof { opacity: 1; transform: none; }
   }
   @media (max-width: 640px) {
@@ -3430,22 +3444,29 @@
             <div class="nin-scene" aria-hidden="true">
               <div class="nin-stage">
                 <div class="nin-story">
-                  <span class="nin-kicker">Pair → settle</span>
-                  <strong>A game with an exit.</strong>
+                  <span class="nin-kicker">House + Night Room</span>
+                  <strong>Every room has an ending.</strong>
                 </div>
-                <div class="nin-mound">
-                  <span class="nin-tile base-one"><b>belan</b></span>
-                  <span class="nin-tile base-two"><b>tawa</b></span>
-                  <span class="nin-tile base-three"><b>katori</b></span>
-                  <span class="nin-tile base-four"><b>tiffin</b></span>
-                  <span class="nin-tile mid-one"><b>chakla</b></span>
-                  <span class="nin-tile mid-two"><b>chimta</b></span>
-                  <span class="nin-tile mid-three"><b>dabba</b></span>
-                  <span class="nin-tile match left"><b>chai</b></span>
-                  <span class="nin-tile match right"><b>chai</b></span>
-                  <span class="nin-bloom"></span>
+                <div class="nin-floorplan">
+                  <div class="nin-salon">
+                    <span class="nin-room-label">Grand Salon</span>
+                    <span class="nin-table one"></span>
+                    <span class="nin-table two"></span>
+                    <span class="nin-table three"></span>
+                    <span class="nin-table four"></span>
+                    <span class="nin-table five"></span>
+                    <span class="nin-salon-note">5 finite tables</span>
+                  </div>
+                  <span class="nin-threshold"></span>
+                  <div class="nin-night-room">
+                    <span class="nin-room-label">Night Room</span>
+                    <span class="nin-moon"></span>
+                    <span class="nin-night-tile one"></span>
+                    <span class="nin-night-tile two"></span>
+                    <span class="nin-night-tile three"></span>
+                  </div>
                 </div>
-                <span class="nin-proof"><i></i>one session, then goodnight</span>
+                <span class="nin-proof"><i></i>five finite games · one night room</span>
               </div>
             </div>
         </template>
