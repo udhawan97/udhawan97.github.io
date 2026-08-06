@@ -197,6 +197,22 @@
     --nin-pink: #c4638a;
     --nin-saffron: #e0a64b;
     --nin-cream: #efe1c4;
+
+    /* Nimanto — Colour & Material 002, converted to perceptual colour. */
+    --nim-ink: oklch(14.06% .003 69.39);
+    --nim-lacquer: oklch(17.44% .0061 285.74);
+    --nim-umber: oklch(23.34% .0193 66.65);
+    --nim-stone-muted: oklch(60.86% .0215 72.42);
+    --nim-stone-body: oklch(74.16% .0223 79.06);
+    --nim-stone: oklch(84.73% .0276 85.67);
+    --nim-stone-bright: oklch(91.17% .019 83.06);
+    --nim-brass-edge: oklch(50.96% .0712 78.85);
+    --nim-brass: oklch(68.51% .0869 77.31);
+    --nim-brass-bright: oklch(77.16% .0753 77.12);
+    --nim-vermilion: oklch(59.56% .184 32.81);
+    --nim-vermilion-text: oklch(69.54% .1442 33.78);
+    --nim-emerald: oklch(40.06% .072 166.28);
+    --nim-emerald-text: oklch(71.58% .0913 170.42);
   }
   [data-theme="dark"] {
     --bg: #000000;
@@ -421,7 +437,9 @@
     transform: translateY(0) scale(1);
   }
   #topBtn:hover { background: var(--ink); color: var(--bg); box-shadow: 0 14px 36px var(--shadow); }
-  @media (max-width: 640px) { #topBtn { bottom: 18px; left: 16px; } }
+  @media (max-width: 640px) {
+    #topBtn { bottom: 18px; left: auto; right: 16px; width: 46px; padding: 0; gap: 0; font-size: 0; }
+  }
 
 
   /* ── 5. Layout utilities — .wrap, sections, kicker, section orbs ── */
@@ -1317,6 +1335,11 @@
   }
   @keyframes ghpStatusShimmer { 0%, 55% { transform: translateX(-140%); } 100% { transform: translateX(140%); } }
 
+  .ghp-status-sr {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap;
+  }
+
   /* "Beta" variant — same pill, in the site accent blue (early access, not "under construction") */
   .ghp-status.beta {
     color: #7abfff;
@@ -1337,6 +1360,20 @@
   }
   .ghp-status.live::before {
     background: linear-gradient(100deg, transparent 32%, color-mix(in srgb, var(--nin-saffron), transparent 72%) 50%, transparent 68%);
+  }
+
+  /* Nimanto's beta is runnable locally; it is not a hosted candidate backend. */
+  .ghp-status.nimanto {
+    color: var(--nim-stone);
+    background: color-mix(in oklch, var(--nim-lacquer), transparent 16%);
+    border-color: color-mix(in oklch, var(--nim-brass), transparent 36%);
+  }
+  .ghp-status.nimanto .ghp-status-dot {
+    background: var(--nim-vermilion-text);
+    box-shadow: 0 0 6px color-mix(in oklch, var(--nim-vermilion), transparent 20%);
+  }
+  .ghp-status.nimanto::before {
+    background: linear-gradient(100deg, transparent 32%, color-mix(in oklch, var(--nim-brass), transparent 76%) 50%, transparent 68%);
   }
 
   .ghp-links { margin-top: auto; display: flex; align-items: center; gap: 18px; }
@@ -2159,6 +2196,168 @@
   @keyframes ninResolve { to { opacity: 1; transform: none; } }
   @container (max-width: 360px) { .nin-kicker span { display: block; } }
 
+  /* Hallmark · component: Nimanto project-card scene · genre: atmospheric
+   * theme: Colour & Material 002 · enrichment: tier-B hand-built SVG fold lotus
+   * motion: evidence-gather · fold-open · role-fit-resolve
+   * interaction: shared Visit/Source links · hover/focus/active inherited from the card contract
+   * reduced-motion: complete static state · contrast: pass (40–41) · icons: pass (30)
+   * mobile: pass (34, 49, 50–57) · slop: pass (58/58)
+   * pre-emit critique: P5 H5 E5 S5 R5 V5
+   */
+  /* ── Nimanto — evidence becomes an inspectable role fit, then waits for approval ── */
+  .ghp-card[data-project="nimanto"]:hover,
+  .ghp-card[data-project="nimanto"]:focus-within {
+    border-color: color-mix(in oklch, var(--nim-brass), transparent 34%);
+    box-shadow: 0 24px 54px color-mix(in oklch, var(--nim-ink), transparent 18%);
+  }
+  .ghp-card[data-project="nimanto"] .ghp-link.primary { color: var(--nim-brass-bright); }
+  .ghp-card[data-project="nimanto"]:hover .ghp-tag,
+  .ghp-card[data-project="nimanto"]:focus-within .ghp-tag {
+    border-color: color-mix(in oklch, var(--nim-brass), transparent 62%);
+  }
+  .nim-visual {
+    container-type: inline-size;
+    isolation: isolate;
+    background:
+      radial-gradient(68% 116% at 50% 98%, color-mix(in oklch, var(--nim-umber), transparent 28%), transparent 70%),
+      linear-gradient(156deg, var(--nim-lacquer), var(--nim-ink));
+  }
+  .nim-visual::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(90deg, transparent 49.8%, color-mix(in oklch, var(--nim-brass), transparent 88%) 50%, transparent 50.2%),
+      linear-gradient(0deg, transparent 49.8%, color-mix(in oklch, var(--nim-stone), transparent 95%) 50%, transparent 50.2%);
+    opacity: .52;
+  }
+  .nim-visual .ghp-status { z-index: 10; }
+  .nim-scene { position: absolute; inset: 0; overflow: hidden; color: var(--nim-stone); }
+  .nim-stage {
+    position: absolute; left: 50%; top: 50%; width: min(100%, 500px); height: 100%;
+    transform: translate(-50%,-50%); transform-origin: center;
+  }
+  .nim-story {
+    position: absolute; left: 3.6%; top: 12%; width: 28%; z-index: 4;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+  }
+  .nim-kicker {
+    color: var(--nim-brass-bright); font: 700 10px/1 var(--font-mono);
+    letter-spacing: .11em; text-transform: uppercase; white-space: nowrap;
+  }
+  .nim-story strong {
+    max-width: 126px; color: var(--nim-stone-bright); font-size: clamp(11px, 3.1cqi, 14px);
+    line-height: 1.12; letter-spacing: -.018em; text-wrap: balance;
+  }
+  .nim-story-compact { display: none; }
+  .nim-story strong::after {
+    content: ""; display: block; width: 42%; height: 1px; margin-top: 8px;
+    background: linear-gradient(90deg, var(--nim-brass), transparent);
+  }
+  .nim-evidence {
+    position: absolute; left: 3.6%; top: 52%; width: 29%; z-index: 5;
+    display: grid; gap: 4px;
+  }
+  .nim-evidence-line {
+    min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 4px;
+    padding: 4px 4px 4px 8px; border-inline-start: 1px solid var(--nim-brass-edge);
+    color: var(--nim-stone-body); font: 500 10px/1.15 var(--font-mono);
+    opacity: 0; transform: translateX(-7px);
+  }
+  .nim-evidence-line b { color: var(--nim-stone); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nim-evidence-line i { color: var(--nim-brass); font-style: normal; white-space: nowrap; }
+  .nim-evidence-line.confirmed i { color: var(--nim-emerald-text); }
+
+  .nim-flow {
+    position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
+    overflow: visible; pointer-events: none;
+  }
+  .nim-flow path {
+    fill: none; stroke: color-mix(in oklch, var(--nim-brass), transparent 48%);
+    stroke-width: 1; stroke-linecap: round; stroke-dasharray: 2 4;
+  }
+  .nim-flow rect { fill: var(--nim-brass); opacity: .72; }
+  .nim-lotus {
+    position: absolute; left: 33%; top: 4%; width: 31%; height: 90%; z-index: 3;
+    display: block; overflow: visible;
+    filter: drop-shadow(0 10px 8px color-mix(in oklch, var(--nim-ink), transparent 34%));
+  }
+  .nim-lotus-light { fill: var(--nim-vermilion); opacity: .44; }
+  .nim-petal {
+    stroke: var(--nim-brass); stroke-width: 1.15; stroke-linejoin: round;
+    transform-box: fill-box; transform-origin: 50% 100%; opacity: .16;
+  }
+  .nim-petal.dark { fill: var(--nim-lacquer); }
+  .nim-petal.stone { fill: var(--nim-stone); }
+  .nim-petal.center { transform: translateY(8px) scale(.5); }
+  .nim-petal.inner-left { transform: translate(8px,7px) scale(.48) rotate(10deg); }
+  .nim-petal.inner-right { transform: translate(-8px,7px) scale(.48) rotate(-10deg); }
+  .nim-petal.outer-left { transform: translate(12px,7px) scale(.42) rotate(15deg); }
+  .nim-petal.outer-right { transform: translate(-12px,7px) scale(.42) rotate(-15deg); }
+  .nim-fold-line {
+    fill: none; stroke: var(--nim-brass-edge); stroke-width: .8; stroke-linecap: round;
+  }
+  .nim-seed { fill: var(--nim-emerald); stroke: var(--nim-brass); stroke-width: 2; }
+
+  .nim-ledger {
+    position: absolute; left: 65.5%; top: 31%; width: 31%; z-index: 4;
+    padding-inline-start: 8px; border-inline-start: 1px solid var(--nim-brass-edge);
+    display: grid; gap: 4px;
+  }
+  .nim-ledger-title {
+    color: var(--nim-stone-bright); font: 650 10px/1.15 var(--font-mono);
+    letter-spacing: .025em; white-space: nowrap;
+  }
+  .nim-ledger-row {
+    display: grid; grid-template-columns: 5px minmax(0,1fr) auto; align-items: center; gap: 4px;
+    min-width: 0; color: var(--nim-stone-body); font: 500 10px/1.1 var(--font-mono);
+    opacity: 0; transform: translateX(7px);
+  }
+  .nim-ledger-row i { width: 5px; aspect-ratio: 1; transform: rotate(45deg); background: var(--nim-stone-muted); }
+  .nim-ledger-row b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 550; }
+  .nim-ledger-row em { color: var(--nim-brass); font-style: normal; white-space: nowrap; }
+  .nim-ledger-row.supported i { background: var(--nim-emerald-text); }
+  .nim-ledger-row.supported em { color: var(--nim-emerald-text); }
+  .nim-ledger-row.verify i { background: var(--nim-vermilion-text); }
+  .nim-ledger-row.verify em { color: var(--nim-vermilion-text); }
+  .nim-approval {
+    position: absolute; right: 3.6%; bottom: 8%; z-index: 6;
+    display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px;
+    border: 1px solid var(--nim-vermilion); color: var(--nim-stone-bright);
+    background: color-mix(in oklch, var(--nim-lacquer), var(--nim-vermilion) 9%);
+    font: 650 10px/1 var(--font-mono); letter-spacing: .015em; white-space: nowrap;
+    opacity: 0; transform: translateY(5px);
+  }
+  .nim-approval i {
+    width: 6px; aspect-ratio: 1; transform: rotate(45deg); background: var(--nim-vermilion-text);
+  }
+
+  .ghp-card.visible .nim-evidence-line { animation: nimGather .36s var(--ease-out) both; }
+  .ghp-card.visible .nim-evidence-line.two { animation-delay: .14s; }
+  .ghp-card.visible .nim-evidence-line.three { animation-delay: .28s; }
+  .ghp-card.visible .nim-petal { animation: nimFoldOpen .48s var(--ease-out) both; }
+  .ghp-card.visible .nim-petal.center { animation-delay: .45s; }
+  .ghp-card.visible .nim-petal.inner-left { animation-delay: .53s; }
+  .ghp-card.visible .nim-petal.inner-right { animation-delay: .61s; }
+  .ghp-card.visible .nim-petal.outer-left { animation-delay: .69s; }
+  .ghp-card.visible .nim-petal.outer-right { animation-delay: .77s; }
+  .ghp-card.visible .nim-ledger-row { animation: nimResolve .34s var(--ease-out) both; }
+  .ghp-card.visible .nim-ledger-row.one { animation-delay: .98s; }
+  .ghp-card.visible .nim-ledger-row.two { animation-delay: 1.12s; }
+  .ghp-card.visible .nim-ledger-row.three { animation-delay: 1.26s; }
+  .ghp-card.visible .nim-approval { animation: nimResolve .38s var(--ease-out) 1.48s both; }
+  @keyframes nimGather { to { opacity: 1; transform: none; } }
+  @keyframes nimFoldOpen { to { opacity: 1; transform: none; } }
+  @keyframes nimResolve { to { opacity: 1; transform: none; } }
+  @container (max-width: 350px) {
+    .nim-evidence-line i, .nim-ledger-row em { display: none; }
+    .nim-ledger { left: 66%; top: 33%; width: 32%; gap: 4px; }
+    .nim-ledger-title { display: none; }
+    .nim-approval { bottom: 4%; }
+    .nim-story { width: 29%; }
+    .nim-story-wide { display: none; }
+    .nim-story-compact { display: inline; }
+    .nim-story strong::after { margin-top: 4px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .ori-source, .ori-packet, .ori-document, .ori-doc-sign, .ori-proof,
     .orb-source, .orb-signal, .orb-core-ring, .orb-core, .orb-actions, .orb-proof,
@@ -2172,6 +2371,7 @@
     .dus-packet, .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { animation: none !important; }
     .nin-palace-shell, .nin-curtain, .nin-table,
     .nin-threshold, .nin-door-glow, .nin-night-room, .nin-proof { animation: none !important; }
+    .nim-evidence-line, .nim-petal, .nim-ledger-row, .nim-approval { animation: none !important; }
     .ori-source, .ori-document, .ori-doc-sign, .ori-proof,
     .orb-source, .orb-core-ring, .orb-core, .orb-actions, .orb-proof,
     .ghp-card .ghp-tag { opacity: 1; transform: none; }
@@ -2188,10 +2388,12 @@
     .nin-palace-shell, .nin-curtain, .nin-table, .nin-threshold, .nin-door-glow { opacity: 1; transform: none; }
     .nin-night-room { opacity: 1; transform: none; }
     .nin-proof { opacity: 1; transform: none; }
+    .nim-evidence-line, .nim-petal, .nim-ledger-row, .nim-approval { opacity: 1; transform: none !important; }
   }
   @media (max-width: 640px) {
     .gh-projects { margin-top: 32px; }
     .ghp-visual { height: 132px; }
+    .ghp-card[data-project="nimanto"] .ghp-visual { height: 152px; }
     .ghp-body { padding: 18px; }
     .ghp-title-row h4 { font-size: 18px; }
   }
@@ -3299,7 +3501,7 @@
   <div class="kicker r">GitHub</div>
   <div class="gh">
     <h2><svg class="gh-logo" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>Problems, turned into products.</h2>
-    <p>When I’m not working on client projects, I keep learning by turning recurring problems into working products. These open-source builds let me explore new domains, make practical product decisions, and carry an idea from first principles through design, engineering, testing, and release. The projects below span code understanding, learning, documents, forecasting, travel planning, and intentional play; their source and release history live at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a>.</p>
+    <p>When I’m not working on client projects, I keep learning by turning recurring problems into working products. These open-source builds let me explore new domains, make practical product decisions, and carry an idea from first principles through design, engineering, testing, and release. The projects below span code understanding, learning, documents, forecasting, travel planning, candidate-controlled job search, and intentional play; their source and release history live at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a>.</p>
     <div class="gh-graph">
       <img src="https://ghchart.rshah.org/0066d6/udhawan97" alt="GitHub contribution graph"
            width="663" height="104" loading="lazy" decoding="async"
@@ -3489,6 +3691,51 @@
                   <div class="dus-step current"><i><span class="dus-resolve-check">✓</span></i><span>Review the source</span></div>
                 </div>
                 <div class="dus-review"><span>external edit</span><i>→</i><b>reviewed</b></div>
+              </div>
+            </div>
+        </template>
+
+        <!-- Nimanto -->
+        <template class="ghp-scene" data-project="nimanto">
+            <div class="nim-scene" aria-hidden="true">
+              <div class="nim-stage">
+                <div class="nim-story">
+                  <span class="nim-kicker">Evidence first</span>
+                  <strong><span class="nim-story-wide">You approve every handoff.</span><span class="nim-story-compact">You approve.<br>Every step.</span></strong>
+                </div>
+
+                <div class="nim-evidence">
+                  <span class="nim-evidence-line one"><b>resume</b><i>pending</i></span>
+                  <span class="nim-evidence-line two confirmed"><b>work auth</b><i>confirmed</i></span>
+                  <span class="nim-evidence-line three"><b>role</b><i>retrieved</i></span>
+                </div>
+
+                <svg class="nim-flow" viewBox="0 0 500 152" preserveAspectRatio="none">
+                  <path d="M146 91C168 91 176 76 194 76"/>
+                  <path d="M306 76C326 76 334 64 350 64"/>
+                  <rect x="190" y="72" width="7" height="7" transform="rotate(45 193.5 75.5)"/>
+                  <rect x="346" y="60" width="7" height="7" transform="rotate(45 349.5 63.5)"/>
+                </svg>
+
+                <svg class="nim-lotus" viewBox="0 0 100 140" preserveAspectRatio="xMidYMid meet">
+                  <circle class="nim-lotus-light" cx="50" cy="96" r="18"/>
+                  <path class="nim-petal dark outer-left" d="M50 98C20 101 4 83 7 58C29 57 46 74 50 98Z"/>
+                  <path class="nim-petal dark outer-right" d="M50 98C80 101 96 83 93 58C71 57 54 74 50 98Z"/>
+                  <path class="nim-petal stone inner-left" d="M50 98C27 91 19 64 24 37C45 51 54 74 50 98Z"/>
+                  <path class="nim-petal stone inner-right" d="M50 98C73 91 81 64 76 37C55 51 46 74 50 98Z"/>
+                  <path class="nim-petal dark center" d="M50 98C36 77 39 39 50 10C61 39 64 77 50 98Z"/>
+                  <path class="nim-fold-line" d="M50 97L50 14M49 96L25 41M51 96L75 41M48 96L9 62M52 96L91 62"/>
+                  <circle class="nim-seed" cx="50" cy="98" r="5"/>
+                </svg>
+
+                <div class="nim-ledger">
+                  <span class="nim-ledger-title">role fit · inspectable</span>
+                  <span class="nim-ledger-row one supported"><i></i><b>criteria</b><em>supported</em></span>
+                  <span class="nim-ledger-row two"><i></i><b>location</b><em>review</em></span>
+                  <span class="nim-ledger-row three verify"><i></i><b>sponsor</b><em>verify</em></span>
+                </div>
+
+                <span class="nim-approval"><i></i>approve yourself</span>
               </div>
             </div>
         </template>

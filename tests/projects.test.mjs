@@ -92,6 +92,7 @@ test('app icon renders motion and static twins when a staticIcon is given', () =
 test('status pill carries its tone as a class', () => {
   const html = projectCardHtml({ ...project, status: { label: 'Beta', tone: 'beta' } }, '');
   assert.match(html, /<span class="ghp-status beta"><span class="ghp-status-dot"><\/span>Beta<\/span>/);
+  assert.match(html, /<span class="ghp-status-sr">Status: Beta<\/span>/);
 });
 
 test('status pill with no tone renders the plain pill', () => {
@@ -112,7 +113,7 @@ test('scene markup is slotted into the visual, behind the visual class', () => {
 
 test('card is an article the reveal observer can pick up', () => {
   const html = projectCardHtml(project, '');
-  assert.match(html.trim(), /^<article class="ghp-card r d1"/);
+  assert.match(html.trim(), /^<article class="ghp-card r d1" data-project="orifold"/);
 });
 
 test('stagger delay follows the card position, capped at the last delay class', () => {
@@ -187,12 +188,24 @@ test('Nindova is featured with its live product and source links', () => {
   );
 });
 
+test('Nimanto is featured with its public product and source links', () => {
+  const nimanto = PROJECTS.find((p) => p.id === 'nimanto');
+  assert.ok(nimanto, 'Nimanto is missing from the featured builds');
+  assert.equal(nimanto.site, 'https://udhawan97.github.io/Nimanto/');
+  assert.equal(nimanto.source, 'https://github.com/udhawan97/Nimanto');
+  assert.deepEqual(
+    Array.from(nimanto.tags),
+    ['Candidate-controlled', 'Evidence-first', 'Local-first', 'Approval-gated']
+  );
+});
+
 test('project maturity labels match the current public rollout order', () => {
   const status = Object.fromEntries(PROJECTS.map((p) => [p.id, p.status]));
   assert.deepEqual({ ...status.golavo }, { label: 'Early access', tone: 'beta' });
   assert.deepEqual({ ...status.voyalier }, { label: 'Early access', tone: 'beta' });
   assert.deepEqual({ ...status.codemble }, { label: 'Under construction' });
   assert.deepEqual({ ...status.dusori }, { label: 'Under construction' });
+  assert.deepEqual({ ...status.nimanto }, { label: 'Local beta', tone: 'nimanto' });
   assert.deepEqual({ ...status.nindova }, { label: 'Live', tone: 'live' });
 });
 
@@ -213,6 +226,7 @@ test('featured builds are framed around user problems and visible value', () => 
   assert.match(html, /When I’m not working on client projects/);
   assert.match(html, /turning recurring problems into working products/);
   assert.match(html, /from first principles through design, engineering, testing, and release/);
+  assert.match(html, /candidate-controlled job search/);
   assert.doesNotMatch(html, /public experiments in AI and automation/);
 });
 
@@ -246,6 +260,16 @@ test('Nindova icon stitches four pairs in sequence before closing the center', (
   assert.match(svg, /6%, 88% \{ opacity: 1; \}/);
   assert.match(svg, /\.nindova-diamond \{[\s\S]*?animation: none !important;[\s\S]*?opacity: 1;/);
   assert.match(svg, /\.nindova-glow \{[\s\S]*?animation: none !important;[\s\S]*?opacity: 0;/);
+});
+
+test('Nimanto icon opens five petals once and provides a still reduced-motion twin', () => {
+  const svg = readFileSync(join(root, 'assets/logos/nimanto.svg'), 'utf8');
+  const still = readFileSync(join(root, 'assets/logos/nimanto-static.svg'), 'utf8');
+  assert.equal((svg.match(/class="nim-petal-(?:dark|stone)"/g) || []).length, 5);
+  assert.match(svg, /dur="4\.4s" repeatCount="1" fill="freeze"/);
+  assert.match(svg, /class="nim-seed"/);
+  assert.doesNotMatch(still, /<animate(?:Transform)?\b/);
+  assert.equal((still.match(/class="nim-petal-(?:dark|stone)"/g) || []).length, 5);
 });
 
 test('Orifold explains one private document workflow instead of leading on local AI', () => {
@@ -302,6 +326,16 @@ test('Nindova explains its separate finite House and Night loops without reward 
   assert.match(nindova.desc, /no account, public ranking, advertising, app telemetry, or randomized prize/);
   assert.match(nindova.desc, /latest completion per game/);
   assert.doesNotMatch(nindova.desc, /improves? sleep|dopamine|memory/i);
+});
+
+test('Nimanto explains candidate control without promising employment or sponsorship', () => {
+  const nimanto = PROJECTS.find((p) => p.id === 'nimanto');
+  assert.match(nimanto.desc, /private, local-first job-search workbench for H-1B professionals/);
+  assert.match(nimanto.desc, /imported claims stay pending until confirmed/);
+  assert.match(nimanto.desc, /deterministic matching shows support and blockers requirement by requirement/);
+  assert.match(nimanto.desc, /nothing leaves the machine without assurance plus explicit approval/);
+  assert.match(nimanto.desc, /never screens candidates, predicts hiring odds, or promises sponsorship/);
+  assert.doesNotMatch(nimanto.desc, /auto-apply|guaranteed|legal advice/i);
 });
 
 test('Orifold scene resolves mixed operations into one private document', () => {
@@ -427,6 +461,28 @@ test('Nindova scene separates five finite Salon tables from the Night Room', () 
   assert.doesNotMatch(html, /animation: ninTable [^;]+ infinite/, 'the House story should settle');
   assert.match(html, /\.nin-palace-shell, \.nin-curtain, \.nin-table,/);
   assert.match(html, /\.nin-door-glow, \.nin-night-room, \.nin-proof \{ animation: none !important; \}/);
+});
+
+test('Nimanto scene turns confirmed evidence into an inspectable, approval-gated handoff', () => {
+  const html = readIndex();
+  assert.match(html, /class="nim-scene" aria-hidden="true"/);
+  assert.match(html, /Evidence first/);
+  assert.match(html, /You approve every handoff\./);
+  assert.match(html, /class="nim-story-compact">You approve\.<br>Every step\.<\/span>/);
+  assert.equal((html.match(/class="nim-evidence-line [^"]+"/g) || []).length, 3);
+  assert.equal((html.match(/class="nim-petal [^"]+"/g) || []).length, 5);
+  assert.equal((html.match(/class="nim-ledger-row [^"]+"/g) || []).length, 3);
+  assert.match(html, /role fit · inspectable/);
+  assert.match(html, /criteria<\/b><em>supported/);
+  assert.match(html, /sponsor<\/b><em>verify/);
+  assert.match(html, /approve yourself/);
+  assert.match(html, /\.ghp-card\[data-project="nimanto"\] \.ghp-visual \{ height: 152px; \}/);
+  assert.match(html, /#topBtn \{ bottom: 18px; left: auto; right: 16px; width: 46px;/);
+  assert.match(html, /\.ghp-card\.visible \.nim-petal \{ animation: nimFoldOpen [^;]+ both; \}/);
+  assert.doesNotMatch(html, /animation: nim(?:Gather|FoldOpen|Resolve) [^;]+ infinite/);
+  assert.match(html, /\.nim-evidence-line, \.nim-petal, \.nim-ledger-row, \.nim-approval \{ animation: none !important; \}/);
+  assert.match(html, /\.nim-evidence-line, \.nim-petal, \.nim-ledger-row, \.nim-approval \{ opacity: 1; transform: none !important; \}/);
+  assert.doesNotMatch(html, /automatic application|hiring odds|sponsorship guaranteed/i);
 });
 
 test('project ids are unique — each one needs its own scene template', () => {

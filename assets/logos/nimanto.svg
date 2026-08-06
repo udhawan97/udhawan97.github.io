@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="The Nimanto fold lotus: five brass-edged petals opening around an emerald seed">
+  <title>Nimanto — the fold lotus</title>
+  <style>
+    :root {
+      --nim-ink: oklch(14.06% 0.003 69.39);
+      --nim-lacquer: oklch(17.44% 0.0061 285.74);
+      --nim-umber: oklch(23.34% 0.0193 66.65);
+      --nim-stone: oklch(84.73% 0.0276 85.67);
+      --nim-brass: oklch(68.51% 0.0869 77.31);
+      --nim-brass-dark: oklch(60.68% 0.0787 76.78);
+      --nim-vermilion: oklch(59.56% 0.184 32.81);
+      --nim-vermilion-soft: oklch(69.54% 0.1442 33.78);
+      --nim-emerald: oklch(40.06% 0.072 166.28);
+    }
+    .nim-ground { fill: url(#nim-ground); }
+    .nim-light { fill: url(#nim-light); }
+    .nim-petal-dark { fill: var(--nim-lacquer); stroke: var(--nim-brass); }
+    .nim-petal-stone { fill: var(--nim-stone); stroke: var(--nim-brass); }
+    .nim-fold { fill: none; stroke: var(--nim-brass-dark); }
+    .nim-seed { fill: var(--nim-emerald); }
+    .nim-seed-ring { fill: none; stroke: var(--nim-brass); }
+  </style>
+  <defs>
+    <radialGradient id="nim-ground" cx="50%" cy="50%" r="66%">
+      <stop offset="0" stop-color="var(--nim-umber)"/>
+      <stop offset="1" stop-color="var(--nim-ink)"/>
+    </radialGradient>
+    <radialGradient id="nim-light" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="var(--nim-vermilion-soft)"/>
+      <stop offset=".4" stop-color="var(--nim-vermilion)" stop-opacity=".75"/>
+      <stop offset="1" stop-color="var(--nim-vermilion)" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect class="nim-ground" width="200" height="200" rx="40"/>
+  <g transform="translate(36 34) scale(2.05)" stroke-linejoin="round">
+    <circle class="nim-light" cx="32" cy="50" r="11" opacity=".72">
+      <animate attributeName="opacity" values="0;0;1;.72" keyTimes="0;.3;.68;1" dur="4.4s" repeatCount="1" fill="freeze"/>
+    </circle>
+
+    <g transform="translate(33.63 47.48)">
+      <g transform="rotate(33)">
+        <animateTransform attributeName="transform" type="rotate" additive="sum" values="-33;-33;0;0" keyTimes="0;.084;.664;1" calcMode="spline" keySplines="0 0 1 1;.16 1 .3 1;0 0 1 1" dur="4.4s" repeatCount="1" fill="freeze"/>
+        <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.084;.664;1" dur="4.4s" repeatCount="1" fill="freeze"/>
+        <path class="nim-petal-dark" d="M0-36Q9.8-25.2 6.6-10.8Q4-1.98 0 0Q-4-1.98-6.6-10.8Q-9.8-25.2 0-36Z" stroke-width=".5"/>
+        <path class="nim-fold" d="M0 0V-36" stroke-width=".4"/>
+      </g>
+    </g>
+    <g transform="translate(30.64 47.33)">
+      <g transform="rotate(-27)">
+        <animateTransform attributeName="transform" type="rotate" additive="sum" values="27;27;0;0" keyTimes="0;.252;.832;1" calcMode="spline" keySplines="0 0 1 1;.16 1 .3 1;0 0 1 1" dur="4.4s" repeatCount="1" fill="freeze"/>
+        <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.252;.832;1" dur="4.4s" repeatCount="1" fill="freeze"/>
+        <path class="nim-petal-dark" d="M0-34.5Q9.31-24.15 6.27-10.35Q3.8-1.9 0 0Q-3.8-1.9-6.27-10.35Q-9.31-24.15 0-34.5Z" stroke-width=".5"/>
+        <path class="nim-fold" d="M0 0V-34.5" stroke-width=".4"/>
+      </g>
+    </g>
+    <g transform="translate(32.16 47)">
+      <g transform="rotate(3)">
+        <animateTransform attributeName="transform" type="rotate" additive="sum" values="-3;-3;0;0" keyTimes="0;.168;.748;1" calcMode="spline" keySplines="0 0 1 1;.16 1 .3 1;0 0 1 1" dur="4.4s" repeatCount="1" fill="freeze"/>
+        <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.168;.748;1" dur="4.4s" repeatCount="1" fill="freeze"/>
+        <path class="nim-petal-dark" d="M0-41.5Q11.03-29.05 7.43-12.45Q4.5-2.28 0 0Q-4.5-2.28-7.43-12.45Q-11.03-29.05 0-41.5Z" stroke-width=".5"/>
+        <path class="nim-fold" d="M0 0V-41.5" stroke-width=".4"/>
+      </g>
+    </g>
+    <g transform="translate(34.7 48.68)">
+      <g transform="rotate(64)">
+        <animateTransform attributeName="transform" type="rotate" additive="sum" values="-64;-64;0;0" keyTimes="0;0;.58;1" calcMode="spline" keySplines="0 0 1 1;.16 1 .3 1;0 0 1 1" dur="4.4s" repeatCount="1" fill="freeze"/>
+        <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0;.58;1" dur="4.4s" repeatCount="1" fill="freeze"/>
+        <path class="nim-petal-stone" d="M0-27.5Q8.08-19.25 5.45-8.25Q3.3-1.51 0 0Q-3.3-1.51-5.45-8.25Q-8.08-19.25 0-27.5Z" stroke-width=".5"/>
+        <path class="nim-fold" d="M0 0V-27.5" stroke-width=".4"/>
+      </g>
+    </g>
+    <g transform="translate(29.51 48.32)">
+      <g transform="rotate(-56)">
+        <animateTransform attributeName="transform" type="rotate" additive="sum" values="56;56;0;0" keyTimes="0;.336;.916;1" calcMode="spline" keySplines="0 0 1 1;.16 1 .3 1;0 0 1 1" dur="4.4s" repeatCount="1" fill="freeze"/>
+        <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.336;.916;1" dur="4.4s" repeatCount="1" fill="freeze"/>
+        <path class="nim-petal-stone" d="M0-25.5Q7.59-17.85 5.12-7.65Q3.1-1.4 0 0Q-3.1-1.4-5.12-7.65Q-7.59-17.85 0-25.5Z" stroke-width=".5"/>
+        <path class="nim-fold" d="M0 0V-25.5" stroke-width=".4"/>
+      </g>
+    </g>
+
+    <g>
+      <animate attributeName="opacity" values="0;1;1" keyTimes="0;.2;1" dur="4.4s" repeatCount="1" fill="freeze"/>
+      <circle class="nim-seed" cx="32" cy="50" r="3.1"/>
+      <circle class="nim-seed-ring" cx="32" cy="50" r="4.2" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

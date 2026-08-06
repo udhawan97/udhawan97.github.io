@@ -85,6 +85,19 @@ const PROJECTS = [
     source: 'https://github.com/udhawan97/Dusori',
   },
   {
+    id: 'nimanto',
+    name: 'Nimanto',
+    icon: 'assets/logos/nimanto.svg',
+    staticIcon: 'assets/logos/nimanto-static.svg',
+    visualClass: 'nim-visual',
+    status: { label: 'Local beta', tone: 'nimanto' },
+    lang: { dot: 'typescript', label: 'TypeScript' },
+    desc: 'A private, local-first job-search workbench for H-1B professionals. It turns career evidence, roles, sponsorship signals, application tracking, and review packets into one inspectable candidate-side path: imported claims stay pending until confirmed, deterministic matching shows support and blockers requirement by requirement, and nothing leaves the machine without assurance plus explicit approval. It never screens candidates, predicts hiring odds, or promises sponsorship.',
+    tags: ['Candidate-controlled', 'Evidence-first', 'Local-first', 'Approval-gated'],
+    site: 'https://udhawan97.github.io/Nimanto/',
+    source: 'https://github.com/udhawan97/Nimanto',
+  },
+  {
     id: 'nindova',
     name: 'Nindova',
     icon: 'assets/logos/nindova.svg',
@@ -141,8 +154,11 @@ function projectCardHtml(project, sceneHtml, index = 0) {
   const tags = project.tags
     .map((tag) => `<span class="ghp-tag">${esc(tag)}</span>`)
     .join('\n              ');
+  const accessibleStatus = project.status
+    ? `<span class="ghp-status-sr">Status: ${esc(project.status.label)}</span>`
+    : '';
 
-  return `<article class="ghp-card r d${delay}">
+  return `<article class="ghp-card r d${delay}" data-project="${esc(project.id)}">
           <div class="${visual}" aria-hidden="true">
             ${statusHtml(project.status)}
             ${sceneHtml}
@@ -152,6 +168,7 @@ function projectCardHtml(project, sceneHtml, index = 0) {
               <div class="ghp-name">
                 ${appIconHtml(project)}
                 <h4>${esc(project.name)}</h4>
+                ${accessibleStatus}
               </div>
               <span class="ghp-lang"><span class="ghp-dot ${esc(project.lang.dot)}"></span>${esc(project.lang.label)}</span>
             </div>
