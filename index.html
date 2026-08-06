@@ -2199,6 +2199,7 @@
   /* Hallmark · component: Nimanto project-card scene · genre: atmospheric
    * theme: Colour & Material 002 · enrichment: tier-B hand-built SVG fold lotus
    * motion: evidence-gather · fold-open · role-fit-resolve
+   * routing: clipped connector gutters · text-lane intersections: none
    * interaction: shared Visit/Source links · hover/focus/active inherited from the card contract
    * reduced-motion: complete static state · contrast: pass (40–41) · icons: pass (30)
    * mobile: pass (34, 49, 50–57) · slop: pass (58/58)
@@ -2232,7 +2233,7 @@
   .nim-visual .ghp-status { z-index: 10; }
   .nim-scene { position: absolute; inset: 0; overflow: hidden; color: var(--nim-stone); }
   .nim-stage {
-    position: absolute; left: 50%; top: 50%; width: min(100%, 500px); height: 100%;
+    position: absolute; left: 50%; top: 50%; width: min(100%, 432px); height: 100%;
     transform: translate(-50%,-50%); transform-origin: center;
   }
   .nim-story {
@@ -2240,8 +2241,8 @@
     display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
   }
   .nim-kicker {
-    color: var(--nim-brass-bright); font: 700 10px/1 var(--font-mono);
-    letter-spacing: .11em; text-transform: uppercase; white-space: nowrap;
+    color: var(--nim-brass-bright); font: 700 9px/1 var(--font-mono);
+    letter-spacing: .08em; text-transform: uppercase; white-space: nowrap;
   }
   .nim-story strong {
     max-width: 126px; color: var(--nim-stone-bright); font-size: clamp(11px, 3.1cqi, 14px);
@@ -2259,7 +2260,7 @@
   .nim-evidence-line {
     min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 4px;
     padding: 4px 4px 4px 8px; border-inline-start: 1px solid var(--nim-brass-edge);
-    color: var(--nim-stone-body); font: 500 10px/1.15 var(--font-mono);
+    color: var(--nim-stone-body); font: 500 9px/1.15 var(--font-mono);
     opacity: 0; transform: translateX(-7px);
   }
   .nim-evidence-line b { color: var(--nim-stone); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -2270,11 +2271,15 @@
     position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
     overflow: visible; pointer-events: none;
   }
-  .nim-flow path {
+  .nim-connector {
     fill: none; stroke: color-mix(in oklch, var(--nim-brass), transparent 48%);
-    stroke-width: 1; stroke-linecap: round; stroke-dasharray: 2 4;
+    stroke-width: 1; stroke-linecap: round; stroke-dasharray: 2 5;
+    vector-effect: non-scaling-stroke;
   }
-  .nim-flow rect { fill: var(--nim-brass); opacity: .72; }
+  .nim-flow-port {
+    fill: var(--nim-brass); stroke: var(--nim-lacquer); stroke-width: 2;
+    paint-order: stroke fill; opacity: .82; vector-effect: non-scaling-stroke;
+  }
   .nim-lotus {
     position: absolute; left: 33%; top: 4%; width: 31%; height: 90%; z-index: 3;
     display: block; overflow: visible;
@@ -2303,8 +2308,8 @@
     display: grid; gap: 4px;
   }
   .nim-ledger-title {
-    color: var(--nim-stone-bright); font: 650 10px/1.15 var(--font-mono);
-    letter-spacing: .025em; white-space: nowrap;
+    color: var(--nim-stone-bright); font: 650 9px/1.15 var(--font-mono);
+    letter-spacing: .015em; white-space: nowrap;
   }
   .nim-ledger-row {
     display: grid; grid-template-columns: 5px minmax(0,1fr) auto; align-items: center; gap: 4px;
@@ -2320,10 +2325,9 @@
   .nim-ledger-row.verify em { color: var(--nim-vermilion-text); }
   .nim-approval {
     position: absolute; right: 3.6%; bottom: 8%; z-index: 6;
-    display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px;
-    border: 1px solid var(--nim-vermilion); color: var(--nim-stone-bright);
-    background: color-mix(in oklch, var(--nim-lacquer), var(--nim-vermilion) 9%);
-    font: 650 10px/1 var(--font-mono); letter-spacing: .015em; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 4px;
+    color: var(--nim-stone-bright);
+    font: 650 10px/1 var(--font-mono); letter-spacing: .035em; white-space: nowrap;
     opacity: 0; transform: translateY(5px);
   }
   .nim-approval i {
@@ -2353,6 +2357,7 @@
     .nim-ledger-title { display: none; }
     .nim-approval { bottom: 4%; }
     .nim-story { width: 29%; }
+    .nim-kicker { font-size: 7.5px; letter-spacing: .04em; }
     .nim-story-wide { display: none; }
     .nim-story-compact { display: inline; }
     .nim-story strong::after { margin-top: 4px; }
@@ -3711,10 +3716,18 @@
                 </div>
 
                 <svg class="nim-flow" viewBox="0 0 500 152" preserveAspectRatio="none">
-                  <path d="M146 91C168 91 176 76 194 76"/>
-                  <path d="M306 76C326 76 334 64 350 64"/>
-                  <rect x="190" y="72" width="7" height="7" transform="rotate(45 193.5 75.5)"/>
-                  <rect x="346" y="60" width="7" height="7" transform="rotate(45 349.5 63.5)"/>
+                  <defs>
+                    <clipPath id="nim-flow-safe" clipPathUnits="userSpaceOnUse">
+                      <rect x="164" y="58" width="46" height="42"/>
+                      <rect x="286" y="54" width="40" height="48"/>
+                    </clipPath>
+                  </defs>
+                  <g clip-path="url(#nim-flow-safe)">
+                    <path class="nim-connector evidence" d="M168 69C178 69 183 77 194 77"/>
+                    <path class="nim-connector ledger" d="M306 77C314 77 318 71 324 71"/>
+                    <rect class="nim-flow-port evidence" x="190.5" y="73.5" width="7" height="7" transform="rotate(45 194 77)"/>
+                    <rect class="nim-flow-port ledger" x="320.5" y="67.5" width="7" height="7" transform="rotate(45 324 71)"/>
+                  </g>
                 </svg>
 
                 <svg class="nim-lotus" viewBox="0 0 100 140" preserveAspectRatio="xMidYMid meet">

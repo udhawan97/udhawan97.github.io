@@ -476,6 +476,14 @@ test('Nimanto scene turns confirmed evidence into an inspectable, approval-gated
   assert.match(html, /criteria<\/b><em>supported/);
   assert.match(html, /sponsor<\/b><em>verify/);
   assert.match(html, /approve yourself/);
+  assert.match(html, /width: min\(100%, 432px\);/);
+  assert.match(html, /clipPath id="nim-flow-safe" clipPathUnits="userSpaceOnUse"/);
+  assert.equal((html.match(/class="nim-connector (?:evidence|ledger)"/g) || []).length, 2);
+  assert.equal((html.match(/class="nim-flow-port (?:evidence|ledger)"/g) || []).length, 2);
+  assert.match(html, /class="nim-connector evidence" d="M168 69C178 69 183 77 194 77"/);
+  assert.match(html, /class="nim-connector ledger" d="M306 77C314 77 318 71 324 71"/);
+  assert.doesNotMatch(html, /M146 91C168 91/, 'connectors must not enter the evidence text column');
+  assert.match(html, /\.nim-evidence-line \{[\s\S]*?font: 500 9px\/1\.15 var\(--font-mono\);/);
   assert.match(html, /\.ghp-card\[data-project="nimanto"\] \.ghp-visual \{ height: 152px; \}/);
   assert.match(html, /#topBtn \{ bottom: 18px; left: auto; right: 16px; width: 46px;/);
   assert.match(html, /\.ghp-card\.visible \.nim-petal \{ animation: nimFoldOpen [^;]+ both; \}/);
