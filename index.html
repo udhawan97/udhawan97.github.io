@@ -167,6 +167,16 @@
     --voy-paper-dim: oklch(78% .022 78);
     --voy-vermilion: oklch(61% .16 36);
 
+    /* PalDawn — plum pre-dawn, paper route, saffron first light. */
+    --pal-night: oklch(19% .045 320);
+    --pal-night-deep: oklch(13% .035 315);
+    --pal-ridge: oklch(24% .05 318);
+    --pal-ridge-soft: oklch(30% .055 322);
+    --pal-paper: oklch(95% .015 85);
+    --pal-paper-dim: oklch(77% .02 85);
+    --pal-dawn: oklch(78% .13 80);
+    --pal-rose: oklch(68% .11 20);
+
     /* Codemble galaxy — evidence blue with proof-state amber. */
     --cod-void: #060916;
     --cod-depth: #0c1532;
@@ -189,6 +199,14 @@
     --ease-out: cubic-bezier(.16, 1, .3, 1);
     --ease-in: cubic-bezier(.7, 0, .84, 0);
     --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+
+    /* Vidha — lamplit pine, cream paper, wax-seal amber. */
+    --vid-night: oklch(20% .03 200);
+    --vid-night-deep: oklch(14% .025 205);
+    --vid-paper: oklch(95% .02 90);
+    --vid-paper-dim: oklch(76% .02 92);
+    --vid-amber: oklch(72% .12 70);
+    --vid-teal: oklch(74% .09 180);
 
     /* Nindova — Shahi Raat indigo, madder, silk pink, saffron, and cream. */
     --nin-night: #10143a;
@@ -1813,6 +1831,107 @@
   @container (max-width: 315px) { .gol-stage, .voy-stage { transform: translate(-50%,-50%) scale(.66); } }
   @container (max-width: 260px) { .gol-stage, .voy-stage { top: 54%; transform: translate(-50%,-50%) scale(.55); } }
 
+  /* Hallmark · component: project-card scene · genre: atmospheric · theme: PalDawn first light
+   * motion: dawn-rise · route-draw · voyage-flight · depth-switch · citation-resolve
+   * reduced-motion: complete static state (route drawn, dawn risen, ship at rest)
+   * mobile: shared gol/voy/pal/vid stage scale steps
+   */
+  /* ── PalDawn — a cause-to-effect voyage arrives at first light ── */
+  .pal-scene {
+    position: absolute; inset: 0; overflow: hidden; container-type: inline-size;
+    color: var(--pal-paper);
+    background:
+      radial-gradient(88% 150% at 82% 116%, color-mix(in oklch, var(--pal-dawn), transparent 74%), transparent 62%),
+      linear-gradient(162deg, var(--pal-night), var(--pal-night-deep));
+  }
+  .pal-scene::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      repeating-linear-gradient(0deg, color-mix(in oklch, var(--pal-paper), transparent 98%) 0 1px, transparent 1px 5px),
+      radial-gradient(120% 110% at 48% 48%, transparent 48%, color-mix(in oklch, var(--pal-night-deep), transparent 22%));
+  }
+  .pal-stage {
+    position: absolute; left: 50%; top: 50%; width: 432px; height: 132px;
+    transform: translate(-50%,-50%); transform-origin: 50% 50%;
+  }
+  .pal-story { position: absolute; left: 12px; top: 12px; width: 138px; }
+  .pal-kicker {
+    display: block; color: var(--pal-dawn); font-family: var(--font-mono); font-size: 10px;
+    font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+  }
+  .pal-story strong {
+    display: block; margin-top: 8px; color: var(--pal-paper);
+    font-size: 14px; line-height: 1.16; letter-spacing: -.015em;
+  }
+  .pal-depths {
+    display: flex; align-items: center; gap: 6px; margin-top: 9px;
+    font-family: var(--font-mono); font-size: 9.5px; font-weight: 700;
+    letter-spacing: .07em; text-transform: uppercase;
+  }
+  .pal-depths i { color: var(--pal-paper-dim); font-style: normal; }
+  .pal-depth {
+    padding: 2px 7px; border-radius: 99px; color: var(--pal-paper-dim);
+    border: 1px solid color-mix(in oklch, var(--pal-paper), transparent 62%);
+  }
+  .pal-depth.cli { border-color: var(--pal-dawn); color: var(--pal-dawn); }
+  .pal-voyage { position: absolute; left: 158px; top: 8px; width: 264px; height: 116px; }
+  .pal-dawn-disc { fill: var(--pal-dawn); }
+  .pal-dawn-ring { fill: none; stroke: color-mix(in oklch, var(--pal-dawn), transparent 46%); stroke-width: 1.5; }
+  .pal-ridge.back { fill: var(--pal-ridge-soft); }
+  .pal-ridge.front { fill: var(--pal-ridge); }
+  .pal-route {
+    fill: none; stroke: var(--pal-paper); stroke-width: 2.4; stroke-linecap: round;
+    stroke-dasharray: 100 100; stroke-dashoffset: 0;
+  }
+  .pal-node { fill: var(--pal-night-deep); stroke: var(--pal-paper-dim); stroke-width: 1.4; }
+  .pal-node.effect { fill: var(--pal-rose); stroke: var(--pal-rose); }
+  .pal-ship { fill: var(--pal-paper); opacity: 0; }
+  .pal-label {
+    fill: var(--pal-paper-dim); font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; text-anchor: middle;
+  }
+  .pal-label.effect { fill: var(--pal-dawn); }
+  .pal-proof {
+    position: absolute; right: 12px; bottom: 8px; display: inline-flex; align-items: center; gap: 8px;
+    padding: 4px 8px; border: 1px solid color-mix(in oklch, var(--pal-dawn), transparent 52%);
+    color: var(--pal-dawn); background: color-mix(in oklch, var(--pal-night-deep), transparent 18%);
+    font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  }
+  .pal-proof i { width: 5px; height: 5px; border-radius: 50%; background: var(--pal-rose); }
+  .ghp-card.visible .pal-dawn-group { animation: palDawnRise .9s var(--ease-out) .3s both; }
+  .ghp-card.visible .pal-route { animation: palRoute .9s var(--ease-in-out) .55s both; }
+  .ghp-card.visible .pal-ship { animation: palShip 1.9s var(--ease-in-out) .85s both; }
+  .ghp-card.visible .pal-node.effect { animation: palResolve .45s var(--ease-out) 2.4s both; }
+  .ghp-card.visible .pal-depth.cli { animation: palDepthOn .5s var(--ease-out) 2.5s both; }
+  .ghp-card.visible .pal-depth.lay { animation: palDepthOff .5s var(--ease-out) 2.5s both; }
+  .ghp-card.visible .pal-proof { animation: palProof .48s var(--ease-out) 2.7s both; }
+  @keyframes palDawnRise { from { opacity: 0; transform: translate3d(0,12px,0); } to { opacity: 1; transform: none; } }
+  @keyframes palRoute { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+  @keyframes palShip {
+    0% { opacity: 0; transform: translate3d(12px,104px,0) scale(.6); }
+    8% { opacity: 1; }
+    30% { opacity: 1; transform: translate3d(62px,78px,0) scale(1); }
+    52% { opacity: 1; transform: translate3d(116px,50px,0) scale(1); }
+    78% { opacity: 1; transform: translate3d(166px,58px,0) scale(.95); }
+    94% { opacity: 1; transform: translate3d(206px,44px,0) scale(.85); }
+    100% { opacity: 0; transform: translate3d(206px,44px,0) scale(.5); }
+  }
+  @keyframes palResolve { from { opacity: .3; transform: scale(.6); } to { opacity: 1; transform: none; } }
+  @keyframes palDepthOn {
+    from { border-color: color-mix(in oklch, var(--pal-paper), transparent 62%); color: var(--pal-paper-dim); }
+    to { border-color: var(--pal-dawn); color: var(--pal-dawn); }
+  }
+  @keyframes palDepthOff {
+    from { border-color: var(--pal-dawn); color: var(--pal-dawn); }
+    to { border-color: color-mix(in oklch, var(--pal-paper), transparent 62%); color: var(--pal-paper-dim); }
+  }
+  @keyframes palProof { from { opacity: 0; transform: translate3d(0,4px,0); } to { opacity: 1; transform: none; } }
+  /* These must sit after the .pal-stage base rule — same specificity, later wins. */
+  @container (max-width: 440px) { .pal-stage { transform: translate(-50%,-50%) scale(.88); } }
+  @container (max-width: 360px) { .pal-stage { transform: translate(-50%,-50%) scale(.74); } }
+  @container (max-width: 315px) { .pal-stage { transform: translate(-50%,-50%) scale(.66); } }
+  @container (max-width: 260px) { .pal-stage { top: 54%; transform: translate(-50%,-50%) scale(.55); } }
+
   /* Hallmark · component: project-card scene · genre: atmospheric · theme: Codemble galaxy
    * motion: graph-enter · evidence-route · proof-resolve
    * reduced-motion: complete static state · contrast: pass (40–41)
@@ -2041,6 +2160,120 @@
   @container (max-width: 360px) { .dus-stage { top: 54%; transform: translate(-50%,-50%) scale(.74); } }
   @container (max-width: 315px) { .dus-stage { transform: translate(-50%,-50%) scale(.66); } }
   @container (max-width: 260px) { .dus-stage { transform: translate(-50%,-50%) scale(.55); } }
+
+  /* Hallmark · component: project-card scene · genre: atmospheric · theme: Vidha lamplit vigil
+   * motion: rail-draw · check-in-ticks · guardian-verify · envelope-seal-resolve
+   * reduced-motion: complete static state (ticks lit, guardian confirmed, envelope sealed)
+   * mobile: shared gol/voy/pal/vid stage scale steps
+   */
+  /* ── Vidha — check-ins, human verification, then a deliberate release ── */
+  .vid-scene {
+    position: absolute; inset: 0; overflow: hidden; container-type: inline-size;
+    color: var(--vid-paper);
+    background:
+      radial-gradient(86% 150% at 84% 116%, color-mix(in oklch, var(--vid-amber), transparent 76%), transparent 62%),
+      linear-gradient(163deg, var(--vid-night), var(--vid-night-deep));
+  }
+  .vid-scene::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      repeating-linear-gradient(0deg, color-mix(in oklch, var(--vid-paper), transparent 98%) 0 1px, transparent 1px 5px),
+      radial-gradient(120% 110% at 48% 48%, transparent 48%, color-mix(in oklch, var(--vid-night-deep), transparent 20%));
+  }
+  .vid-stage {
+    position: absolute; left: 50%; top: 50%; width: 432px; height: 132px;
+    transform: translate(-50%,-50%); transform-origin: 50% 50%;
+  }
+  .vid-story { position: absolute; left: 12px; top: 12px; width: 140px; }
+  .vid-kicker {
+    display: block; color: var(--vid-amber); font-family: var(--font-mono); font-size: 10px;
+    font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+  }
+  .vid-story strong {
+    display: block; margin-top: 8px; color: var(--vid-paper);
+    font-size: 14px; line-height: 1.16; letter-spacing: -.015em;
+  }
+  .vid-flow { position: absolute; left: 158px; top: 34px; width: 262px; height: 66px; }
+  .vid-baseline,
+  .vid-progress {
+    position: absolute; left: 4px; top: 24px; width: 236px; height: 1px; transform-origin: left center;
+  }
+  .vid-baseline { background: color-mix(in oklch, var(--vid-paper-dim), transparent 68%); }
+  .vid-progress { background: linear-gradient(90deg, var(--vid-teal), var(--vid-amber)); }
+  .vid-packet {
+    position: absolute; left: 0; top: 20px; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--vid-paper); box-shadow: 0 0 8px var(--vid-amber); opacity: 0;
+  }
+  .vid-ticks { position: absolute; left: 2px; top: 20px; display: flex; gap: 7px; }
+  .vid-tick {
+    width: 9px; height: 9px; border-radius: 2px; transform: rotate(45deg);
+    background: var(--vid-teal);
+  }
+  .vid-tick.missed { background: transparent; border: 1.4px solid var(--vid-amber); }
+  .vid-node {
+    position: absolute; left: 108px; top: 10px; width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid var(--vid-amber); background: var(--vid-night);
+  }
+  .vid-node::after {
+    content: "✓"; position: absolute; inset: 0; display: grid; place-items: center;
+    color: var(--vid-amber); font-family: var(--font-mono); font-size: 12px; font-weight: 800;
+  }
+  .vid-envelope {
+    position: absolute; right: 0; top: 8px; width: 40px; height: 28px; border-radius: 5px;
+    border: 1.4px solid var(--vid-paper);
+    background: color-mix(in oklch, var(--vid-paper), transparent 88%);
+  }
+  .vid-envelope::before {
+    content: ""; position: absolute; left: 3px; right: 3px; top: 2px; height: 12px;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    background: color-mix(in oklch, var(--vid-paper), transparent 55%);
+  }
+  .vid-seal {
+    position: absolute; left: 50%; top: 12px; width: 11px; height: 11px; border-radius: 50%;
+    transform: translateX(-50%); background: var(--vid-amber);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--vid-amber), transparent 62%);
+  }
+  .vid-phase {
+    position: absolute; top: 44px; color: var(--vid-paper-dim); font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase;
+    transform: translateX(-50%);
+  }
+  .vid-phase.check { left: 36px; }
+  .vid-phase.verify { left: 122px; color: var(--vid-amber); }
+  .vid-phase.release { left: 242px; color: var(--vid-paper); }
+  .vid-proof {
+    position: absolute; right: 12px; bottom: 8px; display: inline-flex; align-items: center; gap: 8px;
+    padding: 4px 8px; border: 1px solid color-mix(in oklch, var(--vid-amber), transparent 52%);
+    color: var(--vid-amber); background: color-mix(in oklch, var(--vid-night-deep), transparent 18%);
+    font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  }
+  .vid-proof i { width: 5px; height: 5px; border-radius: 50%; background: var(--vid-teal); }
+  .ghp-card.visible .vid-progress { animation: vidProgress .72s var(--ease-out) .36s both; }
+  .ghp-card.visible .vid-tick { animation: vidTick .4s var(--ease-out) both; }
+  .ghp-card.visible .vid-tick.one { animation-delay: .5s; }
+  .ghp-card.visible .vid-tick.two { animation-delay: .72s; }
+  .ghp-card.visible .vid-tick.three { animation-delay: .94s; }
+  .ghp-card.visible .vid-tick.missed { animation-delay: 1.2s; }
+  .ghp-card.visible .vid-packet { animation: vidPacket 1.9s var(--ease-in-out) .4s both; }
+  .ghp-card.visible .vid-node { animation: vidResolve .48s var(--ease-out) 1.5s both; }
+  .ghp-card.visible .vid-envelope { animation: vidResolve .48s var(--ease-out) 2.05s both; }
+  .ghp-card.visible .vid-proof { animation: vidProof .48s var(--ease-out) 2.45s both; }
+  @keyframes vidProgress { from { opacity: .2; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
+  @keyframes vidTick { from { opacity: 0; transform: rotate(45deg) scale(.4); } to { opacity: 1; transform: rotate(45deg) scale(1); } }
+  @keyframes vidPacket {
+    0% { opacity: 0; transform: translate3d(4px,0,0) scale(.55); }
+    10% { opacity: 1; }
+    48% { opacity: 1; transform: translate3d(118px,0,0) scale(1); }
+    84% { opacity: 1; transform: translate3d(232px,0,0) scale(.9); }
+    93%, 100% { opacity: 0; transform: translate3d(232px,0,0) scale(.5); }
+  }
+  @keyframes vidResolve { from { opacity: .3; transform: scale(.68); } to { opacity: 1; transform: scale(1); } }
+  @keyframes vidProof { from { opacity: 0; transform: translate3d(0,4px,0); } to { opacity: 1; transform: none; } }
+  /* These must sit after the .vid-stage base rule — same specificity, later wins. */
+  @container (max-width: 440px) { .vid-stage { transform: translate(-50%,-50%) scale(.88); } }
+  @container (max-width: 360px) { .vid-stage { transform: translate(-50%,-50%) scale(.74); } }
+  @container (max-width: 315px) { .vid-stage { transform: translate(-50%,-50%) scale(.66); } }
+  @container (max-width: 260px) { .vid-stage { top: 54%; transform: translate(-50%,-50%) scale(.55); } }
 
   /* Hallmark · component: Nindova project-card scene · genre: atmospheric
    * theme: existing Shahi Raat · enrichment: tier-B hand-built SVG palace cutaway
@@ -2377,6 +2610,8 @@
     .nin-palace-shell, .nin-curtain, .nin-table,
     .nin-threshold, .nin-door-glow, .nin-night-room, .nin-proof { animation: none !important; }
     .nim-evidence-line, .nim-petal, .nim-ledger-row, .nim-approval { animation: none !important; }
+    .pal-dawn-group, .pal-route, .pal-ship, .pal-node.effect, .pal-depth, .pal-proof,
+    .vid-progress, .vid-packet, .vid-tick, .vid-node, .vid-envelope, .vid-proof { animation: none !important; }
     .ori-source, .ori-document, .ori-doc-sign, .ori-proof,
     .orb-source, .orb-core-ring, .orb-core, .orb-actions, .orb-proof,
     .ghp-card .ghp-tag { opacity: 1; transform: none; }
@@ -2394,6 +2629,11 @@
     .nin-night-room { opacity: 1; transform: none; }
     .nin-proof { opacity: 1; transform: none; }
     .nim-evidence-line, .nim-petal, .nim-ledger-row, .nim-approval { opacity: 1; transform: none !important; }
+    .pal-dawn-group, .pal-node.effect, .pal-depth, .pal-proof,
+    .vid-progress, .vid-node, .vid-envelope, .vid-proof { opacity: 1; transform: none; }
+    .pal-ship, .vid-packet { opacity: 0; }
+    /* vid-tick keeps its 45° base rotation; vid-seal keeps its centering transform. */
+    .vid-tick, .vid-seal { opacity: 1; }
   }
   @media (max-width: 640px) {
     .gh-projects { margin-top: 32px; }
@@ -3506,7 +3746,7 @@
   <div class="kicker r">GitHub</div>
   <div class="gh">
     <h2><svg class="gh-logo" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>Problems, turned into products.</h2>
-    <p>When I’m not working on client projects, I keep learning by turning recurring problems into working products. These open-source builds let me explore new domains, make practical product decisions, and carry an idea from first principles through design, engineering, testing, and release. The projects below span code understanding, learning, documents, forecasting, travel planning, candidate-controlled job search, and intentional play; their source and release history live at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a>.</p>
+    <p>When I’m not working on client projects, I keep learning by turning recurring problems into working products. These open-source builds let me explore new domains, make practical product decisions, and carry an idea from first principles through design, engineering, testing, and release. The projects below span code understanding, learning, documents, forecasting, travel planning, health education, personal contingency planning, candidate-controlled job search, and intentional play; their source and release history live at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a>.</p>
     <div class="gh-graph">
       <img src="https://ghchart.rshah.org/0066d6/udhawan97" alt="GitHub contribution graph"
            width="663" height="104" loading="lazy" decoding="async"
@@ -3642,6 +3882,35 @@
             </div>
         </template>
 
+        <!-- PalDawn -->
+        <template class="ghp-scene" data-project="paldawn">
+            <div class="pal-scene" aria-hidden="true">
+              <div class="pal-stage">
+                <div class="pal-story">
+                  <span class="pal-kicker">Cause → effect</span>
+                  <strong>A voyage you can fact-check.</strong>
+                  <div class="pal-depths"><span class="pal-depth lay">plain</span><i>↔</i><span class="pal-depth cli">clinical</span></div>
+                </div>
+                <svg class="pal-voyage" viewBox="0 0 264 116" preserveAspectRatio="xMidYMid meet">
+                  <path class="pal-ridge back" d="M0 78C42 68 76 76 114 68S194 54 264 68V116H0Z"/>
+                  <g class="pal-dawn-group">
+                    <circle class="pal-dawn-ring" cx="206" cy="96" r="53"/>
+                    <circle class="pal-dawn-disc" cx="206" cy="96" r="44"/>
+                  </g>
+                  <path class="pal-ridge front" d="M0 100C52 90 96 98 148 90S226 82 264 90V116H0Z"/>
+                  <path class="pal-route" pathLength="100" d="M12 104C64 100 58 58 116 50S186 64 206 44"/>
+                  <circle class="pal-node cause" cx="12" cy="104" r="4"/>
+                  <circle class="pal-node portal" cx="116" cy="50" r="4"/>
+                  <circle class="pal-node effect" cx="206" cy="44" r="5"/>
+                  <circle class="pal-ship" cx="0" cy="0" r="3.4"/>
+                  <text class="pal-label cause" x="30" y="112">cause</text>
+                  <text class="pal-label portal" x="116" y="38">portal</text>
+                </svg>
+                <span class="pal-proof"><i></i>every claim cited</span>
+              </div>
+            </div>
+        </template>
+
         <!-- Codemble -->
         <template class="ghp-scene" data-project="codemble">
             <div class="cod-scene" aria-hidden="true">
@@ -3696,6 +3965,32 @@
                   <div class="dus-step current"><i><span class="dus-resolve-check">✓</span></i><span>Review the source</span></div>
                 </div>
                 <div class="dus-review"><span>external edit</span><i>→</i><b>reviewed</b></div>
+              </div>
+            </div>
+        </template>
+
+        <!-- Vidha -->
+        <template class="ghp-scene" data-project="vidha">
+            <div class="vid-scene" aria-hidden="true">
+              <div class="vid-stage">
+                <div class="vid-story">
+                  <span class="vid-kicker">Check-ins → release</span>
+                  <strong>Released by people, not timers.</strong>
+                </div>
+                <div class="vid-flow">
+                  <span class="vid-baseline"></span>
+                  <span class="vid-progress"></span>
+                  <span class="vid-packet"></span>
+                  <span class="vid-ticks">
+                    <i class="vid-tick one"></i><i class="vid-tick two"></i><i class="vid-tick three"></i><i class="vid-tick missed"></i>
+                  </span>
+                  <span class="vid-node"></span>
+                  <span class="vid-envelope"><i class="vid-seal"></i></span>
+                  <span class="vid-phase check">Check-ins</span>
+                  <span class="vid-phase verify">Humans verify</span>
+                  <span class="vid-phase release">Release</span>
+                </div>
+                <span class="vid-proof"><i></i>sealed until confirmed</span>
               </div>
             </div>
         </template>

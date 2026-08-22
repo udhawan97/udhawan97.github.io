@@ -11,6 +11,13 @@
  * Tested by tests/projects.test.mjs (`node --test`).
  */
 
+/*
+ * Every desc follows one shape a recruiter can scan in seconds:
+ * the everyday problem that made me build it → what the product does →
+ * how it differs from what the market already sells. Honest boundaries
+ * ("never trades", "never diagnoses") stay in. Kept under 380 characters
+ * each by tests/projects.test.mjs.
+ */
 const PROJECTS = [
   {
     id: 'orifold',
@@ -20,7 +27,7 @@ const PROJECTS = [
     visualClass: 'ori-visual',
     status: { label: 'Beta', tone: 'beta' },
     lang: { dot: 'swift', label: 'Swift' },
-    desc: 'A Mac-native document workspace that carries mixed files through one complete PDF workflow: merge, repair, OCR, edit, annotate, sign, protect, and export. Unlike upload-first utilities split across subscriptions, Orifold keeps the document, its searchable structure, and every core operation together on the Mac—with no account or cloud handoff required.',
+    desc: 'Finishing one PDF usually means juggling several apps and uploading private files to someone else’s cloud. Orifold does the whole job natively on the Mac—merge, repair, OCR, edit, annotate, sign, protect, export—with no account and no upload: the document never leaves the machine.',
     tags: ['Document workflow', 'Private by design', 'OCR + editing', 'macOS'],
     site: 'https://udhawan97.github.io/Orifold/',
     source: 'https://github.com/udhawan97/Orifold',
@@ -33,7 +40,7 @@ const PROJECTS = [
     visualClass: 'orb-visual',
     status: { label: 'Beta', tone: 'beta' },
     lang: { dot: 'python', label: 'Python' },
-    desc: 'A portfolio decision workspace that connects holdings, market prices, risk, news, and position history before issuing Hold/Add/Trim/Exit guidance. It exposes the evidence behind each verdict and labels missing or stale inputs instead of presenting a partial valuation as complete. Narration can explain the reasoning, but it never calculates the numbers or places a trade.',
+    desc: 'Most portfolio tools either dump charts on you or give advice without showing their work. FolioOrb connects holdings, prices, risk, and news into one Hold / Add / Trim / Exit verdict, shows the evidence behind every call, and flags missing or stale data instead of hiding it. It never places a trade.',
     tags: ['Evidence-led', 'Decision support', 'Data quality', 'No auto-trading'],
     site: 'https://udhawan97.github.io/FolioOrb/',
     source: 'https://github.com/udhawan97/FolioOrb',
@@ -44,7 +51,7 @@ const PROJECTS = [
     icon: 'assets/logos/golavo.svg',
     status: { label: 'Early access', tone: 'beta' },
     lang: { dot: 'python', label: 'Python' },
-    desc: 'A football intelligence cockpit that makes every forecast accountable. Four independently inspectable models turn match data into probability ranges; pre-kickoff seals prevent hindsight edits, while post-match scoring and calibration show which methods actually earn trust. Cited explanations can clarify the evidence without changing a single model probability.',
+    desc: 'Football predictions are cheap because nobody checks them later. Golavo makes every forecast accountable: four independent models turn match data into probabilities, each forecast is sealed before kickoff so it can’t be quietly edited, and every outcome is scored—so you see which methods actually earn trust.',
     tags: ['Forecast accountability', 'Four-model ensemble', 'Sealed predictions', 'Calibration'],
     site: 'https://udhawan97.github.io/Golavo/',
     source: 'https://github.com/udhawan97/Golavo',
@@ -55,10 +62,21 @@ const PROJECTS = [
     icon: 'assets/logos/voyalier.svg',
     status: { label: 'Early access', tone: 'beta' },
     lang: { dot: 'typescript', label: 'TypeScript' },
-    desc: 'A travel intelligence workspace that turns scattered confirmations, official advice, weather, maps, offline packs, and recommendations into one reviewed Smart Blueprint. Unlike itinerary apps that merely collect bookings, Voyalier exposes gaps, asks for consent, and assembles a trip that remains usable when connectivity disappears. On-device or user-key assistance supports the plan without owning it.',
+    desc: 'Itinerary apps collect bookings but can’t tell you what’s missing. Voyalier turns confirmations, official travel advice, weather, and maps into one reviewed plan, surfaces the gaps before you fly, and keeps the whole trip usable offline—because a plan matters most exactly when connectivity disappears.',
     tags: ['Evidence-backed', 'Smart Blueprint', 'Offline-ready', 'Consent-first'],
     site: 'https://udhawan97.github.io/Voyalier/',
     source: 'https://github.com/udhawan97/Voyalier',
+  },
+  {
+    id: 'paldawn',
+    name: 'PalDawn',
+    icon: 'assets/logos/paldawn.svg',
+    status: { label: 'Early access', tone: 'beta' },
+    lang: { dot: 'typescript', label: 'TypeScript' },
+    desc: 'Anatomy apps show labeled 3D organs; none show how disease actually unfolds. PalDawn is a guided flight through the human body that plays cause and effect—the same scene narrated in plain language or clinical depth, and every factual claim traces to a curated source. Education only: it never diagnoses.',
+    tags: ['Cause → effect', 'Two narration depths', 'Claim-level sources', 'Never diagnoses'],
+    site: 'https://udhawan97.github.io/PalDawn/',
+    source: 'https://github.com/udhawan97/PalDawn',
   },
   {
     id: 'codemble',
@@ -67,7 +85,7 @@ const PROJECTS = [
     visualClass: 'cod-visual',
     status: { label: 'Under construction' },
     lang: { dot: 'polyglot', label: 'Python · JS/TS' },
-    desc: 'An explorable code-learning game that turns an unfamiliar codebase into a parser-proven 3D galaxy—and understanding into visible progress. Instead of treating an explanation as proof, Codemble makes learners navigate real files, inspect exact connections, and pass graph-derived checks before a system lights up, building a durable mental model across Python, JavaScript, TypeScript, and mixed projects.',
+    desc: 'The hardest part of joining a project is understanding a codebase you didn’t write. Codemble turns real code into an explorable 3D galaxy where progress is earned, not assumed: you navigate the actual files, inspect real connections, and pass checks derived from the code before a system counts as understood.',
     tags: ['Code literacy', 'Parser-proven', '3D + 2D maps', 'Polyglot'],
     site: 'https://udhawan97.github.io/Codemble/',
     source: 'https://github.com/udhawan97/Codemble',
@@ -79,10 +97,21 @@ const PROJECTS = [
     visualClass: 'dus-visual',
     status: { label: 'Under construction' },
     lang: { dot: 'typescript', label: 'TypeScript' },
-    desc: 'A learning workspace that turns a scattered syllabus, notes, and source material into a paced system of topics, roadmaps, progress, and visible connections. Unlike course dashboards or second-brain databases that trap state inside an account, Dusori keeps the learning structure in portable files and makes external edits reviewable—so the same body of work can move between Dusori, Obsidian, and any Markdown editor without losing ownership or context.',
+    desc: 'Course dashboards and note apps lock your learning inside their account. Dusori turns scattered notes and syllabi into a paced plan—topics, roadmaps, visible progress—kept in plain, portable files, so the same work opens in Dusori, Obsidian, or any Markdown editor and stays yours.',
     tags: ['Learning workspace', 'Portable files', 'Conflict-safe', 'Obsidian-ready'],
     site: 'https://udhawan97.github.io/Dusori/',
     source: 'https://github.com/udhawan97/Dusori',
+  },
+  {
+    id: 'vidha',
+    name: 'Vidha',
+    icon: 'assets/logos/vidha.svg',
+    status: { label: 'Under construction' },
+    lang: { dot: 'typescript', label: 'TypeScript' },
+    desc: 'Some things should reach the people you love even if you can’t deliver them yourself. Vidha holds private letters and documents for chosen recipients and releases them only if you become persistently unreachable—confirmed by trusted people, never by a missed email or a timer alone. Open source and self-hostable.',
+    tags: ['Human verification', 'Per-envelope rules', 'Sealed content', 'Self-hostable'],
+    site: 'https://udhawan97.github.io/Viraha/',
+    source: 'https://github.com/udhawan97/Viraha',
   },
   {
     id: 'nimanto',
@@ -92,7 +121,7 @@ const PROJECTS = [
     visualClass: 'nim-visual',
     status: { label: 'Local beta', tone: 'nimanto' },
     lang: { dot: 'typescript', label: 'TypeScript' },
-    desc: 'A private, local-first job-search workbench for H-1B professionals. It turns career evidence, roles, sponsorship signals, application tracking, and review packets into one inspectable candidate-side path: imported claims stay pending until confirmed, deterministic matching shows support and blockers requirement by requirement, and nothing leaves the machine without assurance plus explicit approval. It never screens candidates, predicts hiring odds, or promises sponsorship.',
+    desc: 'Job platforms score candidates with logic nobody can inspect. Nimanto puts the candidate in charge: a private, local-first workbench for H-1B professionals that tracks roles, sponsorship signals, and applications, shows requirement by requirement why a role fits, and sends nothing anywhere without explicit approval. It never predicts hiring odds or promises sponsorship.',
     tags: ['Candidate-controlled', 'Evidence-first', 'Local-first', 'Approval-gated'],
     site: 'https://udhawan97.github.io/Nimanto/',
     source: 'https://github.com/udhawan97/Nimanto',
@@ -104,7 +133,7 @@ const PROJECTS = [
     visualClass: 'nin-visual',
     status: { label: 'Live', tone: 'live' },
     lang: { dot: 'typescript', label: 'TypeScript' },
-    desc: 'A private, offline-ready house of authored browser games for adults 18 and over. Five finite Grand Salon tables each end with a designed curtain call, while a deliberately separate Night Room closes its own Masala Mound Session. There is no account, public ranking, advertising, app telemetry, or randomized prize; the local Gallery keeps only the latest completion per game and can be cleared at any time.',
+    desc: 'Most games are engineered to never let you go. Nindova is a private house of browser games for adults (18+) built to end: five finite tables, each with a designed finale, and a deliberately separate Night Room. No account, ads, rankings, or telemetry—everything stays on your device, clearable anytime.',
     tags: ['Five finite games', 'Separate Night Room', 'Private + offline', 'No rankings or ads'],
     site: 'https://udhawan97.github.io/Nindova/',
     source: 'https://github.com/udhawan97/Nindova',

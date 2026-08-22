@@ -155,6 +155,28 @@ test('every project links out over https', () => {
   }
 });
 
+test('PalDawn is featured with its public product and source links', () => {
+  const paldawn = PROJECTS.find((p) => p.id === 'paldawn');
+  assert.ok(paldawn, 'PalDawn is missing from the featured builds');
+  assert.equal(paldawn.site, 'https://udhawan97.github.io/PalDawn/');
+  assert.equal(paldawn.source, 'https://github.com/udhawan97/PalDawn');
+  assert.deepEqual(
+    Array.from(paldawn.tags),
+    ['Cause → effect', 'Two narration depths', 'Claim-level sources', 'Never diagnoses']
+  );
+});
+
+test('Vidha is featured and links to the repo still named Viraha on GitHub', () => {
+  const vidha = PROJECTS.find((p) => p.id === 'vidha');
+  assert.ok(vidha, 'Vidha is missing from the featured builds');
+  assert.equal(vidha.site, 'https://udhawan97.github.io/Viraha/');
+  assert.equal(vidha.source, 'https://github.com/udhawan97/Viraha');
+  assert.deepEqual(
+    Array.from(vidha.tags),
+    ['Human verification', 'Per-envelope rules', 'Sealed content', 'Self-hostable']
+  );
+});
+
 test('Codemble is featured with its public product and source links', () => {
   const codemble = PROJECTS.find((p) => p.id === 'codemble');
   assert.ok(codemble, 'Codemble is missing from the featured builds');
@@ -203,21 +225,56 @@ test('project maturity labels match the current public rollout order', () => {
   const status = Object.fromEntries(PROJECTS.map((p) => [p.id, p.status]));
   assert.deepEqual({ ...status.golavo }, { label: 'Early access', tone: 'beta' });
   assert.deepEqual({ ...status.voyalier }, { label: 'Early access', tone: 'beta' });
+  assert.deepEqual({ ...status.paldawn }, { label: 'Early access', tone: 'beta' });
   assert.deepEqual({ ...status.codemble }, { label: 'Under construction' });
   assert.deepEqual({ ...status.dusori }, { label: 'Under construction' });
+  assert.deepEqual({ ...status.vidha }, { label: 'Under construction' });
   assert.deepEqual({ ...status.nimanto }, { label: 'Local beta', tone: 'nimanto' });
   assert.deepEqual({ ...status.nindova }, { label: 'Live', tone: 'live' });
+});
+
+/*
+ * Every desc must read problem → product → market difference in plain words,
+ * short enough for a recruiter to scan. The per-project tests below pin the
+ * honest boundaries; this one pins the length and the no-AI-leading rule.
+ */
+test('every description stays concise and layman-readable', () => {
+  for (const p of PROJECTS) {
+    assert.ok(p.desc.length <= 380, `${p.id} desc runs ${p.desc.length} chars — keep it under 380`);
+    assert.doesNotMatch(p.desc, /\bAI\b/i, `${p.id} desc must not lead on AI`);
+  }
 });
 
 test('Codemble and Dusori explain their distinct user value without leading on AI', () => {
   const codemble = PROJECTS.find((p) => p.id === 'codemble');
   const dusori = PROJECTS.find((p) => p.id === 'dusori');
-  assert.match(codemble.desc, /understanding into visible progress/);
-  assert.match(codemble.desc, /pass graph-derived checks before a system lights up/);
+  assert.match(codemble.desc, /explorable 3D galaxy where progress is earned/);
+  assert.match(codemble.desc, /pass checks derived from the code/);
   assert.doesNotMatch(codemble.desc, /\bAI\b/i);
-  assert.match(dusori.desc, /paced system of topics, roadmaps, progress, and visible connections/);
-  assert.match(dusori.desc, /portable files and makes external edits reviewable/);
+  assert.match(dusori.desc, /scattered notes and syllabi into a paced plan/);
+  assert.match(dusori.desc, /plain, portable files/);
+  assert.match(dusori.desc, /any Markdown editor and stays yours/);
   assert.doesNotMatch(dusori.desc, /\bAI\b/i);
+});
+
+test('PalDawn explains an evidence-first body voyage without medical claims', () => {
+  const paldawn = PROJECTS.find((p) => p.id === 'paldawn');
+  assert.match(paldawn.desc, /guided flight through the human body/);
+  assert.match(paldawn.desc, /plain language or clinical depth/);
+  assert.match(paldawn.desc, /every factual claim traces to a curated source/);
+  assert.match(paldawn.desc, /Education only: it never diagnoses/);
+  assert.doesNotMatch(paldawn.desc, /\bAI\b/i);
+  assert.doesNotMatch(paldawn.desc, /\b(?:treatment|cure|triage)\b/i);
+});
+
+test('Vidha explains human-verified release without turning silence into death', () => {
+  const vidha = PROJECTS.find((p) => p.id === 'vidha');
+  assert.match(vidha.desc, /only if you become persistently unreachable/);
+  assert.match(vidha.desc, /confirmed by trusted people/);
+  assert.match(vidha.desc, /never by a missed email or a timer alone/);
+  assert.match(vidha.desc, /Open source and self-hostable/);
+  assert.doesNotMatch(vidha.desc, /\bAI\b/i);
+  assert.doesNotMatch(vidha.desc, /\b(?:death|dead|estate)\b/i);
 });
 
 test('featured builds are framed around user problems and visible value', () => {
@@ -274,8 +331,9 @@ test('Nimanto icon opens five petals once and provides a still reduced-motion tw
 
 test('Orifold explains one private document workflow instead of leading on local AI', () => {
   const orifold = PROJECTS.find((p) => p.id === 'orifold');
-  assert.match(orifold.desc, /one complete PDF workflow/);
-  assert.match(orifold.desc, /no account or cloud handoff required/);
+  assert.match(orifold.desc, /does the whole job natively on the Mac/);
+  assert.match(orifold.desc, /no account and no upload/);
+  assert.match(orifold.desc, /never leaves the machine/);
   assert.doesNotMatch(orifold.desc, /\bAI\b/i);
   assert.deepEqual(
     Array.from(orifold.tags),
@@ -285,9 +343,10 @@ test('Orifold explains one private document workflow instead of leading on local
 
 test('FolioOrb explains evidence-led decisions without invented performance claims', () => {
   const folioorb = PROJECTS.find((p) => p.id === 'folioorb');
-  assert.match(folioorb.desc, /connects holdings, market prices, risk, news, and position history/);
-  assert.match(folioorb.desc, /labels missing or stale inputs/);
-  assert.match(folioorb.desc, /never calculates the numbers or places a trade/);
+  assert.match(folioorb.desc, /connects holdings, prices, risk, and news/);
+  assert.match(folioorb.desc, /shows the evidence behind every call/);
+  assert.match(folioorb.desc, /flags missing or stale data/);
+  assert.match(folioorb.desc, /It never places a trade/);
   assert.doesNotMatch(folioorb.desc, /\bAI\b/i);
   assert.deepEqual(
     Array.from(folioorb.tags),
@@ -298,8 +357,8 @@ test('FolioOrb explains evidence-led decisions without invented performance clai
 test('Golavo explains accountable forecasting instead of leading on local AI', () => {
   const golavo = PROJECTS.find((p) => p.id === 'golavo');
   assert.match(golavo.desc, /makes every forecast accountable/);
-  assert.match(golavo.desc, /pre-kickoff seals prevent hindsight edits/);
-  assert.match(golavo.desc, /scoring and calibration show which methods actually earn trust/);
+  assert.match(golavo.desc, /sealed before kickoff/);
+  assert.match(golavo.desc, /which methods actually earn trust/);
   assert.doesNotMatch(golavo.desc, /\bAI\b/i);
   assert.deepEqual(
     Array.from(golavo.tags),
@@ -309,9 +368,10 @@ test('Golavo explains accountable forecasting instead of leading on local AI', (
 
 test('Voyalier explains reviewed travel readiness instead of leading on local AI', () => {
   const voyalier = PROJECTS.find((p) => p.id === 'voyalier');
-  assert.match(voyalier.desc, /one reviewed Smart Blueprint/);
-  assert.match(voyalier.desc, /Unlike itinerary apps that merely collect bookings/);
-  assert.match(voyalier.desc, /remains usable when connectivity disappears/);
+  assert.match(voyalier.desc, /Itinerary apps collect bookings/);
+  assert.match(voyalier.desc, /one reviewed plan/);
+  assert.match(voyalier.desc, /surfaces the gaps before you fly/);
+  assert.match(voyalier.desc, /usable offline/);
   assert.doesNotMatch(voyalier.desc, /\bAI\b/i);
   assert.deepEqual(
     Array.from(voyalier.tags),
@@ -321,20 +381,19 @@ test('Voyalier explains reviewed travel readiness instead of leading on local AI
 
 test('Nindova explains its separate finite House and Night loops without reward claims', () => {
   const nindova = PROJECTS.find((p) => p.id === 'nindova');
-  assert.match(nindova.desc, /Five finite Grand Salon tables/);
+  assert.match(nindova.desc, /built to end: five finite tables/);
   assert.match(nindova.desc, /deliberately separate Night Room/);
-  assert.match(nindova.desc, /no account, public ranking, advertising, app telemetry, or randomized prize/);
-  assert.match(nindova.desc, /latest completion per game/);
+  assert.match(nindova.desc, /No account, ads, rankings, or telemetry/);
+  assert.match(nindova.desc, /clearable anytime/);
   assert.doesNotMatch(nindova.desc, /improves? sleep|dopamine|memory/i);
 });
 
 test('Nimanto explains candidate control without promising employment or sponsorship', () => {
   const nimanto = PROJECTS.find((p) => p.id === 'nimanto');
-  assert.match(nimanto.desc, /private, local-first job-search workbench for H-1B professionals/);
-  assert.match(nimanto.desc, /imported claims stay pending until confirmed/);
-  assert.match(nimanto.desc, /deterministic matching shows support and blockers requirement by requirement/);
-  assert.match(nimanto.desc, /nothing leaves the machine without assurance plus explicit approval/);
-  assert.match(nimanto.desc, /never screens candidates, predicts hiring odds, or promises sponsorship/);
+  assert.match(nimanto.desc, /local-first workbench for H-1B professionals/);
+  assert.match(nimanto.desc, /requirement by requirement why a role fits/);
+  assert.match(nimanto.desc, /sends nothing anywhere without explicit approval/);
+  assert.match(nimanto.desc, /never predicts hiring odds or promises sponsorship/);
   assert.doesNotMatch(nimanto.desc, /auto-apply|guaranteed|legal advice/i);
 });
 
@@ -491,6 +550,33 @@ test('Nimanto scene turns confirmed evidence into an inspectable, approval-gated
   assert.match(html, /\.nim-evidence-line, \.nim-petal, \.nim-ledger-row, \.nim-approval \{ animation: none !important; \}/);
   assert.match(html, /\.nim-evidence-line, \.nim-petal, \.nim-ledger-row, \.nim-approval \{ opacity: 1; transform: none !important; \}/);
   assert.doesNotMatch(html, /automatic application|hiring odds|sponsorship guaranteed/i);
+});
+
+test('PalDawn scene flies a cited cause-to-effect voyage into first light', () => {
+  const html = readIndex();
+  assert.match(html, /class="pal-scene" aria-hidden="true"/);
+  assert.match(html, /Cause → effect/);
+  assert.match(html, /A voyage you can fact-check\./);
+  assert.match(html, /class="pal-depth lay">plain<\/span>/);
+  assert.match(html, /class="pal-depth cli">clinical<\/span>/);
+  assert.equal((html.match(/class="pal-node (?:cause|portal|effect)"/g) || []).length, 3);
+  assert.match(html, /every claim cited/);
+  assert.match(html, /\.ghp-card\.visible \.pal-ship \{ animation: palShip [^;]+ both; \}/);
+  assert.doesNotMatch(html, /animation: pal[A-Za-z]+ [^;]+ infinite/, 'the voyage story should settle');
+  assert.match(html, /\.pal-dawn-group, \.pal-route, \.pal-ship, \.pal-node\.effect, \.pal-depth, \.pal-proof,/);
+});
+
+test('Vidha scene verifies silence with people before an envelope releases', () => {
+  const html = readIndex();
+  assert.match(html, /class="vid-scene" aria-hidden="true"/);
+  assert.match(html, /Check-ins → release/);
+  assert.match(html, /Released by people, not timers\./);
+  assert.equal((html.match(/class="vid-tick (?:one|two|three|missed)"/g) || []).length, 4);
+  assert.match(html, /Humans verify/);
+  assert.match(html, /sealed until confirmed/);
+  assert.match(html, /\.ghp-card\.visible \.vid-packet \{ animation: vidPacket [^;]+ both; \}/);
+  assert.doesNotMatch(html, /animation: vid[A-Za-z]+ [^;]+ infinite/, 'the vigil story should settle');
+  assert.match(html, /\.vid-progress, \.vid-packet, \.vid-tick, \.vid-node, \.vid-envelope, \.vid-proof \{ animation: none !important; \}/);
 });
 
 test('project ids are unique — each one needs its own scene template', () => {
