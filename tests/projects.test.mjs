@@ -166,11 +166,11 @@ test('PalDawn is featured with its public product and source links', () => {
   );
 });
 
-test('Vidha is featured and links to the repo still named Viraha on GitHub', () => {
+test('Vidha is featured with its project page and source links', () => {
   const vidha = PROJECTS.find((p) => p.id === 'vidha');
   assert.ok(vidha, 'Vidha is missing from the featured builds');
-  assert.equal(vidha.site, 'https://udhawan97.github.io/Viraha/');
-  assert.equal(vidha.source, 'https://github.com/udhawan97/Viraha');
+  assert.equal(vidha.site, 'https://udhawan97.github.io/Vidha/');
+  assert.equal(vidha.source, 'https://github.com/udhawan97/Vidha');
   assert.deepEqual(
     Array.from(vidha.tags),
     ['Human verification', 'Per-envelope rules', 'Sealed content', 'Self-hostable']

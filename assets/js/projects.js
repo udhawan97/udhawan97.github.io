@@ -110,8 +110,8 @@ const PROJECTS = [
     lang: { dot: 'typescript', label: 'TypeScript' },
     desc: 'Some things should reach the people you love even if you can’t deliver them yourself. Vidha holds private letters and documents for chosen recipients and releases them only if you become persistently unreachable—confirmed by trusted people, never by a missed email or a timer alone. Open source and self-hostable.',
     tags: ['Human verification', 'Per-envelope rules', 'Sealed content', 'Self-hostable'],
-    site: 'https://udhawan97.github.io/Viraha/',
-    source: 'https://github.com/udhawan97/Viraha',
+    site: 'https://udhawan97.github.io/Vidha/',
+    source: 'https://github.com/udhawan97/Vidha',
   },
   {
     id: 'nimanto',
