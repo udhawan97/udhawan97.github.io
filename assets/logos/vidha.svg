@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="vdT vdD">
+<title id="vdT">VIDHA</title>
+<desc id="vdD">A cream envelope with an amber wax seal rests in a lamplit pine-green room while a check-in pulse line runs beneath it and a soft glint crosses the seal. Loops every 7s; honors prefers-reduced-motion with the composed static frame: envelope sealed, pulse drawn, glow at rest.</desc>
+<style>
+.vd-glow{animation:vdGlow 7s ease-in-out infinite}
+.vd-env{animation:vdFloat 7s ease-in-out infinite}
+.vd-beat{animation:vdBeat 7s linear infinite,vdBeatO 7s linear infinite}
+.vd-seal-glint{animation:vdGlint 7s linear infinite}
+@keyframes vdGlow{0%{opacity:.32;transform:scale(.96)}45%{opacity:.6;transform:scale(1.04)}100%{opacity:.32;transform:scale(.96)}}
+@keyframes vdFloat{0%{transform:translateY(0)}50%{transform:translateY(-7px)}100%{transform:translateY(0)}}
+@keyframes vdBeat{0%,8%{stroke-dashoffset:52}58%{stroke-dashoffset:-948}100%{stroke-dashoffset:-948}}
+@keyframes vdBeatO{0%,7%{opacity:0}11%{opacity:1}56%{opacity:1}62%,100%{opacity:0}}
+@keyframes vdGlint{0%,60%{stroke-dashoffset:120}74%{stroke-dashoffset:-160}100%{stroke-dashoffset:-160}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<defs>
+<radialGradient id="vdLamp">
+<stop offset="0" stop-color="#d98e3f" stop-opacity=".5"/>
+<stop offset="1" stop-color="#d98e3f" stop-opacity="0"/>
+</radialGradient>
+</defs>
+<rect fill="#0e1a1c" width="512" height="512" rx="112"/>
+<circle class="vd-glow" cx="256" cy="252" r="190" fill="url(#vdLamp)" opacity=".32" style="transform-box:fill-box;transform-origin:center"/>
+<g class="vd-env" style="transform-box:fill-box;transform-origin:center">
+<rect x="140" y="170" width="232" height="156" rx="20" fill="#efe6d2"/>
+<rect x="140" y="170" width="232" height="156" rx="20" fill="none" stroke="#10262a" stroke-width="7"/>
+<path fill="none" stroke="#10262a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M148 186L256 268L364 186"/>
+<path fill="none" stroke="#c9b995" stroke-width="5" stroke-linecap="round" d="M150 312L226 254M362 312L286 254"/>
+<circle cx="256" cy="262" r="34" fill="#c8722f"/>
+<circle cx="256" cy="262" r="34" fill="none" stroke="#f0d9a8" stroke-width="5"/>
+<path fill="none" stroke="#f0d9a8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M242 250L256 276L270 250"/>
+<path class="vd-seal-glint" pathLength="120" fill="none" stroke="#fff3d9" stroke-width="6" stroke-linecap="round" stroke-dasharray="26 254" stroke-dashoffset="-160" d="M228 246A38 38 0 0 1 284 246"/>
+</g>
+<path fill="none" stroke="#37565a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"
+      d="M92 396H188L212 362L240 424L262 396H420"/>
+<path class="vd-beat" pathLength="1000" fill="none" stroke="#8fd0bd" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"
+      stroke-dasharray="52 948" stroke-dashoffset="-948" opacity="0"
+      d="M92 396H188L212 362L240 424L262 396H420"/>
+<circle cx="420" cy="396" r="12" fill="#8fd0bd"/>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="pdT pdD">
+<title id="pdT">PALDAWN</title>
+<desc id="pdD">A gold dawn sun rises behind two quiet body-curve ridges while a paper voyage route sweeps across them and a warm comet flies it from cause to effect, arriving at the light. Loops every 7s; honors prefers-reduced-motion with the composed static frame: sun risen, route drawn, comet at rest.</desc>
+<style>
+.pd-sun{animation:pdSun 7s ease-in-out infinite}
+.pd-halo{animation:pdHalo 7s ease-in-out infinite}
+.pd-ray{animation:pdRay 7s ease-in-out infinite}
+.pd-comet{animation:pdCometT 7s linear infinite,pdCometO 7s linear infinite}
+.pd-spark{animation:pdSpark 7s ease-in-out infinite}
+@keyframes pdSun{0%{transform:translateY(30px)}18%{transform:translateY(0)}84%{transform:translateY(0)}100%{transform:translateY(30px)}}
+@keyframes pdHalo{0%{opacity:0}20%{opacity:.38}82%{opacity:.38}100%{opacity:0}}
+@keyframes pdRay{0%,14%{opacity:0}24%{opacity:.55}80%{opacity:.55}96%,100%{opacity:0}}
+@keyframes pdCometT{0%,12%{stroke-dashoffset:34}52%{stroke-dashoffset:-966}100%{stroke-dashoffset:-966}}
+@keyframes pdCometO{0%,11%{opacity:0}14%{opacity:1}50%{opacity:1}57%,100%{opacity:0}}
+@keyframes pdSpark{0%,49%{opacity:0;transform:scale(.4)}54%{opacity:1;transform:scale(1.25)}62%{opacity:0;transform:scale(1.6)}100%{opacity:0;transform:scale(.4)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<defs>
+<clipPath id="pdClip"><rect width="512" height="512" rx="112"/></clipPath>
+</defs>
+<rect fill="#170f22" width="512" height="512" rx="112"/>
+<g clip-path="url(#pdClip)">
+<circle class="pd-halo" cx="336" cy="316" r="128" fill="none" stroke="#e8b04b" stroke-width="3" opacity=".38" style="transform-box:fill-box;transform-origin:center"/>
+<g class="pd-ray" opacity=".55" stroke="#e8b04b" stroke-width="6" stroke-linecap="round" fill="none">
+<path d="M336 158V128"/>
+<path d="M424 194L446 172"/>
+<path d="M248 194L226 172"/>
+</g>
+<g class="pd-sun" style="transform-box:fill-box;transform-origin:center">
+<circle cx="336" cy="316" r="96" fill="#e8b04b"/>
+<circle cx="336" cy="316" r="96" fill="none" stroke="#f4c46a" stroke-width="5"/>
+</g>
+<path fill="#2a1f3d" d="M0 348C74 322 132 340 202 326C288 308 356 330 512 296V512H0Z"/>
+<path fill="#231733" d="M0 420C92 392 170 408 256 392C348 375 430 396 512 372V512H0Z"/>
+<path fill="none" stroke="#f0e7d8" stroke-width="15" stroke-linecap="round" pathLength="1000"
+      d="M64 446C150 428 128 344 216 322S318 342 352 268"/>
+<path class="pd-comet" pathLength="1000" fill="none" stroke="#ff9d5c" stroke-width="24" stroke-linecap="round"
+      stroke-dasharray="34 966" stroke-dashoffset="-966" opacity="0"
+      d="M64 446C150 428 128 344 216 322S318 342 352 268"/>
+<circle class="pd-spark" cx="352" cy="268" r="20" fill="none" stroke="#fff3d9" stroke-width="5" opacity="0" style="transform-box:fill-box;transform-origin:center"/>
+<circle cx="352" cy="268" r="11" fill="#fff3d9"/>
+</g>
+</svg>
