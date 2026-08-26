@@ -493,6 +493,20 @@ test('Dusori scene turns a permission-based source shelf into a cited brief and 
     'the permission trail must stay distinct from the pale brief panel'
   );
   assert.match(html, /\.dus-trail span \{ color: var\(--dus-paper-dim\); \}/);
+  assert.match(html, /\.dus-source b \{[^}]*white-space: nowrap;/);
+  assert.match(html, /\.dus-source em \{[^}]*white-space: nowrap;/);
+  assert.doesNotMatch(
+    html,
+    /\.dus-source em \{[^}]*transform: scale/,
+    'a scaled label still lays out at full size, so it wraps and bleeds past the source card'
+  );
+  assert.match(html, /\.dus-brief-head b \{[^}]*white-space: nowrap;/);
+  assert.match(html, /\.dus-brief-head span \{[^}]*white-space: nowrap;/);
+  assert.doesNotMatch(
+    html,
+    /\.dus-trail \{[^}]*scale: /,
+    'a standalone scale is never released by keyframes that only animate transform'
+  );
   assert.match(html, /@keyframes dusTransit/);
   assert.match(html, /\.dus-packet, \.dus-brief, \.dus-trail, \.dus-citation-check, \.dus-wheel \{ animation: none !important; \}/);
 });
@@ -535,6 +549,11 @@ test('Nindova scene separates eight finite Salon games from the Night Room', () 
     /@container \(max-width: [^)]+\) \{ \.nin-stage/,
     'the Nindova stage should not rely on breakpoint-specific scale guesses'
   );
+  assert.match(
+    html,
+    /\.ghp-card\[data-project="nindova"\] \.ghp-visual \{ height: 152px; \}/,
+    'the 13/4 stage is taller than the compact 132px visual, so it needs the full-height exception'
+  );
   assert.match(html, /\.ghp-card\.visible \.nin-table \{ animation: ninTable [^;]+ both; \}/);
   assert.doesNotMatch(html, /animation: ninTable [^;]+ infinite/, 'the House story should settle');
   assert.match(html, /\.nin-palace-shell, \.nin-curtain, \.nin-table,/);
@@ -561,7 +580,7 @@ test('Nimanto scene turns confirmed evidence into an inspectable, approval-gated
   assert.match(html, /class="nim-connector evidence" d="M168 69C178 69 183 77 194 77"/);
   assert.match(html, /class="nim-connector ledger" d="M306 77C314 77 318 71 324 71"/);
   assert.doesNotMatch(html, /M146 91C168 91/, 'connectors must not enter the evidence text column');
-  assert.match(html, /\.nim-evidence-line \{[\s\S]*?font: 500 9px\/1\.15 var\(--font-mono\);/);
+  assert.match(html, /\.nim-evidence-line \{[\s\S]*?font: 500 clamp\(6\.6px, 2\.05cqi, 9px\)\/1\.15 var\(--font-mono\);/);
   assert.match(html, /\.ghp-card\[data-project="nimanto"\] \.ghp-visual \{ height: 152px; \}/);
   assert.match(html, /#topBtn \{ bottom: 18px; left: auto; right: 16px; width: 46px;/);
   assert.match(html, /\.ghp-card\.visible \.nim-petal \{ animation: nimFoldOpen [^;]+ both; \}/);
@@ -579,6 +598,21 @@ test('PalDawn scene resolves a sourced mechanism route through a clinical lens',
   assert.equal((html.match(/class="pd-node (?:one|two|three|gold)"/g) || []).length, 4);
   assert.match(html, /Trigger<\/span>[\s\S]*Response<\/span>[\s\S]*System effect<\/span>/);
   assert.match(html, /source beside every step/);
+  assert.match(
+    html,
+    /\.pd-route \{[\s\S]*?stroke-dasharray: 223; stroke-dashoffset: 223;/,
+    'a dash shorter than the 223-unit route leaves it stopping before the lens'
+  );
+  assert.match(
+    html,
+    /\.pd-proof \{[\s\S]*?width: 27%;[\s\S]*?\}/,
+    'the proof line needs a bounded column so it never runs into the phase row'
+  );
+  assert.match(
+    html,
+    /\.pd-phases \{[\s\S]*?left: 34%;/,
+    'the phase row must start clear of the proof column'
+  );
   assert.match(html, /\.ghp-card\.visible \.pd-route \{ animation: pdRoute [^;]+ forwards; \}/);
   assert.doesNotMatch(html, /animation: pd[A-Za-z]+ [^;]+ infinite/, 'the mechanism story should settle');
   assert.match(html, /\.pd-route, \.pd-node-ring, \.pd-node-core, \.pd-lens-ring/);
@@ -592,6 +626,11 @@ test('Vidha scene advances to Concern and visibly holds before Release', () => {
   assert.equal((html.match(/class="vidha-stop (?:reached|hold|planned)"/g) || []).length, 5);
   assert.match(html, /BOUNDED HUMAN/);
   assert.match(html, /stops before Release/);
+  assert.match(
+    html,
+    /<g transform="translate\(\d+ \d+\)">\s*<g class="vidha-envelope">/,
+    'the envelope is placed by a wrapper — its own CSS transform replaces a transform attribute'
+  );
   assert.match(html, /\.ghp-card\.visible \.vidha-envelope \{ animation: vidhaCarry [^;]+ forwards; \}/);
   assert.doesNotMatch(html, /animation: vidha[A-Za-z]+ [^;]+ infinite/, 'the relay story should settle');
   assert.match(html, /\.vidha-bridge\.live, \.vidha-envelope, \.vidha-stop-core, \.vidha-lock/);

@@ -1530,8 +1530,10 @@
   @keyframes oriResolve { to { opacity: 1; transform: none; } }
 
   @container (max-width: 440px) { .ori-stage { transform: translate(-50%,-50%) scale(.88); } }
-  @container (max-width: 360px) { .ori-stage { top: 54%; transform: translate(-50%,-50%) scale(.74); } }
-  @container (max-width: 315px) { .ori-stage { transform: translate(-50%,-50%) scale(.66); } }
+  @container (max-width: 400px) { .ori-stage { transform: translate(-50%,-50%) scale(.82); } }
+  @container (max-width: 360px) { .ori-stage { top: 54%; transform: translate(-50%,-50%) scale(.72); } }
+  @container (max-width: 315px) { .ori-stage { transform: translate(-50%,-50%) scale(.65); } }
+  @container (max-width: 285px) { .ori-stage { transform: translate(-50%,-50%) scale(.59); } }
   @container (max-width: 260px) { .ori-stage { transform: translate(-50%,-50%) scale(.55); } }
 
   /* Hallmark · component: project-card scene · genre: atmospheric · theme: FolioOrb evidence orbit
@@ -1853,8 +1855,10 @@
   @keyframes voyBlueprint { from { opacity: 0; transform: translate3d(0,4px,0); } to { opacity: 1; transform: none; } }
 
   @container (max-width: 440px) { .gol-stage, .voy-stage { transform: translate(-50%,-50%) scale(.88); } }
-  @container (max-width: 360px) { .gol-stage, .voy-stage { transform: translate(-50%,-50%) scale(.74); } }
-  @container (max-width: 315px) { .gol-stage, .voy-stage { transform: translate(-50%,-50%) scale(.66); } }
+  @container (max-width: 400px) { .gol-stage, .voy-stage { transform: translate(-50%,-50%) scale(.82); } }
+  @container (max-width: 360px) { .gol-stage, .voy-stage { transform: translate(-50%,-50%) scale(.72); } }
+  @container (max-width: 315px) { .gol-stage, .voy-stage { transform: translate(-50%,-50%) scale(.65); } }
+  @container (max-width: 285px) { .gol-stage, .voy-stage { transform: translate(-50%,-50%) scale(.59); } }
   @container (max-width: 260px) { .gol-stage, .voy-stage { top: 54%; transform: translate(-50%,-50%) scale(.55); } }
 
   /* Hallmark · component: project-card scene · genre: atmospheric · theme: Codemble galaxy
@@ -1963,8 +1967,10 @@
   @keyframes codProofIn { from { opacity: 0; transform: translate3d(0,5px,0); } to { opacity: 1; transform: none; } }
 
   @container (max-width: 440px) { .cod-stage { transform: translate(-50%,-50%) scale(.88); } }
-  @container (max-width: 360px) { .cod-stage { transform: translate(-50%,-50%) scale(.74); } }
-  @container (max-width: 315px) { .cod-stage { transform: translate(-50%,-50%) scale(.66); } }
+  @container (max-width: 400px) { .cod-stage { transform: translate(-50%,-50%) scale(.82); } }
+  @container (max-width: 360px) { .cod-stage { transform: translate(-50%,-50%) scale(.72); } }
+  @container (max-width: 315px) { .cod-stage { transform: translate(-50%,-50%) scale(.65); } }
+  @container (max-width: 285px) { .cod-stage { transform: translate(-50%,-50%) scale(.59); } }
   @container (max-width: 260px) { .cod-stage { transform: translate(-50%,-50%) scale(.55); } }
 
   /* Hallmark · component: project-card scene · genre: atmospheric · theme: Dusori brand
@@ -1999,9 +2005,9 @@
     -webkit-mask: radial-gradient(circle, transparent 0 19px, var(--dus-ink) 20px 22px, transparent 23px 31px, var(--dus-ink) 32px 34px, transparent 35px);
     mask: radial-gradient(circle, transparent 0 19px, var(--dus-ink) 20px 22px, transparent 23px 31px, var(--dus-ink) 32px 34px, transparent 35px);
   }
-  .dus-sources { position: absolute; left: 8px; top: 31px; width: 122px; height: 72px; z-index: 3; }
+  .dus-sources { position: absolute; left: 8px; top: 31px; width: 126px; height: 84px; z-index: 3; }
   .dus-source {
-    position: absolute; left: 0; width: 112px; height: 40px; padding: 8px 8px 8px 32px;
+    position: absolute; left: 0; width: 114px; height: 40px; padding: 8px 8px 8px 26px;
     border: 1px solid color-mix(in oklch, var(--dus-paper), transparent 79%); border-radius: 7px;
     background: color-mix(in oklch, var(--dus-ink), var(--dus-paper) 7%);
     box-shadow: 0 8px 18px color-mix(in oklch, var(--dus-ink), transparent 52%);
@@ -2009,15 +2015,15 @@
   }
   .dus-source:nth-child(2) { left: 12px; top: 44px; }
   .dus-file-mark {
-    position: absolute; left: 10px; top: 8px; width: 12px; height: 15px;
+    position: absolute; left: 8px; top: 8px; width: 12px; height: 15px;
     border: 1px solid color-mix(in oklch, var(--dus-marigold), transparent 18%); border-radius: 2px;
   }
   .dus-file-mark::after {
     content: ""; position: absolute; left: 2px; right: 2px; top: 5px; height: 1px;
     background: var(--dus-marigold); box-shadow: 0 3px 0 color-mix(in oklch, var(--dus-marigold), transparent 35%);
   }
-  .dus-source b { display: block; font-size: 10px; letter-spacing: .015em; font-weight: 650; }
-  .dus-source em { display: block; margin-top: 4px; color: var(--dus-paper-dim); font-size: 10px; font-style: normal; letter-spacing: .08em; text-transform: uppercase; transform: scale(.72); transform-origin: left top; }
+  .dus-source b { display: block; font-size: 9px; letter-spacing: .015em; font-weight: 650; white-space: nowrap; }
+  .dus-source em { display: block; margin-top: 3px; color: var(--dus-paper-dim); font-size: 7px; font-style: normal; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
   .dus-route { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; overflow: visible; }
   .dus-route path { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; }
   .dus-route .rail { stroke: color-mix(in oklch, var(--dus-marigold), transparent 68%); stroke-width: 1; stroke-dasharray: 2 5; }
@@ -2037,27 +2043,27 @@
     transform-origin: 45% 60%;
   }
   .dus-brief-head {
-    display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 4px;
+    display: grid; gap: 2px; margin-bottom: 4px; padding-bottom: 4px; line-height: 1;
     border-bottom: 1px solid color-mix(in oklch, var(--dus-ink), transparent 86%); font-family: var(--font-mono);
   }
-  .dus-brief-head b { font-size: 10px; letter-spacing: .02em; }
-  .dus-brief-head span { color: var(--dus-vermilion-ink); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; transform: scale(.72); transform-origin: right center; }
+  .dus-brief-head b { font-size: 9px; letter-spacing: .02em; white-space: nowrap; }
+  .dus-brief-head span { color: var(--dus-vermilion-ink); font-size: 7px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
   .dus-step { display: flex; align-items: center; gap: 4px; height: 16px; color: var(--dus-ink-soft); font-size: 10px; font-weight: 650; transform: scale(.86); transform-origin: left center; width: 116%; }
   .dus-step i {
     width: 9px; height: 9px; flex: 0 0 auto; display: grid; place-items: center;
     border: 1px solid color-mix(in oklch, var(--dus-ink), transparent 66%); border-radius: 3px;
-    color: var(--dus-paper); background: var(--dus-marigold); font-size: 10px; font-style: normal; line-height: 1;
+    color: var(--dus-paper); background: var(--dus-marigold); font-size: 8px; font-style: normal; line-height: 1;
   }
   .dus-step.current i { background: transparent; border-color: var(--dus-vermilion); color: var(--dus-vermilion); }
   .dus-citation-check { opacity: 0; }
   .dus-trail {
-    position: absolute; left: 140px; top: 104px; z-index: 6; display: flex; align-items: center; gap: 4px;
-    padding: 4px 8px; border: 1px solid color-mix(in oklch, var(--dus-vermilion), transparent 54%); border-radius: 99px;
+    position: absolute; left: 140px; top: 104px; z-index: 6; display: flex; align-items: center; gap: 3px;
+    padding: 3px 6px; border: 1px solid color-mix(in oklch, var(--dus-vermilion), transparent 54%); border-radius: 99px;
     background: color-mix(in oklch, var(--dus-ink), var(--dus-paper) 8%);
     box-shadow: 0 7px 14px color-mix(in oklch, var(--dus-ink), transparent 55%);
-    color: var(--dus-paper); font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--dus-paper); font-family: var(--font-mono); font-size: 8px; letter-spacing: .06em; text-transform: uppercase;
     white-space: nowrap;
-    opacity: 0; scale: .78; transform-origin: left center;
+    opacity: 0; transform-origin: left center;
   }
   .dus-trail span { color: var(--dus-paper-dim); }
   .dus-trail i { color: var(--dus-marigold); font-style: normal; }
@@ -2084,8 +2090,10 @@
   }
 
   @container (max-width: 440px) { .dus-stage { transform: translate(-50%,-50%) scale(.88); } }
-  @container (max-width: 360px) { .dus-stage { top: 54%; transform: translate(-50%,-50%) scale(.74); } }
-  @container (max-width: 315px) { .dus-stage { transform: translate(-50%,-50%) scale(.66); } }
+  @container (max-width: 400px) { .dus-stage { transform: translate(-50%,-50%) scale(.82); } }
+  @container (max-width: 360px) { .dus-stage { top: 54%; transform: translate(-50%,-50%) scale(.72); } }
+  @container (max-width: 315px) { .dus-stage { transform: translate(-50%,-50%) scale(.65); } }
+  @container (max-width: 285px) { .dus-stage { transform: translate(-50%,-50%) scale(.59); } }
   @container (max-width: 260px) { .dus-stage { transform: translate(-50%,-50%) scale(.55); } }
 
   /* Hallmark · component: Nindova project-card scene · genre: atmospheric
@@ -2313,7 +2321,7 @@
   .nim-evidence-line {
     min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 4px;
     padding: 4px 4px 4px 8px; border-inline-start: 1px solid var(--nim-brass-edge);
-    color: var(--nim-stone-body); font: 500 9px/1.15 var(--font-mono);
+    color: var(--nim-stone-body); font: 500 clamp(6.6px, 2.05cqi, 9px)/1.15 var(--font-mono);
     opacity: 0; transform: translateX(-7px);
   }
   .nim-evidence-line b { color: var(--nim-stone); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -2358,15 +2366,15 @@
   .nim-ledger {
     position: absolute; left: 65.5%; top: 31%; width: 31%; z-index: 4;
     padding-inline-start: 8px; border-inline-start: 1px solid var(--nim-brass-edge);
-    display: grid; gap: 4px;
+    display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px;
   }
   .nim-ledger-title {
-    color: var(--nim-stone-bright); font: 650 9px/1.15 var(--font-mono);
-    letter-spacing: .015em; white-space: nowrap;
+    color: var(--nim-stone-bright); font: 650 clamp(6.4px, 2cqi, 9px)/1.15 var(--font-mono);
+    letter-spacing: .015em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .nim-ledger-row {
     display: grid; grid-template-columns: 5px minmax(0,1fr) auto; align-items: center; gap: 4px;
-    min-width: 0; color: var(--nim-stone-body); font: 500 10px/1.1 var(--font-mono);
+    min-width: 0; color: var(--nim-stone-body); font: 500 clamp(7px, 2.25cqi, 10px)/1.1 var(--font-mono);
     opacity: 0; transform: translateX(7px);
   }
   .nim-ledger-row i { width: 5px; aspect-ratio: 1; transform: rotate(45deg); background: var(--nim-stone-muted); }
@@ -2450,10 +2458,10 @@
     position: absolute; left: 50%; top: 50%; width: min(100%, 432px); height: 100%;
     transform: translate(-50%,-50%); transform-origin: center;
   }
-  .pd-story { position: absolute; left: 3.6%; top: 16%; width: 29%; z-index: 5; }
+  .pd-story { position: absolute; left: 3.6%; top: 15%; width: 31%; z-index: 5; }
   .pd-kicker {
-    display: block; color: var(--pd-cyan); font: 700 8.5px/1.1 var(--font-mono);
-    letter-spacing: .08em; text-transform: uppercase; white-space: nowrap;
+    display: block; color: var(--pd-cyan); font: 700 clamp(6px, 1.6cqi, 7.6px)/1.15 var(--font-mono);
+    letter-spacing: .05em; text-transform: uppercase; white-space: nowrap;
   }
   .pd-story strong {
     display: block; max-width: 126px; margin-top: 7px; color: var(--pd-porcelain);
@@ -2464,7 +2472,7 @@
     background: linear-gradient(90deg, var(--pd-brass), transparent);
   }
   .pd-atlas {
-    position: absolute; left: 29%; top: 4%; width: 70%; height: 91%; z-index: 2;
+    position: absolute; left: 29%; top: 1%; width: 70%; height: 84%; z-index: 2;
     overflow: visible; filter: drop-shadow(0 12px 13px rgba(0,0,0,.42));
   }
   .pd-vessel {
@@ -2474,7 +2482,7 @@
   .pd-contour { fill: none; stroke: color-mix(in srgb, var(--pd-cyan), transparent 82%); stroke-width: .7; }
   .pd-route {
     fill: none; stroke: url(#pd-route-gradient); stroke-width: 2.1; stroke-linecap: round;
-    stroke-dasharray: 125; stroke-dashoffset: 125;
+    stroke-dasharray: 223; stroke-dashoffset: 223;
     filter: drop-shadow(0 0 5px color-mix(in srgb, var(--pd-cyan), transparent 28%));
   }
   .pd-route-ghost {
@@ -2493,7 +2501,7 @@
   .pd-lens-inner { fill: url(#pd-lens-core); stroke: color-mix(in srgb, var(--pd-porcelain), transparent 60%); stroke-width: .8; opacity: 0; }
   .pd-lens-tick { fill: none; stroke: color-mix(in srgb, var(--pd-brass), transparent 38%); stroke-width: .7; opacity: 0; }
   .pd-phases {
-    position: absolute; left: 32.5%; right: 4%; bottom: 6%; z-index: 6;
+    position: absolute; left: 34%; right: 4%; bottom: 6%; z-index: 6;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
   }
   .pd-phase {
@@ -2503,11 +2511,12 @@
   }
   .pd-phase.active { color: var(--pd-cyan-bright); border-color: var(--pd-cyan); }
   .pd-proof {
-    position: absolute; left: 3.6%; bottom: 10%; z-index: 6;
-    display: inline-flex; align-items: center; gap: 5px; color: var(--pd-porcelain-dim);
-    font: 620 8px/1 var(--font-mono); white-space: nowrap; opacity: 0; transform: translateY(4px);
+    position: absolute; left: 3.6%; bottom: 6%; width: 27%; z-index: 6;
+    display: flex; align-items: center; gap: 5px; color: var(--pd-porcelain-dim);
+    font: 620 clamp(6px, 1.8cqi, 8px)/1.25 var(--font-mono); text-wrap: balance;
+    opacity: 0; transform: translateY(4px);
   }
-  .pd-proof i { width: 6px; height: 6px; border-radius: 50%; background: var(--pd-cyan); box-shadow: 0 0 8px var(--pd-cyan); }
+  .pd-proof i { flex: 0 0 auto; width: 6px; height: 6px; border-radius: 50%; background: var(--pd-cyan); box-shadow: 0 0 8px var(--pd-cyan); }
   .ghp-card.visible .pd-route { animation: pdRoute 1.05s cubic-bezier(.2,.7,.25,1) .24s forwards; }
   .ghp-card.visible .pd-node-ring, .ghp-card.visible .pd-node-core { animation: pdNode .36s var(--ease) forwards; }
   .ghp-card.visible .pd-node.two > * { animation-delay: .72s; }
@@ -2613,7 +2622,8 @@
 
   @container (max-width: 350px) {
     .pd-story, .vidha-story { width: 30%; }
-    .pd-kicker, .vidha-kicker { font-size: 7.2px; letter-spacing: .04em; }
+    .pd-kicker { letter-spacing: .02em; white-space: normal; }
+    .vidha-kicker { font-size: 6.4px; letter-spacing: .02em; }
     .pd-proof, .vidha-proof { font-size: 7px; }
     .pd-phases { left: 34%; }
   }
@@ -2660,6 +2670,7 @@
     .gh-projects { margin-top: 32px; }
     .ghp-visual { height: 132px; }
     .ghp-card[data-project="nimanto"] .ghp-visual { height: 152px; }
+    .ghp-card[data-project="nindova"] .ghp-visual { height: 152px; }
     .ghp-body { padding: 18px; }
     .ghp-title-row h4 { font-size: 18px; }
   }
@@ -3994,9 +4005,11 @@
                     <circle class="vidha-stop planned" cx="262" cy="59" r="8"/>
                     <text class="vidha-label hold" x="262" y="79" text-anchor="middle">RELEASE</text>
                   </g>
-                  <g class="vidha-envelope" transform="translate(133 47)">
-                    <rect width="18" height="13" rx="1.5"/>
-                    <path class="vidha-envelope-fold" d="M1 2L9 8L17 2M1 12L7 7M17 12L11 7"/>
+                  <g transform="translate(141 31)">
+                    <g class="vidha-envelope">
+                      <rect width="18" height="13" rx="1.5"/>
+                      <path class="vidha-envelope-fold" d="M1 2L9 8L17 2M1 12L7 7M17 12L11 7"/>
+                    </g>
                   </g>
                   <rect class="vidha-attestation" x="179" y="14" width="78" height="22" rx="4"/>
                   <text class="vidha-attestation-text" x="218" y="23" text-anchor="middle">BOUNDED HUMAN</text>
