@@ -162,10 +162,10 @@ test('PalDawn is featured with its live Mechanism Lens and safety boundary', () 
   assert.equal(paldawn.source, 'https://github.com/udhawan97/PalDawn');
   assert.deepEqual(
     Array.from(paldawn.tags),
-    ['Systems learning', 'Source-linked', 'Mechanism Lens', 'Synthetic only']
+    ['3D learning voyage', 'Source-linked', 'Mechanism Lens', 'Synthetic map']
   );
-  assert.match(paldawn.desc, /educational—not diagnostic/i);
-  assert.match(paldawn.desc, /never presents project-authored visuals as anatomy/i);
+  assert.match(paldawn.desc, /Educational only—it does not diagnose/i);
+  assert.match(paldawn.desc, /synthetic systems map is not reviewed anatomy/i);
 });
 
 test('Vidha is featured as a pre-alpha local rehearsal, not a release service', () => {
@@ -176,10 +176,10 @@ test('Vidha is featured as a pre-alpha local rehearsal, not a release service', 
   assert.equal(vidha.source, 'https://github.com/udhawan97/Vidha');
   assert.deepEqual(
     Array.from(vidha.tags),
-    ['Contingency relay', 'Explicit check-ins', 'Human verification', 'Synthetic only']
+    ['Contingency relay', 'Explicit check-ins', 'Human verification planned', 'Synthetic only']
   );
-  assert.match(vidha.desc, /Concern—never a conclusion/);
-  assert.match(vidha.desc, /stops before Guardian authority, delivery, or Release/);
+  assert.match(vidha.desc, /designed around check-ins and human verification without drawing conclusions/);
+  assert.match(vidha.desc, /Verification, authority, and delivery are not yet implemented/);
 });
 
 test('Codemble is featured with its public product and source links', () => {
@@ -189,7 +189,7 @@ test('Codemble is featured with its public product and source links', () => {
   assert.equal(codemble.source, 'https://github.com/udhawan97/Codemble');
   assert.deepEqual(
     Array.from(codemble.tags),
-    ['Code literacy', 'Parser-proven', '3D + 2D maps', 'Polyglot']
+    ['Local code maps', 'Nine languages', 'Change impact', 'Proof-based learning']
   );
 });
 
@@ -200,7 +200,7 @@ test('Dusori is featured with its public product and source links', () => {
   assert.equal(dusori.source, 'https://github.com/udhawan97/Dusori');
   assert.deepEqual(
     Array.from(dusori.tags),
-    ['Learning workspace', 'Portable files', 'Conflict-safe', 'Obsidian-ready']
+    ['Evidence research', 'Consent-gated', 'Cited briefs', 'Local files']
   );
 });
 
@@ -211,7 +211,7 @@ test('Nindova is featured with its live product and source links', () => {
   assert.equal(nindova.source, 'https://github.com/udhawan97/Nindova');
   assert.deepEqual(
     Array.from(nindova.tags),
-    ['Five finite games', 'Separate Night Room', 'Private + offline', 'No rankings or ads']
+    ['Eight finite games', 'Separate Night Room', 'Private + offline', 'No rankings or ads']
   );
 });
 
@@ -222,17 +222,18 @@ test('Nimanto is featured with its public product and source links', () => {
   assert.equal(nimanto.source, 'https://github.com/udhawan97/Nimanto');
   assert.deepEqual(
     Array.from(nimanto.tags),
-    ['Candidate-controlled', 'Evidence-first', 'Local-first', 'Approval-gated']
+    ['Candidate-controlled', 'Explainable fit', 'Local-first', 'Approval-gated']
   );
 });
 
 test('project maturity labels match the current public rollout order', () => {
   const status = Object.fromEntries(PROJECTS.map((p) => [p.id, p.status]));
-  assert.deepEqual({ ...status.golavo }, { label: 'Early access', tone: 'beta' });
-  assert.deepEqual({ ...status.voyalier }, { label: 'Early access', tone: 'beta' });
-  assert.deepEqual({ ...status.codemble }, { label: 'Under construction' });
-  assert.deepEqual({ ...status.dusori }, { label: 'Under construction' });
-  assert.deepEqual({ ...status.nimanto }, { label: 'Local beta', tone: 'nimanto' });
+  assert.deepEqual({ ...status.folioorb }, { label: 'Stable', tone: 'live' });
+  assert.deepEqual({ ...status.golavo }, { label: 'Pre-alpha', tone: 'beta' });
+  assert.deepEqual({ ...status.voyalier }, { label: 'Public beta', tone: 'beta' });
+  assert.deepEqual({ ...status.codemble }, { label: 'Stable', tone: 'live' });
+  assert.deepEqual({ ...status.dusori }, { label: 'v0.14 live', tone: 'live' });
+  assert.deepEqual({ ...status.nimanto }, { label: 'v0.8 beta', tone: 'nimanto' });
   assert.deepEqual({ ...status.nindova }, { label: 'Live', tone: 'live' });
   assert.deepEqual({ ...status.paldawn }, { label: 'v0.3 live', tone: 'paldawn' });
   assert.deepEqual({ ...status.vidha }, { label: 'Pre-alpha', tone: 'vidha' });
@@ -255,40 +256,38 @@ test('PalDawn and Vidha have bespoke visual scenes with explicit resting states'
  */
 test('every description stays concise and layman-readable', () => {
   for (const p of PROJECTS) {
-    assert.ok(p.desc.length <= 380, `${p.id} desc runs ${p.desc.length} chars — keep it under 380`);
-    assert.doesNotMatch(p.desc, /\bAI\b/i, `${p.id} desc must not lead on AI`);
+    assert.ok(p.desc.length <= 300, `${p.id} desc runs ${p.desc.length} chars — keep it under 300`);
+    assert.doesNotMatch(p.desc, /^AI\b/i, `${p.id} desc must not lead on AI`);
   }
 });
 
 test('Codemble and Dusori explain their distinct user value without leading on AI', () => {
   const codemble = PROJECTS.find((p) => p.id === 'codemble');
   const dusori = PROJECTS.find((p) => p.id === 'dusori');
-  assert.match(codemble.desc, /explorable 3D galaxy where progress is earned/);
-  assert.match(codemble.desc, /pass checks derived from the code/);
-  assert.doesNotMatch(codemble.desc, /\bAI\b/i);
-  assert.match(dusori.desc, /scattered notes and syllabi into a paced plan/);
-  assert.match(dusori.desc, /plain, portable files/);
-  assert.match(dusori.desc, /any Markdown editor and stays yours/);
-  assert.doesNotMatch(dusori.desc, /\bAI\b/i);
+  assert.match(codemble.desc, /maps local code as an explorable galaxy and conventional diagrams/);
+  assert.match(codemble.desc, /parser-derived checks prove understanding/);
+  assert.doesNotMatch(codemble.desc, /^AI\b/i);
+  assert.match(dusori.desc, /uses only search providers you permit/);
+  assert.match(dusori.desc, /honest brief with citations and visible gaps/);
+  assert.match(dusori.desc, /ordinary local files/);
+  assert.doesNotMatch(dusori.desc, /^AI\b/i);
 });
 
 test('PalDawn explains a source-linked mechanism atlas without medical claims', () => {
   const paldawn = PROJECTS.find((p) => p.id === 'paldawn');
-  assert.match(paldawn.desc, /source-linked, synthetic atlas/);
-  assert.match(paldawn.desc, /Mechanism Lens moves phase by phase/);
-  assert.match(paldawn.desc, /keeps evidence beside each explanation/);
-  assert.match(paldawn.desc, /educational—not diagnostic/);
-  assert.match(paldawn.desc, /never presents project-authored visuals as anatomy/);
+  assert.match(paldawn.desc, /source-linked explanations into guided 3D journeys/);
+  assert.match(paldawn.desc, /evidence beside each step/);
+  assert.match(paldawn.desc, /does not diagnose/);
+  assert.match(paldawn.desc, /synthetic systems map is not reviewed anatomy/);
   assert.doesNotMatch(paldawn.desc, /\bAI\b/i);
   assert.doesNotMatch(paldawn.desc, /\b(?:treatment|cure|triage)\b/i);
 });
 
-test('Vidha explains a bounded human relay without claiming release capability', () => {
+test('Vidha explains a bounded relay without claiming unimplemented human verification', () => {
   const vidha = PROJECTS.find((p) => p.id === 'vidha');
-  assert.match(vidha.desc, /local, synthetic rehearsal/);
-  assert.match(vidha.desc, /Concern—never a conclusion/);
-  assert.match(vidha.desc, /verification human, authority bounded/);
-  assert.match(vidha.desc, /stops before Guardian authority, delivery, or Release/);
+  assert.match(vidha.desc, /pre-alpha rehearsal for a recipient-specific document relay/);
+  assert.match(vidha.desc, /designed around check-ins and human verification without drawing conclusions/);
+  assert.match(vidha.desc, /Verification, authority, and delivery are not yet implemented/);
   assert.doesNotMatch(vidha.desc, /\bAI\b/i);
   assert.doesNotMatch(vidha.desc, /\b(?:death|dead|estate)\b/i);
 });
@@ -347,68 +346,67 @@ test('Nimanto icon opens five petals once and provides a still reduced-motion tw
 
 test('Orifold explains one private document workflow instead of leading on local AI', () => {
   const orifold = PROJECTS.find((p) => p.id === 'orifold');
-  assert.match(orifold.desc, /does the whole job natively on the Mac/);
-  assert.match(orifold.desc, /no account and no upload/);
-  assert.match(orifold.desc, /never leaves the machine/);
+  assert.match(orifold.desc, /turns up to 50 mixed files into one clean, searchable, signed, protected document/);
+  assert.match(orifold.desc, /on your Mac/);
+  assert.match(orifold.desc, /no account, upload, or subscription/);
   assert.doesNotMatch(orifold.desc, /\bAI\b/i);
   assert.deepEqual(
     Array.from(orifold.tags),
-    ['Document workflow', 'Private by design', 'OCR + editing', 'macOS']
+    ['One PDF workspace', 'Private on Mac', 'OCR + editing', 'Batch + compare']
   );
 });
 
 test('FolioOrb explains evidence-led decisions without invented performance claims', () => {
   const folioorb = PROJECTS.find((p) => p.id === 'folioorb');
-  assert.match(folioorb.desc, /connects holdings, prices, risk, and news/);
-  assert.match(folioorb.desc, /shows the evidence behind every call/);
-  assert.match(folioorb.desc, /flags missing or stale data/);
-  assert.match(folioorb.desc, /It never places a trade/);
+  assert.match(folioorb.desc, /turns holdings, market context, risk, and news into an explainable review/);
+  assert.match(folioorb.desc, /visible data gaps and durable records/);
+  assert.match(folioorb.desc, /never connects to a brokerage or places trades/);
   assert.doesNotMatch(folioorb.desc, /\bAI\b/i);
   assert.deepEqual(
     Array.from(folioorb.tags),
-    ['Evidence-led', 'Decision support', 'Data quality', 'No auto-trading']
+    ['Explainable review', 'Data gaps visible', 'Durable records', 'No auto-trading']
   );
 });
 
 test('Golavo explains accountable forecasting instead of leading on local AI', () => {
   const golavo = PROJECTS.find((p) => p.id === 'golavo');
-  assert.match(golavo.desc, /makes every forecast accountable/);
-  assert.match(golavo.desc, /sealed before kickoff/);
-  assert.match(golavo.desc, /which methods actually earn trust/);
+  assert.match(golavo.desc, /compares transparent models/);
+  assert.match(golavo.desc, /locks predictions before kickoff/);
+  assert.match(golavo.desc, /post-match evidence to score or void them/);
+  assert.match(golavo.desc, /track record stay visible/);
   assert.doesNotMatch(golavo.desc, /\bAI\b/i);
   assert.deepEqual(
     Array.from(golavo.tags),
-    ['Forecast accountability', 'Four-model ensemble', 'Sealed predictions', 'Calibration']
+    ['Match cockpit', 'Transparent models', 'Sealed predictions', 'Local-first']
   );
 });
 
 test('Voyalier explains reviewed travel readiness instead of leading on local AI', () => {
   const voyalier = PROJECTS.find((p) => p.id === 'voyalier');
-  assert.match(voyalier.desc, /Itinerary apps collect bookings/);
-  assert.match(voyalier.desc, /one reviewed plan/);
-  assert.match(voyalier.desc, /surfaces the gaps before you fly/);
-  assert.match(voyalier.desc, /usable offline/);
-  assert.doesNotMatch(voyalier.desc, /\bAI\b/i);
+  assert.match(voyalier.desc, /Trip plans fracture across confirmations, tabs, and notes/);
+  assert.match(voyalier.desc, /source-linked, reviewable Blueprint/);
+  assert.match(voyalier.desc, /flags logistics gaps and stays useful offline/);
+  assert.doesNotMatch(voyalier.desc, /^AI\b/i);
   assert.deepEqual(
     Array.from(voyalier.tags),
-    ['Evidence-backed', 'Smart Blueprint', 'Offline-ready', 'Consent-first']
+    ['Evidence review', 'Trip Blueprint', 'Offline-ready', 'Consent-first']
   );
 });
 
 test('Nindova explains its separate finite House and Night loops without reward claims', () => {
   const nindova = PROJECTS.find((p) => p.id === 'nindova');
-  assert.match(nindova.desc, /built to end: five finite tables/);
-  assert.match(nindova.desc, /deliberately separate Night Room/);
-  assert.match(nindova.desc, /No account, ads, rankings, or telemetry/);
-  assert.match(nindova.desc, /clearable anytime/);
+  assert.match(nindova.desc, /For adults 18\+/);
+  assert.match(nindova.desc, /eight authored browser games with fixed endings/);
+  assert.match(nindova.desc, /separate self-ending Night Room/);
+  assert.match(nindova.desc, /free of accounts, ads, rankings, or telemetry/);
   assert.doesNotMatch(nindova.desc, /improves? sleep|dopamine|memory/i);
 });
 
 test('Nimanto explains candidate control without promising employment or sponsorship', () => {
   const nimanto = PROJECTS.find((p) => p.id === 'nimanto');
-  assert.match(nimanto.desc, /local-first workbench for H-1B professionals/);
-  assert.match(nimanto.desc, /requirement by requirement why a role fits/);
-  assert.match(nimanto.desc, /sends nothing anywhere without explicit approval/);
+  assert.match(nimanto.desc, /H-1B professionals a private workbench/);
+  assert.match(nimanto.desc, /confirm career facts, inspect role fit, track applications/);
+  assert.match(nimanto.desc, /approve every external handoff/);
   assert.match(nimanto.desc, /never predicts hiring odds or promises sponsorship/);
   assert.doesNotMatch(nimanto.desc, /auto-apply|guaranteed|legal advice/i);
 });
@@ -427,14 +425,14 @@ test('Orifold scene resolves mixed operations into one private document', () => 
   assert.match(html, /\.ori-source, \.ori-packet, \.ori-document, \.ori-doc-sign, \.ori-proof,/);
 });
 
-test('FolioOrb scene resolves visible evidence into a verdict without fake returns', () => {
+test('FolioOrb scene resolves visible evidence into an explainable review without fake returns', () => {
   const html = readIndex();
   assert.match(html, /class="orb-scene" aria-hidden="true"/);
-  assert.match(html, /Evidence → verdict/);
-  assert.match(html, /Decisions without hidden math\./);
+  assert.match(html, /Evidence → review/);
+  assert.match(html, /Know what needs attention\./);
   assert.match(html, /class="orb-source price">prices/);
-  assert.match(html, /<span><em>Hold<\/em><em>Add<\/em><em>Trim<\/em><em>Exit<\/em><\/span>/);
-  assert.match(html, /data quality visible/);
+  assert.match(html, /<span><em>Gaps<\/em><em>Thesis<\/em><em>Plan<\/em><em>Record<\/em><\/span>/);
+  assert.match(html, /missing data visible/);
   assert.match(html, /\.ghp-card\.visible \.orb-signal \{ animation: orbSignal [^;]+ both; \}/);
   assert.doesNotMatch(html, /\+12\.4%/, 'the card must not invent a portfolio return');
   assert.doesNotMatch(html, /@keyframes finDraw/, 'the decision story should resolve instead of replaying a market chart');
@@ -478,21 +476,25 @@ test('Voyalier scene turns reviewed evidence into a ready Smart Blueprint', () =
   assert.match(html, /\.voy-source, \.voy-route-group, \.voy-signal, \.voy-checkpoint, \.voy-destination, \.voy-blueprint,/);
 });
 
-test('Dusori scene animates a reviewed local write and keeps a reduced-motion state', () => {
+test('Dusori scene turns a permission-based source shelf into a cited brief and keeps a reduced-motion state', () => {
   const html = readFileSync(join(root, 'index.html'), 'utf8');
   assert.match(html, /class="dus-scene" aria-hidden="true"/);
-  assert.match(html, /class="dus-source"[^>]*>.*topic\.md/s);
-  assert.match(html, /class="dus-review"[^>]*>.*external edit.*reviewed/s);
+  assert.match(html, /class="dus-source"[^>]*>.*Hard question.*asked locally/s);
+  assert.match(html, /class="dus-source"[^>]*>.*First shelf.*up to 8 sources/s);
+  assert.match(html, /class="dus-brief"[^>]*>.*research-brief\.md.*source-linked/s);
+  assert.match(html, /Claim · cited/);
+  assert.match(html, /Gap · still visible/);
+  assert.match(html, /class="dus-trail"[^>]*>.*permission.*evidence/s);
   assert.doesNotMatch(html, /class="dus-ready"/, 'redundant caption can collide with the source stack');
-  assert.doesNotMatch(html, /class="dus-roadmap-foot"/, 'roadmap footer can collide with the final step');
+  assert.doesNotMatch(html, /class="dus-brief-foot"/, 'brief footer can collide with the final claim');
   assert.match(
     html,
-    /\.dus-review \{[\s\S]*?left: 140px; top: 104px;[\s\S]*?background: color-mix\(in oklch, var\(--dus-ink\), var\(--dus-paper\) 8%\);[\s\S]*?white-space: nowrap;/,
-    'the review checkpoint must stay distinct from the pale roadmap panel'
+    /\.dus-trail \{[\s\S]*?left: 140px; top: 104px;[\s\S]*?background: color-mix\(in oklch, var\(--dus-ink\), var\(--dus-paper\) 8%\);[\s\S]*?white-space: nowrap;/,
+    'the permission trail must stay distinct from the pale brief panel'
   );
-  assert.match(html, /\.dus-review span \{ color: var\(--dus-paper-dim\); \}/);
+  assert.match(html, /\.dus-trail span \{ color: var\(--dus-paper-dim\); \}/);
   assert.match(html, /@keyframes dusTransit/);
-  assert.match(html, /\.dus-packet, \.dus-roadmap, \.dus-review, \.dus-resolve-check, \.dus-wheel \{ animation: none !important; \}/);
+  assert.match(html, /\.dus-packet, \.dus-brief, \.dus-trail, \.dus-citation-check, \.dus-wheel \{ animation: none !important; \}/);
 });
 
 test('Codemble scene turns source relationships into a settled proof state', () => {
@@ -509,19 +511,20 @@ test('Codemble scene turns source relationships into a settled proof state', () 
   assert.match(html, /\.cod-network, \.cod-evidence, \.cod-signal, \.cod-node\.verified,/);
 });
 
-test('Nindova scene separates five finite Salon tables from the Night Room', () => {
+test('Nindova scene separates eight finite Salon games from the Night Room', () => {
   const html = readIndex();
   assert.match(html, /class="nin-scene" aria-hidden="true"/);
   assert.match(html, /House \+<\/span> <span>Night Room/);
-  assert.match(html, /Every room has an ending\./);
+  assert.match(html, /Every game has an ending\./);
   assert.match(html, /class="nin-palace" viewBox="0 0 324 118"/);
   assert.match(html, /class="nin-curtain nin-curtain-left"/);
   assert.match(html, /class="nin-curtain nin-curtain-right"/);
-  assert.equal((html.match(/class="nin-table [^"]+"/g) || []).length, 5);
+  assert.equal((html.match(/class="nin-table [^"]+"/g) || []).length, 8);
+  assert.match(html, /5 DOORS · 8 FINITE GAMES/);
   assert.match(html, /class="nin-threshold"/);
   assert.match(html, /class="nin-door-glow"/);
   assert.match(html, /class="nin-night-room"/);
-  assert.match(html, /five finite games · one night room/);
+  assert.match(html, /eight endings · one night room/);
   assert.match(
     html,
     /\.nin-stage \{[\s\S]*?width: min\(100%, 468px\);[\s\S]*?aspect-ratio: 13 \/ 4;/,

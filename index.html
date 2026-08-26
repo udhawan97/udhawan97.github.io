@@ -1535,13 +1535,13 @@
   @container (max-width: 260px) { .ori-stage { transform: translate(-50%,-50%) scale(.55); } }
 
   /* Hallmark · component: project-card scene · genre: atmospheric · theme: FolioOrb evidence orbit
-   * motion: evidence-enter · signal-converge · verdict-resolve
+   * motion: evidence-enter · signal-converge · review-resolve
    * reduced-motion: complete static state · contrast: pass (40–41)
    * tokens: pass (48) · honest: pass (46) · icons: pass (30)
    * mobile: pass (34, 49, 50–57) · slop: pass (58/58)
    * pre-emit critique: P5 H5 E5 S5 R5 V5
    */
-  /* ── FolioOrb — evidence converges before a decision is named ── */
+  /* ── FolioOrb — evidence converges into an explainable review ── */
   .orb-visual {
     container-type: inline-size;
     background:
@@ -1968,11 +1968,13 @@
   @container (max-width: 260px) { .cod-stage { transform: translate(-50%,-50%) scale(.55); } }
 
   /* Hallmark · component: project-card scene · genre: atmospheric · theme: Dusori brand
-   * motion: file-intake · reviewed-transit · roadmap-resolve
-   * reduced-motion: complete static state · contrast: pass
-   * pre-emit critique: P5 H5 E5 S5 R4 V5
+   * motion: question-intake · evidence-transit · brief-resolve
+   * reduced-motion: complete static state · contrast: pass (40–41)
+   * tokens: pass (48) · honest: pass (46) · icons: pass (30)
+   * mobile: pass (34, 49, 50–57) · slop: pass (58/58)
+   * pre-emit critique: P5 H5 E5 S5 R5 V5
    */
-  /* ── Dusori — local files become a reviewed, portable learning roadmap ── */
+  /* ── Dusori — a permission-based source shelf becomes a cited, gap-aware brief ── */
   .dus-visual {
     container-type: inline-size;
     background:
@@ -2027,19 +2029,19 @@
     box-shadow: 0 0 0 3px color-mix(in oklch, var(--dus-vermilion), transparent 72%), 0 0 12px color-mix(in oklch, var(--dus-vermilion), transparent 20%);
     opacity: 0;
   }
-  .dus-roadmap {
+  .dus-brief {
     position: absolute; left: 282px; top: 42px; z-index: 4; width: 139px; height: 80px; padding: 8px;
     border: 1px solid color-mix(in oklch, var(--dus-ink), transparent 84%); border-radius: 8px;
     background: linear-gradient(145deg, var(--dus-paper), var(--dus-paper-muted)); color: var(--dus-ink);
     box-shadow: -8px 9px 0 color-mix(in oklch, var(--dus-paper-muted), transparent 64%), 0 15px 28px color-mix(in oklch, var(--dus-ink), transparent 38%);
     transform-origin: 45% 60%;
   }
-  .dus-roadmap-head {
+  .dus-brief-head {
     display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 4px;
     border-bottom: 1px solid color-mix(in oklch, var(--dus-ink), transparent 86%); font-family: var(--font-mono);
   }
-  .dus-roadmap-head b { font-size: 10px; letter-spacing: .02em; }
-  .dus-roadmap-head span { color: var(--dus-vermilion-ink); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; transform: scale(.72); transform-origin: right center; }
+  .dus-brief-head b { font-size: 10px; letter-spacing: .02em; }
+  .dus-brief-head span { color: var(--dus-vermilion-ink); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; transform: scale(.72); transform-origin: right center; }
   .dus-step { display: flex; align-items: center; gap: 4px; height: 16px; color: var(--dus-ink-soft); font-size: 10px; font-weight: 650; transform: scale(.86); transform-origin: left center; width: 116%; }
   .dus-step i {
     width: 9px; height: 9px; flex: 0 0 auto; display: grid; place-items: center;
@@ -2047,8 +2049,8 @@
     color: var(--dus-paper); background: var(--dus-marigold); font-size: 10px; font-style: normal; line-height: 1;
   }
   .dus-step.current i { background: transparent; border-color: var(--dus-vermilion); color: var(--dus-vermilion); }
-  .dus-resolve-check { opacity: 0; }
-  .dus-review {
+  .dus-citation-check { opacity: 0; }
+  .dus-trail {
     position: absolute; left: 140px; top: 104px; z-index: 6; display: flex; align-items: center; gap: 4px;
     padding: 4px 8px; border: 1px solid color-mix(in oklch, var(--dus-vermilion), transparent 54%); border-radius: 99px;
     background: color-mix(in oklch, var(--dus-ink), var(--dus-paper) 8%);
@@ -2057,13 +2059,13 @@
     white-space: nowrap;
     opacity: 0; scale: .78; transform-origin: left center;
   }
-  .dus-review span { color: var(--dus-paper-dim); }
-  .dus-review i { color: var(--dus-marigold); font-style: normal; }
-  .dus-review b { font-size: inherit; letter-spacing: inherit; }
+  .dus-trail span { color: var(--dus-paper-dim); }
+  .dus-trail i { color: var(--dus-marigold); font-style: normal; }
+  .dus-trail b { font-size: inherit; letter-spacing: inherit; }
   .ghp-card.visible .dus-packet { animation: dusTransit var(--dus-cycle) var(--ease-in-out) 1 both; }
-  .ghp-card.visible .dus-review,
-  .ghp-card.visible .dus-resolve-check { animation: dusResolve var(--dus-cycle) var(--ease-out) 1 both; }
-  .ghp-card.visible .dus-roadmap { animation: dusDrift var(--dus-cycle) var(--ease-in-out) 1 both; }
+  .ghp-card.visible .dus-trail,
+  .ghp-card.visible .dus-citation-check { animation: dusResolve var(--dus-cycle) var(--ease-out) 1 both; }
+  .ghp-card.visible .dus-brief { animation: dusDrift var(--dus-cycle) var(--ease-in-out) 1 both; }
   .ghp-card.visible .dus-wheel { animation: dusDrift var(--dus-cycle) var(--ease-in-out) 1 reverse both; }
   @keyframes dusTransit {
     0%, 12% { opacity: 0; transform: translate3d(116px,65px,0) scale(.5); }
@@ -2088,10 +2090,13 @@
 
   /* Hallmark · component: Nindova project-card scene · genre: atmospheric
    * theme: existing Shahi Raat · enrichment: tier-B hand-built SVG palace cutaway
-   * motion: palace-arrive · five-tables-settle · threshold-to-night-room
-   * reduced-motion: complete static state · pre-emit critique: P5 H5 E5 S5 R5 V5
+   * motion: palace-arrive · eight-games-settle · threshold-to-night-room
+   * reduced-motion: complete static state · contrast: pass (40–41)
+   * tokens: pass (48) · honest: pass (46) · icons: pass (30)
+   * mobile: pass (34, 49, 50–57) · slop: pass (58/58)
+   * pre-emit critique: P5 H5 E5 S5 R5 V5
    */
-  /* ── Nindova — five finite Salon tables and one deliberately separate Night Room ── */
+  /* ── Nindova — eight finite Salon games and one deliberately separate Night Room ── */
   .nin-visual {
     container-type: inline-size;
     isolation: isolate;
@@ -2186,7 +2191,8 @@
     fill: color-mix(in oklch, var(--nin-pink), var(--nin-night) 22%);
     stroke: color-mix(in oklch, var(--nin-cream), transparent 28%); stroke-width: .9;
   }
-  .nin-table.two .nin-table-surface, .nin-table.four .nin-table-surface {
+  .nin-table.two .nin-table-surface, .nin-table.four .nin-table-surface,
+  .nin-table.six .nin-table-surface, .nin-table.eight .nin-table-surface {
     fill: color-mix(in oklch, var(--nin-madder), var(--nin-night) 16%);
   }
   .nin-table-inlay { fill: var(--nin-saffron); opacity: .9; }
@@ -2224,14 +2230,17 @@
   .ghp-card.visible .nin-palace-shell { animation: ninPalace .5s var(--ease-out) both; }
   .ghp-card.visible .nin-curtain { animation: ninCurtain .55s var(--ease-out) .16s both; }
   .ghp-card.visible .nin-table { animation: ninTable .42s var(--ease-out) both; }
-  .ghp-card.visible .nin-table.one { animation-delay: .38s; }
-  .ghp-card.visible .nin-table.two { animation-delay: .5s; }
-  .ghp-card.visible .nin-table.three { animation-delay: .62s; }
-  .ghp-card.visible .nin-table.four { animation-delay: .74s; }
-  .ghp-card.visible .nin-table.five { animation-delay: .86s; }
-  .ghp-card.visible .nin-threshold, .ghp-card.visible .nin-door-glow { animation: ninThreshold .5s var(--ease-out) .98s both; }
-  .ghp-card.visible .nin-night-room { animation: ninRoom .52s var(--ease-out) 1.14s both; }
-  .ghp-card.visible .nin-proof { animation: ninResolve .48s var(--ease-out) 1.48s both; }
+  .ghp-card.visible .nin-table.one { animation-delay: .32s; }
+  .ghp-card.visible .nin-table.two { animation-delay: .4s; }
+  .ghp-card.visible .nin-table.three { animation-delay: .48s; }
+  .ghp-card.visible .nin-table.four { animation-delay: .56s; }
+  .ghp-card.visible .nin-table.five { animation-delay: .64s; }
+  .ghp-card.visible .nin-table.six { animation-delay: .72s; }
+  .ghp-card.visible .nin-table.seven { animation-delay: .8s; }
+  .ghp-card.visible .nin-table.eight { animation-delay: .88s; }
+  .ghp-card.visible .nin-threshold, .ghp-card.visible .nin-door-glow { animation: ninThreshold .5s var(--ease-out) 1.06s both; }
+  .ghp-card.visible .nin-night-room { animation: ninRoom .52s var(--ease-out) 1.18s both; }
+  .ghp-card.visible .nin-proof { animation: ninResolve .48s var(--ease-out) 1.5s both; }
   @keyframes ninPalace { to { opacity: 1; transform: none; } }
   @keyframes ninCurtain { to { opacity: 1; transform: none; } }
   @keyframes ninTable { to { opacity: 1; transform: none; } }
@@ -2619,7 +2628,7 @@
     .voy-source, .voy-route-group, .voy-signal, .voy-checkpoint, .voy-destination, .voy-blueprint,
     .cod-network, .cod-evidence, .cod-signal, .cod-node.verified,
     .cod-core-ring, .cod-core, .cod-proof,
-    .dus-packet, .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { animation: none !important; }
+    .dus-packet, .dus-brief, .dus-trail, .dus-citation-check, .dus-wheel { animation: none !important; }
     .nin-palace-shell, .nin-curtain, .nin-table,
     .nin-threshold, .nin-door-glow, .nin-night-room, .nin-proof { animation: none !important; }
     .nim-evidence-line, .nim-petal, .nim-ledger-row, .nim-approval { animation: none !important; }
@@ -2635,8 +2644,8 @@
     .cod-network, .cod-evidence, .cod-node.verified, .cod-core-ring, .cod-core, .cod-proof { opacity: 1; transform: none; }
     .cod-signal { opacity: 0; }
     .dus-packet { opacity: 0; }
-    .dus-roadmap, .dus-review, .dus-resolve-check, .dus-wheel { transform: none; }
-    .dus-review, .dus-resolve-check { opacity: 1; }
+    .dus-brief, .dus-trail, .dus-citation-check, .dus-wheel { transform: none; }
+    .dus-trail, .dus-citation-check { opacity: 1; }
     .dus-wheel { opacity: .19; }
     .nin-palace-shell, .nin-curtain, .nin-table, .nin-threshold, .nin-door-glow { opacity: 1; transform: none; }
     .nin-night-room { opacity: 1; transform: none; }
@@ -3815,8 +3824,8 @@
             <div class="orb-scene" aria-hidden="true">
               <div class="orb-stage">
                 <div class="orb-story">
-                  <span class="orb-kicker">Evidence → verdict</span>
-                  <strong>Decisions without hidden math.</strong>
+                  <span class="orb-kicker">Evidence → review</span>
+                  <strong>Know what needs attention.</strong>
                 </div>
                 <div class="orb-system">
                   <svg class="orb-links" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -3833,9 +3842,9 @@
                   <span class="orb-signal"></span>
                   <span class="orb-core-ring"></span>
                   <span class="orb-core"></span>
-                  <span class="orb-actions"><b>Verdict</b><span><em>Hold</em><em>Add</em><em>Trim</em><em>Exit</em></span></span>
+                  <span class="orb-actions"><b>Review</b><span><em>Gaps</em><em>Thesis</em><em>Plan</em><em>Record</em></span></span>
                 </div>
-                <span class="orb-proof"><i></i>data quality visible</span>
+                <span class="orb-proof"><i></i>missing data visible</span>
               </div>
             </div>
         </template>
@@ -4037,8 +4046,8 @@
               <div class="dus-stage">
                 <span class="dus-wheel"></span>
                 <div class="dus-sources">
-                  <div class="dus-source"><i class="dus-file-mark"></i><b>topic.md</b><em>plain text</em></div>
-                  <div class="dus-source"><i class="dus-file-mark"></i><b>sources.json</b><em>validated</em></div>
+                  <div class="dus-source"><i class="dus-file-mark"></i><b>Hard question</b><em>asked locally</em></div>
+                  <div class="dus-source"><i class="dus-file-mark"></i><b>First shelf</b><em>up to 8 sources</em></div>
                 </div>
                 <svg class="dus-route" viewBox="0 0 430 132" preserveAspectRatio="none">
                   <path class="guide" d="M116 65C165 64 170 30 218 42S264 91 302 76"/>
@@ -4046,12 +4055,12 @@
                   <circle cx="116" cy="65" r="2"/><circle cx="218" cy="42" r="2"/><circle cx="302" cy="76" r="2"/>
                 </svg>
                 <span class="dus-packet"></span>
-                <div class="dus-roadmap">
-                  <div class="dus-roadmap-head"><b>roadmap.md</b><span>file-backed</span></div>
-                  <div class="dus-step"><i>✓</i><span>Choose a topic</span></div>
-                  <div class="dus-step current"><i><span class="dus-resolve-check">✓</span></i><span>Review the source</span></div>
+                <div class="dus-brief">
+                  <div class="dus-brief-head"><b>research-brief.md</b><span>source-linked</span></div>
+                  <div class="dus-step"><i>✓</i><span>Claim · cited</span></div>
+                  <div class="dus-step current"><i><span class="dus-citation-check">✓</span></i><span>Gap · still visible</span></div>
                 </div>
-                <div class="dus-review"><span>external edit</span><i>→</i><b>reviewed</b></div>
+                <div class="dus-trail"><span>permission</span><i>→</i><b>evidence</b></div>
               </div>
             </div>
         </template>
@@ -4116,7 +4125,7 @@
                 <div class="nin-story">
                   <span class="nin-crest"></span>
                   <span class="nin-kicker"><span>House +</span> <span>Night Room</span></span>
-                  <strong>Every room has an ending.</strong>
+                  <strong>Every game has an ending.</strong>
                 </div>
                 <svg class="nin-palace" viewBox="0 0 324 118" preserveAspectRatio="xMidYMid meet">
                   <defs>
@@ -4142,7 +4151,7 @@
                   <path class="nin-room-fill" d="M42 101V48C42 39 49 32 58 32H202C211 32 218 39 218 48V101Z"/>
                   <path class="nin-room-arch" d="M49 101V51C49 44 55 38 62 38H198C205 38 211 44 211 51V101M55 49H205"/>
                   <text class="nin-room-label" x="130" y="45" text-anchor="middle">GRAND SALON</text>
-                  <text class="nin-salon-note" x="130" y="97" text-anchor="middle">5 FINITE TABLES · 5 CURTAIN CALLS</text>
+                  <text class="nin-salon-note" x="130" y="97" text-anchor="middle">5 DOORS · 8 FINITE GAMES</text>
 
                   <g class="nin-curtain nin-curtain-left">
                     <path d="M43 35H65L58 50L61 67L55 82L59 101H43Z"/>
@@ -4154,29 +4163,44 @@
                   </g>
 
                   <g class="nin-table one">
-                    <rect class="nin-table-surface" x="70" y="53" width="13" height="13" transform="rotate(45 76.5 59.5)"/>
-                    <rect class="nin-table-inlay" x="74" y="57" width="5" height="5" transform="rotate(45 76.5 59.5)"/>
-                    <circle class="nin-seat" cx="76.5" cy="48" r="1.6"/><circle class="nin-seat" cx="88" cy="59.5" r="1.6"/>
+                    <rect class="nin-table-surface" x="68" y="51" width="11" height="11" transform="rotate(45 73.5 56.5)"/>
+                    <rect class="nin-table-inlay" x="71" y="54" width="5" height="5" transform="rotate(45 73.5 56.5)"/>
+                    <circle class="nin-seat" cx="73.5" cy="47" r="1.4"/><circle class="nin-seat" cx="83" cy="56.5" r="1.4"/>
                   </g>
                   <g class="nin-table two">
-                    <rect class="nin-table-surface" x="114" y="49" width="13" height="13" transform="rotate(45 120.5 55.5)"/>
-                    <rect class="nin-table-inlay" x="118" y="53" width="5" height="5" transform="rotate(45 120.5 55.5)"/>
-                    <circle class="nin-seat" cx="120.5" cy="44" r="1.6"/><circle class="nin-seat" cx="132" cy="55.5" r="1.6"/>
+                    <rect class="nin-table-surface" x="106" y="51" width="11" height="11" transform="rotate(45 111.5 56.5)"/>
+                    <rect class="nin-table-inlay" x="109" y="54" width="5" height="5" transform="rotate(45 111.5 56.5)"/>
+                    <circle class="nin-seat" cx="111.5" cy="47" r="1.4"/><circle class="nin-seat" cx="121" cy="56.5" r="1.4"/>
                   </g>
                   <g class="nin-table three">
-                    <rect class="nin-table-surface" x="158" y="53" width="13" height="13" transform="rotate(45 164.5 59.5)"/>
-                    <rect class="nin-table-inlay" x="162" y="57" width="5" height="5" transform="rotate(45 164.5 59.5)"/>
-                    <circle class="nin-seat" cx="164.5" cy="48" r="1.6"/><circle class="nin-seat" cx="176" cy="59.5" r="1.6"/>
+                    <rect class="nin-table-surface" x="144" y="51" width="11" height="11" transform="rotate(45 149.5 56.5)"/>
+                    <rect class="nin-table-inlay" x="147" y="54" width="5" height="5" transform="rotate(45 149.5 56.5)"/>
+                    <circle class="nin-seat" cx="149.5" cy="47" r="1.4"/><circle class="nin-seat" cx="159" cy="56.5" r="1.4"/>
                   </g>
                   <g class="nin-table four">
-                    <rect class="nin-table-surface" x="92" y="74" width="13" height="13" transform="rotate(45 98.5 80.5)"/>
-                    <rect class="nin-table-inlay" x="96" y="78" width="5" height="5" transform="rotate(45 98.5 80.5)"/>
-                    <circle class="nin-seat" cx="87" cy="80.5" r="1.6"/><circle class="nin-seat" cx="110" cy="80.5" r="1.6"/>
+                    <rect class="nin-table-surface" x="182" y="51" width="11" height="11" transform="rotate(45 187.5 56.5)"/>
+                    <rect class="nin-table-inlay" x="185" y="54" width="5" height="5" transform="rotate(45 187.5 56.5)"/>
+                    <circle class="nin-seat" cx="187.5" cy="47" r="1.4"/><circle class="nin-seat" cx="197" cy="56.5" r="1.4"/>
                   </g>
                   <g class="nin-table five">
-                    <rect class="nin-table-surface" x="136" y="74" width="13" height="13" transform="rotate(45 142.5 80.5)"/>
-                    <rect class="nin-table-inlay" x="140" y="78" width="5" height="5" transform="rotate(45 142.5 80.5)"/>
-                    <circle class="nin-seat" cx="131" cy="80.5" r="1.6"/><circle class="nin-seat" cx="154" cy="80.5" r="1.6"/>
+                    <rect class="nin-table-surface" x="68" y="73" width="11" height="11" transform="rotate(45 73.5 78.5)"/>
+                    <rect class="nin-table-inlay" x="71" y="76" width="5" height="5" transform="rotate(45 73.5 78.5)"/>
+                    <circle class="nin-seat" cx="64" cy="78.5" r="1.4"/><circle class="nin-seat" cx="83" cy="78.5" r="1.4"/>
+                  </g>
+                  <g class="nin-table six">
+                    <rect class="nin-table-surface" x="106" y="73" width="11" height="11" transform="rotate(45 111.5 78.5)"/>
+                    <rect class="nin-table-inlay" x="109" y="76" width="5" height="5" transform="rotate(45 111.5 78.5)"/>
+                    <circle class="nin-seat" cx="102" cy="78.5" r="1.4"/><circle class="nin-seat" cx="121" cy="78.5" r="1.4"/>
+                  </g>
+                  <g class="nin-table seven">
+                    <rect class="nin-table-surface" x="144" y="73" width="11" height="11" transform="rotate(45 149.5 78.5)"/>
+                    <rect class="nin-table-inlay" x="147" y="76" width="5" height="5" transform="rotate(45 149.5 78.5)"/>
+                    <circle class="nin-seat" cx="140" cy="78.5" r="1.4"/><circle class="nin-seat" cx="159" cy="78.5" r="1.4"/>
+                  </g>
+                  <g class="nin-table eight">
+                    <rect class="nin-table-surface" x="182" y="73" width="11" height="11" transform="rotate(45 187.5 78.5)"/>
+                    <rect class="nin-table-inlay" x="185" y="76" width="5" height="5" transform="rotate(45 187.5 78.5)"/>
+                    <circle class="nin-seat" cx="178" cy="78.5" r="1.4"/><circle class="nin-seat" cx="197" cy="78.5" r="1.4"/>
                   </g>
 
                   <ellipse class="nin-door-glow" cx="228" cy="69" rx="15" ry="31"/>
@@ -4195,7 +4219,7 @@
                     <path class="nin-jaali" d="M250 96h3v3h-3zM258 96h3v3h-3zM289 96h3v3h-3zM297 96h3v3h-3z"/>
                   </g>
                 </svg>
-                <span class="nin-proof"><i></i>five finite games · one night room</span>
+                <span class="nin-proof"><i></i>eight endings · one night room</span>
               </div>
             </div>
         </template>
