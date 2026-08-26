@@ -71,10 +71,11 @@ const PROJECTS = [
     id: 'paldawn',
     name: 'PalDawn',
     icon: 'assets/logos/paldawn.svg',
-    status: { label: 'Early access', tone: 'beta' },
+    visualClass: 'pd-visual',
+    status: { label: 'v0.3 live', tone: 'paldawn' },
     lang: { dot: 'typescript', label: 'TypeScript' },
-    desc: 'Anatomy apps show labeled 3D organs; none show how disease actually unfolds. PalDawn is a guided flight through the human body that plays cause and effect—the same scene narrated in plain language or clinical depth, and every factual claim traces to a curated source. Education only: it never diagnoses.',
-    tags: ['Cause → effect', 'Two narration depths', 'Claim-level sources', 'Never diagnoses'],
+    desc: 'A source-linked, synthetic atlas that shows how disease mechanisms unfold across connected body systems. Its Mechanism Lens moves phase by phase through causal relationships and keeps evidence beside each explanation. It is educational—not diagnostic—and never presents project-authored visuals as anatomy.',
+    tags: ['Systems learning', 'Source-linked', 'Mechanism Lens', 'Synthetic only'],
     site: 'https://udhawan97.github.io/PalDawn/',
     source: 'https://github.com/udhawan97/PalDawn',
   },
@@ -106,11 +107,14 @@ const PROJECTS = [
     id: 'vidha',
     name: 'Vidha',
     icon: 'assets/logos/vidha.svg',
-    status: { label: 'Under construction' },
+    visualClass: 'vidha-visual',
+    status: { label: 'Pre-alpha', tone: 'vidha' },
     lang: { dot: 'typescript', label: 'TypeScript' },
-    desc: 'Some things should reach the people you love even if you can’t deliver them yourself. Vidha holds private letters and documents for chosen recipients and releases them only if you become persistently unreachable—confirmed by trusted people, never by a missed email or a timer alone. Open source and self-hostable.',
-    tags: ['Human verification', 'Per-envelope rules', 'Sealed content', 'Self-hostable'],
-    site: 'https://udhawan97.github.io/Vidha/',
+    desc: 'A local, synthetic rehearsal for a contingency relay controlled by one adult Owner. Explicit Check-ins can move the plan into Concern—never a conclusion—while the intended design keeps verification human, authority bounded, and every Envelope recipient-specific. The current prototype deliberately stops before Guardian authority, delivery, or Release.',
+    tags: ['Contingency relay', 'Explicit check-ins', 'Human verification', 'Synthetic only'],
+    site: 'https://github.com/udhawan97/Vidha#readme',
+    siteLabel: 'Read overview',
+    siteAria: 'Read the Vidha project overview',
     source: 'https://github.com/udhawan97/Vidha',
   },
   {
@@ -186,6 +190,8 @@ function projectCardHtml(project, sceneHtml, index = 0) {
   const accessibleStatus = project.status
     ? `<span class="ghp-status-sr">Status: ${esc(project.status.label)}</span>`
     : '';
+  const siteLabel = project.siteLabel || 'Visit site';
+  const siteAria = project.siteAria || `Visit the ${project.name} website`;
 
   return `<article class="ghp-card r d${delay}" data-project="${esc(project.id)}">
           <div class="${visual}" aria-hidden="true">
@@ -206,9 +212,9 @@ function projectCardHtml(project, sceneHtml, index = 0) {
               ${tags}
             </div>
             <div class="ghp-links">
-              <a class="ghp-link primary" href="${esc(project.site)}" target="_blank" rel="noopener" aria-label="Visit the ${esc(project.name)} website">
+              <a class="ghp-link primary" href="${esc(project.site)}" target="_blank" rel="noopener" aria-label="${esc(siteAria)}">
                 ${ICON_GLOBE}
-                Visit site
+                ${esc(siteLabel)}
                 ${ICON_ARROW}
               </a>
               <a class="ghp-link secondary" href="${esc(project.source)}" target="_blank" rel="noopener" aria-label="View ${esc(project.name)} source on GitHub">

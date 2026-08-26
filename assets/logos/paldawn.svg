@@ -1,43 +1,85 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="pdT pdD">
-<title id="pdT">PALDAWN</title>
-<desc id="pdD">A gold dawn sun rises behind two quiet body-curve ridges while a paper voyage route sweeps across them and a warm comet flies it from cause to effect, arriving at the light. Loops every 7s; honors prefers-reduced-motion with the composed static frame: sun risen, route drawn, comet at rest.</desc>
-<style>
-.pd-sun{animation:pdSun 7s ease-in-out infinite}
-.pd-halo{animation:pdHalo 7s ease-in-out infinite}
-.pd-ray{animation:pdRay 7s ease-in-out infinite}
-.pd-comet{animation:pdCometT 7s linear infinite,pdCometO 7s linear infinite}
-.pd-spark{animation:pdSpark 7s ease-in-out infinite}
-@keyframes pdSun{0%{transform:translateY(30px)}18%{transform:translateY(0)}84%{transform:translateY(0)}100%{transform:translateY(30px)}}
-@keyframes pdHalo{0%{opacity:0}20%{opacity:.38}82%{opacity:.38}100%{opacity:0}}
-@keyframes pdRay{0%,14%{opacity:0}24%{opacity:.55}80%{opacity:.55}96%,100%{opacity:0}}
-@keyframes pdCometT{0%,12%{stroke-dashoffset:34}52%{stroke-dashoffset:-966}100%{stroke-dashoffset:-966}}
-@keyframes pdCometO{0%,11%{opacity:0}14%{opacity:1}50%{opacity:1}57%,100%{opacity:0}}
-@keyframes pdSpark{0%,49%{opacity:0;transform:scale(.4)}54%{opacity:1;transform:scale(1.25)}62%{opacity:0;transform:scale(1.6)}100%{opacity:0;transform:scale(.4)}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important}}
-</style>
-<defs>
-<clipPath id="pdClip"><rect width="512" height="512" rx="112"/></clipPath>
-</defs>
-<rect fill="#170f22" width="512" height="512" rx="112"/>
-<g clip-path="url(#pdClip)">
-<circle class="pd-halo" cx="336" cy="316" r="128" fill="none" stroke="#e8b04b" stroke-width="3" opacity=".38" style="transform-box:fill-box;transform-origin:center"/>
-<g class="pd-ray" opacity=".55" stroke="#e8b04b" stroke-width="6" stroke-linecap="round" fill="none">
-<path d="M336 158V128"/>
-<path d="M424 194L446 172"/>
-<path d="M248 194L226 172"/>
-</g>
-<g class="pd-sun" style="transform-box:fill-box;transform-origin:center">
-<circle cx="336" cy="316" r="96" fill="#e8b04b"/>
-<circle cx="336" cy="316" r="96" fill="none" stroke="#f4c46a" stroke-width="5"/>
-</g>
-<path fill="#2a1f3d" d="M0 348C74 322 132 340 202 326C288 308 356 330 512 296V512H0Z"/>
-<path fill="#231733" d="M0 420C92 392 170 408 256 392C348 375 430 396 512 372V512H0Z"/>
-<path fill="none" stroke="#f0e7d8" stroke-width="15" stroke-linecap="round" pathLength="1000"
-      d="M64 446C150 428 128 344 216 322S318 342 352 268"/>
-<path class="pd-comet" pathLength="1000" fill="none" stroke="#ff9d5c" stroke-width="24" stroke-linecap="round"
-      stroke-dasharray="34 966" stroke-dashoffset="-966" opacity="0"
-      d="M64 446C150 428 128 344 216 322S318 342 352 268"/>
-<circle class="pd-spark" cx="352" cy="268" r="20" fill="none" stroke="#fff3d9" stroke-width="5" opacity="0" style="transform-box:fill-box;transform-origin:center"/>
-<circle cx="352" cy="268" r="11" fill="#fff3d9"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title description">
+  <title id="title">PalDawn living app mark</title>
+  <desc id="description">A porcelain listening tube carries a cyan signal to a gold disc over a royal-violet field.</desc>
+  <defs>
+    <radialGradient id="field" cx="72%" cy="20%" r="92%">
+      <stop offset="0" stop-color="#24205a"/>
+      <stop offset=".52" stop-color="#0b0925"/>
+      <stop offset="1" stop-color="#04030e"/>
+    </radialGradient>
+    <linearGradient id="tube" x1="0" y1="0" x2=".78" y2="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".42" stop-color="#f1efe7"/>
+      <stop offset=".72" stop-color="#b8b9c7"/>
+      <stop offset="1" stop-color="#696b7e"/>
+    </linearGradient>
+    <linearGradient id="bezel" x1=".08" y1="0" x2=".9" y2="1">
+      <stop offset="0" stop-color="#fff9e9"/>
+      <stop offset=".28" stop-color="#f0cd70"/>
+      <stop offset=".62" stop-color="#a27728"/>
+      <stop offset="1" stop-color="#3f2e0d"/>
+    </linearGradient>
+    <radialGradient id="disc" cx="34%" cy="27%" r="82%">
+      <stop offset="0" stop-color="#fff3c6"/>
+      <stop offset=".4" stop-color="#dcae45"/>
+      <stop offset=".8" stop-color="#674b14"/>
+      <stop offset="1" stop-color="#271b07"/>
+    </radialGradient>
+    <radialGradient id="cyan-glow">
+      <stop offset="0" stop-color="#d8fff7" stop-opacity=".9"/>
+      <stop offset=".35" stop-color="#45e6cf" stop-opacity=".44"/>
+      <stop offset="1" stop-color="#45e6cf" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft-shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity=".55"/>
+    </filter>
+    <mask id="tube-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="96" height="96">
+      <g fill="none" stroke="#fff" stroke-width="8.4" stroke-linecap="round">
+        <path d="M34 10C34 26 36 32 46 37.5C47.5 52 26 54 26 68C26 80 38 86 50 84C60 82.5 66 76 67 68"/>
+        <path d="M62 10C62 26 60 32 50 37.5"/>
+      </g>
+    </mask>
+  </defs>
+  <style>
+    @keyframes pd-breathe { from { transform: rotate(-.7deg) scale(.99); } to { transform: rotate(.8deg) scale(1.01); } }
+    @keyframes pd-passage { from { stroke-dashoffset: 88; opacity: 0; } 12%, 76% { opacity: 1; } to { stroke-dashoffset: -88; opacity: 0; } }
+    @keyframes pd-arrival { 0%, 46%, 100% { transform: scale(1); } 56% { transform: scale(1.12); } 68% { transform: scale(1.02); } }
+    @keyframes pd-echo { 0%, 50% { transform: scale(.7); opacity: 0; } 58% { opacity: .58; } 88%, 100% { transform: scale(2.25); opacity: 0; } }
+    @keyframes pd-dawn { 0%, 42%, 100% { opacity: .18; } 58% { opacity: .42; } }
+    .pd-mark { transform-box: view-box; transform-origin: center; animation: pd-breathe 8s ease-in-out infinite alternate; }
+    .pd-signal { stroke-dasharray: 5 83; animation: pd-passage 6.8s cubic-bezier(.45,.05,.35,.95) infinite; }
+    .pd-disc { transform-box: fill-box; transform-origin: center; animation: pd-arrival 6.8s cubic-bezier(.45,.05,.35,.95) infinite; }
+    .pd-echo { transform-box: fill-box; transform-origin: center; animation: pd-echo 6.8s cubic-bezier(.45,.05,.35,.95) infinite; }
+    .pd-dawn { animation: pd-dawn 6.8s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) {
+      .pd-mark, .pd-signal, .pd-disc, .pd-echo, .pd-dawn { animation: none; }
+      .pd-signal, .pd-echo { display: none; }
+    }
+  </style>
+  <rect width="96" height="96" rx="20" fill="url(#field)"/>
+  <path d="M-4 72C22 55 32 29 55 18C68 11 83 10 101 15" fill="none" stroke="#45e6cf" stroke-opacity=".08" stroke-width=".7"/>
+  <path d="M-2 81C27 65 39 35 62 25C75 19 88 19 100 22" fill="none" stroke="#e0b653" stroke-opacity=".1" stroke-width=".7"/>
+  <circle class="pd-dawn" cx="70" cy="25" r="31" fill="url(#cyan-glow)"/>
+  <g class="pd-mark" filter="url(#soft-shadow)">
+    <ellipse cx="69.5" cy="62" rx="16" ry="9" fill="#000" opacity=".25"/>
+    <circle cx="34" cy="10.5" r="5.2" fill="url(#tube)"/>
+    <circle cx="62" cy="10.5" r="5.2" fill="url(#tube)"/>
+    <g mask="url(#tube-mask)">
+      <rect width="96" height="96" fill="url(#tube)"/>
+      <path d="M32.5 9C32.5 26 34.5 33.5 44.5 39C45.5 51 24.5 55 24.5 68C24.5 80 36 87 49 85" fill="none" stroke="#fff" stroke-opacity=".58" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    <path class="pd-signal" d="M34 10C34 26 36 32 46 37.5C47.5 52 26 54 26 68C26 80 38 86 50 84C60 82.5 66 76 67 68" fill="none" stroke="#8cf8e8" stroke-width="2.6" stroke-linecap="round"/>
+    <circle class="pd-echo" cx="68" cy="58" r="12" fill="none" stroke="#45e6cf" stroke-width="1.1" opacity="0"/>
+    <g class="pd-disc">
+      <circle cx="68" cy="58" r="12.3" fill="url(#bezel)" stroke="#fff8e4" stroke-opacity=".38" stroke-width=".7"/>
+      <circle cx="68" cy="58" r="9.9" fill="url(#disc)"/>
+      <ellipse cx="64.7" cy="52.8" rx="7.2" ry="3.2" transform="rotate(-26 64.7 52.8)" fill="#fff" opacity=".5"/>
+      <g fill="none" stroke="#4e390f" opacity=".42">
+        <circle cx="68" cy="58" r="8.4" stroke-width=".45"/>
+        <circle cx="68" cy="58" r="6.5" stroke-width=".38"/>
+      </g>
+      <circle cx="68" cy="58" r="9.9" fill="none" stroke="#fff8e4" stroke-opacity=".28" stroke-width="1"/>
+    </g>
+  </g>
+  <rect x=".5" y=".5" width="95" height="95" rx="19.5" fill="none" stroke="#fff" stroke-opacity=".1"/>
 </svg>

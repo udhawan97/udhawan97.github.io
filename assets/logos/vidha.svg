@@ -1,40 +1,75 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="vdT vdD">
-<title id="vdT">VIDHA</title>
-<desc id="vdD">A cream envelope with an amber wax seal rests in a lamplit pine-green room while a check-in pulse line runs beneath it and a soft glint crosses the seal. Loops every 7s; honors prefers-reduced-motion with the composed static frame: envelope sealed, pulse drawn, glow at rest.</desc>
-<style>
-.vd-glow{animation:vdGlow 7s ease-in-out infinite}
-.vd-env{animation:vdFloat 7s ease-in-out infinite}
-.vd-beat{animation:vdBeat 7s linear infinite,vdBeatO 7s linear infinite}
-.vd-seal-glint{animation:vdGlint 7s linear infinite}
-@keyframes vdGlow{0%{opacity:.32;transform:scale(.96)}45%{opacity:.6;transform:scale(1.04)}100%{opacity:.32;transform:scale(.96)}}
-@keyframes vdFloat{0%{transform:translateY(0)}50%{transform:translateY(-7px)}100%{transform:translateY(0)}}
-@keyframes vdBeat{0%,8%{stroke-dashoffset:52}58%{stroke-dashoffset:-948}100%{stroke-dashoffset:-948}}
-@keyframes vdBeatO{0%,7%{opacity:0}11%{opacity:1}56%{opacity:1}62%,100%{opacity:0}}
-@keyframes vdGlint{0%,60%{stroke-dashoffset:120}74%{stroke-dashoffset:-160}100%{stroke-dashoffset:-160}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important}}
-</style>
-<defs>
-<radialGradient id="vdLamp">
-<stop offset="0" stop-color="#d98e3f" stop-opacity=".5"/>
-<stop offset="1" stop-color="#d98e3f" stop-opacity="0"/>
-</radialGradient>
-</defs>
-<rect fill="#0e1a1c" width="512" height="512" rx="112"/>
-<circle class="vd-glow" cx="256" cy="252" r="190" fill="url(#vdLamp)" opacity=".32" style="transform-box:fill-box;transform-origin:center"/>
-<g class="vd-env" style="transform-box:fill-box;transform-origin:center">
-<rect x="140" y="170" width="232" height="156" rx="20" fill="#efe6d2"/>
-<rect x="140" y="170" width="232" height="156" rx="20" fill="none" stroke="#10262a" stroke-width="7"/>
-<path fill="none" stroke="#10262a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M148 186L256 268L364 186"/>
-<path fill="none" stroke="#c9b995" stroke-width="5" stroke-linecap="round" d="M150 312L226 254M362 312L286 254"/>
-<circle cx="256" cy="262" r="34" fill="#c8722f"/>
-<circle cx="256" cy="262" r="34" fill="none" stroke="#f0d9a8" stroke-width="5"/>
-<path fill="none" stroke="#f0d9a8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M242 250L256 276L270 250"/>
-<path class="vd-seal-glint" pathLength="120" fill="none" stroke="#fff3d9" stroke-width="6" stroke-linecap="round" stroke-dasharray="26 254" stroke-dashoffset="-160" d="M228 246A38 38 0 0 1 284 246"/>
-</g>
-<path fill="none" stroke="#37565a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"
-      d="M92 396H188L212 362L240 424L262 396H420"/>
-<path class="vd-beat" pathLength="1000" fill="none" stroke="#8fd0bd" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"
-      stroke-dasharray="52 948" stroke-dashoffset="-948" opacity="0"
-      d="M92 396H188L212 362L240 424L262 396H420"/>
-<circle cx="420" cy="396" r="12" fill="#8fd0bd"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title description">
+  <title id="title">Vidha courier living mark</title>
+  <desc id="description">An ivory courier stands on a marigold continuity line over an indigo field. Vidha remains a provisional working concept.</desc>
+  <defs>
+    <radialGradient id="vidha-field" cx="72%" cy="18%" r="94%">
+      <stop offset="0" stop-color="#2b3b77"/>
+      <stop offset=".52" stop-color="#141f45"/>
+      <stop offset="1" stop-color="#080d22"/>
+    </radialGradient>
+    <linearGradient id="vidha-ivory" x1=".22" y1="0" x2=".78" y2="1">
+      <stop offset="0" stop-color="#fffdf7"/>
+      <stop offset=".48" stop-color="#f7f0e2"/>
+      <stop offset="1" stop-color="#c7bca6"/>
+    </linearGradient>
+    <linearGradient id="vidha-wing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ece3cf"/>
+      <stop offset="1" stop-color="#a99d87"/>
+    </linearGradient>
+    <linearGradient id="vidha-gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#b96f10"/>
+      <stop offset=".45" stop-color="#ffd16a"/>
+      <stop offset=".68" stop-color="#e9a427"/>
+      <stop offset="1" stop-color="#9f5d0b"/>
+    </linearGradient>
+    <filter id="vidha-shadow" x="-40%" y="-40%" width="180%" height="190%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#020511" flood-opacity=".62"/>
+    </filter>
+  </defs>
+  <style>
+    @keyframes vidha-perch { from { transform: translateY(.7px) rotate(-.35deg); } to { transform: translateY(-.8px) rotate(.35deg); } }
+    @keyframes vidha-wing { 0%, 72%, 100% { transform: rotate(0); } 79% { transform: rotate(-4deg); } 86% { transform: rotate(1.5deg); } }
+    @keyframes vidha-blink { 0%, 44%, 48%, 100% { transform: scaleY(1); } 46% { transform: scaleY(.08); } }
+    @keyframes vidha-signal { 0% { transform: translateX(-30px); opacity: 0; } 12%, 66% { opacity: 1; } 82%, 100% { transform: translateX(88px); opacity: 0; } }
+    @keyframes vidha-line { 0%, 100% { opacity: .82; } 50% { opacity: 1; } }
+    .vidha-courier { transform-box: fill-box; transform-origin: 58% 92%; animation: vidha-perch 5.8s ease-in-out infinite alternate; }
+    .vidha-wing { transform-box: fill-box; transform-origin: 76% 58%; animation: vidha-wing 6.4s ease-in-out infinite; }
+    .vidha-eye { transform-box: fill-box; transform-origin: center; animation: vidha-blink 7.2s steps(1,end) infinite; }
+    .vidha-signal { animation: vidha-signal 5.6s cubic-bezier(.2,.65,.25,1) infinite; }
+    .vidha-span { animation: vidha-line 4.8s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) {
+      .vidha-courier, .vidha-wing, .vidha-eye, .vidha-signal, .vidha-span { animation: none; }
+      .vidha-signal { display: none; }
+    }
+  </style>
+  <rect width="120" height="120" rx="24" fill="url(#vidha-field)"/>
+  <path d="M8 26C35 6 79 5 111 24" fill="none" stroke="#fff" stroke-opacity=".055"/>
+  <path d="M5 36C37 15 83 15 116 35" fill="none" stroke="#e9a427" stroke-opacity=".075"/>
+  <g transform="translate(1 12)" filter="url(#vidha-shadow)">
+    <path class="vidha-span" d="M-4 80H124" stroke="url(#vidha-gold)" stroke-width="3.2" stroke-linecap="round"/>
+    <circle class="vidha-signal" cx="14" cy="80" r="3.2" fill="#fff3c2" stroke="#e9a427" stroke-width="1.2"/>
+    <g class="vidha-courier">
+      <ellipse cx="61" cy="82" rx="25" ry="4" fill="#020511" opacity=".34"/>
+      <path d="M56 68L54.8 79.2M66.4 68L67.2 79.2" stroke="#e9a427" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M52 79.2H57.6M64.4 79.2H70" stroke="#f5bc49" stroke-width="2" stroke-linecap="round"/>
+      <g class="vidha-wing">
+        <path d="M40 40C26 40 14.4 42.4 4 47.2C15.2 51.2 28 50.4 40 47.2Z" fill="url(#vidha-wing)"/>
+        <path d="M39.2 46.4C26 47.2 15.2 51.2 6.4 56.8C17.6 59.2 29.6 57.6 40.8 53.6Z" fill="#f7f0e2"/>
+      </g>
+      <ellipse cx="60" cy="48.8" rx="26.4" ry="24.8" fill="url(#vidha-ivory)"/>
+      <ellipse cx="65.6" cy="62.4" rx="17.6" ry="12" fill="#fffaf0" opacity=".78"/>
+      <path d="M57.6 38.4C42.4 41.6 33.6 52 36 63.2C46.4 67.2 57.6 61.6 61.6 52C64 45.6 63.2 40.8 57.6 38.4Z" fill="url(#vidha-wing)"/>
+      <g>
+        <path d="M76 13.6C78.4 8 82 4.8 85.6 4C84 9.2 80.4 12.8 78 15.2Z" fill="#f7f0e2"/>
+        <ellipse cx="77.6" cy="28.8" rx="18.4" ry="16.8" fill="url(#vidha-ivory)"/>
+        <path d="M93.6 26.4L112 31.2L93.6 36Z" fill="url(#vidha-gold)"/>
+        <g class="vidha-eye">
+          <circle cx="83.2" cy="26.4" r="3.2" fill="#0a1026"/>
+          <circle cx="84.5" cy="25.1" r="1.1" fill="#fff" opacity=".92"/>
+        </g>
+      </g>
+      <path d="M47 28C56 22 69 21 78 24" fill="none" stroke="#fff" stroke-opacity=".32" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
+  </g>
+  <rect x=".5" y=".5" width="119" height="119" rx="23.5" fill="none" stroke="#fff" stroke-opacity=".1"/>
 </svg>

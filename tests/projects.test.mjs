@@ -155,26 +155,31 @@ test('every project links out over https', () => {
   }
 });
 
-test('PalDawn is featured with its public product and source links', () => {
+test('PalDawn is featured with its live Mechanism Lens and safety boundary', () => {
   const paldawn = PROJECTS.find((p) => p.id === 'paldawn');
   assert.ok(paldawn, 'PalDawn is missing from the featured builds');
   assert.equal(paldawn.site, 'https://udhawan97.github.io/PalDawn/');
   assert.equal(paldawn.source, 'https://github.com/udhawan97/PalDawn');
   assert.deepEqual(
     Array.from(paldawn.tags),
-    ['Cause → effect', 'Two narration depths', 'Claim-level sources', 'Never diagnoses']
+    ['Systems learning', 'Source-linked', 'Mechanism Lens', 'Synthetic only']
   );
+  assert.match(paldawn.desc, /educational—not diagnostic/i);
+  assert.match(paldawn.desc, /never presents project-authored visuals as anatomy/i);
 });
 
-test('Vidha is featured with its project page and source links', () => {
+test('Vidha is featured as a pre-alpha local rehearsal, not a release service', () => {
   const vidha = PROJECTS.find((p) => p.id === 'vidha');
   assert.ok(vidha, 'Vidha is missing from the featured builds');
-  assert.equal(vidha.site, 'https://udhawan97.github.io/Vidha/');
+  assert.equal(vidha.site, 'https://github.com/udhawan97/Vidha#readme');
+  assert.equal(vidha.siteLabel, 'Read overview');
   assert.equal(vidha.source, 'https://github.com/udhawan97/Vidha');
   assert.deepEqual(
     Array.from(vidha.tags),
-    ['Human verification', 'Per-envelope rules', 'Sealed content', 'Self-hostable']
+    ['Contingency relay', 'Explicit check-ins', 'Human verification', 'Synthetic only']
   );
+  assert.match(vidha.desc, /Concern—never a conclusion/);
+  assert.match(vidha.desc, /stops before Guardian authority, delivery, or Release/);
 });
 
 test('Codemble is featured with its public product and source links', () => {
@@ -225,12 +230,22 @@ test('project maturity labels match the current public rollout order', () => {
   const status = Object.fromEntries(PROJECTS.map((p) => [p.id, p.status]));
   assert.deepEqual({ ...status.golavo }, { label: 'Early access', tone: 'beta' });
   assert.deepEqual({ ...status.voyalier }, { label: 'Early access', tone: 'beta' });
-  assert.deepEqual({ ...status.paldawn }, { label: 'Early access', tone: 'beta' });
   assert.deepEqual({ ...status.codemble }, { label: 'Under construction' });
   assert.deepEqual({ ...status.dusori }, { label: 'Under construction' });
-  assert.deepEqual({ ...status.vidha }, { label: 'Under construction' });
   assert.deepEqual({ ...status.nimanto }, { label: 'Local beta', tone: 'nimanto' });
   assert.deepEqual({ ...status.nindova }, { label: 'Live', tone: 'live' });
+  assert.deepEqual({ ...status.paldawn }, { label: 'v0.3 live', tone: 'paldawn' });
+  assert.deepEqual({ ...status.vidha }, { label: 'Pre-alpha', tone: 'vidha' });
+});
+
+test('PalDawn and Vidha have bespoke visual scenes with explicit resting states', () => {
+  const html = readIndex();
+  assert.match(html, /<template class="ghp-scene" data-project="paldawn">/);
+  assert.match(html, /source beside every step/);
+  assert.match(html, /<template class="ghp-scene" data-project="vidha">/);
+  assert.match(html, /stops before Release/);
+  assert.match(html, /\.pd-route \{ stroke-dashoffset: 0; \}/);
+  assert.match(html, /\.vidha-bridge\.live \{ stroke-dashoffset: 0; \}/);
 });
 
 /*
@@ -257,22 +272,23 @@ test('Codemble and Dusori explain their distinct user value without leading on A
   assert.doesNotMatch(dusori.desc, /\bAI\b/i);
 });
 
-test('PalDawn explains an evidence-first body voyage without medical claims', () => {
+test('PalDawn explains a source-linked mechanism atlas without medical claims', () => {
   const paldawn = PROJECTS.find((p) => p.id === 'paldawn');
-  assert.match(paldawn.desc, /guided flight through the human body/);
-  assert.match(paldawn.desc, /plain language or clinical depth/);
-  assert.match(paldawn.desc, /every factual claim traces to a curated source/);
-  assert.match(paldawn.desc, /Education only: it never diagnoses/);
+  assert.match(paldawn.desc, /source-linked, synthetic atlas/);
+  assert.match(paldawn.desc, /Mechanism Lens moves phase by phase/);
+  assert.match(paldawn.desc, /keeps evidence beside each explanation/);
+  assert.match(paldawn.desc, /educational—not diagnostic/);
+  assert.match(paldawn.desc, /never presents project-authored visuals as anatomy/);
   assert.doesNotMatch(paldawn.desc, /\bAI\b/i);
   assert.doesNotMatch(paldawn.desc, /\b(?:treatment|cure|triage)\b/i);
 });
 
-test('Vidha explains human-verified release without turning silence into death', () => {
+test('Vidha explains a bounded human relay without claiming release capability', () => {
   const vidha = PROJECTS.find((p) => p.id === 'vidha');
-  assert.match(vidha.desc, /only if you become persistently unreachable/);
-  assert.match(vidha.desc, /confirmed by trusted people/);
-  assert.match(vidha.desc, /never by a missed email or a timer alone/);
-  assert.match(vidha.desc, /Open source and self-hostable/);
+  assert.match(vidha.desc, /local, synthetic rehearsal/);
+  assert.match(vidha.desc, /Concern—never a conclusion/);
+  assert.match(vidha.desc, /verification human, authority bounded/);
+  assert.match(vidha.desc, /stops before Guardian authority, delivery, or Release/);
   assert.doesNotMatch(vidha.desc, /\bAI\b/i);
   assert.doesNotMatch(vidha.desc, /\b(?:death|dead|estate)\b/i);
 });
@@ -552,31 +568,30 @@ test('Nimanto scene turns confirmed evidence into an inspectable, approval-gated
   assert.doesNotMatch(html, /automatic application|hiring odds|sponsorship guaranteed/i);
 });
 
-test('PalDawn scene flies a cited cause-to-effect voyage into first light', () => {
+test('PalDawn scene resolves a sourced mechanism route through a clinical lens', () => {
   const html = readIndex();
-  assert.match(html, /class="pal-scene" aria-hidden="true"/);
-  assert.match(html, /Cause → effect/);
-  assert.match(html, /A voyage you can fact-check\./);
-  assert.match(html, /class="pal-depth lay">plain<\/span>/);
-  assert.match(html, /class="pal-depth cli">clinical<\/span>/);
-  assert.equal((html.match(/class="pal-node (?:cause|portal|effect)"/g) || []).length, 3);
-  assert.match(html, /every claim cited/);
-  assert.match(html, /\.ghp-card\.visible \.pal-ship \{ animation: palShip [^;]+ both; \}/);
-  assert.doesNotMatch(html, /animation: pal[A-Za-z]+ [^;]+ infinite/, 'the voyage story should settle');
-  assert.match(html, /\.pal-dawn-group, \.pal-route, \.pal-ship, \.pal-node\.effect, \.pal-depth, \.pal-proof,/);
+  assert.match(html, /class="pd-scene" aria-hidden="true"/);
+  assert.match(html, /Mechanism → relationship/);
+  assert.match(html, /See systems move together\./);
+  assert.equal((html.match(/class="pd-node (?:one|two|three|gold)"/g) || []).length, 4);
+  assert.match(html, /Trigger<\/span>[\s\S]*Response<\/span>[\s\S]*System effect<\/span>/);
+  assert.match(html, /source beside every step/);
+  assert.match(html, /\.ghp-card\.visible \.pd-route \{ animation: pdRoute [^;]+ forwards; \}/);
+  assert.doesNotMatch(html, /animation: pd[A-Za-z]+ [^;]+ infinite/, 'the mechanism story should settle');
+  assert.match(html, /\.pd-route, \.pd-node-ring, \.pd-node-core, \.pd-lens-ring/);
 });
 
-test('Vidha scene verifies silence with people before an envelope releases', () => {
+test('Vidha scene advances to Concern and visibly holds before Release', () => {
   const html = readIndex();
-  assert.match(html, /class="vid-scene" aria-hidden="true"/);
-  assert.match(html, /Check-ins → release/);
-  assert.match(html, /Released by people, not timers\./);
-  assert.equal((html.match(/class="vid-tick (?:one|two|three|missed)"/g) || []).length, 4);
-  assert.match(html, /Humans verify/);
-  assert.match(html, /sealed until confirmed/);
-  assert.match(html, /\.ghp-card\.visible \.vid-packet \{ animation: vidPacket [^;]+ both; \}/);
-  assert.doesNotMatch(html, /animation: vid[A-Za-z]+ [^;]+ infinite/, 'the vigil story should settle');
-  assert.match(html, /\.vid-progress, \.vid-packet, \.vid-tick, \.vid-node, \.vid-envelope, \.vid-proof \{ animation: none !important; \}/);
+  assert.match(html, /class="vidha-scene" aria-hidden="true"/);
+  assert.match(html, /Check-in → Concern/);
+  assert.match(html, /A relay, never a conclusion\./);
+  assert.equal((html.match(/class="vidha-stop (?:reached|hold|planned)"/g) || []).length, 5);
+  assert.match(html, /BOUNDED HUMAN/);
+  assert.match(html, /stops before Release/);
+  assert.match(html, /\.ghp-card\.visible \.vidha-envelope \{ animation: vidhaCarry [^;]+ forwards; \}/);
+  assert.doesNotMatch(html, /animation: vidha[A-Za-z]+ [^;]+ infinite/, 'the relay story should settle');
+  assert.match(html, /\.vidha-bridge\.live, \.vidha-envelope, \.vidha-stop-core, \.vidha-lock/);
 });
 
 test('project ids are unique — each one needs its own scene template', () => {

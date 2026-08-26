@@ -167,16 +167,6 @@
     --voy-paper-dim: oklch(78% .022 78);
     --voy-vermilion: oklch(61% .16 36);
 
-    /* PalDawn — plum pre-dawn, paper route, saffron first light. */
-    --pal-night: oklch(19% .045 320);
-    --pal-night-deep: oklch(13% .035 315);
-    --pal-ridge: oklch(24% .05 318);
-    --pal-ridge-soft: oklch(30% .055 322);
-    --pal-paper: oklch(95% .015 85);
-    --pal-paper-dim: oklch(77% .02 85);
-    --pal-dawn: oklch(78% .13 80);
-    --pal-rose: oklch(68% .11 20);
-
     /* Codemble galaxy — evidence blue with proof-state amber. */
     --cod-void: #060916;
     --cod-depth: #0c1532;
@@ -199,14 +189,6 @@
     --ease-out: cubic-bezier(.16, 1, .3, 1);
     --ease-in: cubic-bezier(.7, 0, .84, 0);
     --ease-in-out: cubic-bezier(.65, 0, .35, 1);
-
-    /* Vidha — lamplit pine, cream paper, wax-seal amber. */
-    --vid-night: oklch(20% .03 200);
-    --vid-night-deep: oklch(14% .025 205);
-    --vid-paper: oklch(95% .02 90);
-    --vid-paper-dim: oklch(76% .02 92);
-    --vid-amber: oklch(72% .12 70);
-    --vid-teal: oklch(74% .09 180);
 
     /* Nindova — Shahi Raat indigo, madder, silk pink, saffron, and cream. */
     --nin-night: #10143a;
@@ -231,6 +213,26 @@
     --nim-vermilion-text: oklch(69.54% .1442 33.78);
     --nim-emerald: oklch(40.06% .072 166.28);
     --nim-emerald-text: oklch(71.58% .0913 170.42);
+
+    /* PalDawn — Royal Void, porcelain, signal cyan, and clinical brass. */
+    --pd-void: #050412;
+    --pd-violet: #16133d;
+    --pd-violet-lit: #2a2664;
+    --pd-porcelain: #f1efe7;
+    --pd-porcelain-dim: #aeb0bf;
+    --pd-cyan: #45e6cf;
+    --pd-cyan-bright: #b7fff4;
+    --pd-brass: #e0b653;
+    --pd-brass-deep: #6a4f18;
+
+    /* Vidha — editorial indigo, archival ivory, and continuity marigold. */
+    --vidha-night: #0a1026;
+    --vidha-indigo: #141f45;
+    --vidha-indigo-lit: #2d3d77;
+    --vidha-ivory: #fbf4e6;
+    --vidha-ivory-dim: #cfc4ad;
+    --vidha-marigold: #e9a427;
+    --vidha-hold: #d36c50;
   }
   [data-theme="dark"] {
     --bg: #000000;
@@ -1394,6 +1396,30 @@
     background: linear-gradient(100deg, transparent 32%, color-mix(in oklch, var(--nim-brass), transparent 76%) 50%, transparent 68%);
   }
 
+  .ghp-status.paldawn {
+    color: var(--pd-cyan-bright);
+    background: color-mix(in srgb, var(--pd-void), transparent 12%);
+    border-color: color-mix(in srgb, var(--pd-cyan), transparent 48%);
+  }
+  .ghp-status.paldawn .ghp-status-dot {
+    background: var(--pd-cyan); box-shadow: 0 0 8px color-mix(in srgb, var(--pd-cyan), transparent 8%);
+  }
+  .ghp-status.paldawn::before {
+    background: linear-gradient(100deg, transparent 32%, color-mix(in srgb, var(--pd-cyan), transparent 72%) 50%, transparent 68%);
+  }
+
+  .ghp-status.vidha {
+    color: var(--vidha-ivory);
+    background: color-mix(in srgb, var(--vidha-night), transparent 8%);
+    border-color: color-mix(in srgb, var(--vidha-marigold), transparent 42%);
+  }
+  .ghp-status.vidha .ghp-status-dot {
+    background: var(--vidha-marigold); box-shadow: 0 0 7px color-mix(in srgb, var(--vidha-marigold), transparent 12%);
+  }
+  .ghp-status.vidha::before {
+    background: linear-gradient(100deg, transparent 32%, color-mix(in srgb, var(--vidha-marigold), transparent 72%) 50%, transparent 68%);
+  }
+
   .ghp-links { margin-top: auto; display: flex; align-items: center; gap: 18px; }
   .ghp-link {
     display: inline-flex; align-items: center; gap: 7px;
@@ -1831,107 +1857,6 @@
   @container (max-width: 315px) { .gol-stage, .voy-stage { transform: translate(-50%,-50%) scale(.66); } }
   @container (max-width: 260px) { .gol-stage, .voy-stage { top: 54%; transform: translate(-50%,-50%) scale(.55); } }
 
-  /* Hallmark · component: project-card scene · genre: atmospheric · theme: PalDawn first light
-   * motion: dawn-rise · route-draw · voyage-flight · depth-switch · citation-resolve
-   * reduced-motion: complete static state (route drawn, dawn risen, ship at rest)
-   * mobile: shared gol/voy/pal/vid stage scale steps
-   */
-  /* ── PalDawn — a cause-to-effect voyage arrives at first light ── */
-  .pal-scene {
-    position: absolute; inset: 0; overflow: hidden; container-type: inline-size;
-    color: var(--pal-paper);
-    background:
-      radial-gradient(88% 150% at 82% 116%, color-mix(in oklch, var(--pal-dawn), transparent 74%), transparent 62%),
-      linear-gradient(162deg, var(--pal-night), var(--pal-night-deep));
-  }
-  .pal-scene::before {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background:
-      repeating-linear-gradient(0deg, color-mix(in oklch, var(--pal-paper), transparent 98%) 0 1px, transparent 1px 5px),
-      radial-gradient(120% 110% at 48% 48%, transparent 48%, color-mix(in oklch, var(--pal-night-deep), transparent 22%));
-  }
-  .pal-stage {
-    position: absolute; left: 50%; top: 50%; width: 432px; height: 132px;
-    transform: translate(-50%,-50%); transform-origin: 50% 50%;
-  }
-  .pal-story { position: absolute; left: 12px; top: 12px; width: 138px; }
-  .pal-kicker {
-    display: block; color: var(--pal-dawn); font-family: var(--font-mono); font-size: 10px;
-    font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
-  }
-  .pal-story strong {
-    display: block; margin-top: 8px; color: var(--pal-paper);
-    font-size: 14px; line-height: 1.16; letter-spacing: -.015em;
-  }
-  .pal-depths {
-    display: flex; align-items: center; gap: 6px; margin-top: 9px;
-    font-family: var(--font-mono); font-size: 9.5px; font-weight: 700;
-    letter-spacing: .07em; text-transform: uppercase;
-  }
-  .pal-depths i { color: var(--pal-paper-dim); font-style: normal; }
-  .pal-depth {
-    padding: 2px 7px; border-radius: 99px; color: var(--pal-paper-dim);
-    border: 1px solid color-mix(in oklch, var(--pal-paper), transparent 62%);
-  }
-  .pal-depth.cli { border-color: var(--pal-dawn); color: var(--pal-dawn); }
-  .pal-voyage { position: absolute; left: 158px; top: 8px; width: 264px; height: 116px; }
-  .pal-dawn-disc { fill: var(--pal-dawn); }
-  .pal-dawn-ring { fill: none; stroke: color-mix(in oklch, var(--pal-dawn), transparent 46%); stroke-width: 1.5; }
-  .pal-ridge.back { fill: var(--pal-ridge-soft); }
-  .pal-ridge.front { fill: var(--pal-ridge); }
-  .pal-route {
-    fill: none; stroke: var(--pal-paper); stroke-width: 2.4; stroke-linecap: round;
-    stroke-dasharray: 100 100; stroke-dashoffset: 0;
-  }
-  .pal-node { fill: var(--pal-night-deep); stroke: var(--pal-paper-dim); stroke-width: 1.4; }
-  .pal-node.effect { fill: var(--pal-rose); stroke: var(--pal-rose); }
-  .pal-ship { fill: var(--pal-paper); opacity: 0; }
-  .pal-label {
-    fill: var(--pal-paper-dim); font-family: var(--font-mono); font-size: 9px; font-weight: 700;
-    letter-spacing: .1em; text-transform: uppercase; text-anchor: middle;
-  }
-  .pal-label.effect { fill: var(--pal-dawn); }
-  .pal-proof {
-    position: absolute; right: 12px; bottom: 8px; display: inline-flex; align-items: center; gap: 8px;
-    padding: 4px 8px; border: 1px solid color-mix(in oklch, var(--pal-dawn), transparent 52%);
-    color: var(--pal-dawn); background: color-mix(in oklch, var(--pal-night-deep), transparent 18%);
-    font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
-  }
-  .pal-proof i { width: 5px; height: 5px; border-radius: 50%; background: var(--pal-rose); }
-  .ghp-card.visible .pal-dawn-group { animation: palDawnRise .9s var(--ease-out) .3s both; }
-  .ghp-card.visible .pal-route { animation: palRoute .9s var(--ease-in-out) .55s both; }
-  .ghp-card.visible .pal-ship { animation: palShip 1.9s var(--ease-in-out) .85s both; }
-  .ghp-card.visible .pal-node.effect { animation: palResolve .45s var(--ease-out) 2.4s both; }
-  .ghp-card.visible .pal-depth.cli { animation: palDepthOn .5s var(--ease-out) 2.5s both; }
-  .ghp-card.visible .pal-depth.lay { animation: palDepthOff .5s var(--ease-out) 2.5s both; }
-  .ghp-card.visible .pal-proof { animation: palProof .48s var(--ease-out) 2.7s both; }
-  @keyframes palDawnRise { from { opacity: 0; transform: translate3d(0,12px,0); } to { opacity: 1; transform: none; } }
-  @keyframes palRoute { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
-  @keyframes palShip {
-    0% { opacity: 0; transform: translate3d(12px,104px,0) scale(.6); }
-    8% { opacity: 1; }
-    30% { opacity: 1; transform: translate3d(62px,78px,0) scale(1); }
-    52% { opacity: 1; transform: translate3d(116px,50px,0) scale(1); }
-    78% { opacity: 1; transform: translate3d(166px,58px,0) scale(.95); }
-    94% { opacity: 1; transform: translate3d(206px,44px,0) scale(.85); }
-    100% { opacity: 0; transform: translate3d(206px,44px,0) scale(.5); }
-  }
-  @keyframes palResolve { from { opacity: .3; transform: scale(.6); } to { opacity: 1; transform: none; } }
-  @keyframes palDepthOn {
-    from { border-color: color-mix(in oklch, var(--pal-paper), transparent 62%); color: var(--pal-paper-dim); }
-    to { border-color: var(--pal-dawn); color: var(--pal-dawn); }
-  }
-  @keyframes palDepthOff {
-    from { border-color: var(--pal-dawn); color: var(--pal-dawn); }
-    to { border-color: color-mix(in oklch, var(--pal-paper), transparent 62%); color: var(--pal-paper-dim); }
-  }
-  @keyframes palProof { from { opacity: 0; transform: translate3d(0,4px,0); } to { opacity: 1; transform: none; } }
-  /* These must sit after the .pal-stage base rule — same specificity, later wins. */
-  @container (max-width: 440px) { .pal-stage { transform: translate(-50%,-50%) scale(.88); } }
-  @container (max-width: 360px) { .pal-stage { transform: translate(-50%,-50%) scale(.74); } }
-  @container (max-width: 315px) { .pal-stage { transform: translate(-50%,-50%) scale(.66); } }
-  @container (max-width: 260px) { .pal-stage { top: 54%; transform: translate(-50%,-50%) scale(.55); } }
-
   /* Hallmark · component: project-card scene · genre: atmospheric · theme: Codemble galaxy
    * motion: graph-enter · evidence-route · proof-resolve
    * reduced-motion: complete static state · contrast: pass (40–41)
@@ -2160,120 +2085,6 @@
   @container (max-width: 360px) { .dus-stage { top: 54%; transform: translate(-50%,-50%) scale(.74); } }
   @container (max-width: 315px) { .dus-stage { transform: translate(-50%,-50%) scale(.66); } }
   @container (max-width: 260px) { .dus-stage { transform: translate(-50%,-50%) scale(.55); } }
-
-  /* Hallmark · component: project-card scene · genre: atmospheric · theme: Vidha lamplit vigil
-   * motion: rail-draw · check-in-ticks · guardian-verify · envelope-seal-resolve
-   * reduced-motion: complete static state (ticks lit, guardian confirmed, envelope sealed)
-   * mobile: shared gol/voy/pal/vid stage scale steps
-   */
-  /* ── Vidha — check-ins, human verification, then a deliberate release ── */
-  .vid-scene {
-    position: absolute; inset: 0; overflow: hidden; container-type: inline-size;
-    color: var(--vid-paper);
-    background:
-      radial-gradient(86% 150% at 84% 116%, color-mix(in oklch, var(--vid-amber), transparent 76%), transparent 62%),
-      linear-gradient(163deg, var(--vid-night), var(--vid-night-deep));
-  }
-  .vid-scene::before {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background:
-      repeating-linear-gradient(0deg, color-mix(in oklch, var(--vid-paper), transparent 98%) 0 1px, transparent 1px 5px),
-      radial-gradient(120% 110% at 48% 48%, transparent 48%, color-mix(in oklch, var(--vid-night-deep), transparent 20%));
-  }
-  .vid-stage {
-    position: absolute; left: 50%; top: 50%; width: 432px; height: 132px;
-    transform: translate(-50%,-50%); transform-origin: 50% 50%;
-  }
-  .vid-story { position: absolute; left: 12px; top: 12px; width: 140px; }
-  .vid-kicker {
-    display: block; color: var(--vid-amber); font-family: var(--font-mono); font-size: 10px;
-    font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
-  }
-  .vid-story strong {
-    display: block; margin-top: 8px; color: var(--vid-paper);
-    font-size: 14px; line-height: 1.16; letter-spacing: -.015em;
-  }
-  .vid-flow { position: absolute; left: 158px; top: 34px; width: 262px; height: 66px; }
-  .vid-baseline,
-  .vid-progress {
-    position: absolute; left: 4px; top: 24px; width: 236px; height: 1px; transform-origin: left center;
-  }
-  .vid-baseline { background: color-mix(in oklch, var(--vid-paper-dim), transparent 68%); }
-  .vid-progress { background: linear-gradient(90deg, var(--vid-teal), var(--vid-amber)); }
-  .vid-packet {
-    position: absolute; left: 0; top: 20px; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--vid-paper); box-shadow: 0 0 8px var(--vid-amber); opacity: 0;
-  }
-  .vid-ticks { position: absolute; left: 2px; top: 20px; display: flex; gap: 7px; }
-  .vid-tick {
-    width: 9px; height: 9px; border-radius: 2px; transform: rotate(45deg);
-    background: var(--vid-teal);
-  }
-  .vid-tick.missed { background: transparent; border: 1.4px solid var(--vid-amber); }
-  .vid-node {
-    position: absolute; left: 108px; top: 10px; width: 28px; height: 28px; border-radius: 50%;
-    border: 1px solid var(--vid-amber); background: var(--vid-night);
-  }
-  .vid-node::after {
-    content: "✓"; position: absolute; inset: 0; display: grid; place-items: center;
-    color: var(--vid-amber); font-family: var(--font-mono); font-size: 12px; font-weight: 800;
-  }
-  .vid-envelope {
-    position: absolute; right: 0; top: 8px; width: 40px; height: 28px; border-radius: 5px;
-    border: 1.4px solid var(--vid-paper);
-    background: color-mix(in oklch, var(--vid-paper), transparent 88%);
-  }
-  .vid-envelope::before {
-    content: ""; position: absolute; left: 3px; right: 3px; top: 2px; height: 12px;
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
-    background: color-mix(in oklch, var(--vid-paper), transparent 55%);
-  }
-  .vid-seal {
-    position: absolute; left: 50%; top: 12px; width: 11px; height: 11px; border-radius: 50%;
-    transform: translateX(-50%); background: var(--vid-amber);
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--vid-amber), transparent 62%);
-  }
-  .vid-phase {
-    position: absolute; top: 44px; color: var(--vid-paper-dim); font-family: var(--font-mono);
-    font-size: 10px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase;
-    transform: translateX(-50%);
-  }
-  .vid-phase.check { left: 36px; }
-  .vid-phase.verify { left: 122px; color: var(--vid-amber); }
-  .vid-phase.release { left: 242px; color: var(--vid-paper); }
-  .vid-proof {
-    position: absolute; right: 12px; bottom: 8px; display: inline-flex; align-items: center; gap: 8px;
-    padding: 4px 8px; border: 1px solid color-mix(in oklch, var(--vid-amber), transparent 52%);
-    color: var(--vid-amber); background: color-mix(in oklch, var(--vid-night-deep), transparent 18%);
-    font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
-  }
-  .vid-proof i { width: 5px; height: 5px; border-radius: 50%; background: var(--vid-teal); }
-  .ghp-card.visible .vid-progress { animation: vidProgress .72s var(--ease-out) .36s both; }
-  .ghp-card.visible .vid-tick { animation: vidTick .4s var(--ease-out) both; }
-  .ghp-card.visible .vid-tick.one { animation-delay: .5s; }
-  .ghp-card.visible .vid-tick.two { animation-delay: .72s; }
-  .ghp-card.visible .vid-tick.three { animation-delay: .94s; }
-  .ghp-card.visible .vid-tick.missed { animation-delay: 1.2s; }
-  .ghp-card.visible .vid-packet { animation: vidPacket 1.9s var(--ease-in-out) .4s both; }
-  .ghp-card.visible .vid-node { animation: vidResolve .48s var(--ease-out) 1.5s both; }
-  .ghp-card.visible .vid-envelope { animation: vidResolve .48s var(--ease-out) 2.05s both; }
-  .ghp-card.visible .vid-proof { animation: vidProof .48s var(--ease-out) 2.45s both; }
-  @keyframes vidProgress { from { opacity: .2; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
-  @keyframes vidTick { from { opacity: 0; transform: rotate(45deg) scale(.4); } to { opacity: 1; transform: rotate(45deg) scale(1); } }
-  @keyframes vidPacket {
-    0% { opacity: 0; transform: translate3d(4px,0,0) scale(.55); }
-    10% { opacity: 1; }
-    48% { opacity: 1; transform: translate3d(118px,0,0) scale(1); }
-    84% { opacity: 1; transform: translate3d(232px,0,0) scale(.9); }
-    93%, 100% { opacity: 0; transform: translate3d(232px,0,0) scale(.5); }
-  }
-  @keyframes vidResolve { from { opacity: .3; transform: scale(.68); } to { opacity: 1; transform: scale(1); } }
-  @keyframes vidProof { from { opacity: 0; transform: translate3d(0,4px,0); } to { opacity: 1; transform: none; } }
-  /* These must sit after the .vid-stage base rule — same specificity, later wins. */
-  @container (max-width: 440px) { .vid-stage { transform: translate(-50%,-50%) scale(.88); } }
-  @container (max-width: 360px) { .vid-stage { transform: translate(-50%,-50%) scale(.74); } }
-  @container (max-width: 315px) { .vid-stage { transform: translate(-50%,-50%) scale(.66); } }
-  @container (max-width: 260px) { .vid-stage { top: 54%; transform: translate(-50%,-50%) scale(.55); } }
 
   /* Hallmark · component: Nindova project-card scene · genre: atmospheric
    * theme: existing Shahi Raat · enrichment: tier-B hand-built SVG palace cutaway
@@ -2596,6 +2407,208 @@
     .nim-story strong::after { margin-top: 4px; }
   }
 
+  /* ── PalDawn — a contained mechanism lens makes system relationships visible ── */
+  .ghp-card[data-project="paldawn"]:hover,
+  .ghp-card[data-project="paldawn"]:focus-within {
+    border-color: color-mix(in srgb, var(--pd-cyan), transparent 48%);
+    box-shadow: 0 24px 58px color-mix(in srgb, var(--pd-void), transparent 8%),
+                0 0 0 1px color-mix(in srgb, var(--pd-cyan), transparent 84%);
+  }
+  .ghp-card[data-project="paldawn"] .ghp-link.primary { color: var(--pd-cyan); }
+  .pd-visual {
+    container-type: inline-size; isolation: isolate;
+    background:
+      radial-gradient(54% 120% at 78% 102%, color-mix(in srgb, var(--pd-cyan), transparent 77%), transparent 68%),
+      radial-gradient(72% 105% at 47% -18%, color-mix(in srgb, var(--pd-violet-lit), transparent 12%), transparent 72%),
+      linear-gradient(158deg, var(--pd-violet), var(--pd-void));
+  }
+  .pd-visual::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(90deg, transparent 49.8%, color-mix(in srgb, var(--pd-cyan), transparent 94%) 50%, transparent 50.2%) 0 0 / 34px 34px,
+      linear-gradient(0deg, transparent 49.8%, color-mix(in srgb, var(--pd-porcelain), transparent 96%) 50%, transparent 50.2%) 0 0 / 34px 34px;
+    mask-image: linear-gradient(90deg, transparent, #000 30%, #000);
+  }
+  .pd-visual::after {
+    content: ""; position: absolute; width: 190px; height: 190px; right: -54px; top: -82px;
+    border: 1px solid color-mix(in srgb, var(--pd-brass), transparent 85%); border-radius: 50%;
+    box-shadow: 0 0 0 22px color-mix(in srgb, var(--pd-cyan), transparent 96%),
+                0 0 0 47px color-mix(in srgb, var(--pd-brass), transparent 97%);
+  }
+  .pd-visual .ghp-status { z-index: 12; }
+  .pd-scene { position: absolute; inset: 0; overflow: hidden; color: var(--pd-porcelain); }
+  .pd-stage {
+    position: absolute; left: 50%; top: 50%; width: min(100%, 432px); height: 100%;
+    transform: translate(-50%,-50%); transform-origin: center;
+  }
+  .pd-story { position: absolute; left: 3.6%; top: 16%; width: 29%; z-index: 5; }
+  .pd-kicker {
+    display: block; color: var(--pd-cyan); font: 700 8.5px/1.1 var(--font-mono);
+    letter-spacing: .08em; text-transform: uppercase; white-space: nowrap;
+  }
+  .pd-story strong {
+    display: block; max-width: 126px; margin-top: 7px; color: var(--pd-porcelain);
+    font-size: clamp(11px, 3cqi, 14px); line-height: 1.13; letter-spacing: -.018em; text-wrap: balance;
+  }
+  .pd-story strong::after {
+    content: ""; display: block; width: 46%; height: 1px; margin-top: 8px;
+    background: linear-gradient(90deg, var(--pd-brass), transparent);
+  }
+  .pd-atlas {
+    position: absolute; left: 29%; top: 4%; width: 70%; height: 91%; z-index: 2;
+    overflow: visible; filter: drop-shadow(0 12px 13px rgba(0,0,0,.42));
+  }
+  .pd-vessel {
+    fill: color-mix(in srgb, var(--pd-violet-lit), transparent 72%);
+    stroke: color-mix(in srgb, var(--pd-porcelain), transparent 77%); stroke-width: 1;
+  }
+  .pd-contour { fill: none; stroke: color-mix(in srgb, var(--pd-cyan), transparent 82%); stroke-width: .7; }
+  .pd-route {
+    fill: none; stroke: url(#pd-route-gradient); stroke-width: 2.1; stroke-linecap: round;
+    stroke-dasharray: 125; stroke-dashoffset: 125;
+    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--pd-cyan), transparent 28%));
+  }
+  .pd-route-ghost {
+    fill: none; stroke: color-mix(in srgb, var(--pd-porcelain-dim), transparent 73%);
+    stroke-width: 1; stroke-dasharray: 2 5;
+  }
+  .pd-node-ring { fill: color-mix(in srgb, var(--pd-violet), transparent 12%); stroke: var(--pd-cyan); stroke-width: 1; opacity: 0; }
+  .pd-node-core { fill: var(--pd-cyan-bright); opacity: 0; }
+  .pd-node.gold .pd-node-ring { stroke: var(--pd-brass); }
+  .pd-node.gold .pd-node-core { fill: var(--pd-brass); }
+  .pd-lens-halo { fill: url(#pd-lens-glow); opacity: .14; }
+  .pd-lens-ring {
+    fill: color-mix(in srgb, var(--pd-void), transparent 18%); stroke: var(--pd-brass); stroke-width: 1.4;
+    transform-box: fill-box; transform-origin: center; opacity: 0;
+  }
+  .pd-lens-inner { fill: url(#pd-lens-core); stroke: color-mix(in srgb, var(--pd-porcelain), transparent 60%); stroke-width: .8; opacity: 0; }
+  .pd-lens-tick { fill: none; stroke: color-mix(in srgb, var(--pd-brass), transparent 38%); stroke-width: .7; opacity: 0; }
+  .pd-phases {
+    position: absolute; left: 32.5%; right: 4%; bottom: 6%; z-index: 6;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+  }
+  .pd-phase {
+    min-width: 0; padding-top: 4px; border-top: 1px solid color-mix(in srgb, var(--pd-porcelain), transparent 84%);
+    color: var(--pd-porcelain-dim); font: 620 clamp(6px, 1.8cqi, 8px)/1 var(--font-mono);
+    letter-spacing: .02em; opacity: 0; transform: translateY(4px);
+  }
+  .pd-phase.active { color: var(--pd-cyan-bright); border-color: var(--pd-cyan); }
+  .pd-proof {
+    position: absolute; left: 3.6%; bottom: 10%; z-index: 6;
+    display: inline-flex; align-items: center; gap: 5px; color: var(--pd-porcelain-dim);
+    font: 620 8px/1 var(--font-mono); white-space: nowrap; opacity: 0; transform: translateY(4px);
+  }
+  .pd-proof i { width: 6px; height: 6px; border-radius: 50%; background: var(--pd-cyan); box-shadow: 0 0 8px var(--pd-cyan); }
+  .ghp-card.visible .pd-route { animation: pdRoute 1.05s cubic-bezier(.2,.7,.25,1) .24s forwards; }
+  .ghp-card.visible .pd-node-ring, .ghp-card.visible .pd-node-core { animation: pdNode .36s var(--ease) forwards; }
+  .ghp-card.visible .pd-node.two > * { animation-delay: .72s; }
+  .ghp-card.visible .pd-node.three > * { animation-delay: .94s; }
+  .ghp-card.visible .pd-node.gold > * { animation-delay: 1.16s; }
+  .ghp-card.visible .pd-lens-ring { animation: pdLens .48s var(--ease) 1.34s forwards; }
+  .ghp-card.visible .pd-lens-inner, .ghp-card.visible .pd-lens-tick { animation: pdResolve .42s var(--ease) 1.5s forwards; }
+  .ghp-card.visible .pd-phase { animation: pdResolve .32s var(--ease) 1.46s forwards; }
+  .ghp-card.visible .pd-phase:nth-child(2) { animation-delay: 1.58s; }
+  .ghp-card.visible .pd-phase:nth-child(3) { animation-delay: 1.7s; }
+  .ghp-card.visible .pd-proof { animation: pdResolve .36s var(--ease) 1.84s forwards; }
+  @keyframes pdRoute { to { stroke-dashoffset: 0; } }
+  @keyframes pdNode { to { opacity: 1; } }
+  @keyframes pdLens { 0% { opacity: 0; transform: scale(.72); } 68% { opacity: 1; transform: scale(1.1); } 100% { opacity: 1; transform: none; } }
+  @keyframes pdResolve { to { opacity: 1; transform: none; } }
+
+  /* ── Vidha — the continuity span advances to Concern, then visibly holds ── */
+  .ghp-card[data-project="vidha"]:hover,
+  .ghp-card[data-project="vidha"]:focus-within {
+    border-color: color-mix(in srgb, var(--vidha-marigold), transparent 48%);
+    box-shadow: 0 24px 58px color-mix(in srgb, var(--vidha-night), transparent 8%),
+                0 0 0 1px color-mix(in srgb, var(--vidha-marigold), transparent 84%);
+  }
+  .ghp-card[data-project="vidha"] .ghp-link.primary { color: var(--vidha-marigold); }
+  .vidha-visual {
+    container-type: inline-size; isolation: isolate;
+    background:
+      radial-gradient(72% 124% at 81% 108%, color-mix(in srgb, var(--vidha-marigold), transparent 76%), transparent 65%),
+      linear-gradient(155deg, var(--vidha-indigo-lit), var(--vidha-indigo) 45%, var(--vidha-night));
+  }
+  .vidha-visual::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .36;
+    background:
+      repeating-linear-gradient(0deg, transparent 0 16px, color-mix(in srgb, var(--vidha-ivory), transparent 95%) 16px 17px),
+      linear-gradient(90deg, transparent 0 33%, color-mix(in srgb, var(--vidha-ivory), transparent 92%) 33% 33.2%, transparent 33.2%);
+  }
+  .vidha-visual .ghp-status { z-index: 12; }
+  .vidha-scene { position: absolute; inset: 0; overflow: hidden; color: var(--vidha-ivory); }
+  .vidha-stage {
+    position: absolute; left: 50%; top: 50%; width: min(100%, 432px); height: 100%;
+    transform: translate(-50%,-50%); transform-origin: center;
+  }
+  .vidha-story { position: absolute; left: 3.6%; top: 15%; width: 30%; z-index: 5; }
+  .vidha-kicker {
+    display: block; color: var(--vidha-marigold); font: 700 8.5px/1.1 var(--font-mono);
+    letter-spacing: .08em; text-transform: uppercase; white-space: nowrap;
+  }
+  .vidha-story strong {
+    display: block; max-width: 132px; margin-top: 7px; color: var(--vidha-ivory);
+    font-size: clamp(11px, 3cqi, 14px); line-height: 1.13; letter-spacing: -.018em; text-wrap: balance;
+  }
+  .vidha-story strong::after {
+    content: ""; display: block; width: 46%; height: 1px; margin-top: 8px;
+    background: linear-gradient(90deg, var(--vidha-marigold), transparent);
+  }
+  .vidha-relay {
+    position: absolute; left: 31%; top: 12%; width: 67%; height: 78%; z-index: 2;
+    overflow: visible; filter: drop-shadow(0 10px 11px rgba(0,0,0,.36));
+  }
+  .vidha-bridge { fill: none; stroke: color-mix(in srgb, var(--vidha-marigold), transparent 60%); stroke-width: 1.3; }
+  .vidha-bridge.live {
+    stroke: var(--vidha-marigold); stroke-width: 2.1; stroke-dasharray: 116; stroke-dashoffset: 116;
+    filter: drop-shadow(0 0 4px color-mix(in srgb, var(--vidha-marigold), transparent 35%));
+  }
+  .vidha-stop { fill: var(--vidha-indigo); stroke: var(--vidha-ivory-dim); stroke-width: 1; }
+  .vidha-stop.reached { stroke: var(--vidha-marigold); }
+  .vidha-stop.hold { stroke: var(--vidha-hold); stroke-width: 1.5; }
+  .vidha-stop.planned { stroke-dasharray: 2 2; opacity: .58; }
+  .vidha-stop-core { fill: var(--vidha-marigold); opacity: 0; }
+  .vidha-lock { fill: var(--vidha-hold); opacity: 0; }
+  .vidha-label {
+    fill: var(--vidha-ivory-dim); font: 620 7px var(--font-mono); letter-spacing: .02em;
+  }
+  .vidha-label.active { fill: var(--vidha-marigold); }
+  .vidha-label.hold { fill: color-mix(in srgb, var(--vidha-hold), white 20%); }
+  .vidha-envelope {
+    fill: var(--vidha-ivory); stroke: var(--vidha-marigold); stroke-width: .8;
+    transform-box: fill-box; transform-origin: center; opacity: 0;
+  }
+  .vidha-envelope-fold { fill: none; stroke: var(--vidha-indigo); stroke-width: .7; opacity: .7; }
+  .vidha-attestation {
+    fill: color-mix(in srgb, var(--vidha-indigo), transparent 4%); stroke: color-mix(in srgb, var(--vidha-ivory), transparent 66%); stroke-width: .8;
+    opacity: 0; transform-box: fill-box; transform-origin: center;
+  }
+  .vidha-attestation-text { fill: var(--vidha-ivory-dim); font: 620 6.5px var(--font-mono); opacity: 0; }
+  .vidha-proof {
+    position: absolute; left: 3.6%; bottom: 10%; z-index: 6;
+    display: inline-flex; align-items: center; gap: 5px; color: var(--vidha-ivory-dim);
+    font: 620 8px/1 var(--font-mono); white-space: nowrap; opacity: 0; transform: translateY(4px);
+  }
+  .vidha-proof i { width: 6px; height: 6px; transform: rotate(45deg); background: var(--vidha-marigold); }
+  .ghp-card.visible .vidha-bridge.live { animation: vidhaSpan 1.1s cubic-bezier(.2,.7,.25,1) .26s forwards; }
+  .ghp-card.visible .vidha-envelope { animation: vidhaCarry .78s cubic-bezier(.2,.7,.25,1) .48s forwards; }
+  .ghp-card.visible .vidha-stop-core { animation: vidhaResolve .3s var(--ease) 1.14s forwards; }
+  .ghp-card.visible .vidha-lock { animation: vidhaResolve .3s var(--ease) 1.28s forwards; }
+  .ghp-card.visible .vidha-attestation { animation: vidhaAttestation .42s var(--ease) 1.46s forwards; }
+  .ghp-card.visible .vidha-attestation-text { animation: vidhaResolve .32s var(--ease) 1.58s forwards; }
+  .ghp-card.visible .vidha-proof { animation: vidhaResolve .36s var(--ease) 1.74s forwards; }
+  @keyframes vidhaSpan { to { stroke-dashoffset: 0; } }
+  @keyframes vidhaCarry { 0% { opacity: 0; transform: translateX(-62px) rotate(-5deg); } 18% { opacity: 1; } 82%, 100% { opacity: 1; transform: translateX(0) rotate(0); } }
+  @keyframes vidhaAttestation { 0% { opacity: 0; transform: scale(.86); } 100% { opacity: 1; transform: none; } }
+  @keyframes vidhaResolve { to { opacity: 1; transform: none; } }
+
+  @container (max-width: 350px) {
+    .pd-story, .vidha-story { width: 30%; }
+    .pd-kicker, .vidha-kicker { font-size: 7.2px; letter-spacing: .04em; }
+    .pd-proof, .vidha-proof { font-size: 7px; }
+    .pd-phases { left: 34%; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .ori-source, .ori-packet, .ori-document, .ori-doc-sign, .ori-proof,
     .orb-source, .orb-signal, .orb-core-ring, .orb-core, .orb-actions, .orb-proof,
@@ -2610,8 +2623,8 @@
     .nin-palace-shell, .nin-curtain, .nin-table,
     .nin-threshold, .nin-door-glow, .nin-night-room, .nin-proof { animation: none !important; }
     .nim-evidence-line, .nim-petal, .nim-ledger-row, .nim-approval { animation: none !important; }
-    .pal-dawn-group, .pal-route, .pal-ship, .pal-node.effect, .pal-depth, .pal-proof,
-    .vid-progress, .vid-packet, .vid-tick, .vid-node, .vid-envelope, .vid-proof { animation: none !important; }
+    .pd-route, .pd-node-ring, .pd-node-core, .pd-lens-ring, .pd-lens-inner, .pd-lens-tick, .pd-phase, .pd-proof,
+    .vidha-bridge.live, .vidha-envelope, .vidha-stop-core, .vidha-lock, .vidha-attestation, .vidha-attestation-text, .vidha-proof { animation: none !important; }
     .ori-source, .ori-document, .ori-doc-sign, .ori-proof,
     .orb-source, .orb-core-ring, .orb-core, .orb-actions, .orb-proof,
     .ghp-card .ghp-tag { opacity: 1; transform: none; }
@@ -2629,11 +2642,10 @@
     .nin-night-room { opacity: 1; transform: none; }
     .nin-proof { opacity: 1; transform: none; }
     .nim-evidence-line, .nim-petal, .nim-ledger-row, .nim-approval { opacity: 1; transform: none !important; }
-    .pal-dawn-group, .pal-node.effect, .pal-depth, .pal-proof,
-    .vid-progress, .vid-node, .vid-envelope, .vid-proof { opacity: 1; transform: none; }
-    .pal-ship, .vid-packet { opacity: 0; }
-    /* vid-tick keeps its 45° base rotation; vid-seal keeps its centering transform. */
-    .vid-tick, .vid-seal { opacity: 1; }
+    .pd-route { stroke-dashoffset: 0; }
+    .pd-node-ring, .pd-node-core, .pd-lens-ring, .pd-lens-inner, .pd-lens-tick, .pd-phase, .pd-proof { opacity: 1; transform: none; }
+    .vidha-bridge.live { stroke-dashoffset: 0; }
+    .vidha-envelope, .vidha-stop-core, .vidha-lock, .vidha-attestation, .vidha-attestation-text, .vidha-proof { opacity: 1; transform: none; }
   }
   @media (max-width: 640px) {
     .gh-projects { margin-top: 32px; }
@@ -3884,29 +3896,104 @@
 
         <!-- PalDawn -->
         <template class="ghp-scene" data-project="paldawn">
-            <div class="pal-scene" aria-hidden="true">
-              <div class="pal-stage">
-                <div class="pal-story">
-                  <span class="pal-kicker">Cause → effect</span>
-                  <strong>A voyage you can fact-check.</strong>
-                  <div class="pal-depths"><span class="pal-depth lay">plain</span><i>↔</i><span class="pal-depth cli">clinical</span></div>
+            <div class="pd-scene" aria-hidden="true">
+              <div class="pd-stage">
+                <div class="pd-story">
+                  <span class="pd-kicker">Mechanism → relationship</span>
+                  <strong>See systems move together.</strong>
                 </div>
-                <svg class="pal-voyage" viewBox="0 0 264 116" preserveAspectRatio="xMidYMid meet">
-                  <path class="pal-ridge back" d="M0 78C42 68 76 76 114 68S194 54 264 68V116H0Z"/>
-                  <g class="pal-dawn-group">
-                    <circle class="pal-dawn-ring" cx="206" cy="96" r="53"/>
-                    <circle class="pal-dawn-disc" cx="206" cy="96" r="44"/>
+                <svg class="pd-atlas" viewBox="0 0 304 132" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <linearGradient id="pd-route-gradient" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="var(--pd-cyan-bright)"/>
+                      <stop offset=".58" stop-color="var(--pd-cyan)"/>
+                      <stop offset="1" stop-color="var(--pd-brass)"/>
+                    </linearGradient>
+                    <radialGradient id="pd-lens-glow">
+                      <stop offset="0" stop-color="var(--pd-cyan)" stop-opacity=".68"/>
+                      <stop offset="1" stop-color="var(--pd-cyan)" stop-opacity="0"/>
+                    </radialGradient>
+                    <radialGradient id="pd-lens-core" cx="34%" cy="26%">
+                      <stop offset="0" stop-color="#fff3c6"/>
+                      <stop offset=".42" stop-color="var(--pd-brass)"/>
+                      <stop offset="1" stop-color="var(--pd-brass-deep)"/>
+                    </radialGradient>
+                  </defs>
+                  <path class="pd-vessel" d="M68 8C49 12 39 28 42 45C45 59 34 67 30 82C26 99 39 121 64 124C86 126 102 112 103 95C105 78 92 71 95 53C99 30 88 13 68 8Z"/>
+                  <path class="pd-contour" d="M63 17C51 25 50 36 54 48C59 64 42 73 43 89C44 102 54 112 67 114M76 20C84 31 82 42 77 52C70 68 91 77 91 93"/>
+                  <path class="pd-route-ghost" d="M56 36C74 32 83 48 76 61C68 76 90 80 104 74C119 68 130 54 145 58C163 64 166 82 184 82C201 82 211 69 228 64"/>
+                  <path class="pd-route" d="M56 36C74 32 83 48 76 61C68 76 90 80 104 74C119 68 130 54 145 58C163 64 166 82 184 82C201 82 211 69 228 64"/>
+                  <g class="pd-node one">
+                    <circle class="pd-node-ring" cx="56" cy="36" r="7"/><circle class="pd-node-core" cx="56" cy="36" r="2.5"/>
                   </g>
-                  <path class="pal-ridge front" d="M0 100C52 90 96 98 148 90S226 82 264 90V116H0Z"/>
-                  <path class="pal-route" pathLength="100" d="M12 104C64 100 58 58 116 50S186 64 206 44"/>
-                  <circle class="pal-node cause" cx="12" cy="104" r="4"/>
-                  <circle class="pal-node portal" cx="116" cy="50" r="4"/>
-                  <circle class="pal-node effect" cx="206" cy="44" r="5"/>
-                  <circle class="pal-ship" cx="0" cy="0" r="3.4"/>
-                  <text class="pal-label cause" x="30" y="112">cause</text>
-                  <text class="pal-label portal" x="116" y="38">portal</text>
+                  <g class="pd-node two">
+                    <circle class="pd-node-ring" cx="104" cy="74" r="7"/><circle class="pd-node-core" cx="104" cy="74" r="2.5"/>
+                  </g>
+                  <g class="pd-node three">
+                    <circle class="pd-node-ring" cx="145" cy="58" r="7"/><circle class="pd-node-core" cx="145" cy="58" r="2.5"/>
+                  </g>
+                  <g class="pd-node gold">
+                    <circle class="pd-node-ring" cx="184" cy="82" r="7"/><circle class="pd-node-core" cx="184" cy="82" r="2.5"/>
+                  </g>
+                  <circle class="pd-lens-halo" cx="236" cy="58" r="36"/>
+                  <circle class="pd-lens-ring" cx="236" cy="58" r="24"/>
+                  <circle class="pd-lens-inner" cx="236" cy="58" r="15"/>
+                  <path class="pd-lens-tick" d="M236 29V36M236 80V87M207 58H214M258 58H265M216 38L221 43M251 73L256 78M216 78L221 73M251 43L256 38"/>
                 </svg>
-                <span class="pal-proof"><i></i>every claim cited</span>
+                <div class="pd-phases">
+                  <span class="pd-phase">Trigger</span>
+                  <span class="pd-phase active">Response</span>
+                  <span class="pd-phase">System effect</span>
+                </div>
+                <span class="pd-proof"><i></i>source beside every step</span>
+              </div>
+            </div>
+        </template>
+
+        <!-- Vidha -->
+        <template class="ghp-scene" data-project="vidha">
+            <div class="vidha-scene" aria-hidden="true">
+              <div class="vidha-stage">
+                <div class="vidha-story">
+                  <span class="vidha-kicker">Check-in → Concern</span>
+                  <strong>A relay, never a conclusion.</strong>
+                </div>
+                <svg class="vidha-relay" viewBox="0 0 298 112" preserveAspectRatio="xMidYMid meet">
+                  <path class="vidha-bridge" d="M22 59H262"/>
+                  <path class="vidha-bridge live" d="M22 59H150"/>
+                  <g>
+                    <circle class="vidha-stop reached" cx="22" cy="59" r="8"/>
+                    <circle class="vidha-stop-core" cx="22" cy="59" r="3"/>
+                    <text class="vidha-label" x="22" y="79" text-anchor="middle">CHECK-IN</text>
+                  </g>
+                  <g>
+                    <circle class="vidha-stop reached" cx="86" cy="59" r="8"/>
+                    <circle class="vidha-stop-core" cx="86" cy="59" r="3"/>
+                    <text class="vidha-label" x="86" y="79" text-anchor="middle">REMIND</text>
+                  </g>
+                  <g>
+                    <circle class="vidha-stop hold" cx="150" cy="59" r="10"/>
+                    <circle class="vidha-stop-core" cx="150" cy="59" r="3.5"/>
+                    <path class="vidha-lock" d="M146 57V53C146 48 154 48 154 53V57H156V64H144V57ZM149 57H151V53C151 51 149 51 149 53Z"/>
+                    <text class="vidha-label active" x="150" y="82" text-anchor="middle">CONCERN</text>
+                  </g>
+                  <g>
+                    <circle class="vidha-stop planned" cx="214" cy="59" r="8"/>
+                    <text class="vidha-label" x="214" y="79" text-anchor="middle">GUARDIAN</text>
+                  </g>
+                  <g>
+                    <circle class="vidha-stop planned" cx="262" cy="59" r="8"/>
+                    <text class="vidha-label hold" x="262" y="79" text-anchor="middle">RELEASE</text>
+                  </g>
+                  <g class="vidha-envelope" transform="translate(133 47)">
+                    <rect width="18" height="13" rx="1.5"/>
+                    <path class="vidha-envelope-fold" d="M1 2L9 8L17 2M1 12L7 7M17 12L11 7"/>
+                  </g>
+                  <rect class="vidha-attestation" x="179" y="14" width="78" height="22" rx="4"/>
+                  <text class="vidha-attestation-text" x="218" y="23" text-anchor="middle">BOUNDED HUMAN</text>
+                  <text class="vidha-attestation-text" x="218" y="31" text-anchor="middle">VERIFICATION</text>
+                </svg>
+                <span class="vidha-proof"><i></i>stops before Release</span>
               </div>
             </div>
         </template>
@@ -3965,32 +4052,6 @@
                   <div class="dus-step current"><i><span class="dus-resolve-check">✓</span></i><span>Review the source</span></div>
                 </div>
                 <div class="dus-review"><span>external edit</span><i>→</i><b>reviewed</b></div>
-              </div>
-            </div>
-        </template>
-
-        <!-- Vidha -->
-        <template class="ghp-scene" data-project="vidha">
-            <div class="vid-scene" aria-hidden="true">
-              <div class="vid-stage">
-                <div class="vid-story">
-                  <span class="vid-kicker">Check-ins → release</span>
-                  <strong>Released by people, not timers.</strong>
-                </div>
-                <div class="vid-flow">
-                  <span class="vid-baseline"></span>
-                  <span class="vid-progress"></span>
-                  <span class="vid-packet"></span>
-                  <span class="vid-ticks">
-                    <i class="vid-tick one"></i><i class="vid-tick two"></i><i class="vid-tick three"></i><i class="vid-tick missed"></i>
-                  </span>
-                  <span class="vid-node"></span>
-                  <span class="vid-envelope"><i class="vid-seal"></i></span>
-                  <span class="vid-phase check">Check-ins</span>
-                  <span class="vid-phase verify">Humans verify</span>
-                  <span class="vid-phase release">Release</span>
-                </div>
-                <span class="vid-proof"><i></i>sealed until confirmed</span>
               </div>
             </div>
         </template>
