@@ -302,11 +302,16 @@ test('featured builds are framed around user problems and visible value', () => 
   assert.doesNotMatch(html, /public experiments in AI and automation/);
 });
 
-test('featured product marks are live SVG animations with motion-safe fallbacks', () => {
+test('featured product marks preserve app artwork with motion-safe fallbacks', () => {
   for (const project of PROJECTS) {
     const svg = readFileSync(join(root, project.icon), 'utf8');
     const hasSmilMotion = /<animate(?:Transform)?\b/.test(svg);
     const hasCssMotion = /@keyframes/.test(svg) && /animation:/.test(svg);
+    // Vidha uses the app's static courier icon without added portfolio animation.
+    if (project.id === 'vidha') {
+      assert.ok(!hasSmilMotion && !hasCssMotion, 'Vidha app artwork should stay static');
+      continue;
+    }
     assert.ok(hasSmilMotion || hasCssMotion, `${project.icon} has no live animation`);
 
     if (hasSmilMotion) {

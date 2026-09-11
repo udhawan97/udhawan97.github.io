@@ -1,75 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title description">
-  <title id="title">Vidha courier living mark</title>
-  <desc id="description">An ivory courier stands on a marigold continuity line over an indigo field. Vidha remains a provisional working concept.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">Vidha courier working-concept app icon</title>
+  <desc id="description">An ivory courier bird carrying an amber Envelope inside a rounded midnight-blue tile. Identity and rights clearance are incomplete.</desc>
   <defs>
-    <radialGradient id="vidha-field" cx="72%" cy="18%" r="94%">
-      <stop offset="0" stop-color="#2b3b77"/>
-      <stop offset=".52" stop-color="#141f45"/>
-      <stop offset="1" stop-color="#080d22"/>
-    </radialGradient>
-    <linearGradient id="vidha-ivory" x1=".22" y1="0" x2=".78" y2="1">
-      <stop offset="0" stop-color="#fffdf7"/>
-      <stop offset=".48" stop-color="#f7f0e2"/>
-      <stop offset="1" stop-color="#c7bca6"/>
-    </linearGradient>
-    <linearGradient id="vidha-wing" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ece3cf"/>
-      <stop offset="1" stop-color="#a99d87"/>
-    </linearGradient>
-    <linearGradient id="vidha-gold" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#b96f10"/>
-      <stop offset=".45" stop-color="#ffd16a"/>
-      <stop offset=".68" stop-color="#e9a427"/>
-      <stop offset="1" stop-color="#9f5d0b"/>
-    </linearGradient>
-    <filter id="vidha-shadow" x="-40%" y="-40%" width="180%" height="190%">
-      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#020511" flood-opacity=".62"/>
-    </filter>
+    <linearGradient id="night" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#334B76"/><stop offset=".55" stop-color="#172A50"/><stop offset="1" stop-color="#0B1733"/></linearGradient>
+    <linearGradient id="porcelain" x1=".2" y1="0" x2=".7" y2="1"><stop stop-color="#FFFFFF"/><stop offset=".52" stop-color="#FFF5DF"/><stop offset="1" stop-color="#CBBF9F"/></linearGradient>
+    <linearGradient id="wing" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#FFFDF5"/><stop offset="1" stop-color="#DACEAF"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFDA83"/><stop offset="1" stop-color="#DF932B"/></linearGradient>
   </defs>
-  <style>
-    @keyframes vidha-perch { from { transform: translateY(.7px) rotate(-.35deg); } to { transform: translateY(-.8px) rotate(.35deg); } }
-    @keyframes vidha-wing { 0%, 72%, 100% { transform: rotate(0); } 79% { transform: rotate(-4deg); } 86% { transform: rotate(1.5deg); } }
-    @keyframes vidha-blink { 0%, 44%, 48%, 100% { transform: scaleY(1); } 46% { transform: scaleY(.08); } }
-    @keyframes vidha-signal { 0% { transform: translateX(-30px); opacity: 0; } 12%, 66% { opacity: 1; } 82%, 100% { transform: translateX(88px); opacity: 0; } }
-    @keyframes vidha-line { 0%, 100% { opacity: .82; } 50% { opacity: 1; } }
-    .vidha-courier { transform-box: fill-box; transform-origin: 58% 92%; animation: vidha-perch 5.8s ease-in-out infinite alternate; }
-    .vidha-wing { transform-box: fill-box; transform-origin: 76% 58%; animation: vidha-wing 6.4s ease-in-out infinite; }
-    .vidha-eye { transform-box: fill-box; transform-origin: center; animation: vidha-blink 7.2s steps(1,end) infinite; }
-    .vidha-signal { animation: vidha-signal 5.6s cubic-bezier(.2,.65,.25,1) infinite; }
-    .vidha-span { animation: vidha-line 4.8s ease-in-out infinite; }
-    @media (prefers-reduced-motion: reduce) {
-      .vidha-courier, .vidha-wing, .vidha-eye, .vidha-signal, .vidha-span { animation: none; }
-      .vidha-signal { display: none; }
-    }
-  </style>
-  <rect width="120" height="120" rx="24" fill="url(#vidha-field)"/>
-  <path d="M8 26C35 6 79 5 111 24" fill="none" stroke="#fff" stroke-opacity=".055"/>
-  <path d="M5 36C37 15 83 15 116 35" fill="none" stroke="#e9a427" stroke-opacity=".075"/>
-  <g transform="translate(1 12)" filter="url(#vidha-shadow)">
-    <path class="vidha-span" d="M-4 80H124" stroke="url(#vidha-gold)" stroke-width="3.2" stroke-linecap="round"/>
-    <circle class="vidha-signal" cx="14" cy="80" r="3.2" fill="#fff3c2" stroke="#e9a427" stroke-width="1.2"/>
-    <g class="vidha-courier">
-      <ellipse cx="61" cy="82" rx="25" ry="4" fill="#020511" opacity=".34"/>
-      <path d="M56 68L54.8 79.2M66.4 68L67.2 79.2" stroke="#e9a427" stroke-width="2.2" stroke-linecap="round"/>
-      <path d="M52 79.2H57.6M64.4 79.2H70" stroke="#f5bc49" stroke-width="2" stroke-linecap="round"/>
-      <g class="vidha-wing">
-        <path d="M40 40C26 40 14.4 42.4 4 47.2C15.2 51.2 28 50.4 40 47.2Z" fill="url(#vidha-wing)"/>
-        <path d="M39.2 46.4C26 47.2 15.2 51.2 6.4 56.8C17.6 59.2 29.6 57.6 40.8 53.6Z" fill="#f7f0e2"/>
-      </g>
-      <ellipse cx="60" cy="48.8" rx="26.4" ry="24.8" fill="url(#vidha-ivory)"/>
-      <ellipse cx="65.6" cy="62.4" rx="17.6" ry="12" fill="#fffaf0" opacity=".78"/>
-      <path d="M57.6 38.4C42.4 41.6 33.6 52 36 63.2C46.4 67.2 57.6 61.6 61.6 52C64 45.6 63.2 40.8 57.6 38.4Z" fill="url(#vidha-wing)"/>
-      <g>
-        <path d="M76 13.6C78.4 8 82 4.8 85.6 4C84 9.2 80.4 12.8 78 15.2Z" fill="#f7f0e2"/>
-        <ellipse cx="77.6" cy="28.8" rx="18.4" ry="16.8" fill="url(#vidha-ivory)"/>
-        <path d="M93.6 26.4L112 31.2L93.6 36Z" fill="url(#vidha-gold)"/>
-        <g class="vidha-eye">
-          <circle cx="83.2" cy="26.4" r="3.2" fill="#0a1026"/>
-          <circle cx="84.5" cy="25.1" r="1.1" fill="#fff" opacity=".92"/>
-        </g>
-      </g>
-      <path d="M47 28C56 22 69 21 78 24" fill="none" stroke="#fff" stroke-opacity=".32" stroke-width="1.2" stroke-linecap="round"/>
-    </g>
+  <rect width="512" height="512" rx="116" fill="url(#night)"/>
+  <rect x="13" y="13" width="486" height="486" rx="104" fill="none" stroke="#FFFFFF" stroke-opacity=".15" stroke-width="2"/>
+  <circle cx="349" cy="157" r="94" fill="none" stroke="#A6BAD5" stroke-opacity=".13"/>
+  <circle cx="349" cy="157" r="69" fill="none" stroke="#A6BAD5" stroke-opacity=".13"/>
+  <circle cx="366" cy="132" r="25" fill="url(#gold)"/>
+  <path d="M68 366C157 406 333 409 444 325" fill="none" stroke="#F4BB59" stroke-opacity=".48" stroke-width="2"/>
+  <path d="M91 384C202 420 348 396 425 351" fill="none" stroke="#F4BB59" stroke-opacity=".16"/>
+  <ellipse cx="255" cy="373" rx="116" ry="16" fill="#07132B" opacity=".4"/>
+  <path d="M147 272C123 239 98 212 86 175C125 179 164 194 190 218Z" fill="#CBBF9F"/>
+  <path d="M148 257C120 232 96 203 86 175C126 186 156 202 185 224Z" fill="#FFF2D6"/>
+  <path d="M157 215C189 191 223 194 251 191C260 148 290 132 320 143C354 155 365 188 348 217C334 243 319 259 307 293C289 339 230 354 188 329C148 306 127 250 157 215Z" fill="#07132B" opacity=".24" transform="translate(0 9)"/>
+  <path d="M157 207C189 183 223 186 251 183C260 140 290 124 320 135C354 147 365 180 348 209C334 235 319 251 307 285C289 331 230 346 188 321C148 298 127 242 157 207Z" fill="url(#porcelain)"/>
+  <path d="M171 218C197 199 246 204 274 224C247 270 216 289 181 275C166 261 160 237 171 218Z" fill="#B9AB8B" opacity=".3"/>
+  <path d="M163 210C194 190 239 194 275 218C252 253 218 279 184 266C164 258 154 228 163 210Z" fill="url(#wing)"/>
+  <path d="M174 211C196 204 220 205 239 211" fill="none" stroke="#FFFFFF" stroke-opacity=".8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M343 170L377 184L343 192Z" fill="url(#gold)"/>
+  <circle cx="324" cy="162" r="7.5" fill="#172443"/>
+  <circle cx="326" cy="159.5" r="2.3" fill="#FFFFFF"/>
+  <path d="M220 332L217 352M259 330L265 350" stroke="#E7B35F" stroke-width="7" stroke-linecap="round"/>
+  <path d="M204 354H231M253 353H276" stroke="#E7B35F" stroke-width="6" stroke-linecap="round"/>
+  <g transform="rotate(12 362 242)">
+    <path d="M360 186L362 207" stroke="#E7B35F" stroke-width="3"/>
+    <rect x="323" y="207" width="79" height="57" rx="8" fill="#091831" opacity=".3" transform="translate(0 5)"/>
+    <rect x="323" y="207" width="79" height="57" rx="8" fill="url(#gold)"/>
+    <path d="M327 258L355 236M398 258L370 236" fill="none" stroke="#BC7925" stroke-opacity=".5" stroke-width="2"/>
+    <path d="M326 211L362 239L399 211" fill="#FFE3A0" stroke="#B67B30" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="362" cy="238" r="6" fill="#AF692D"/>
   </g>
-  <rect x=".5" y=".5" width="119" height="119" rx="23.5" fill="none" stroke="#fff" stroke-opacity=".1"/>
 </svg>
