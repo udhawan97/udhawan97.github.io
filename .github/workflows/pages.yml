@@ -1,0 +1,133 @@
+name: Verify and deploy Pages
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: Deploy the verified artifact to GitHub Pages
+        required: true
+        default: false
+        type: boolean
+      deploy_sha:
+        description: Full 40-character main-branch commit SHA to verify and deploy
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Test and package
+    runs-on: ubuntu-latest
+    outputs:
+      deployment_sha: ${{ steps.identity.outputs.sha }}
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ inputs.deploy_sha || github.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 26.4.0
+
+      - name: Verify deployment identity
+        id: identity
+        env:
+          DEPLOY_REQUESTED: ${{ inputs.deploy || false }}
+          REQUESTED_SHA: ${{ inputs.deploy_sha }}
+        run: |
+          actual_sha="$(git rev-parse HEAD)"
+          if [[ "$DEPLOY_REQUESTED" == "true" ]]; then
+            [[ "$REQUESTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+            [[ "$actual_sha" == "$REQUESTED_SHA" ]]
+            git merge-base --is-ancestor "$actual_sha" origin/main
+          fi
+          echo "sha=$actual_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Run repository contracts
+        env:
+          NODE_OPTIONS: ""
+        run: node --test
+
+      - name: Stage the static artifact
+        env:
+          DEPLOYMENT_SHA: ${{ steps.identity.outputs.sha }}
+        run: |
+          mkdir _site
+          cp index.html README.md engineering-log.md Umang_Dhawan_Resume_Formal.pdf Umang_Dhawan_Resume_Modern.pdf _site/
+          cp -R assets _site/assets
+          printf '%s\n' "$DEPLOYMENT_SHA" > _site/deployment-sha.txt
+
+      - name: Upload verified Pages artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy explicitly selected SHA
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy && inputs.deploy_sha != '' && github.ref == 'refs/heads/main' }}
+    needs: verify
+    runs-on: ubuntu-latest
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+
+      - name: Deploy verified artifact
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+
+      - name: Smoke deployed identity and critical assets
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+          EXPECTED_SHA: ${{ needs.verify.outputs.deployment_sha }}
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+
+          const base = new URL(process.env.SITE_URL);
+          async function get(path) {
+            const url = new URL(path, base);
+            let response;
+            for (let attempt = 0; attempt < 10; attempt += 1) {
+              response = await fetch(url, { cache: 'no-store' });
+              if (response.ok) return response;
+              await new Promise((resolve) => setTimeout(resolve, 3000));
+            }
+            throw new Error(`${url} returned ${response?.status}`);
+          }
+
+          const html = await (await get('./')).text();
+          assert.match(html, /<main>/);
+          assert.equal((html.match(/<template class="ghp-scene"/g) || []).length, 10);
+          assert.equal((html.match(/<template class="work-icon"/g) || []).length, 6);
+
+          for (const path of [
+            'assets/js/util.js',
+            'assets/js/work.js',
+            'assets/js/projects.js',
+            'assets/headshot.jpg',
+            'assets/og-cover.jpg',
+            'Umang_Dhawan_Resume_Formal.pdf',
+            'Umang_Dhawan_Resume_Modern.pdf',
+          ]) await get(path);
+
+          const deployedSha = (await (await get('deployment-sha.txt')).text()).trim();
+          assert.equal(deployedSha, process.env.EXPECTED_SHA);
+          NODE

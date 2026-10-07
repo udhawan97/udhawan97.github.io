@@ -73,6 +73,43 @@ the DOM. `util.js` goes first: it's the only place `esc()` may be declared.
 node --test          # no install, no dependencies, no build
 ```
 
+### 🚦 GitHub Pages delivery
+
+The legacy `main:/` publisher remains authoritative until a separately
+authorized cutover window. `.github/workflows/pages.yml` is deliberately safe
+to merge before that change: pull requests and pushes to `main` run the tests
+and package the static artifact, but they cannot deploy it. A deployment only
+runs from a manual dispatch on `main` with `deploy=true` and an explicit full
+40-character `deploy_sha` that is already an ancestor of `main`.
+
+Cutover and recovery runbook:
+
+1. **Pre-deploy verification:** record the current public known-good SHA and
+   Pages source, then run `node --test` at the candidate SHA. Confirm the
+   workflow's **Test and package** job succeeds for that exact SHA.
+2. **Authorized cutover:** in a separately authorized cutover window, change
+   the repository's Pages source from **Deploy from a branch** (`main:/`) to
+   **GitHub Actions**. From the workflow on `main`, manually dispatch with
+   `deploy=true` and the verified candidate's full SHA.
+3. **Post-deploy acceptance:** require the workflow's deployed-SHA marker,
+   root document, 10 project templates, 6 workstream templates, classic
+   scripts, key images, and both resume files to pass its HTTP smoke. Then open
+   the public site in the target browser and check navigation, project cards,
+   workstream disclosure, theme persistence, and downloads. The automated HTTP
+   smoke does not prove a browser smoke.
+4. **Rollback trigger and action:** if the site is unavailable, the deployed
+   SHA differs, or the live smoke fails, manually dispatch the same workflow
+   from `main` with `deploy=true` and the recorded known-good SHA. This verifies
+   and redeploys that exact artifact. If the Actions path itself is unavailable,
+   restore the recorded `main:/` source only under the cutover's pre-authorized
+   contingency after `main` has been restored to the known-good tree.
+5. **Stop and report:** stop if the candidate is not on `main`, verification
+   fails, the known-good SHA is missing, provider authority is unavailable, or
+   restoration would require an unapproved history rewrite.
+
+No provider setting, deployment, or rollback drill is performed by adding this
+workflow and runbook.
+
 ### ➕ Adding a project card
 
 The project cards render from one place, so a new one is two edits:

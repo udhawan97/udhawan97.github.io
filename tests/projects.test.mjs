@@ -232,11 +232,22 @@ test('project maturity labels match the current public rollout order', () => {
   assert.deepEqual({ ...status.golavo }, { label: 'Pre-alpha', tone: 'beta' });
   assert.deepEqual({ ...status.voyalier }, { label: 'Public beta', tone: 'beta' });
   assert.deepEqual({ ...status.codemble }, { label: 'Stable', tone: 'live' });
-  assert.deepEqual({ ...status.dusori }, { label: 'v0.14 live', tone: 'live' });
-  assert.deepEqual({ ...status.nimanto }, { label: 'v0.8 beta', tone: 'nimanto' });
+  assert.deepEqual({ ...status.dusori }, { label: 'Public release', tone: 'live' });
+  assert.deepEqual({ ...status.nimanto }, { label: 'Public beta', tone: 'nimanto' });
   assert.deepEqual({ ...status.nindova }, { label: 'Live', tone: 'live' });
-  assert.deepEqual({ ...status.paldawn }, { label: 'v0.3 live', tone: 'paldawn' });
+  assert.deepEqual({ ...status.paldawn }, { label: 'Public release', tone: 'paldawn' });
   assert.deepEqual({ ...status.vidha }, { label: 'Pre-alpha', tone: 'vidha' });
+  assert.equal(
+    PROJECTS.some((p) => /\bv\d+\.\d+/i.test(p.status?.label || '')),
+    false,
+    'maturity labels should not duplicate release versions'
+  );
+});
+
+test('footer uses durable maintenance copy instead of a stale update date', () => {
+  const html = readIndex();
+  assert.doesNotMatch(html, /Last updated:/i);
+  assert.match(html, /Product maturity is maintained in each linked repository\./);
 });
 
 test('PalDawn and Vidha have bespoke visual scenes with explicit resting states', () => {

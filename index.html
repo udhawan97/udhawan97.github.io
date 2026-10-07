@@ -48,9 +48,22 @@
 }
 </script>
 <script>
+  // Web Storage is optional: privacy settings and file:// policies may deny it.
+  // Keep persistence failures separate from the page's in-memory UI state.
+  const safeStorage = {
+    get(key) {
+      try { return localStorage.getItem(key); }
+      catch (_) { return null; }
+    },
+    set(key, value) {
+      try { localStorage.setItem(key, value); }
+      catch (_) { /* The current page state still remains usable. */ }
+    },
+  };
+
   // Set theme before paint: dark by default, unless the visitor chose light.
   (function () {
-    var saved = localStorage.getItem('theme');
+    var saved = safeStorage.get('theme');
     document.documentElement.dataset.theme = saved === 'light' ? 'light' : 'dark';
   })();
 </script>
@@ -1209,20 +1222,29 @@
   .gh p { color: #a1a1a6; font-size: 15.5px; line-height: 1.65; max-width: 560px; margin-bottom: 30px; position: relative; }
   .gh p a { color: #2997ff; }
   .gh p a:hover { text-decoration: underline; }
-  /*
-   * The chart is a remote SVG drawn for a light background, but this panel is
-   * dark in both themes — a white slab here read as a hole in the page.
-   * invert() darkens the empty cells and lifts the labels; the hue-rotate puts
-   * the inverted accent back on the blue side so it matches the rest of the page.
-   */
   .gh-graph {
     background: rgba(255,255,255,.028); border-radius: 16px; padding: 18px 20px;
     position: relative; border: 1px solid rgba(255,255,255,.07);
   }
-  .gh-graph img {
-    width: 100%; height: auto;
-    filter: invert(1) hue-rotate(180deg);
+  .gh-profile-link {
+    display: flex; align-items: center; gap: 14px; color: #f5f5f7;
+    border-radius: 12px; padding: 4px; text-decoration: none;
   }
+  .gh-profile-link:hover { text-decoration: none; }
+  .gh-profile-link:focus-visible { outline: 2px solid #2997ff; outline-offset: 5px; }
+  .gh-profile-mark {
+    width: 42px; height: 42px; display: grid; place-items: center; flex-shrink: 0;
+    border-radius: 12px; color: #fff; background: rgba(41,151,255,.13);
+    border: 1px solid rgba(41,151,255,.28);
+  }
+  .gh-profile-mark svg { width: 23px; height: 23px; }
+  .gh-profile-copy { display: grid; gap: 2px; flex: 1; }
+  .gh-profile-copy strong { font-size: 15px; }
+  .gh-profile-copy span { color: #a1a1a6; font-size: 13px; line-height: 1.45; }
+  .gh-profile-arrow {
+    color: #2997ff; font-size: 20px; transition: transform .25s var(--ease);
+  }
+  .gh-profile-link:hover .gh-profile-arrow { transform: translateX(3px); }
 
   /* ── 14b. GitHub — featured open-source project cards (live inside dark panel) ── */
   .gh-projects { margin-top: 44px; position: relative; }
@@ -1241,17 +1263,17 @@
     content: ""; width: 14px; height: 1px;
     background: rgba(255,255,255,.22);
   }
-  /* License badge — the "all software is open-source (Apache 2.0)" note */
-  .ghp-mit {
+  /* Portfolio-level license reminder; exact terms remain project-owned. */
+  .ghp-license {
     display: inline-flex; align-items: center; gap: 8px;
     font-size: 12.5px; font-weight: 500; color: #a1a1a6; white-space: nowrap;
     background: rgba(41,151,255,.10); border: 1px solid rgba(41,151,255,.24);
     padding: 6px 14px 6px 11px; border-radius: 99px;
     transition: border-color .35s var(--ease), background .35s var(--ease);
   }
-  .ghp-mit:hover { border-color: rgba(41,151,255,.5); background: rgba(41,151,255,.15); }
-  .ghp-mit svg { width: 14px; height: 14px; color: #2997ff; flex-shrink: 0; }
-  .ghp-mit b { color: #f5f5f7; font-weight: 700; }
+  .ghp-license:hover { border-color: rgba(41,151,255,.5); background: rgba(41,151,255,.15); }
+  .ghp-license svg { width: 14px; height: 14px; color: #2997ff; flex-shrink: 0; }
+  .ghp-license b { color: #f5f5f7; font-weight: 700; }
 
   .ghp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   @media (max-width: 760px) { .ghp-grid { grid-template-columns: 1fr; } }
@@ -3743,7 +3765,7 @@
 
       </div>
     </div>
-    <div class="impact-detail" id="impactDetail" tabindex="-1"></div>
+    <div class="impact-detail" id="impactDetail" role="region" aria-label="Workstream details" aria-hidden="true" tabindex="-1"></div>
 
     <!-- Floating hint — lives inside impact-wrap so it lifts above the scrim -->
     <div class="map-hint" id="mapHint">
@@ -3780,18 +3802,20 @@
     <h2><svg class="gh-logo" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>Problems, turned into products.</h2>
     <p>When I’m not working on client projects, I keep learning by turning recurring problems into working products. These open-source builds let me explore new domains, make practical product decisions, and carry an idea from first principles through design, engineering, testing, and release. The projects below span code understanding, learning, documents, forecasting, travel planning, health education, personal contingency planning, candidate-controlled job search, and intentional play; their source and release history live at <a href="https://github.com/udhawan97" target="_blank" rel="noopener">github.com/udhawan97</a>.</p>
     <div class="gh-graph">
-      <img src="https://ghchart.rshah.org/0066d6/udhawan97" alt="GitHub contribution graph"
-           width="663" height="104" loading="lazy" decoding="async"
-           onerror="this.replaceWith(Object.assign(document.createElement('p'),{textContent:'Graph unavailable — see github.com/udhawan97',style:'color:#515154;font-size:14px'}))">
+      <a class="gh-profile-link" href="https://github.com/udhawan97" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="View Umang Dhawan's GitHub profile and contribution history">
+        <span class="gh-profile-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg></span>
+        <span class="gh-profile-copy"><strong>GitHub contribution history</strong><span>Open my GitHub profile to view current activity and repositories.</span></span>
+        <span class="gh-profile-arrow" aria-hidden="true">→</span>
+      </a>
     </div>
 
     <!-- Featured open-source projects -->
     <div class="gh-projects">
       <div class="ghp-head r">
         <h3>Featured builds</h3>
-        <span class="ghp-mit">
+        <span class="ghp-license">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
-          <span><b>Open-source</b> · Apache 2.0</span>
+          <span><b>Open-source</b> · licenses vary</span>
         </span>
       </div>
 
@@ -4238,7 +4262,7 @@
         </template>
       </div>
 
-      <p class="ghp-note r">Everything I build ships fully open-source under the <b>Apache 2.0 license</b> — clone it, learn from it, ship your own. More landing at <a href="https://github.com/udhawan97" target="_blank" rel="noopener" style="color:#2997ff">github.com/udhawan97</a>.</p>
+      <p class="ghp-note r">Licenses and reuse terms vary by project. Before reusing code or content, check the linked repository as the source of truth.</p>
     </div>
   </div>
 </section>
@@ -4272,7 +4296,7 @@
       <a href="https://www.linkedin.com/in/umangdhawan97" target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
       <a href="https://github.com/udhawan97" target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>GitHub</a>
     </div>
-    <div class="fine">© Last updated: July 2026 <br>· Designed and hand-coded with AI-assisted tooling; no frameworks or trackers. <br>· All content and code © Umang Dhawan.</div>
+    <div class="fine">Product maturity is maintained in each linked repository. <br>· Designed and hand-coded with AI-assisted tooling; no frameworks or trackers. <br>· All content and code © Umang Dhawan.</div>
   </div>
 </footer>
 
@@ -4339,14 +4363,14 @@
   const toggleTheme = () => {
     const dark = document.documentElement.dataset.theme === 'dark';
     document.documentElement.dataset.theme = dark ? 'light' : 'dark';
-    localStorage.setItem('theme', dark ? 'light' : 'dark');
+    safeStorage.set('theme', dark ? 'light' : 'dark');
     setIcon();
   };
   document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 
   // ── 1b. Theme tip — one-time hint on first scroll ────────────
   (function () {
-    if (localStorage.getItem('theme-tip-shown')) return;
+    if (safeStorage.get('theme-tip-shown')) return;
     const tip = document.getElementById('theme-tip');
     if (!tip) return;
     let state = 'idle'; // idle → pending → showing → done
@@ -4364,7 +4388,7 @@
     function showTip() {
       if (state !== 'pending') return;
       state = 'showing';
-      localStorage.setItem('theme-tip-shown', '1');
+      safeStorage.set('theme-tip-shown', '1');
       tip.setAttribute('aria-hidden', 'false');
 
       // Position centred below the toggle button (after nav expansion settles)
@@ -4801,19 +4825,28 @@
   (function () {
     const navEl = document.querySelector('nav');
     if (!navEl) return;
+    const canAutoCollapse = matchMedia('(hover: hover) and (pointer: fine)').matches;
     let scrolling = false;
     let idleTimer = null;
 
     function expand() { navEl.classList.remove('nav-shrunk'); }
     function shrink() { navEl.classList.add('nav-shrunk'); }
+    function shrinkIfIdle() {
+      if (!navEl.matches(':hover') && !navEl.contains(document.activeElement)) shrink();
+    }
+
+    // Coarse or no-hover input has no equivalent of mouseenter, so keep every
+    // primary link visible instead of leaving touch users with a sealed pill.
+    expand();
+    if (!canAutoCollapse) return;
 
     function onScrollStop() {
       scrolling = false;
-      if (!navEl.matches(':hover')) shrink();
+      shrinkIfIdle();
     }
 
     // Shrink after the faster entrance sequence settles.
-    setTimeout(shrink, 2000);
+    setTimeout(shrinkIfIdle, 2000);
 
     // Expand while scrolling; start shrink timer when scroll stops
     addEventListener('scroll', () => {
@@ -4826,13 +4859,13 @@
     // Hover: expand immediately, shrink on leave (unless still scrolling)
     navEl.addEventListener('mouseenter', expand);
     navEl.addEventListener('mouseleave', () => {
-      if (!scrolling) shrink();
+      if (!scrolling) shrinkIfIdle();
     });
 
     // Focus inside nav (keyboard nav): keep expanded
     navEl.addEventListener('focusin',  expand);
     navEl.addEventListener('focusout', e => {
-      if (!navEl.contains(e.relatedTarget) && !scrolling) shrink();
+      if (!navEl.contains(e.relatedTarget) && !scrolling) shrinkIfIdle();
     });
   })();
 
@@ -4852,8 +4885,9 @@
     const connections = workConnections(WORKSTREAMS);
     const wsData = Object.fromEntries(WORKSTREAMS.map(ws => [ws.id, ws]));
 
-    let activeWs = null;
-    let pathEls  = [];
+    let activeWs      = null;
+    let activeTrigger = null;
+    let pathEls       = [];
 
     function nodeEl(id) { return mapEl.querySelector(`[data-id="${id}"]`); }
 
@@ -4984,17 +5018,33 @@
       svgEl.querySelectorAll('.flow-dot').forEach(d => d.classList.remove('dot-active', 'dot-dimmed'));
     }
 
-    function openDetail(wsId) {
+    function closeDetail(returnFocus = false) {
+      const trigger = activeTrigger;
+      activeWs = null;
+      activeTrigger = null;
+      detailEl.classList.remove('open');
+      detailEl.setAttribute('aria-hidden', 'true');
+      mapEl.querySelectorAll('.ws-node').forEach(node => {
+        node.classList.remove('selected');
+        node.setAttribute('aria-expanded', 'false');
+      });
+      if (returnFocus && trigger) trigger.focus();
+    }
+
+    function openDetail(wsId, trigger) {
       const data = wsData[wsId];
-      if (!data) return;
+      if (!data || !trigger) return;
       if (activeWs === wsId) {
-        activeWs = null;
-        detailEl.classList.remove('open');
-        mapEl.querySelectorAll('.ws-node').forEach(n => n.classList.remove('selected'));
+        closeDetail(true);
         return;
       }
       activeWs = wsId;
-      mapEl.querySelectorAll('.ws-node').forEach(n => n.classList.toggle('selected', n.dataset.id === wsId));
+      activeTrigger = trigger;
+      mapEl.querySelectorAll('.ws-node').forEach(node => {
+        const selected = node === trigger;
+        node.classList.toggle('selected', selected);
+        node.setAttribute('aria-expanded', String(selected));
+      });
       const tagsHtml = data.tags.map(t => `<span class="impact-tag">${esc(t)}</span>`).join('');
       detailEl.innerHTML = `<div class="impact-detail-inner">
         <div class="impact-detail-outcome">${outcomeText(data.outcome.statement)}</div>
@@ -5003,10 +5053,18 @@
         <div class="impact-detail-tags">${tagsHtml}</div>
       </div>`;
       detailEl.classList.add('open');
+      detailEl.setAttribute('aria-hidden', 'false');
       // Move focus into the newly revealed panel so keyboard/screen-reader users
       // land on the new content instead of staying on the (now stale) trigger node.
       detailEl.focus({ preventScroll: true });
     }
+
+    detailEl.setAttribute('aria-hidden', 'true');
+    detailEl.addEventListener('keydown', e => {
+      if (e.key !== 'Escape' || !activeWs) return;
+      e.preventDefault();
+      closeDetail(true);
+    });
 
     // Event listeners on nodes
     mapEl.querySelectorAll('.impact-node').forEach(node => {
@@ -5015,9 +5073,15 @@
       if (node.dataset.type === 'workstream') {
         node.setAttribute('role', 'button');
         node.setAttribute('tabindex', '0');
-        node.addEventListener('click', () => { mapEl.classList.remove('hint-ready'); openDetail(node.dataset.id); });
+        node.setAttribute('aria-controls', detailEl.id);
+        node.setAttribute('aria-expanded', 'false');
+        node.addEventListener('click', () => { mapEl.classList.remove('hint-ready'); openDetail(node.dataset.id, node); });
         node.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetail(node.dataset.id); }
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            mapEl.classList.remove('hint-ready');
+            openDetail(node.dataset.id, node);
+          }
         });
         // Keyboard focus mirrors mouse hover: show the same connection highlight
         node.addEventListener('focus', () => applyHover(node.dataset.id));
