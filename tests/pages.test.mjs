@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { runInNewContext } from 'node:vm';
 import { readIndex, root } from './load.mjs';
 
 const html = readIndex();
@@ -15,20 +16,24 @@ test('portfolio licensing copy is neutral and points to project repositories', (
   assert.doesNotMatch(html, /Apache 2\.0/i);
 });
 
-test('initial page resources are first-party and contribution history is user-initiated', () => {
-  assert.doesNotMatch(html, /ghchart\.rshah\.org/i);
+test('the contribution chart is the only remote initial resource and sends no referrer', () => {
+  const charts = [...html.matchAll(/<img\b[^>]*src="https:\/\/ghchart\.rshah\.org\/0066d6\/udhawan97"[^>]*>/g)];
+  assert.equal(charts.length, 1);
+  assert.match(charts[0][0], /referrerpolicy="no-referrer"/);
+  assert.match(charts[0][0], /loading="lazy"/);
+  const otherResources = html.replace(charts[0][0], '');
   assert.doesNotMatch(
-    html,
+    otherResources,
     /<(?:img|script|iframe|video|audio|source|embed|input|track|object)\b[^>]*\b(?:src|poster|data)=["']https?:\/\//i
   );
-  assert.doesNotMatch(html, /\b(?:srcset|imagesrcset)=["'][^"']*https?:\/\//i);
+  assert.doesNotMatch(otherResources, /\b(?:srcset|imagesrcset)=["'][^"']*https?:\/\//i);
   assert.doesNotMatch(
-    html,
+    otherResources,
     /<link\b(?=[^>]*\brel=["'][^"']*\b(?:stylesheet|preload|modulepreload|prefetch|dns-prefetch|preconnect|icon|manifest)\b)[^>]*\bhref=["']https?:\/\//i
   );
-  assert.doesNotMatch(html, /<image\b[^>]*\b(?:href|xlink:href)=["']https?:\/\//i);
-  assert.doesNotMatch(html, /@import\s+(?:url\()?\s*["']?https?:\/\//i);
-  assert.doesNotMatch(html, /url\(\s*["']?https?:\/\//i);
+  assert.doesNotMatch(otherResources, /<image\b[^>]*\b(?:href|xlink:href)=["']https?:\/\//i);
+  assert.doesNotMatch(otherResources, /@import\s+(?:url\()?\s*["']?https?:\/\//i);
+  assert.doesNotMatch(otherResources, /url\(\s*["']?https?:\/\//i);
   assert.match(
     html,
     /<a class="gh-profile-link" href="https:\/\/github\.com\/udhawan97"[^>]+rel="noopener noreferrer"[^>]+referrerpolicy="no-referrer"[^>]+aria-label="View Umang Dhawan's GitHub profile and contribution history"/
@@ -63,4 +68,22 @@ test('delivery runbook keeps cutover and rollback behind explicit authority', ()
   assert.match(readme, /deploy=true/i);
   assert.match(readme, /does not prove a browser smoke/i);
   assert.match(readme, /No provider setting, deployment, or rollback drill is performed/i);
+});
+
+
+test('a failed chart shows a useful fallback without hiding the profile link', () => {
+  const chart = html.match(/<img\b[^>]*src="https:\/\/ghchart\.rshah\.org[^>]*>/)[0];
+  const onerror = chart.match(/onerror="([^"]+)"/)[1];
+  const parentElement = { hidden: false };
+  const fallback = { hidden: true };
+  const hint = { hidden: false };
+  runInNewContext(`(function () { ${onerror} }).call(image)`, {
+    image: { parentElement },
+    document: { getElementById: id => ({ 'gh-chart-fallback': fallback, 'gh-chart-hint': hint })[id] },
+  });
+  assert.equal(parentElement.hidden, true);
+  assert.equal(fallback.hidden, false);
+  assert.equal(hint.hidden, true);
+  assert.match(html, /id="gh-chart-fallback" role="status" hidden/);
+  assert.match(html, /Open my GitHub profile above to see contribution history/);
 });

@@ -81,7 +81,11 @@ introduction, and selected client outcomes together, with direct paths to both
 kinds of work. The product illustrations retain their individual identities.
 
 The display type uses Avenir Next where available, with a system-sans fallback.
-Both themes use local assets, and the layout adapts down to 320px. Preview with
+The product artwork stays local, and the layout adapts down to 320px. The GitHub
+section displays a contribution chart from `ghchart.rshah.org` above the product
+gallery. It loads near the viewport without a referrer, scrolls horizontally on
+narrow screens, and keeps a profile link available if the chart cannot load.
+Preview with
 `python3 -m http.server 8765 --bind 127.0.0.1`, then open
 [localhost:8765](http://localhost:8765).
 

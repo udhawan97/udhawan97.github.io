@@ -1218,29 +1218,45 @@
   .gh p { color: #a1a1a6; font-size: 15.5px; line-height: 1.65; max-width: 560px; margin-bottom: 30px; position: relative; }
   .gh p a { color: #2997ff; }
   .gh p a:hover { text-decoration: underline; }
+  .gh-intro { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center; position: relative; }
+  .gh .gh-intro h2 { display: block; font-size: clamp(30px, 3.6vw, 42px); line-height: 1.12; letter-spacing: -.035em; margin: 0; max-width: 13ch; }
   .gh-graph {
-    background: rgba(255,255,255,.028); border-radius: 16px; padding: 18px 20px;
-    position: relative; border: 1px solid rgba(255,255,255,.07);
+    margin-top: 32px; padding: 24px; border-radius: 18px;
+    position: relative; background: #101419;
+    border: 1px solid rgba(130,171,236,.2);
+    box-shadow: 0 1px 0 rgba(255,255,255,.04) inset;
   }
   .gh-profile-link {
-    display: flex; align-items: center; gap: 14px; color: #f5f5f7;
-    border-radius: 12px; padding: 4px; text-decoration: none;
+    display: flex; align-items: center; gap: 12px; color: #f5f5f7;
+    border-radius: 8px; text-decoration: none; margin-bottom: 24px;
   }
   .gh-profile-link:hover { text-decoration: none; }
-  .gh-profile-link:focus-visible { outline: 2px solid #2997ff; outline-offset: 5px; }
-  .gh-profile-mark {
-    width: 42px; height: 42px; display: grid; place-items: center; flex-shrink: 0;
-    border-radius: 12px; color: #fff; background: rgba(41,151,255,.13);
-    border: 1px solid rgba(41,151,255,.28);
-  }
+  .gh-profile-link:focus-visible, .gh-chart-scroll:focus-visible { outline: 2px solid #6fc3ff; outline-offset: 5px; }
+  .gh-profile-mark { width: 38px; height: 38px; display: grid; place-items: center; flex-shrink: 0; border-radius: 10px; color: #82abec; background: rgba(41,151,255,.1); }
   .gh-profile-mark svg { width: 23px; height: 23px; }
-  .gh-profile-copy { display: grid; gap: 2px; flex: 1; }
-  .gh-profile-copy strong { font-size: 15px; }
-  .gh-profile-copy span { color: #a1a1a6; font-size: 13px; line-height: 1.45; }
-  .gh-profile-arrow {
-    color: #2997ff; font-size: 20px; transition: transform .25s var(--ease);
+  .gh-profile-copy { display: grid; gap: 4px; flex: 1; }
+  .gh-profile-copy strong { font-size: 15px; font-weight: 600; }
+  .gh-profile-copy span { color: #a1a1a6; font: 11px/1.45 var(--font-mono); }
+  .gh-profile-arrow { color: #82abec; font-size: 13px; white-space: nowrap; }
+  .gh-profile-link:hover .gh-profile-arrow { color: #fff; }
+  .gh-chart-scroll { overflow-x: auto; scrollbar-color: #40547f #101419; scrollbar-width: thin; padding-bottom: 8px; }
+  .gh-chart-scroll img { display: block; width: 100%; min-width: 663px; height: auto; filter: invert(1) hue-rotate(180deg); }
+  .gh-chart-scroll[hidden], .gh .gh-chart-fallback[hidden], .gh-chart-hint[hidden] { display: none; }
+  .gh .gh-chart-fallback { margin: 12px 0 24px; color: #c2cad5; font-size: 14px; }
+  .gh-chart-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 16px; color: #a1a1a6; font-size: 12px; }
+  .gh-chart-footer a { color: #82abec; text-decoration: underline; text-underline-offset: 3px; }
+  .gh-chart-hint { display: none; color: #a1a1a6; font-size: 11px; margin-top: 10px; }
+  @media (max-width: 900px) {
+    .gh-intro { grid-template-columns: 1fr; gap: 20px; }
+    .gh .gh-intro h2 { max-width: 22ch; }
+    .gh-chart-hint { display: block; }
   }
-  .gh-profile-link:hover .gh-profile-arrow { transform: translateX(3px); }
+  @media (max-width: 540px) {
+    .gh-graph { padding: 18px 14px; margin-top: 24px; }
+    .gh-profile-arrow { font-size: 0; }
+    .gh-profile-arrow::after { content: "↗"; font-size: 20px; }
+    .gh-profile-copy strong { font-size: 14px; }
+  }
 
   /* ── 14b. GitHub — featured open-source project cards (live inside dark panel) ── */
   .gh-projects { margin-top: 44px; position: relative; }
@@ -3436,7 +3452,7 @@
   .practice-link:hover .practice-title { color: var(--blue); }
   .practice-copy { font-size: 13px; line-height: 1.5; color: var(--ink-2); max-width: 32ch; }
   .section-intro { color: var(--ink-2); max-width: 620px; margin: -24px 0 32px; font-size: 17px; line-height: 1.65; }
-  .gh .product-intro { max-width: 720px; font-size: 17px; line-height: 1.7; }
+  .gh .product-intro { max-width: none; margin-bottom: 0; font-size: 16px; line-height: 1.7; }
   .contact-intro { max-width: 520px; margin: 24px 0 32px; font-size: 19px; line-height: 1.6; color: var(--ink-2); }
   @media (max-width: 880px) {
     .hero-body { grid-template-columns: minmax(0, 1fr); gap: 36px; }
@@ -3480,7 +3496,7 @@
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#github">Products</a>
-    <a href="#work">Client work</a>
+    <a href="#work">Work</a>
   </div>
   <div class="nav-dropdown" id="resumeDropdown">
     <button aria-haspopup="true" aria-expanded="false" id="resumeBtn">
@@ -3849,14 +3865,25 @@
 <section class="wrap" id="github">
   <div class="kicker r">Independent products</div>
   <div class="gh">
-    <h2><svg class="gh-logo" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>Problems, turned into products.</h2>
-    <p class="product-intro">Client work teaches me how systems fail. Building my own products lets me apply those lessons from the first design decision. Across documents, research, travel, and learning, the thread is the same: make the process understandable and keep the person in control.</p>
+    <div class="gh-intro">
+      <h2>Problems, turned into products.</h2>
+      <p class="product-intro">Client work teaches me how systems fail. My own products apply those lessons from the first design decision: make the process understandable and keep the person in control.</p>
+    </div>
     <div class="gh-graph">
       <a class="gh-profile-link" href="https://github.com/udhawan97" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="View Umang Dhawan's GitHub profile and contribution history">
         <span class="gh-profile-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg></span>
-        <span class="gh-profile-copy"><strong>GitHub contribution history</strong><span>Open my GitHub profile to view current activity and repositories.</span></span>
-        <span class="gh-profile-arrow" aria-hidden="true">→</span>
+        <span class="gh-profile-copy"><strong>GitHub contribution history</strong><span>@udhawan97 · Past year</span></span>
+        <span class="gh-profile-arrow" aria-hidden="true">View GitHub ↗</span>
       </a>
+      <div class="gh-chart-scroll" role="region" aria-label="GitHub contribution chart" tabindex="0" aria-describedby="gh-chart-hint">
+        <img src="https://ghchart.rshah.org/0066d6/udhawan97" alt="Umang Dhawan’s GitHub contributions over the past year, arranged by week and day."
+             width="663" height="104" loading="lazy" decoding="async" referrerpolicy="no-referrer"
+             onload="this.parentElement.scrollLeft = this.parentElement.scrollWidth"
+             onerror="this.parentElement.hidden = true; document.getElementById('gh-chart-fallback').hidden = false; document.getElementById('gh-chart-hint').hidden = true">
+      </div>
+      <p class="gh-chart-fallback" id="gh-chart-fallback" role="status" hidden>The chart couldn’t load. Open my GitHub profile above to see contribution history.</p>
+      <span class="gh-chart-hint" id="gh-chart-hint">Scroll horizontally to explore the year. Latest activity is on the right.</span>
+      <div class="gh-chart-footer"><span>Contributions across my GitHub work</span><a href="https://github.com/udhawan97?tab=repositories" target="_blank" rel="noopener noreferrer">Browse repositories ↗</a></div>
     </div>
 
     <!-- Featured open-source projects -->
