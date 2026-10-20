@@ -41,7 +41,7 @@ class Umang:
 
 - Going deep on **AI and cloud** — less hype, more "how do large orgs actually use this"
 - Collecting certificates like infinity stones 💎
-- Building small experiments that will (eventually 😅) land in public repos here
+- Building independent products for documents, research, travel, learning, and more — explore them in the portfolio's **Independent products** section
 
 ## 📫 Say hi
 
@@ -72,6 +72,18 @@ the DOM. `util.js` goes first: it's the only place `esc()` may be declared.
 ```bash
 node --test          # no install, no dependencies, no build
 ```
+
+### 🎨 Portfolio story
+
+The opening connects two sides of my practice: dependable systems for clients
+and understandable products built independently. It puts my name, a short
+introduction, and selected client outcomes together, with direct paths to both
+kinds of work. The product illustrations retain their individual identities.
+
+The display type uses Avenir Next where available, with a system-sans fallback.
+Both themes use local assets, and the layout adapts down to 320px. Preview with
+`python3 -m http.server 8765 --bind 127.0.0.1`, then open
+[localhost:8765](http://localhost:8765).
 
 ### 🚦 GitHub Pages delivery
 

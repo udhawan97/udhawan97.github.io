@@ -306,10 +306,9 @@ test('Vidha explains a bounded relay without claiming unimplemented human verifi
 test('featured builds are framed around user problems and visible value', () => {
   const html = readFileSync(join(root, 'index.html'), 'utf8');
   assert.match(html, /Problems, turned into products\./);
-  assert.match(html, /When I’m not working on client projects/);
-  assert.match(html, /turning recurring problems into working products/);
-  assert.match(html, /from first principles through design, engineering, testing, and release/);
-  assert.match(html, /candidate-controlled job search/);
+  assert.match(html, /Client work teaches me how systems fail/);
+  assert.match(html, /apply those lessons from the first design decision/);
+  assert.match(html, /make the process understandable and keep the person in control/);
   assert.doesNotMatch(html, /public experiments in AI and automation/);
 });
 
