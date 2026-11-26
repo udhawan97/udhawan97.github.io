@@ -1,80 +1,58 @@
-# Umang Dhawan
+# 👋 Hey, I'm Umang
 
-**Senior Consultant at EY Studio+ · Chicago**
+**Senior Consultant @ EY Studio+ · Chicago** 🌆
 
-I connect technology strategy with hands-on delivery. My work spans quality
-engineering, cloud reliability, and practical AI. Outside client work, I design,
-build, and maintain independent software products.
+This repo powers my corner of the internet → **[udhawan97.github.io](https://udhawan97.github.io)**
 
-[Explore my portfolio](https://udhawan97.github.io/) · [LinkedIn](https://www.linkedin.com/in/umangdhawan97) · [Email](mailto:umangdhawan97@gmail.com)
+---
 
-![Build with care. Keep improving. A feedback loop connects choosing work, building, verifying, shipping, and learning.](assets/maintenance-practice.svg)
+## 🧙‍♂️ Who am I?
 
-## A working practice for AI-assisted engineering
+I help Fortune 100 companies turn complicated technology programs into things that actually ship. By day, I'm a quality engineer keeping four cloud products honest — deployments, feature validation, and the occasional 2am on-call adventure. By night, I'm poking at AI, automation, and whatever else looks interesting.
 
-I use scheduled AI workflows to keep projects moving after the first launch.
-I define the product, priorities, permissions, and acceptance criteria. The
-agents work within those limits; I remain accountable for what ships.
+```python
+class Umang:
+    def __init__(self):
+        self.role = "Senior Consultant @ EY Studio+"
+        self.location = "Chicago, IL"
+        self.education = ["M.S. Info Systems (Kelley)", "B.S. Informatics (IU)"]
+        self.currently = "putting AI to work past the pilot phase"
+        self.fuel = "curiosity (and probably too much chai)"
 
-| Role | Responsibility | Useful output |
-| --- | --- | --- |
-| **Daily Elf** | Build one useful fix or feature slice. | A focused change with tests and a clear handoff. |
-| **Mobster at Work** | Resume open work and repair demonstrated gaps. | A checked candidate, or a precise remaining blocker. |
-| **Auditor** | Challenge results and inspect failure paths. | Evidence-backed findings and missing checks. |
-| **Weekly CAPO** | Prioritize across projects, finish stranded work, and qualify releases. | Verified delivery and a concrete next phase. |
+    def superpower(self):
+        return "Having the ability to adapt to new platforms and translating 'the build is broken' into language executives act on"
+```
 
-These are workflow roles, not a claim of unattended or continuous operation.
-Required reviews, repository protections, and publication approvals still apply.
-A clean audit can end without a commit.
+## 📊 Numbers I'm proud of
 
-### A public example: Nimanto v0.10.1
+| Metric | Story |
+|---|---|
+| 🚀 **100+** | restaurant locations launched on a platform I quality-led |
+| 📉 **20%** | fewer deployment incidents after I got my hands on release safety |
+| ⏱️ **15%** | faster mean time to resolution, thanks to an observability framework built from scratch |
+| 🏆 **3×** | Bravo Awards (plus a Rookie of the Year nomination among 100+ peers) |
+| ☕ **∞** | cups consumed while writing test scripts |
 
-The [security and dependency change](https://github.com/udhawan97/Nimanto/pull/58)
-started with reproduced problems, then added focused regression coverage. Its
-verification included 650 package/script tests on Node 24 and 26, 32 WebKit
-journeys, and disposable upgrade and recovery checks. The reviewed source
-merged; the [release](https://github.com/udhawan97/Nimanto/releases/tag/v0.10.1)
-assets and checksums were checked separately from the public documentation.
+## 🛠️ Toolbox
 
-A failing keyboard test exposed a real focus-restoration problem. Fixing its
-cause and keeping the regression test improved the next run. That is the loop:
-**observe a failure → repair the cause → preserve the lesson → verify again.**
-The linked records state the limits of the checks. This is a November 2026
-example, not a live security dashboard.
+`Generative AI` `Python` `SQL` `AWS` `Azure` `JMeter` `Appium` `Grafana` `CI/CD` `SAFe` `Figma` ...and a healthy distrust of any release that "should just work"
 
-### Learning should travel beyond the code
+## 🌱 Right now I'm...
 
-[learnings-via-graphics](https://github.com/udhawan97/learnings-via-graphics)
-is a source-only collection of illustrated lessons for beginners. Topics rotate
-across engineering, emerging technology, everyday life, and career questions.
-Each edition offers a brief, explanatory graphics, a worked example, something
-to try, and accessible supporting sources. Coverage checks discourage repeatedly
-polishing one topic while neglecting the rest.
+- Going deep on **AI and cloud** — less hype, more "how do large orgs actually use this"
+- Collecting certificates like infinity stones 💎
+- Building independent products for documents, research, travel, learning, and more — explore them in the portfolio's **Independent products** section
 
-Explore the [lesson archive](https://github.com/udhawan97/learnings-via-graphics/blob/main/archive.md)
-or the [database-index lesson](https://github.com/udhawan97/learnings-via-graphics/blob/6647511ca25060daee153a679808d1ff51d26936/editions/2026-11-25-database-index-tradeoff/brief.md).
-The portfolio links directly to the learning repository; it does not host or
-publish the lessons.
+## 📫 Say hi
 
-## What this demonstrates
+[Website](https://udhawan97.github.io) · [LinkedIn](https://www.linkedin.com/in/umangdhawan97) · [Email](mailto:umangdhawan97@gmail.com)
 
-- **Product judgment:** turn a broad goal into a small, useful next phase.
-- **Engineering discipline:** inspect failures, test boundaries, and preserve user data.
-- **AI workflow design:** give each role a clear job, permissions, and a handoff.
-- **Release ownership:** distinguish source checks, user acceptance, publication, and deployment.
-- **Clear communication:** make technical decisions and learning material easy to follow.
+---
 
-The portfolio also covers my client work, including release safety, cloud
-observability, federal cloud delivery, and a platform launched to more than
-100 retail locations. Client outcomes and this independent practice are presented
-separately.
-
-## Maintaining this site
+### 🗂️ What's in this repo
 
 ```
 ├── index.html                      ← the whole site (hand-coded, zero frameworks 💪)
-├── assets/css/portfolio.css        ← indigo and paper visual layer
-├── assets/maintenance-practice.svg  ← README illustration
 ├── assets/js/work.js               ← roles, workstreams & outcomes (impact map + case studies)
 ├── assets/js/projects.js           ← the "Featured builds" cards: data + renderer
 ├── assets/js/util.js               ← the esc() the two share (loads first)
@@ -89,44 +67,36 @@ scope — no modules, so `index.html` still opens straight from the filesystem.
 They load before the main script, which expects their markup to already be in
 the DOM. `util.js` goes first: it's the only place `esc()` may be declared.
 
-### Tests
+### 🧪 Tests
 
 ```bash
 node --test          # no install, no dependencies, no build
 ```
 
-### Visual direction
+### 🎨 Portfolio story
 
 The opening connects two sides of my practice: dependable systems for clients
 and understandable products built independently. It puts my name, a short
 introduction, and selected client outcomes together, with direct paths to both
 kinds of work. The product illustrations retain their individual identities.
 
-The visual direction pairs indigo ink and warm paper with restrained vermilion
-accents. Avenir Next/system sans carries the body; Iowan Old Style/Georgia brings
-a quieter editorial voice to headings. All fonts use local fallbacks. The
-maintenance loop and native disclosure panels explain the workflow without a
-new JavaScript dependency. Its core content works without JavaScript.
-
-Product artwork keeps each application's identity. Both themes, visible focus,
-reduced motion, and narrow screens remain part of acceptance. The contribution
-chart is an existing third-party image from `ghchart.rshah.org`, loaded lazily
-without a referrer; its fallback retains a direct profile link. A contribution
-chart is activity context, not proof of quality.
-
-Preview with `python3 -m http.server 8765 --bind 127.0.0.1`, then open
+The display type uses Avenir Next where available, with a system-sans fallback.
+The product artwork stays local, and the layout adapts down to 320px. The GitHub
+section displays a contribution chart from `ghchart.rshah.org` above the product
+gallery. It loads near the viewport without a referrer, scrolls horizontally on
+narrow screens, and keeps a profile link available if the chart cannot load.
+Preview with
+`python3 -m http.server 8765 --bind 127.0.0.1`, then open
 [localhost:8765](http://localhost:8765).
 
-### GitHub Pages delivery
+### 🚦 GitHub Pages delivery
 
 The legacy `main:/` publisher remains authoritative until a separately
-authorized cutover. It automatically publishes changes merged to `main`.
-The staged `.github/workflows/pages.yml` workflow runs tests and packages the
-static artifact for pull requests and pushes to `main`; those workflow runs
-do not deploy. Its separate Actions deployment path requires a manual dispatch
-on `main` with `deploy=true` and an explicit full 40-character `deploy_sha`
-that is already an ancestor of `main`. These manual controls do not stop the
-current legacy publisher.
+authorized cutover window. `.github/workflows/pages.yml` is deliberately safe
+to merge before that change: pull requests and pushes to `main` run the tests
+and package the static artifact, but they cannot deploy it. A deployment only
+runs from a manual dispatch on `main` with `deploy=true` and an explicit full
+40-character `deploy_sha` that is already an ancestor of `main`.
 
 Cutover and recovery runbook:
 
@@ -156,14 +126,14 @@ Cutover and recovery runbook:
 No provider setting, deployment, or rollback drill is performed by adding this
 workflow and runbook.
 
-### Adding a project card
+### ➕ Adding a project card
 
 The project cards render from one place, so a new one is two edits:
 
 1. Add an entry to `PROJECTS` in `assets/js/projects.js` (name, copy, tags, links, status pill).
 2. Add its bespoke visual as `<template class="ghp-scene" data-project="your-id">` in the `.ghp-grid` in `index.html`.
 
-### Adding a workstream
+### ➕ Adding a workstream
 
 The impact map, its detail panel, and the case-study rows all read the same
 entries, so a new workstream is also two edits:
@@ -178,4 +148,4 @@ connection list to update.
 In both cases the tests will tell you if you miss the template, point an icon at
 a file that isn't there, or reference a role that doesn't exist.
 
-Designed and built with AI assistance. Project claims link back to public source and release records.
+*Designed & hand-coded with AI assistance. No templates were harmed in the making of this site.*
