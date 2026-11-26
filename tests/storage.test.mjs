@@ -217,7 +217,7 @@ test('normal storage restores and persists theme state while later controllers b
   assert.equal(page.document.documentElement.dataset.theme, 'dark');
   assert.equal(page.storage.value('theme'), 'dark');
   assert.equal(page.themeToggle.getAttribute('aria-label'), 'Switch to light mode');
-  assert.equal(page.themeMeta.getAttribute('content'), '#000000');
+  assert.equal(page.themeMeta.getAttribute('content'), '#142732');
 });
 
 test('normal storage persists the theme-tip flag when the first-scroll hint appears', () => {
@@ -249,7 +249,7 @@ test('denied storage writes do not interrupt in-memory theme and icon synchroniz
   assert.equal(page.themeToggle.getAttribute('title'), 'Switch to dark mode');
   assert.equal(page.iconMoon.style.display, '');
   assert.equal(page.iconSun.style.display, 'none');
-  assert.equal(page.themeMeta.getAttribute('content'), '#f5f5f7');
+  assert.equal(page.themeMeta.getAttribute('content'), '#f1eee4');
   assert.ok(page.resumeBtn.listeners.has('click'), 'later resume controller should remain bound');
 
   page.windowListeners.get('scroll')();
