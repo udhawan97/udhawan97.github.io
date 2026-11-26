@@ -29,7 +29,7 @@
 -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230066d6'/%3E%3Ctext x='50' y='71' font-size='54' font-weight='700' fill='%23ffffff' font-family='-apple-system,Segoe UI,sans-serif' text-anchor='middle'%3EUD%3C/text%3E%3C/svg%3E">
 <!-- Colours the mobile browser chrome; kept in sync with the active theme by JS (see setIcon) -->
-<meta name="theme-color" id="theme-color-meta" content="#142732">
+<meta name="theme-color" id="theme-color-meta" content="#000000">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -370,11 +370,12 @@
   .nav-links {
     display: flex; align-items: center; gap: 2px;
     overflow: hidden; min-width: 0;
+    padding: 4px; margin: -4px; /* Leave room for keyboard focus rings. */
     max-width: 320px;
     transition: max-width .5s var(--ease), opacity .35s var(--ease);
   }
   nav.nav-shrunk .nav-links {
-    max-width: 0; opacity: 0; pointer-events: none;
+    max-width: 0; padding-inline: 0; margin-inline: 0; opacity: 0; pointer-events: none;
   }
   nav a {
     font-size: 13px; font-weight: 500; color: var(--ink-2);
@@ -445,9 +446,14 @@
   .resume-dropdown a svg { flex-shrink: 0; opacity: .6; }
 
   @media (max-width: 640px) {
-    .nav-links a[href="#github"] { display: none; } /* The hero keeps Products accessible on narrow screens. */
-    nav a { padding: 7px 11px; }
-    .nav-dropdown button { padding: 7px 11px; }
+    nav > a, .nav-links a, .nav-dropdown button {
+      min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+      padding: 7px 8px;
+    }
+  }
+  @media (max-width: 420px) {
+    /* Keep the pill comfortable at 320px; Products remains a hero action. */
+    .nav-links a[href="#github"] { display: none; }
   }
 
   /* ── Back-to-top button ── */
@@ -734,7 +740,7 @@
      * become visible. The fix: force them visible and disable the animation,
      * rather than hiding them.
      */
-    .r, h2.display .word { opacity:1; transform:none; clip-path:none; will-change:auto; animation:none; transition:none; }
+    .r, h2.display .word { opacity:1; transform:none; clip-path:none; will-change:auto; animation:none !important; transition:none; }
     nav, .hero-status, header.hero h1, header.hero .sub,
     header.hero .hero-actions, header.hero .hero-actions .btn,
     header.hero .scroll-hint, .marquee {
@@ -2992,6 +2998,9 @@
   }
   #theme-toggle:hover { background: var(--hover); color: var(--ink); }
   #theme-toggle svg { width: 16px; height: 16px; pointer-events: none; }
+  @media (max-width: 640px) {
+    #theme-toggle { width: 44px; height: 44px; }
+  }
 
   /* Stat card icons — pop-in animation triggered when card becomes visible */
   .work-row h3 { display: flex; align-items: center; gap: 10px; }
@@ -3428,8 +3437,8 @@
   .hero-identity { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
   .hero-identity img { border-radius: 50%; object-fit: cover; object-position: center 28%; border: 1px solid var(--line); }
   .hero-name { display: block; font-size: 18px; font-weight: 650; letter-spacing: -.02em; }
-  .hero-role { display: block; margin-top: 4px; font-size: 12px; color: var(--ink-2); }
-  .hero-body { margin-top: 42px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 56px; align-items: center; position: relative; z-index: 1; }
+  .hero-role { display: block; margin-top: 4px; font-size: 13px; color: var(--ink-2); }
+  .hero-body { margin-top: 42px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: center; position: relative; z-index: 1; }
   header.hero h1 { font-family: "Avenir Next", var(--font-sans); font-size: clamp(42px, 5.1vw, 70px); font-weight: 650; letter-spacing: -.055em; line-height: 1.08; }
   header.hero .sub { margin-top: 24px; max-width: 540px; font-size: 18px; line-height: 1.65; }
   header.hero .hero-actions { margin-top: 28px; gap: 12px; }
@@ -3440,8 +3449,8 @@
   .evidence-title { margin-bottom: 16px; font-size: 25px; font-weight: 600; letter-spacing: -.035em; }
   .evidence-list li { grid-template-columns: 74px minmax(0, 1fr); padding: 15px 0; gap: 16px; }
   .ev-n { font-size: 30px; }
-  .ev-t { font-size: 13px; }
-  .ev-src { font-size: 10px; line-height: 1.5; }
+  .ev-t { font-size: 14px; }
+  .ev-src { font-size: 11px; line-height: 1.5; }
   .practice-bridge { display: grid; grid-template-columns: .8fr 1.2fr 1.2fr; gap: 28px; margin-top: 56px; padding-top: 26px; border-top: 1px solid var(--line); position: relative; z-index: 1; }
   .practice-intro { font-size: 17px; line-height: 1.5; color: var(--ink-2); }
   .practice-intro strong { color: var(--ink); font-weight: 600; }
@@ -3469,7 +3478,7 @@
     header.hero { padding-top: 96px; padding-bottom: 20px; }
     .hero-body { margin-top: 32px; }
     header.hero h1 { font-size: clamp(34px, 11.2vw, 42px); }
-    .hero-role { font-size: 11px; }
+    .hero-role { font-size: 12px; line-height: 1.5; }
     .hero-identity img { width: 46px; height: 46px; }
     header.hero .sub { font-size: 16px; }
     header.hero .hero-actions { align-items: stretch; flex-direction: column; }
@@ -3483,7 +3492,6 @@
     .gh .product-intro { font-size: 16px; }
   }
 </style>
-<link rel="stylesheet" href="assets/css/portfolio.css">
 </head>
 <body>
 
@@ -3496,7 +3504,6 @@
   <a class="brand-mark" href="#top">UD</a>
   <div class="nav-links">
     <a href="#about">About</a>
-    <a href="#practice">Practice</a>
     <a href="#github">Products</a>
     <a href="#work">Work</a>
   </div>
@@ -3575,7 +3582,6 @@
       </a>
       <a class="btn ghost" href="#github">Explore my products</a>
     </div>
-    <a class="hero-practice-link" href="#practice">How I work with AI ↗</a>
     <div class="hero-logos" aria-label="Companies I've worked with">
       <div class="logo-item" aria-label="EY Studio+">
         <img src="assets/logos/studio-plus.png" alt="EY Studio+" class="logo-img logo-img-studio" width="200" height="200" decoding="async">
@@ -3641,83 +3647,6 @@
     <span>Generative AI</span><span>Cloud Reliability</span><span>Observability</span><span>Customer Service Transformation</span><span>AWS</span><span>Azure</span><span>Test Automation</span><span>SAFe / Agile</span><span>Python</span><span>Performance Engineering</span><span>GTM Strategy</span><span>FedRAMP · NIST 800-53</span>
   </div>
 </div>
-
-<!-- ================= MAINTENANCE PRACTICE ================= -->
-<section class="wrap" id="practice" aria-labelledby="practice-title">
-  <div class="fieldbook">
-    <div class="fieldbook-heading">
-      <div>
-        <span class="fieldbook-label">My independent engineering practice</span>
-        <h2 id="practice-title">The work doesn't stop at launch.</h2>
-      </div>
-      <p class="fieldbook-intro"><strong>I set the direction. AI helps carry the work.</strong> I design scheduled workflows to find useful improvements, build small changes, check the result, and keep my projects maintained. The work stays tied to a real user problem.</p>
-    </div>
-    <figure class="maintenance-loop" aria-label="The maintenance cycle">
-      <ol class="loop-stages">
-        <li><strong>Choose</strong><span>A real problem and a small next step.</span></li>
-        <li><strong>Build</strong><span>A focused change with clear limits.</span></li>
-        <li><strong>Verify</strong><span>Tests, review, and the actual user flow.</span></li>
-        <li><strong>Ship</strong><span>Merge or release when its checks pass.</span></li>
-        <li><strong>Learn</strong><span>Turn the lesson into a better next run.</span></li>
-      </ol>
-      <svg class="loop-return" viewBox="0 0 900 46" preserveAspectRatio="none" aria-hidden="true"><path d="M810 2V14Q810 28 795 28H105Q90 28 90 14V3M84 10L90 3L96 10" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/></svg>
-      <figcaption>Fix the cause. Keep the lesson. Bring it into the next cycle.</figcaption>
-    </figure>
-    <div class="role-caption"><h3>Four roles. One accountable owner.</h3><p>Open a role to see its responsibility.</p></div>
-    <div class="maintenance-roles">
-      <details class="maintenance-role" name="maintenance-role">
-        <summary><span class="role-name">Daily Elf</span><span class="role-job">Make progress.</span></summary>
-        <div class="role-body"><p>Pick one useful fix or feature slice. Read the project guidance, build it, and leave a reviewable change with tests.</p><p><strong>Handoff:</strong> the problem, the exact change, and what still needs checking.</p></div>
-      </details>
-      <details class="maintenance-role" name="maintenance-role">
-        <summary><span class="role-name">Mobster at Work</span><span class="role-job">Follow through.</span></summary>
-        <div class="role-body"><p>Resume open work, check the evidence, and repair demonstrated gaps. Finish the existing change before starting a competing one.</p><p><strong>Handoff:</strong> what passed, what failed, and the smallest next action.</p></div>
-      </details>
-      <details class="maintenance-role" name="maintenance-role">
-        <summary><span class="role-name">Auditor</span><span class="role-job">Question it.</span></summary>
-        <div class="role-body"><p>The review role: challenge claims, inspect failure paths, and check whether a change solves the underlying problem.</p><p><strong>Standard:</strong> a report must distinguish demonstrated results from missing evidence.</p></div>
-      </details>
-      <details class="maintenance-role" name="maintenance-role">
-        <summary><span class="role-name">Weekly CAPO</span><span class="role-job">Set priorities.</span></summary>
-        <div class="role-body"><p>Look across the projects, prioritize security and unfinished work, clear repairable blockers, and release useful improvements when required checks pass.</p><p><strong>Next cycle:</strong> improve tests, guidance, and handoffs from the failures observed.</p></div>
-      </details>
-    </div>
-    <p class="owner-note"><strong>My responsibility:</strong> define the product, choose the priorities, set permissions and acceptance criteria, and remain accountable for what ships. Agents work within that scope. Missing checks stay visible, and required approvals still apply.</p>
-    <div class="delivery-proof">
-      <div>
-        <span class="proof-label">A public example · November 2026</span>
-        <h3>Nimanto, from finding to release.</h3>
-        <p>A security and dependency update became a verified release, with the change, checks, and release notes open for inspection.</p>
-        <div class="proof-links"><a href="https://github.com/udhawan97/Nimanto/pull/58">Review the change ↗</a><a href="https://github.com/udhawan97/Nimanto/releases/tag/v0.10.1">See v0.10.1 ↗</a></div>
-      </div>
-      <ol class="proof-sequence">
-        <li><strong>Diagnosed</strong><span>Reproduced path-validation and text-parsing problems with disposable data.</span></li>
-        <li><strong>Verified</strong><span>650 package and script tests on Node 24 and 26; 32 WebKit journeys; upgrade and recovery checks.</span></li>
-        <li><strong>Delivered</strong><span>The reviewed source merged. Release assets and checksums matched. The public documentation was checked in Safari.</span></li>
-        <li><strong>Improved</strong><span>A failed keyboard check revealed a focus problem. Fixing the cause and adding a regression test helps prevent it from returning.</span></li>
-      </ol>
-    </div>
-    <p class="practice-boundary">This is a personal, AI-assisted workflow, separate from client work. Scheduled runs have limits; a passing test suite is one part of acceptance. Public examples are dated records, not a live status feed.</p>
-  </div>
-  <aside class="learning-note" aria-labelledby="learning-title">
-    <div>
-      <span class="practice-label">Learning, made useful</span>
-      <h3 id="learning-title">Make the next idea easier to understand.</h3>
-      <p>In <strong>learnings-via-graphics</strong>, I turn engineering, emerging technology, everyday life, and career questions into visual lessons for beginners. Each edition pairs an explanation with a diagram, something to try, and accessible sources. A coverage check helps the series explore fresh topics.</p>
-      <div class="proof-links"><a href="https://github.com/udhawan97/learnings-via-graphics/blob/main/archive.md">Explore the lesson archive ↗</a></div>
-    </div>
-    <div class="learning-print">
-      <span>A lesson from the archive · 25 Nov 2026</span>
-      <strong>Why can a faster read make a slower write?</strong>
-      <p>A visual introduction to database indexes and the trade-offs behind a familiar performance fix.</p>
-      <div class="learning-path" aria-label="Explore the database index lesson">
-        <a href="https://github.com/udhawan97/learnings-via-graphics/blob/6647511ca25060daee153a679808d1ff51d26936/editions/2026-11-25-database-index-tradeoff/brief.md">Read the brief ↗</a>
-        <a href="https://github.com/udhawan97/learnings-via-graphics/blob/6647511ca25060daee153a679808d1ff51d26936/editions/2026-11-25-database-index-tradeoff/assets/index-tradeoff.svg">See the diagram ↗</a>
-        <a href="https://github.com/udhawan97/learnings-via-graphics/blob/6647511ca25060daee153a679808d1ff51d26936/editions/2026-11-25-database-index-tradeoff/index-decision-card.md">Try the worksheet ↗</a>
-      </div>
-    </div>
-  </aside>
-</section>
 
 <!-- ================= ABOUT ================= -->
 <section class="wrap" id="about">
@@ -4515,7 +4444,7 @@
     themeToggle.setAttribute('aria-label', themeLabel);
     themeToggle.setAttribute('title', themeLabel);
     // Keep the mobile address-bar colour matched to the page background
-    if (themeColorMeta) themeColorMeta.setAttribute('content', dark ? '#142732' : '#f1eee4');
+    if (themeColorMeta) themeColorMeta.setAttribute('content', dark ? '#000000' : '#f5f5f7');
   };
   setIcon();
   const toggleTheme = () => {
@@ -5145,7 +5074,7 @@
 
   // ── 12. Nav active-section highlight on scroll ───────────────
   (function() {
-    const navSections = ['practice', 'about', 'work', 'github']
+    const navSections = ['about', 'work', 'github']
       .map(id => document.getElementById(id)).filter(Boolean);
     const navAnchors = {};
     navSections.forEach(s => {
