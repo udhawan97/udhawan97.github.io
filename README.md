@@ -79,9 +79,16 @@ The opening connects two sides of my practice: dependable systems for clients
 and understandable products built independently. It puts my name, a short
 introduction, and selected client outcomes together, with direct paths to both
 kinds of work. The product illustrations retain their individual identities.
+Preserve the blue
+accents, charcoal/light themes, floating navigation, and existing typography;
+improve this design in place rather than replacing its visual direction.
 
 The display type uses Avenir Next where available, with a system-sans fallback.
-The product artwork stays local, and the layout adapts down to 320px. The GitHub
+The product artwork stays local, and the layout adapts down to 320px. Mobile
+navigation has 44px touch targets, with Products kept in the navigation above
+420px and available through the hero at every width. Outcome captions and role
+text use a larger reading size, with fluid spacing between the hero columns.
+Reduced-motion mode keeps revealed content still and visible. The GitHub
 section displays a contribution chart from `ghchart.rshah.org` above the product
 gallery. It loads near the viewport without a referrer, scrolls horizontally on
 narrow screens, and keeps a profile link available if the chart cannot load.

@@ -370,11 +370,12 @@
   .nav-links {
     display: flex; align-items: center; gap: 2px;
     overflow: hidden; min-width: 0;
+    padding: 4px; margin: -4px; /* Leave room for keyboard focus rings. */
     max-width: 320px;
     transition: max-width .5s var(--ease), opacity .35s var(--ease);
   }
   nav.nav-shrunk .nav-links {
-    max-width: 0; opacity: 0; pointer-events: none;
+    max-width: 0; padding-inline: 0; margin-inline: 0; opacity: 0; pointer-events: none;
   }
   nav a {
     font-size: 13px; font-weight: 500; color: var(--ink-2);
@@ -445,9 +446,14 @@
   .resume-dropdown a svg { flex-shrink: 0; opacity: .6; }
 
   @media (max-width: 640px) {
-    .nav-links a:nth-child(2) { display: none; } /* The hero keeps Products accessible on narrow screens. */
-    nav a { padding: 7px 11px; }
-    .nav-dropdown button { padding: 7px 11px; }
+    nav > a, .nav-links a, .nav-dropdown button {
+      min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+      padding: 7px 8px;
+    }
+  }
+  @media (max-width: 420px) {
+    /* Keep the pill comfortable at 320px; Products remains a hero action. */
+    .nav-links a[href="#github"] { display: none; }
   }
 
   /* ── Back-to-top button ── */
@@ -734,7 +740,7 @@
      * become visible. The fix: force them visible and disable the animation,
      * rather than hiding them.
      */
-    .r, h2.display .word { opacity:1; transform:none; clip-path:none; will-change:auto; animation:none; transition:none; }
+    .r, h2.display .word { opacity:1; transform:none; clip-path:none; will-change:auto; animation:none !important; transition:none; }
     nav, .hero-status, header.hero h1, header.hero .sub,
     header.hero .hero-actions, header.hero .hero-actions .btn,
     header.hero .scroll-hint, .marquee {
@@ -2992,6 +2998,9 @@
   }
   #theme-toggle:hover { background: var(--hover); color: var(--ink); }
   #theme-toggle svg { width: 16px; height: 16px; pointer-events: none; }
+  @media (max-width: 640px) {
+    #theme-toggle { width: 44px; height: 44px; }
+  }
 
   /* Stat card icons — pop-in animation triggered when card becomes visible */
   .work-row h3 { display: flex; align-items: center; gap: 10px; }
@@ -3428,8 +3437,8 @@
   .hero-identity { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
   .hero-identity img { border-radius: 50%; object-fit: cover; object-position: center 28%; border: 1px solid var(--line); }
   .hero-name { display: block; font-size: 18px; font-weight: 650; letter-spacing: -.02em; }
-  .hero-role { display: block; margin-top: 4px; font-size: 12px; color: var(--ink-2); }
-  .hero-body { margin-top: 42px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 56px; align-items: center; position: relative; z-index: 1; }
+  .hero-role { display: block; margin-top: 4px; font-size: 13px; color: var(--ink-2); }
+  .hero-body { margin-top: 42px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: center; position: relative; z-index: 1; }
   header.hero h1 { font-family: "Avenir Next", var(--font-sans); font-size: clamp(42px, 5.1vw, 70px); font-weight: 650; letter-spacing: -.055em; line-height: 1.08; }
   header.hero .sub { margin-top: 24px; max-width: 540px; font-size: 18px; line-height: 1.65; }
   header.hero .hero-actions { margin-top: 28px; gap: 12px; }
@@ -3440,8 +3449,8 @@
   .evidence-title { margin-bottom: 16px; font-size: 25px; font-weight: 600; letter-spacing: -.035em; }
   .evidence-list li { grid-template-columns: 74px minmax(0, 1fr); padding: 15px 0; gap: 16px; }
   .ev-n { font-size: 30px; }
-  .ev-t { font-size: 13px; }
-  .ev-src { font-size: 10px; line-height: 1.5; }
+  .ev-t { font-size: 14px; }
+  .ev-src { font-size: 11px; line-height: 1.5; }
   .practice-bridge { display: grid; grid-template-columns: .8fr 1.2fr 1.2fr; gap: 28px; margin-top: 56px; padding-top: 26px; border-top: 1px solid var(--line); position: relative; z-index: 1; }
   .practice-intro { font-size: 17px; line-height: 1.5; color: var(--ink-2); }
   .practice-intro strong { color: var(--ink); font-weight: 600; }
@@ -3469,7 +3478,7 @@
     header.hero { padding-top: 96px; padding-bottom: 20px; }
     .hero-body { margin-top: 32px; }
     header.hero h1 { font-size: clamp(34px, 11.2vw, 42px); }
-    .hero-role { font-size: 11px; }
+    .hero-role { font-size: 12px; line-height: 1.5; }
     .hero-identity img { width: 46px; height: 46px; }
     header.hero .sub { font-size: 16px; }
     header.hero .hero-actions { align-items: stretch; flex-direction: column; }
